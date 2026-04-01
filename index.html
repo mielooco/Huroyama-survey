@@ -5,6 +5,31 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>浴山｜廚房水槽快排濾網 — 上市前意見募集</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=你的GAID"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '你的GAID');
+</script>
+
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '你的PixelID');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=你的PixelID&ev=PageView&noscript=1"
+/></noscript>
+
 <style>
 :root{
   --white:#fff;
@@ -28,7 +53,7 @@ html{
   height: 100%;
 }
 body{
-  font-family: 'Noto Sans TC', "Microsoft JhengHei", sans-serif; /* 優先思源黑體，備援微軟正黑體 */
+  font-family: 'Noto Sans TC', "Microsoft JhengHei", sans-serif; 
   font-weight: 400;
   background:var(--white);
   color:var(--txt);
@@ -38,26 +63,13 @@ body{
   min-height:100%;
 }
 
-/* 全螢幕區塊：吸附 */
-.snap{
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-}
+.snap{ scroll-snap-align: start; scroll-snap-stop: always; }
+.no-snap{ scroll-snap-align: none; }
 
-/* 自由捲動區塊 */
-.no-snap{
-  scroll-snap-align: none;
-}
-
-/* Showcase 專用：明確排除 snap，讓 400vh 可以自由捲動 */
 #product-showcase{
   scroll-snap-align: none !important;
-  /* 讓 showcase 前的 snap 點正常觸發，
-     showcase 自己不做 snap，
-     showcase 後的 Q2 再重新 snap */
 }
 
-/* PROGRESS */
 #pgbar{
   position:fixed;top:0;left:50%;transform:translateX(-50%);
   max-width:480px;width:0%;height:3px;
@@ -95,7 +107,6 @@ body{
 .sc-line{width:1px;height:36px;background:linear-gradient(to bottom,transparent,rgba(255,255,255,.28));animation:scpulse 2s ease-in-out infinite}
 @keyframes scpulse{0%,100%{opacity:.4}50%{opacity:1}}
 
-/* ══ FULL-SCREEN IMAGE PANELS ══ */
 .img-panel{
   position:relative;
   height:100svh;
@@ -120,7 +131,6 @@ body{
 .ip-title{font-family:'Noto Serif TC',serif;font-size:clamp(28px,7.5vw,38px);font-weight:300;color:#fff;line-height:1.4;margin-bottom:14px}
 .ip-desc{font-size:16px;color:rgba(255,255,255,.65);line-height:1.4}
 
-/* ══ QUESTION SECTIONS ══ */
 .sec{padding:52px 24px 60px}
 .sec-dark{background:var(--black);padding:52px 24px 60px}
 .sec-off{background:var(--off);padding:52px 24px 60px}
@@ -137,7 +147,6 @@ body{
 .step-hint-d{color:var(--steel)}
 .yline{width:28px;height:2px;background:var(--yellow);margin:14px 0 24px}
 
-/* STEP DOTS */
 .sdots{display:flex;gap:6px;margin-bottom:18px}
 .sd{width:6px;height:6px;border-radius:50%;background:var(--lgray);transition:all .3s}
 .sd.on{background:var(--yellow);transform:scale(1.4)}
@@ -146,11 +155,9 @@ body{
 .sdd.dn{background:rgba(255,255,255,.36)}
 .sdd.on{background:var(--yellow)}
 
-/* COUNT BADGE */
 .cbadge{display:inline-block;background:var(--yellow);color:var(--black);font-size:10px;font-weight:700;padding:2px 9px;border-radius:10px;margin-left:8px;opacity:0;transition:opacity .3s}
 .cbadge.show{opacity:1}
 
-/* ══ PAIN CARDS ══ */
 .pain-list{display:flex;flex-direction:column;gap:2px;margin-top:4px}
 .pain-card{background:var(--white);padding:18px 16px;cursor:pointer;border:2px solid transparent;display:flex;align-items:flex-start;gap:12px;transition:border-color .18s,background .18s;user-select:none}
 .pain-card:active{opacity:.82}
@@ -161,7 +168,6 @@ body{
 .pmain{font-size:13.5px;line-height:1.3;color:var(--txt)}
 .psub{font-size:11px;color:var(--txt3);margin-top:4px;display:block}
 
-/* ══ FEATURE CARDS ══ */
 .feat-list{display:flex;flex-direction:column}
 .feat-card{border-top:1px solid rgba(255,255,255,.07);padding:26px 0;display:flex;gap:16px;align-items:flex-start;cursor:pointer;transition:opacity .2s;position:relative}
 .feat-card:active{opacity:.75}
@@ -174,7 +180,6 @@ body{
 .fchk{width:24px;height:24px;min-width:24px;border:1.5px solid rgba(255,255,255,.14);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:transparent;transition:all .2s;margin-top:2px;flex-shrink:0}
 .feat-card.sel .fchk{background:var(--yellow);border-color:var(--yellow);color:var(--black);font-weight:800}
 
-/* ══ PRODUCT PANELS ══ */
 .prod-panel{padding:44px 24px;border-bottom:1px solid var(--lgray)}
 .prod-img{width:100%;aspect-ratio:4/3;overflow:hidden;margin-bottom:20px;background:var(--off)}
 .prod-img img{width:100%;height:100%;object-fit:cover;display:block}
@@ -182,7 +187,6 @@ body{
 .prod-title{font-family:'Noto Serif TC',serif;font-size:clamp(18px,5vw,22px);font-weight:300;margin-bottom:10px;line-height:1.4}
 .prod-desc{font-size:13px;color:var(--txt2);line-height:1.4}
 
-/* ══ INTENT ══ */
 .intent-list{display:flex;flex-direction:column;gap:2px;margin-top:20px}
 .intent-opt{background:var(--white);padding:19px 16px;cursor:pointer;border:2px solid transparent;display:flex;align-items:flex-start;gap:13px;transition:all .18s}
 .intent-opt:active{opacity:.82}
@@ -193,20 +197,17 @@ body{
 .ilabel{font-size:14px;color:var(--txt);line-height:1.3}
 .isub{font-size:11px;color:var(--txt3);margin-top:4px;display:block}
 
-/* ══ GENDER ══ */
 .gender-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:22px}
 .gbtn{padding:18px 12px;background:var(--white);border:2px solid var(--lgray);font-size:14px;font-family:'Noto Sans TC',sans-serif;cursor:pointer;color:var(--txt);transition:all .18s}
 .gbtn:nth-child(3){grid-column:span 2}
 .gbtn:active{opacity:.8}
 .gbtn.sel{border-color:var(--black);background:var(--black);color:#fff}
 
-/* ══ TRANSITION BANNER ══ */
 .t-banner{background:var(--yellow);padding:52px 24px;text-align:center}
 .tb-label{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(0,0,0,.38);margin-bottom:12px;display:block}
 .tb-title{font-family:'Noto Serif TC',serif;font-size:clamp(22px,7vw,34px);font-weight:300;color:var(--black);margin-bottom:12px;line-height:1.4}
 .tb-sub{font-size:13px;color:rgba(0,0,0,.5);line-height:1.4}
 
-/* ══ FORM ══ */
 .flabel{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--txt2);margin-bottom:9px;display:flex;align-items:center;gap:7px}
 .br{background:var(--yellow);color:var(--black);font-size:9px;padding:2px 6px;font-weight:500}
 .bo{background:var(--lgray);color:var(--txt2);font-size:9px;padding:2px 6px}
@@ -222,7 +223,6 @@ textarea.finput{resize:vertical;min-height:88px}
 .subbtn:disabled{background:var(--lgray);color:var(--mgray);cursor:not-allowed}
 .privacy{font-size:11px;color:var(--txt3);text-align:center;margin-top:14px;line-height:1.8}
 
-/* ══ THANK YOU ══ */
 .ty{display:none;min-height:100svh;background:var(--black);flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 24px}
 .ty.show{display:flex;animation:fadeIn .7s ease both}
 .ty-icon{width:70px;height:70px;background:var(--yellow);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:28px;animation:bounce .6s ease .2s both}
@@ -234,12 +234,10 @@ textarea.finput{resize:vertical;min-height:88px}
 .eb-orig{font-size:13px;color:var(--steel);text-decoration:line-through;margin-bottom:14px;display:block}
 .eb-desc{font-size:12px;color:var(--steel);line-height:1.8}
 
-/* ══ FOOTER ══ */
 .site-footer{background:var(--off);padding:30px 24px;text-align:center;border-top:1px solid var(--lgray)}
 .sf-name{font-family:'Noto Serif TC',serif;font-size:12px;color:var(--txt2);letter-spacing:2px}
 .sf-sub{font-size:11px;color:var(--txt3);margin-top:4px;letter-spacing:1px}
 
-/* ══ STICKY PAGE INDICATOR ══ */
 .page-indicator{
   position:fixed;
   right:16px;
@@ -267,7 +265,6 @@ textarea.finput{resize:vertical;min-height:88px}
 .pi-dot.on-dark{background:rgba(255,255,255,.6)}
 .pi-dot.on-dark.on{background:var(--yellow)}
 
-/* ══ REVEAL ANIMATIONS ══ */
 .rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
 .rv.d1{transition-delay:.1s}
 .rv.d2{transition-delay:.2s}
@@ -276,17 +273,15 @@ textarea.finput{resize:vertical;min-height:88px}
 @keyframes fu{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes bounce{0%{transform:scale(0);opacity:0}60%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
-/* ══ APPLE-STYLE SHOWCASE（touch swipe 版）══ */
 #product-showcase{
   height:100svh;
   min-height:500px;
-  position:relative;   /* 回到 relative，讓子元素用 absolute 定位 */
+  position:relative;   
   background:var(--black);
-  display:block;       /* 改用 block，各區用 absolute 定位 */
+  display:block;       
   overflow:hidden;
 }
 
-/* 圖片區：固定佔上方 58% */
 .showcase-img-wrap{
   position:absolute;
   top:0; left:0; right:0;
@@ -294,7 +289,7 @@ textarea.finput{resize:vertical;min-height:88px}
   display:flex;
   align-items:center;
   justify-content:center;
-  padding:12px 60px 0;  /* 左右留給箭頭按鈕 */
+  padding:12px 60px 0;
   z-index:1;
 }
 .showcase-img{
@@ -320,10 +315,9 @@ textarea.finput{resize:vertical;min-height:88px}
   transform:scale(0.92) translateX(30px);
 }
 
-/* 說明文字區：固定在圖片下方，高度剛好 */
 .showcase-text-wrap{
   position:absolute;
-  top:58svh;   /* 圖片區底部 */
+  top:58svh;   
   left:0; right:0;
   height:28svh;
   padding:0 28px;
@@ -350,7 +344,6 @@ textarea.finput{resize:vertical;min-height:88px}
 .ss-line{width:24px;height:2px;background:var(--yellow);margin-bottom:6px}
 .ss-step{font-size:12px;letter-spacing:2px;color:rgba(255,255,255,.3)}
 
-/* 左右箭頭按鈕：固定在圖片兩側垂直置中 */
 .showcase-nav{
   position:absolute;
   top:0;
@@ -364,7 +357,8 @@ textarea.finput{resize:vertical;min-height:88px}
   z-index:10;
 }
 .ss-btn{
-  width:40px; height:40px;
+  width:40px;
+  height:40px;
   border:none;
   border-radius:50%;
   background:var(--yellow);
@@ -377,10 +371,9 @@ textarea.finput{resize:vertical;min-height:88px}
 .ss-btn:active{opacity:.75}
 .ss-btn.hidden{opacity:0; pointer-events:none}
 
-/* 指示點：固定在按鈕上方 */
 .showcase-dots{
   position:absolute;
-  bottom:80px;   /* 往上移 */
+  bottom:80px;   
   left:0; right:0;
   display:flex; gap:8px;
   align-items:center; justify-content:center;
@@ -389,7 +382,6 @@ textarea.finput{resize:vertical;min-height:88px}
 .sdot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.2);transition:all .3s}
 .sdot.active{background:var(--yellow);transform:scale(1.5)}
 
-/* 下一頁按鈕：固定在底部，永遠看得到 */
 #showcaseNextBtn{
   position:absolute;
   bottom:16px;
@@ -410,17 +402,13 @@ textarea.finput{resize:vertical;min-height:88px}
 #showcaseNextBtn:hover{background:#fff}
 #showcaseNextBtn:active{opacity:.7}
 
-/* 進度條 */
 .showcase-progress{position:absolute;bottom:0;left:0;right:0;height:2px;background:rgba(255,255,255,.08)}
 .sp-bar{height:100%;background:var(--yellow);transition:width .3s ease}
 
-/* 上滑提示：隱藏 */
 .showcase-hint{ display:none; }
 
-/* ══ 桌機版 Showcase RWD（768px+）══ */
 @media(min-width:768px){
 
-  /* showcase 整體：左圖右文，用 grid 精準控制 */
   #product-showcase{
     display:grid;
     grid-template-columns:55% 45%;
@@ -428,7 +416,6 @@ textarea.finput{resize:vertical;min-height:88px}
     overflow:hidden;
   }
 
-  /* 圖片區：左欄，垂直置中 */
   .showcase-img-wrap{
     position:relative;
     grid-column:1;
@@ -459,14 +446,12 @@ textarea.finput{resize:vertical;min-height:88px}
     transform:translate(-50%,-50%) scale(0.92) translateX(30px);
   }
 
-  /* 爆炸圖層：跟圖片同框，所以也要 translate 定位 */
   .expl-layer{
     position:absolute;
     top:48px; bottom:48px;
     left:48px; right:32px;
   }
 
-  /* 文字區：右欄，垂直置中 */
   .showcase-text-wrap{
     position:relative;
     grid-column:2;
@@ -491,11 +476,12 @@ textarea.finput{resize:vertical;min-height:88px}
     transform:translateY(0);
   }
   .ss-tag{ font-size:13px; letter-spacing:3px; margin-bottom:12px; }
-  .ss-title{ font-size:clamp(32px,3.2vw,48px); margin-bottom:16px; }
+  .ss-title{ font-size:clamp(32px,3.2vw,48px); margin-bottom:16px;
+  }
   .ss-desc{ font-size:18px; line-height:1.75; margin-bottom:14px; }
-  .ss-step{ font-size:13px; }
+  .ss-step{ font-size:13px;
+  }
 
-  /* 箭頭：在圖片區（左欄）兩側垂直置中 */
   .showcase-nav{
     position:absolute;
     top:0; left:0;
@@ -504,7 +490,6 @@ textarea.finput{resize:vertical;min-height:88px}
     padding:0 14px;
   }
 
-  /* 指示點：右欄底部置中 */
   .showcase-dots{
     position:absolute;
     bottom:72px;
@@ -514,7 +499,6 @@ textarea.finput{resize:vertical;min-height:88px}
     padding:0;
   }
 
-  /* 繼續填問卷：右欄底部置中 */
   #showcaseNextBtn{
     position:absolute;
     bottom:16px;
@@ -524,7 +508,6 @@ textarea.finput{resize:vertical;min-height:88px}
     transform:translateX(calc(-50% + 22.5%));
   }
 
-  /* phase-2/3（圖更大）桌機版不需要特別調整，grid 已撐滿 */
   .showcase-phase-2 .showcase-img-wrap,
   .showcase-phase-3 .showcase-img-wrap{
     height:100svh !important;
@@ -537,12 +520,9 @@ textarea.finput{resize:vertical;min-height:88px}
 }
 
 
-/* 剖面圖/設計圖：放更大讓細節看清楚 */
 .showcase-img-full{
   max-width:98% !important;
-  /* 當這張是 active 時，讓圖片區上下都可顯示 */
 }
-/* 手機版：第 2、3 頁（剖面圖/設計圖）圖片區更高 */
 .showcase-phase-2 .showcase-img-wrap,
 .showcase-phase-3 .showcase-img-wrap{
   height:68svh !important;
@@ -553,7 +533,6 @@ textarea.finput{resize:vertical;min-height:88px}
   height:18svh !important;
 }
 
-/* ══ 爆炸動畫（showcase 第二頁觸發）══ */
 .expl-layer{
   position:absolute;
   top:0;left:0;width:100%;height:100%;
@@ -561,9 +540,9 @@ textarea.finput{resize:vertical;min-height:88px}
   opacity:0;
   transition:opacity .4s ease;
 }
-.expl-layer.visible{ opacity:1; pointer-events:all; }
+.expl-layer.visible{ opacity:1; pointer-events:all;
+}
 
-/* 五個零件疊在同一個框裡 */
 .expl-layer .ep-img{
   position:absolute;
   top:0;left:0;width:100%;height:100%;
@@ -571,23 +550,26 @@ textarea.finput{resize:vertical;min-height:88px}
   mix-blend-mode:screen;
   transition:opacity .45s ease, transform .65s cubic-bezier(0.34,1.45,0.64,1);
 }
-#ep-all{ opacity:1; z-index:10; transition:opacity .4s ease; }
+#ep-all{ opacity:1; z-index:10;
+  transition:opacity .4s ease; }
 .ep-piece{ opacity:0; z-index:5; }
 #ep-cover  { transform:translateY(38%); }
 #ep-basket { transform:translateY(20%); }
-#ep-seal   { transform:translateY(3%);  }
+#ep-seal   { transform:translateY(3%);
+}
 #ep-ring   { transform:translateY(-18%);}
 #ep-body   { transform:translateY(-33%);}
 
 .expl-layer.exploded #ep-all    { opacity:0; }
-.expl-layer.exploded .ep-piece  { opacity:1; transform:translateY(0)!important; }
+.expl-layer.exploded .ep-piece  { opacity:1;
+  transform:translateY(0)!important; }
 .expl-layer.exploded #ep-cover  { transition-delay:.00s; }
 .expl-layer.exploded #ep-basket { transition-delay:.05s; }
-.expl-layer.exploded #ep-seal   { transition-delay:.10s; }
+.expl-layer.exploded #ep-seal   { transition-delay:.10s;
+}
 .expl-layer.exploded #ep-ring   { transition-delay:.15s; }
 .expl-layer.exploded #ep-body   { transition-delay:.20s; }
 
-/* 標籤：疊加在圖片右側 */
 .expl-labels{
   position:absolute;
   top:0;right:0;
@@ -605,7 +587,8 @@ textarea.finput{resize:vertical;min-height:88px}
   white-space:nowrap;
 }
 #elbl-cover  {top:9.2%;transition-delay:.28s}
-#elbl-basket {top:28%; transition-delay:.33s}
+#elbl-basket {top:28%;
+  transition-delay:.33s}
 #elbl-seal   {top:47%; transition-delay:.38s}
 #elbl-ring   {top:72%; transition-delay:.43s}
 #elbl-body   {top:87%; transition-delay:.48s}
@@ -613,7 +596,6 @@ textarea.finput{resize:vertical;min-height:88px}
 .expl-lbl-text{font-family:'Noto Sans TC',sans-serif;font-size:9px;letter-spacing:.8px;color:rgba(196,164,94,.85)}
 .expl-layer.exploded .expl-lbl{opacity:1;transform:translateX(0) translateY(-50%)}
 
-/* 爆炸切換按鈕（已改為自動觸發，此段保留備用）*/
 .expl-toggle-btns{
   position:absolute;
   bottom:10px;
@@ -640,7 +622,6 @@ textarea.finput{resize:vertical;min-height:88px}
   color:rgba(238,200,48,.9);
 }
 
-/* ══ 下一頁按鈕 ══ */
 .next-btn{
   display:block;
   width:calc(100% - 56px);
@@ -661,15 +642,12 @@ textarea.finput{resize:vertical;min-height:88px}
 
 ::-webkit-scrollbar{width:0}
 
-  /* ══ 桌機版 RWD（螢幕寬度 ≥ 768px）══ */
 @media (min-width: 768px) {
 
-  /* 解除手機寬度限制 */
   body {
     max-width: 100%;
   }
 
-  /* Hero 桌機版：文字左對齊，圖片佔滿 */
   .hero-body {
     text-align: left;
     max-width: 1100px;
@@ -688,7 +666,6 @@ textarea.finput{resize:vertical;min-height:88px}
     padding: 18px 48px;
   }
 
-  /* 圖片全螢幕面板：文字區塊置中限寬 */
   .ip-content {
     max-width: 1100px;
     margin: 0 auto;
@@ -698,19 +675,16 @@ textarea.finput{resize:vertical;min-height:88px}
     font-size: clamp(28px, 3vw, 42px);
   }
 
-  /* 問卷 section：內容置中限寬 */
   .sec, .sec-dark, .sec-off {
     padding: 80px calc((100% - 860px) / 2);
   }
 
-  /* 痛點選項：桌機改雙欄 */
   .pain-list {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 2px;
   }
 
-  /* 功能選項：桌機改雙欄 */
   .feat-list {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -720,7 +694,6 @@ textarea.finput{resize:vertical;min-height:88px}
     border-top: 1px solid rgba(255,255,255,.07);
   }
 
-  /* 意願選項：稍微放大 */
   .intent-opt {
     padding: 22px 20px;
   }
@@ -728,7 +701,6 @@ textarea.finput{resize:vertical;min-height:88px}
     font-size: 15px;
   }
 
-  /* 產品面板：左圖右文字並排 */
   .prod-panel {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -743,7 +715,6 @@ textarea.finput{resize:vertical;min-height:88px}
     aspect-ratio: 1/1;
   }
 
-  /* 性別按鈕：三欄並排 */
   .gender-grid {
     grid-template-columns: 1fr 1fr 1fr;
   }
@@ -751,7 +722,6 @@ textarea.finput{resize:vertical;min-height:88px}
     grid-column: auto;
   }
 
-  /* 過渡橫幅：放大 */
   .t-banner {
     padding: 80px 40px;
   }
@@ -759,24 +729,20 @@ textarea.finput{resize:vertical;min-height:88px}
     font-size: clamp(32px, 4vw, 52px);
   }
 
-  /* 表單：限制寬度置中 */
   #s5 .rv {
     max-width: 640px;
     margin: 0 auto;
   }
 
-  /* 感謝頁 */
   .ty {
     padding: 80px 40px;
   }
 
-  /* 右側指示點：桌機稍微放大 */
   .pi-dot {
     width: 6px;
     height: 6px;
   }
 
-  /* Q 數字放大 */
   .q-num {
     font-size: 60px;
   }
@@ -790,7 +756,6 @@ textarea.finput{resize:vertical;min-height:88px}
 
 <div id="pgbar"></div>
 
-<!-- ══ HERO（吸附） ══ -->
 <section class="hero snap" id="s0">
   <div class="hero-img" id="heroImg"></div>
   <div class="hero-grad"></div>
@@ -803,7 +768,6 @@ textarea.finput{resize:vertical;min-height:88px}
   <div class="sc-cue"><div class="sc-line"></div></div>
 </section>
 
-<!-- ══ PAIN INTRO PANEL（吸附） ══ -->
 <div class="img-panel snap" id="pain-panel">
   <div class="ip-bg" style="background-image:url('https://pic.mieloo-corp.com/uploads/original/58/f2/2f36dadbe14253bc71acd1376dff.jpg')"></div>
   <div class="ip-grad"></div>
@@ -813,10 +777,10 @@ textarea.finput{resize:vertical;min-height:88px}
     <h2 class="ip-title">每次洗完碗<br>你是不是也這樣？</h2>
     <p class="ip-desc">菜渣、積水、臭味、黏膩感……<br>明明洗完了，廚房感覺還是很髒。</p>
     <button class="next-btn" onclick="window.scrollTo({top:document.getElementById('s1').offsetTop,behavior:'smooth'})">告訴我你的痛點 →</button>
-  </div>
+  
+</div>
 </div>
 
-<!-- ══ Q1 PAIN（自由捲動，內容較長） ══ -->
 <section class="sec no-snap" id="s1">
   <div class="rv">
     <div class="sdots">
@@ -832,7 +796,8 @@ textarea.finput{resize:vertical;min-height:88px}
       <span class="pemoji">🤢</span>
       <div><div class="pmain">菜渣積在排水口，要伸手去撈</div><span class="psub">明知道髒，卻不得不碰</span></div>
       <div class="pchk">✓</div>
-    </div>
+   
+  </div>
     <div class="pain-card" onclick="togP(this)" data-id="p2">
       <span class="pemoji">💧</span>
       <div><div class="pmain">水槽排水不順、容易積水</div><span class="psub">洗個碗水就淹到一半</span></div>
@@ -847,7 +812,8 @@ textarea.finput{resize:vertical;min-height:88px}
       <span class="pemoji">🧽</span>
       <div><div class="pmain">濾網難清洗，油膩黏滑</div><span class="psub">刷了半天還是有滑膩感</span></div>
       <div class="pchk">✓</div>
-    </div>
+    
+</div>
     <div class="pain-card" onclick="togP(this)" data-id="p5">
       <span class="pemoji">👀</span>
       <div><div class="pmain">廚餘殘渣裸露在外，視覺很噁心</div><span class="psub">客人來家裡超尷尬</span></div>
@@ -859,10 +825,10 @@ textarea.finput{resize:vertical;min-height:88px}
       <div class="pchk">✓</div>
     </div>
   </div>
-  <button class="next-btn" style="border-color:rgba(0,0,0,.15);color:var(--txt2);margin-top:20px;" onclick="window.scrollTo({top:document.getElementById('sol-panel').offsetTop,behavior:'smooth'})">繼續 →</button>
+  <button class="next-btn" style="border-color:rgba(0,0,0,.15);color:var(--txt2);margin-top:20px;"
+onclick="window.scrollTo({top:document.getElementById('sol-panel').offsetTop,behavior:'smooth'})">繼續 →</button>
 </section>
 
-<!-- ══ SOLUTION PANEL（吸附） ══ -->
 <div class="img-panel snap" id="sol-panel">
   <div class="ip-bg" style="background-image:url('https://pic.mieloo-corp.com/uploads/medium/1c/ab/4dbfb9b62ad03377c966006998e9.png')"></div>
   <div class="ip-grad"></div>
@@ -875,26 +841,25 @@ textarea.finput{resize:vertical;min-height:88px}
   </div>
 </div>
 
-<!-- ══ APPLE-STYLE SHOWCASE（touch swipe 版，snap 相容）══ -->
 <div id="product-showcase" class="snap">
 
-    <!-- 圖片區 -->
     <div class="showcase-img-wrap">
       <img class="showcase-img active" id="simg-0"
         src="https://pic.mieloo-corp.com/uploads/medium2x/15/84/eb4bfc67b3a546a5ea54c2e9a881.png" alt="浴山快排濾網">
-      <img class="showcase-img" id="simg-1"
+    
+  <img class="showcase-img" id="simg-1"
         src="https://pic.mieloo-corp.com/uploads/medium2x/c7/26/c7eceb539c3fd63de1cbff964a1a.png" alt="零件結構">
       <img class="showcase-img showcase-img-full" id="simg-2"
         src="https://pic.mieloo-corp.com/uploads/medium/ec/0b/bb5f4dd41c82dc3231ef92e1465d.png" alt="剖面結構">
       <img class="showcase-img showcase-img-full" id="simg-3"
         src="https://pic.mieloo-corp.com/uploads/medium/bc/1a/321eeca5ad542496bce8a8911b66.png" alt="設計草圖">
 
-      <!-- 爆炸動畫圖層（第二頁「每個零件都有它的意義」時顯示） -->
       <div class="expl-layer" id="explLayer">
         <img class="ep-img" id="ep-all"
           src="https://pic.mieloo-corp.com/uploads/medium2x/15/84/eb4bfc67b3a546a5ea54c2e9a881.png" alt="完整產品">
         <img class="ep-img ep-piece" id="ep-body"
-          src="https://pic.mieloo-corp.com/uploads/medium2x/37/e2/8fe31499ed10fa4cb4e14d90c49c.png" alt="杯體">
+   
+       src="https://pic.mieloo-corp.com/uploads/medium2x/37/e2/8fe31499ed10fa4cb4e14d90c49c.png" alt="杯體">
         <img class="ep-img ep-piece" id="ep-ring"
           src="https://pic.mieloo-corp.com/uploads/medium2x/14/3a/9e58a7ff2240ddc1651d89d8e30f.png" alt="矽膠環">
         <img class="ep-img ep-piece" id="ep-seal"
@@ -903,8 +868,8 @@ textarea.finput{resize:vertical;min-height:88px}
           src="https://pic.mieloo-corp.com/uploads/medium2x/17/66/5f0dad57c395622aff763a8ea831.png" alt="渣籃">
         <img class="ep-img ep-piece" id="ep-cover"
           src="https://pic.mieloo-corp.com/uploads/medium2x/e3/99/3c25951fd112d7dde1a2308313a0.png" alt="導流外蓋">
-        <!-- 標籤 -->
-        <div class="expl-labels">
+    
+    <div class="expl-labels">
           <div class="expl-lbl" id="elbl-cover"><div class="expl-lbl-line"></div><span class="expl-lbl-text">金屬導流外蓋</span></div>
           <div class="expl-lbl" id="elbl-basket"><div class="expl-lbl-line"></div><span class="expl-lbl-text">金屬渣籃</span></div>
           <div class="expl-lbl" id="elbl-seal"><div class="expl-lbl-line"></div><span class="expl-lbl-text">密封止水結構</span></div>
@@ -913,10 +878,9 @@ textarea.finput{resize:vertical;min-height:88px}
         </div>
       </div>
 
-      <!-- 爆炸切換按鈕已移除，改為進入頁面自動觸發 -->
-    </div>
+ 
+     </div>
 
-    <!-- 說明文字區 -->
     <div class="showcase-text-wrap">
       <div class="showcase-slide active" id="stxt-0">
         <span class="ss-tag">Product · 產品一覽</span>
@@ -926,7 +890,8 @@ textarea.finput{resize:vertical;min-height:88px}
         <span class="ss-step">01 / 04</span>
       </div>
       <div class="showcase-slide" id="stxt-1">
-        <span class="ss-tag">Structure · 產品結構</span>
+     
+   <span class="ss-tag">Structure · 產品結構</span>
         <h3 class="ss-title">每個零件<br>都有它的意義</h3>
         <p class="ss-desc">金屬導流外蓋 · 金屬渣籃 · 密封止水結構 · 矽膠適配環 · 杯體主架構，五件組成一套完整廚房排水解決方案。</p>
         <div class="ss-line"></div>
@@ -935,7 +900,8 @@ textarea.finput{resize:vertical;min-height:88px}
       <div class="showcase-slide" id="stxt-2">
         <span class="ss-tag">Cross Section · 剖面工藝</span>
         <h3 class="ss-title">看不見的地方<br>才是真正的工藝</h3>
-        <p class="ss-desc">彈跳柱 + 頂出彈簧 + 密封環，三重結構確保密封不漏氣、彈跳 10,000 次不損壞。工程師級的用料，放在廚房水槽裡。</p>
+        <p class="ss-desc">彈跳柱 + 頂出彈簧 + 
+密封環，三重結構確保密封不漏氣、彈跳 10,000 次不損壞。工程師級的用料，放在廚房水槽裡。</p>
         <div class="ss-line"></div>
         <span class="ss-step">03 / 04</span>
       </div>
@@ -948,16 +914,13 @@ textarea.finput{resize:vertical;min-height:88px}
       </div>
     </div>
 
-    <!-- 左右切換按鈕 -->
     <div class="showcase-nav">
       <button class="ss-btn hidden" id="ssBtnPrev" onclick="showcaseGo(-1)">←</button>
       <button class="ss-btn" id="ssBtnNext" onclick="showcaseGo(1)">→</button>
     </div>
 
-    <!-- 進度條 -->
     <div class="showcase-progress"><div class="sp-bar" id="spBar"></div></div>
 
-    <!-- 段落指示點 -->
     <div class="showcase-dots">
       <div class="sdot active" id="sdot-0"></div>
       <div class="sdot" id="sdot-1"></div>
@@ -966,10 +929,10 @@ textarea.finput{resize:vertical;min-height:88px}
     </div>
 
     <span class="showcase-hint">← 左右滑動 →</span>
-    <button id="showcaseNextBtn" onclick="window.scrollTo({top:document.getElementById('s2').offsetTop,behavior:'smooth'})">繼續填問卷 →</button>
+   
+ <button id="showcaseNextBtn" onclick="window.scrollTo({top:document.getElementById('s2').offsetTop,behavior:'smooth'})">繼續填問卷 →</button>
 </div>
 
-<!-- ══ Q2 FEATURES（吸附） ══ -->
 <section class="sec-dark snap" id="s2">
   <div class="rv">
     <div class="sdots">
@@ -983,7 +946,8 @@ textarea.finput{resize:vertical;min-height:88px}
   </div>
   <div class="feat-list rv d1">
     <div class="feat-card" onclick="togF(this)" data-id="f1">
-      <span class="fnum">01</span>
+      <span 
+class="fnum">01</span>
       <div class="fbody">
         <span class="ftag">Quick Drain</span>
         <h3 class="fname">彈跳快排，一按就通</h3>
@@ -996,7 +960,8 @@ textarea.finput{resize:vertical;min-height:88px}
       <div class="fbody">
         <span class="ftag">Anti-Odor Seal</span>
         <h3 class="fname">密封防臭，阻斷下水道氣體</h3>
-        <p class="fdesc">食品級矽膠密封環，物理阻隔硫化氫異味倒灌。廚房不再有莫名臭味。</p>
+        
+<p class="fdesc">食品級矽膠密封環，物理阻隔硫化氫異味倒灌。廚房不再有莫名臭味。</p>
       </div>
       <div class="fchk">✓</div>
     </div>
@@ -1011,6 +976,7 @@ textarea.finput{resize:vertical;min-height:88px}
     </div>
     <div class="feat-card" onclick="togF(this)" data-id="f4">
       <span class="fnum">04</span>
+ 
       <div class="fbody">
         <span class="ftag">Easy Clean</span>
         <h3 class="fname">秒取渣籃，清理不沾手</h3>
@@ -1022,14 +988,14 @@ textarea.finput{resize:vertical;min-height:88px}
   <button class="next-btn" onclick="window.scrollTo({top:document.getElementById('s3').offsetTop,behavior:'smooth'})">繼續 →</button>
 </section>
 
-<!-- ══ Q3 INTENT（吸附） ══ -->
 <section class="sec-off snap" id="s3">
   <div class="rv">
     <div class="sdots">
       <div class="sd dn"></div><div class="sd dn"></div><div class="sd on"></div><div class="sd"></div>
     </div>
     <span class="eyebrow">Q3 · 購買意願</span>
-    <div class="q-num">03</div>
+  
+   <div class="q-num">03</div>
     <h2 class="q-title">看完以上，<br>最接近你感受的是？</h2>
     <p class="step-hint">單選 · 第 3 題，共 4 題</p>
   </div>
@@ -1044,17 +1010,18 @@ textarea.finput{resize:vertical;min-height:88px}
     </div>
     <div class="intent-opt" data-val="low" onclick="selI(this)">
       <div class="iradio"></div>
-      <div><div class="ilabel">有興趣，但想等早鳥優惠或特別方案</div><span class="isub">優惠價的話會考慮</span></div>
+      <div><div 
+class="ilabel">有興趣，但想等早鳥優惠或特別方案</div><span class="isub">優惠價的話會考慮</span></div>
     </div>
     <div class="intent-opt" data-val="browse" onclick="selI(this)">
       <div class="iradio"></div>
       <div><div class="ilabel">目前只是路過，幫你填填看</div><span class="isub">感謝你的時間！</span></div>
     </div>
   </div>
-  <button class="next-btn" style="border-color:rgba(0,0,0,.15);color:var(--txt2);" onclick="window.scrollTo({top:document.getElementById('s4').offsetTop,behavior:'smooth'})">繼續 →</button>
+  <button class="next-btn" style="border-color:rgba(0,0,0,.15);color:var(--txt2);"
+onclick="window.scrollTo({top:document.getElementById('s4').offsetTop,behavior:'smooth'})">繼續 →</button>
 </section>
 
-<!-- ══ Q4 GENDER（吸附） ══ -->
 <section class="sec snap" id="s4">
   <div class="rv">
     <div class="sdots">
@@ -1068,19 +1035,18 @@ textarea.finput{resize:vertical;min-height:88px}
       <button class="gbtn" data-val="female" onclick="selG(this)">女性</button>
       <button class="gbtn" data-val="male" onclick="selG(this)">男性</button>
       <button class="gbtn" data-val="other" onclick="selG(this)">其他 / 不透露</button>
-    </div>
+  
+   </div>
     <button class="next-btn" style="margin-top:24px;border-color:rgba(0,0,0,.15);color:var(--txt2);" onclick="window.scrollTo({top:document.getElementById('tBanner').offsetTop,behavior:'smooth'})">繼續 →</button>
   </div>
 </section>
 
-<!-- ══ TRANSITION（吸附） ══ -->
 <div class="t-banner snap rv" id="tBanner">
   <span class="tb-label">Coming Soon · 即將上線</span>
   <h2 class="tb-title">準備上嘖嘖募資了！</h2>
   <p class="tb-sub">留下你的聯絡方式，正式集資時<br>我們第一時間通知你搶先早鳥名額。</p>
 </div>
 
-<!-- ══ FORM（吸附） ══ -->
 <section class="sec snap" id="s5">
   <div class="rv">
     <span class="eyebrow">Contact · 留下聯絡方式</span>
@@ -1092,7 +1058,8 @@ textarea.finput{resize:vertical;min-height:88px}
   <div class="rv d1">
     <div class="fgroup">
       <label class="flabel">電子信箱 <span class="br">必填</span></label>
-      <input type="email" class="finput" id="eIn" placeholder="your@email.com" inputmode="email" autocomplete="email">
+      <input type="email" class="finput" 
+id="eIn" placeholder="your@email.com" inputmode="email" autocomplete="email">
       <div class="ferr" id="eErr">請輸入有效的電子信箱</div>
     </div>
     <div class="fgroup">
@@ -1108,10 +1075,10 @@ textarea.finput{resize:vertical;min-height:88px}
   </div>
 </section>
 
-<!-- ══ THANK YOU ══ -->
 <div class="ty snap" id="ty">
   <div class="ty-icon">🎉</div>
-  <h2 class="ty-title">謝謝你的支持！</h2>
+  
+<h2 class="ty-title">謝謝你的支持！</h2>
   <p class="ty-sub">我們已收到你的回覆。<br>浴山快排濾網正式上嘖嘖時，<br>你將是第一批知道的人。</p>
   <div class="eb-card">
     <span class="eb-label">Early Bird · 早鳥預覽</span>
@@ -1126,7 +1093,6 @@ textarea.finput{resize:vertical;min-height:88px}
   <div class="sf-sub">HUROYAMA — 浴山系列</div>
 </div>
 
-<!-- ══ PAGE INDICATOR（右側點點） ══ -->
 <div class="page-indicator" id="pageInd">
   <div class="pi-dot" onclick="goTo('s0')" title="首頁"></div>
   <div class="pi-dot" onclick="goTo('pain-panel')" title="痛點"></div>
@@ -1140,7 +1106,6 @@ textarea.finput{resize:vertical;min-height:88px}
 <script>
 // ── STATE
 const S={pains:[],feats:[],intent:null,gender:null};
-
 // ── INTERACTIONS
 function togP(el){
   el.classList.toggle('sel');
@@ -1152,7 +1117,7 @@ function togP(el){
 }
 function togF(el){
   el.classList.toggle('sel');
-  const id=el.dataset.id;
+const id=el.dataset.id;
   S.feats=el.classList.contains('sel')?[...new Set([...S.feats,id])]:S.feats.filter(x=>x!==id);
   const b=document.getElementById('fb');
   b.textContent=S.feats.length+' 項已選';
@@ -1165,7 +1130,7 @@ function goTo(id){const el=document.getElementById(id);if(el)window.scrollTo({to
 // ── SUBMIT: 修改為適合 GitHub Pages 的 fetch 方式 ──
 function doSub(){
   const email=document.getElementById('eIn').value.trim();
-  const err=document.getElementById('eErr');
+const err=document.getElementById('eErr');
   
   // 1. Email 格式檢查
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
@@ -1174,8 +1139,7 @@ function doSub(){
     return;
   }
   err.classList.remove('show');
-  
-  // 2. 按鈕狀態回饋
+// 2. 按鈕狀態回饋
   const btn=document.getElementById('subBtn');
   btn.textContent='提交中…';
   btn.disabled=true;
@@ -1190,17 +1154,23 @@ function doSub(){
     intent: S.intent,
     gender: S.gender
   };
-
-  // 4. 重要：替換為你 Apps Script 部署後的 /exec 網址
-  const GAS_URL = "https://script.google.com/macros/s/AKfycby8loHM_Th6iMYyERRPy_O1KQrWD21ZshQiMATU7C9gZSa1621Q2w-S38N4NIFjGVrs/exec"; 
-
-  // 5. 透過 fetch 發送資料到 Google Sheets
+// 4. 重要：替換為你 Apps Script 部署後的 /exec 網址
+  const GAS_URL = "https://script.google.com/macros/s/AKfycby8loHM_Th6iMYyERRPy_O1KQrWD21ZshQiMATU7C9gZSa1621Q2w-S38N4NIFjGVrs/exec";
+// 5. 透過 fetch 發送資料到 Google Sheets
   fetch(GAS_URL, {
     method: "POST",
     mode: "no-cors", // 解決跨網域提交問題
     body: JSON.stringify(payload)
   })
   .then(() => {
+    // ══ [新增] 提交成功後觸發追蹤事件 ══
+    if(typeof fbq !== 'undefined') {
+      fbq('track', 'Lead', { content_name: 'Huroyama_Survey' }); // Meta Pixel 轉換
+    }
+    if(typeof gtag !== 'undefined') {
+      gtag('event', 'generate_lead', { 'event_category': 'Survey' }); // GA4 轉換
+    }
+    
     showThanks(); // 提交成功後顯示感謝頁面
   })
   .catch(error => {
@@ -1223,7 +1193,6 @@ const obs=new IntersectionObserver(entries=>{
   entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});
 },{threshold:0.06});
 document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
-
 // ── SHOWCASE：touch swipe + 按鈕切換
 const showcase=document.getElementById('product-showcase');
 const sImgs=[0,1,2,3].map(i=>document.getElementById('simg-'+i));
@@ -1240,14 +1209,15 @@ let epTimer=null;
 
 function epReset(){
   clearTimeout(epTimer);
-  if(explLayer){ explLayer.classList.remove('visible','exploded'); }
+  if(explLayer){ explLayer.classList.remove('visible','exploded');
+}
 }
 function epTrigger(){
   // 進入頁面後短暫延遲再開始爆炸，讓圖片先顯示
   if(explLayer){
     explLayer.classList.add('visible');
     clearTimeout(epTimer);
-    epTimer=setTimeout(()=>{
+epTimer=setTimeout(()=>{
       explLayer.classList.add('exploded');
     }, 0);  // 0.6s 後觸發爆炸
   }
@@ -1255,31 +1225,30 @@ function epTrigger(){
 
 function showcaseSet(phase){
   scPhase=Math.max(0,Math.min(3,phase));
-
-  const isExplodePage=(scPhase===1);
+const isExplodePage=(scPhase===1);
 
   // 爆炸頁：進入時自動觸發，離開時重置
   if(isExplodePage){
     epTrigger();
   } else {
     epReset();
-  }
+}
 
   // 爆炸頁隱藏 simg-1
   sImgs.forEach((el,i)=>{
     if(el) el.classList.toggle('active', i===scPhase && !(isExplodePage && i===1));
   });
   sTxts.forEach((el,i)=>{if(el)el.classList.toggle('active',i===scPhase);});
-  // 手機版：依頁面調整圖片區高度（03/04 頁圖更大）
+// 手機版：依頁面調整圖片區高度（03/04 頁圖更大）
   if(window.innerWidth < 768){
     const imgWrap = document.querySelector('.showcase-img-wrap');
     const textWrap = document.querySelector('.showcase-text-wrap');
-    if(imgWrap && textWrap){
+if(imgWrap && textWrap){
       const imgH = (scPhase >= 2) ? '68svh' : '60svh';
-      const txtTop = (scPhase >= 2) ? '66svh' : '58svh';
+const txtTop = (scPhase >= 2) ? '66svh' : '58svh';
       imgWrap.style.height = imgH;
       textWrap.style.top = txtTop;
-    }
+}
   }
 
   sDots.forEach((el,i)=>{if(el)el.classList.toggle('active',i===scPhase);});
@@ -1289,7 +1258,7 @@ function showcaseSet(phase){
   // 加 phase class 到 showcase 本體，讓 CSS 可以按頁面調整樣式
   if(showcase){
     showcase.className='snap';
-    if(scPhase===2) showcase.classList.add('showcase-phase-2');
+if(scPhase===2) showcase.classList.add('showcase-phase-2');
     if(scPhase===3) showcase.classList.add('showcase-phase-3');
   }
 }
@@ -1298,19 +1267,18 @@ function showcaseGo(dir){ showcaseSet(scPhase+dir); }
 // Touch swipe（手機）
 if(showcase){
   let tx=0,ty=0;
-  showcase.addEventListener('touchstart',e=>{
+showcase.addEventListener('touchstart',e=>{
     tx=e.touches[0].clientX;
     ty=e.touches[0].clientY;
   },{passive:true});
-  showcase.addEventListener('touchend',e=>{
+showcase.addEventListener('touchend',e=>{
     const dx=e.changedTouches[0].clientX-tx;
     const dy=e.changedTouches[0].clientY-ty;
     if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>40){
       showcaseGo(dx<0?1:-1);
     }
   },{passive:true});
-
-  // Mouse drag（桌機）
+// Mouse drag（桌機）
   let mx=0,dragging=false;
   showcase.addEventListener('mousedown',e=>{mx=e.clientX;dragging=true;});
   showcase.addEventListener('mouseup',e=>{
@@ -1319,7 +1287,7 @@ if(showcase){
     if(Math.abs(dx)>60) showcaseGo(dx<0?1:-1);
     dragging=false;
   });
-  showcase.addEventListener('mouseleave',()=>{dragging=false;});
+showcase.addEventListener('mouseleave',()=>{dragging=false;});
 }
 
 // 鍵盤左右鍵（桌機）
@@ -1333,7 +1301,6 @@ document.addEventListener('keydown',e=>{
   if(e.key==='ArrowRight') showcaseGo(1);
   if(e.key==='ArrowLeft') showcaseGo(-1);
 });
-
 // 初始化
 showcaseSet(0);
 
@@ -1342,7 +1309,6 @@ const snapIds=['s0','pain-panel','sol-panel','s2','s3','s4','s5'];
 const piDots=document.querySelectorAll('.pi-dot');
 const heroImg=document.getElementById('heroImg');
 const ipBgs=document.querySelectorAll('.ip-bg');
-
 window.addEventListener('scroll',()=>{
   // Progress bar
   const h=Math.max(document.body.scrollHeight-window.innerHeight,1);
@@ -1375,7 +1341,7 @@ window.addEventListener('scroll',()=>{
     const rect=bg.parentElement.getBoundingClientRect();
     if(rect.top<window.innerHeight&&rect.bottom>0){
       const offset=(rect.top/window.innerHeight)*-16;
-      bg.style.transform=`scale(1.08) translateY(${offset}px)`;
+bg.style.transform=`scale(1.08) translateY(${offset}px)`;
     }
   });
 },{passive:true});
