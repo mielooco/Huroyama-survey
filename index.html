@@ -1162,21 +1162,55 @@ function selI(el){document.querySelectorAll('.intent-opt').forEach(o=>o.classLis
 function selG(el){document.querySelectorAll('.gbtn').forEach(b=>b.classList.remove('sel'));el.classList.add('sel');S.gender=el.dataset.val;}
 function goTo(id){const el=document.getElementById(id);if(el)window.scrollTo({top:el.offsetTop,behavior:'smooth'});}
 
-// ── SUBMIT
+// ── SUBMIT: 修改為適合 GitHub Pages 的 fetch 方式 ──
 function doSub(){
   const email=document.getElementById('eIn').value.trim();
   const err=document.getElementById('eErr');
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){err.classList.add('show');document.getElementById('eIn').focus();return;}
+  
+  // 1. Email 格式檢查
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    err.classList.add('show');
+    document.getElementById('eIn').focus();
+    return;
+  }
   err.classList.remove('show');
-  const btn=document.getElementById('subBtn');btn.textContent='提交中…';btn.disabled=true;
-  // ── TODO: 串接 Google Apps Script
-  // const URL='YOUR_APPS_SCRIPT_URL';
-  // fetch(URL,{method:'POST',headers:{'Content-Type':'application/json'},
-  //   body:JSON.stringify({email,phone:document.getElementById('pIn').value,
-  //   comment:document.getElementById('cIn').value,...S,ts:new Date().toISOString()})
-  // }).then(showThanks).catch(showThanks);
-  setTimeout(showThanks,900);
+  
+  // 2. 按鈕狀態回饋
+  const btn=document.getElementById('subBtn');
+  btn.textContent='提交中…';
+  btn.disabled=true;
+
+  // 3. 整理要傳送的問卷資料
+  const payload = {
+    email: email,
+    phone: document.getElementById('pIn').value,
+    comment: document.getElementById('cIn').value,
+    pains: S.pains.join(', '), // 將痛點複選陣列轉成字串
+    feats: S.feats.join(', '), // 將功能複選陣列轉成字串
+    intent: S.intent,
+    gender: S.gender
+  };
+
+  // 4. 重要：替換為你 Apps Script 部署後的 /exec 網址
+  const GAS_URL = "https://script.google.com/macros/s/AKfycby8loHM_Th6iMYyERRPy_O1KQrWD21ZshQiMATU7C9gZSa1621Q2w-S38N4NIFjGVrs/exec"; 
+
+  // 5. 透過 fetch 發送資料到 Google Sheets
+  fetch(GAS_URL, {
+    method: "POST",
+    mode: "no-cors", // 解決跨網域提交問題
+    body: JSON.stringify(payload)
+  })
+  .then(() => {
+    showThanks(); // 提交成功後顯示感謝頁面
+  })
+  .catch(error => {
+    console.error("提交失敗:", error);
+    alert("提交可能失敗，請檢查網路狀態");
+    btn.textContent = '提交，搶先知道早鳥優惠 →';
+    btn.disabled = false;
+  });
 }
+  
 function showThanks(){
   ['s5','tBanner','footer'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
   document.getElementById('pageInd').style.display='none';
