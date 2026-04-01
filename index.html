@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>浴山｜廚房水槽快排濾網 — 上市前意見募集</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --white:#fff;
+  --off:#f5f5f3;
+  --lgray:#e6e6e4;
+  --mgray:#aeaeaa;
+  --black:#141412;
+  --steel:#7a8490;
+  --gold:#c4a45e;
+  --yellow:#eec830;
+  --txt:#1a1a18;
+  --txt2:#686864;
+  --txt3:#9a9a96;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+
+/* ══ SCROLL SNAP 核心設定 ══ */
+html{
+  scroll-snap-type: y proximity;
+  overflow-y: scroll;
+  height: 100%;
+}
+body{
+  font-family: 'Noto Sans TC', "Microsoft JhengHei", sans-serif; /* 優先思源黑體，備援微軟正黑體 */
+  font-weight: 400;
+  background:var(--white);
+  color:var(--txt);
+  overflow-x:hidden;
+  max-width:770px;
+  margin:0 auto;
+  min-height:100%;
+}
+
+/* 全螢幕區塊：吸附 */
+.snap{
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+/* 自由捲動區塊 */
+.no-snap{
+  scroll-snap-align: none;
+}
+
+/* Showcase 專用：明確排除 snap，讓 400vh 可以自由捲動 */
+#product-showcase{
+  scroll-snap-align: none !important;
+  /* 讓 showcase 前的 snap 點正常觸發，
+     showcase 自己不做 snap，
+     showcase 後的 Q2 再重新 snap */
+}
+
+/* PROGRESS */
+#pgbar{
+  position:fixed;top:0;left:50%;transform:translateX(-50%);
+  max-width:480px;width:0%;height:3px;
+  background:rgba(238, 200, 48, 0.5);z-index:999;transition:width .2s;
+}
+
+/* ══ HERO ══ */
+.hero{
+  position:relative;
+  height:100svh;
+  min-height:580px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+}
+.hero-img{
+  position:absolute;inset:0;
+  background:url('https://pic.mieloo-corp.com/uploads/medium/4b/ef/bfe657322d1d8d0551450c97d199.png') center center/cover no-repeat;
+  transform:scale(1.1);will-change:transform;
+  transition:transform 0.1s linear;
+}
+.hero-grad{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(8,8,6,.18) 0%,rgba(8,8,6,.72) 60%,rgba(8,8,6,.92) 100%);
+}
+.hero-body{position:relative;padding:0 24px 52px;text-align:center}
+.hero-badge{display:inline-block;font-size:9px;letter-spacing:4px;color:rgba(255,255,255,.38);text-transform:uppercase;margin-bottom:14px;animation:fu .8s ease .2s both}
+.hero-title{font-family:'Noto Serif TC',serif;font-size:clamp(30px,8vw,44px);font-weight:200;color:#fff;line-height:1.3;margin-bottom:14px;animation:fu .8s ease .4s both}
+.hero-title em{font-family:'DM Serif Display',serif;font-style:italic;color:var(--gold)}
+.hero-sub{font-size:13px;font-weight:300;color:rgba(255,255,255,.55);line-height:1.4;margin-bottom:32px;animation:fu .8s ease .6s both}
+.hero-cta{display:block;background:var(--yellow);color:var(--black);font-size:12px;font-weight:500;letter-spacing:2px;padding:16px 24px;text-decoration:none;text-align:center;animation:fu .8s ease .8s both;transition:opacity .2s}
+.hero-cta:active{opacity:.8}
+.sc-cue{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);animation:fadeIn 1s ease 1.4s both}
+.sc-line{width:1px;height:36px;background:linear-gradient(to bottom,transparent,rgba(255,255,255,.28));animation:scpulse 2s ease-in-out infinite}
+@keyframes scpulse{0%,100%{opacity:.4}50%{opacity:1}}
+
+/* ══ FULL-SCREEN IMAGE PANELS ══ */
+.img-panel{
+  position:relative;
+  height:100svh;
+  min-height:500px;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.ip-bg{
+  position:absolute;inset:0;
+  background-size:cover;background-position:center;
+  transform:scale(1.08);will-change:transform;
+}
+.ip-grad{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 20%,rgba(8,8,6,.8) 68%,rgba(8,8,6,.96) 100%);
+}
+.ip-content{position:relative;padding:32px 28px 44px;width:100%;text-align:center;max-width:480px;}
+.ip-line{width:28px;height:2px;background:var(--yellow);margin:0 auto 16px;}
+.ip-tag{font-size:12px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:12px;display:block}
+.ip-title{font-family:'Noto Serif TC',serif;font-size:clamp(28px,7.5vw,38px);font-weight:300;color:#fff;line-height:1.4;margin-bottom:14px}
+.ip-desc{font-size:16px;color:rgba(255,255,255,.65);line-height:1.4}
+
+/* ══ QUESTION SECTIONS ══ */
+.sec{padding:52px 24px 60px}
+.sec-dark{background:var(--black);padding:52px 24px 60px}
+.sec-off{background:var(--off);padding:52px 24px 60px}
+
+.eyebrow{font-size:9px;letter-spacing:3.5px;color:var(--txt3);text-transform:uppercase;margin-bottom:14px;display:block}
+.eyebrow-g{color:var(--gold)}
+.q-num{font-family:'DM Serif Display',serif;font-size:44px;color:var(--lgray);line-height:1;margin-bottom:10px}
+.q-num-d{color:rgba(255,255,255,.08)}
+.q-title{font-family:'Noto Serif TC',serif;font-size:clamp(20px,5.5vw,26px);font-weight:300;line-height:1.5;margin-bottom:6px}
+.q-white{color:#fff}
+.q-title strong{font-weight:700;position:relative}
+.q-title strong::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:var(--yellow)}
+.step-hint{font-size:11px;color:var(--txt3);margin-bottom:24px}
+.step-hint-d{color:var(--steel)}
+.yline{width:28px;height:2px;background:var(--yellow);margin:14px 0 24px}
+
+/* STEP DOTS */
+.sdots{display:flex;gap:6px;margin-bottom:18px}
+.sd{width:6px;height:6px;border-radius:50%;background:var(--lgray);transition:all .3s}
+.sd.on{background:var(--yellow);transform:scale(1.4)}
+.sd.dn{background:var(--mgray)}
+.sdd{background:rgba(255,255,255,.14)}
+.sdd.dn{background:rgba(255,255,255,.36)}
+.sdd.on{background:var(--yellow)}
+
+/* COUNT BADGE */
+.cbadge{display:inline-block;background:var(--yellow);color:var(--black);font-size:10px;font-weight:700;padding:2px 9px;border-radius:10px;margin-left:8px;opacity:0;transition:opacity .3s}
+.cbadge.show{opacity:1}
+
+/* ══ PAIN CARDS ══ */
+.pain-list{display:flex;flex-direction:column;gap:2px;margin-top:4px}
+.pain-card{background:var(--white);padding:18px 16px;cursor:pointer;border:2px solid transparent;display:flex;align-items:flex-start;gap:12px;transition:border-color .18s,background .18s;user-select:none}
+.pain-card:active{opacity:.82}
+.pain-card.sel{border-color:var(--yellow);background:#fffef4}
+.pchk{width:22px;height:22px;min-width:22px;border:1.5px solid var(--lgray);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:transparent;transition:all .18s;margin-top:2px;flex-shrink:0}
+.pain-card.sel .pchk{background:var(--yellow);border-color:var(--yellow);color:var(--black);font-weight:800}
+.pemoji{font-size:20px;min-width:26px;flex-shrink:0;margin-top:1px}
+.pmain{font-size:13.5px;line-height:1.3;color:var(--txt)}
+.psub{font-size:11px;color:var(--txt3);margin-top:4px;display:block}
+
+/* ══ FEATURE CARDS ══ */
+.feat-list{display:flex;flex-direction:column}
+.feat-card{border-top:1px solid rgba(255,255,255,.07);padding:26px 0;display:flex;gap:16px;align-items:flex-start;cursor:pointer;transition:opacity .2s;position:relative}
+.feat-card:active{opacity:.75}
+.fnum{font-family:'DM Serif Display',serif;font-size:30px;color:rgba(255,255,255,.09);line-height:1;min-width:34px;transition:color .25s;flex-shrink:0}
+.feat-card.sel .fnum{color:var(--yellow)}
+.fbody{flex:1}
+.ftag{font-size:9px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:7px;display:block}
+.fname{font-family:'Noto Serif TC',serif;font-size:clamp(16px,4.5vw,19px);font-weight:300;color:#fff;margin-bottom:7px}
+.fdesc{font-size:12px;color:var(--steel);line-height:1.8}
+.fchk{width:24px;height:24px;min-width:24px;border:1.5px solid rgba(255,255,255,.14);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:transparent;transition:all .2s;margin-top:2px;flex-shrink:0}
+.feat-card.sel .fchk{background:var(--yellow);border-color:var(--yellow);color:var(--black);font-weight:800}
+
+/* ══ PRODUCT PANELS ══ */
+.prod-panel{padding:44px 24px;border-bottom:1px solid var(--lgray)}
+.prod-img{width:100%;aspect-ratio:4/3;overflow:hidden;margin-bottom:20px;background:var(--off)}
+.prod-img img{width:100%;height:100%;object-fit:cover;display:block}
+.prod-tag{font-size:9px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:8px;display:block}
+.prod-title{font-family:'Noto Serif TC',serif;font-size:clamp(18px,5vw,22px);font-weight:300;margin-bottom:10px;line-height:1.4}
+.prod-desc{font-size:13px;color:var(--txt2);line-height:1.4}
+
+/* ══ INTENT ══ */
+.intent-list{display:flex;flex-direction:column;gap:2px;margin-top:20px}
+.intent-opt{background:var(--white);padding:19px 16px;cursor:pointer;border:2px solid transparent;display:flex;align-items:flex-start;gap:13px;transition:all .18s}
+.intent-opt:active{opacity:.82}
+.intent-opt.sel{border-color:var(--black)}
+.iradio{width:18px;height:18px;min-width:18px;border:1.5px solid var(--mgray);border-radius:50%;position:relative;transition:all .18s;margin-top:2px;flex-shrink:0}
+.intent-opt.sel .iradio{border-color:var(--black)}
+.intent-opt.sel .iradio::after{content:'';position:absolute;inset:3px;background:var(--black);border-radius:50%}
+.ilabel{font-size:14px;color:var(--txt);line-height:1.3}
+.isub{font-size:11px;color:var(--txt3);margin-top:4px;display:block}
+
+/* ══ GENDER ══ */
+.gender-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:22px}
+.gbtn{padding:18px 12px;background:var(--white);border:2px solid var(--lgray);font-size:14px;font-family:'Noto Sans TC',sans-serif;cursor:pointer;color:var(--txt);transition:all .18s}
+.gbtn:nth-child(3){grid-column:span 2}
+.gbtn:active{opacity:.8}
+.gbtn.sel{border-color:var(--black);background:var(--black);color:#fff}
+
+/* ══ TRANSITION BANNER ══ */
+.t-banner{background:var(--yellow);padding:52px 24px;text-align:center}
+.tb-label{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(0,0,0,.38);margin-bottom:12px;display:block}
+.tb-title{font-family:'Noto Serif TC',serif;font-size:clamp(22px,7vw,34px);font-weight:300;color:var(--black);margin-bottom:12px;line-height:1.4}
+.tb-sub{font-size:13px;color:rgba(0,0,0,.5);line-height:1.4}
+
+/* ══ FORM ══ */
+.flabel{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--txt2);margin-bottom:9px;display:flex;align-items:center;gap:7px}
+.br{background:var(--yellow);color:var(--black);font-size:9px;padding:2px 6px;font-weight:500}
+.bo{background:var(--lgray);color:var(--txt2);font-size:9px;padding:2px 6px}
+.finput{width:100%;padding:15px 16px;background:var(--off);border:2px solid transparent;font-size:16px;font-family:'Noto Sans TC',sans-serif;color:var(--txt);outline:none;transition:all .2s;border-radius:0;-webkit-appearance:none}
+.finput:focus{border-color:var(--yellow);background:#fff}
+.finput::placeholder{color:var(--txt3);font-size:13px}
+textarea.finput{resize:vertical;min-height:88px}
+.ferr{font-size:12px;color:#c0392b;margin-top:6px;display:none}
+.ferr.show{display:block}
+.fgroup{margin-bottom:22px}
+.subbtn{width:100%;padding:18px;background:var(--black);color:#fff;border:none;font-size:13px;font-family:'Noto Sans TC',sans-serif;font-weight:500;letter-spacing:2px;cursor:pointer;transition:opacity .2s;margin-top:4px;border-radius:0;-webkit-appearance:none}
+.subbtn:active{opacity:.8}
+.subbtn:disabled{background:var(--lgray);color:var(--mgray);cursor:not-allowed}
+.privacy{font-size:11px;color:var(--txt3);text-align:center;margin-top:14px;line-height:1.8}
+
+/* ══ THANK YOU ══ */
+.ty{display:none;min-height:100svh;background:var(--black);flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 24px}
+.ty.show{display:flex;animation:fadeIn .7s ease both}
+.ty-icon{width:70px;height:70px;background:var(--yellow);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:28px;animation:bounce .6s ease .2s both}
+.ty-title{font-family:'Noto Serif TC',serif;font-size:clamp(24px,7vw,34px);font-weight:300;color:#fff;margin-bottom:12px;line-height:1.4}
+.ty-sub{font-size:13px;color:var(--steel);line-height:1.4;max-width:320px;margin-bottom:36px}
+.eb-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:28px 22px;width:100%;max-width:320px}
+.eb-label{font-size:9px;letter-spacing:4px;color:var(--yellow);text-transform:uppercase;margin-bottom:12px;display:block}
+.eb-price{font-family:'DM Serif Display',serif;font-size:48px;color:#fff;line-height:1;margin-bottom:4px}
+.eb-orig{font-size:13px;color:var(--steel);text-decoration:line-through;margin-bottom:14px;display:block}
+.eb-desc{font-size:12px;color:var(--steel);line-height:1.8}
+
+/* ══ FOOTER ══ */
+.site-footer{background:var(--off);padding:30px 24px;text-align:center;border-top:1px solid var(--lgray)}
+.sf-name{font-family:'Noto Serif TC',serif;font-size:12px;color:var(--txt2);letter-spacing:2px}
+.sf-sub{font-size:11px;color:var(--txt3);margin-top:4px;letter-spacing:1px}
+
+/* ══ STICKY PAGE INDICATOR ══ */
+.page-indicator{
+  position:fixed;
+  right:16px;
+  top:50%;
+  transform:translateY(-50%);
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  z-index:100;
+  opacity:0;
+  transition:opacity .3s;
+}
+.page-indicator.show{opacity:1}
+.pi-dot{
+  width:4px;height:4px;border-radius:50%;
+  background:rgba(0,0,0,.2);
+  transition:all .3s;
+  cursor:pointer;
+}
+.pi-dot.on{
+  background:var(--yellow);
+  transform:scale(1.8);
+  box-shadow:0 0 0 2px rgba(238,200,48,.3);
+}
+.pi-dot.on-dark{background:rgba(255,255,255,.6)}
+.pi-dot.on-dark.on{background:var(--yellow)}
+
+/* ══ REVEAL ANIMATIONS ══ */
+.rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.rv.d1{transition-delay:.1s}
+.rv.d2{transition-delay:.2s}
+.rv.in{opacity:1;transform:translateY(0)}
+
+@keyframes fu{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes bounce{0%{transform:scale(0);opacity:0}60%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
+/* ══ APPLE-STYLE SHOWCASE（touch swipe 版）══ */
+#product-showcase{
+  height:100svh;
+  min-height:500px;
+  position:relative;   /* 回到 relative，讓子元素用 absolute 定位 */
+  background:var(--black);
+  display:block;       /* 改用 block，各區用 absolute 定位 */
+  overflow:hidden;
+}
+
+/* 圖片區：固定佔上方 58% */
+.showcase-img-wrap{
+  position:absolute;
+  top:0; left:0; right:0;
+  height:60svh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:12px 60px 0;  /* 左右留給箭頭按鈕 */
+  z-index:1;
+}
+.showcase-img{
+  position:absolute;
+  max-width:88%;
+  max-height:96%;
+  object-fit:contain;
+  opacity:0;
+  transform:scale(0.92) translateY(12px);
+  transition:opacity .45s ease, transform .45s ease;
+  filter:drop-shadow(0 8px 32px rgba(0,0,0,.55));
+}
+.showcase-img.active{
+  opacity:1;
+  transform:scale(1) translateY(0);
+}
+.showcase-img.exit-left{
+  opacity:0;
+  transform:scale(0.92) translateX(-30px);
+}
+.showcase-img.exit-right{
+  opacity:0;
+  transform:scale(0.92) translateX(30px);
+}
+
+/* 說明文字區：固定在圖片下方，高度剛好 */
+.showcase-text-wrap{
+  position:absolute;
+  top:58svh;   /* 圖片區底部 */
+  left:0; right:0;
+  height:28svh;
+  padding:0 28px;
+  z-index:2;
+  overflow:hidden;
+}
+.showcase-slide{
+  position:absolute;
+  left:28px; right:28px;
+  top:8px;
+  opacity:0;
+  transform:translateY(14px);
+  transition:opacity .4s ease, transform .4s ease;
+  pointer-events:none;
+}
+.showcase-slide.active{
+  opacity:1;
+  transform:translateY(0);
+  pointer-events:all;
+}
+.ss-tag{font-size:12px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:8px;display:block}
+.ss-title{font-family:'Noto Serif TC',serif;font-size:clamp(22px,5.5vw,32px);font-weight:300;color:#fff;line-height:1.35;margin-bottom:8px}
+.ss-desc{font-size:14px;color:rgba(255,255,255,.62);line-height:1.6;margin-bottom:8px}
+.ss-line{width:24px;height:2px;background:var(--yellow);margin-bottom:6px}
+.ss-step{font-size:12px;letter-spacing:2px;color:rgba(255,255,255,.3)}
+
+/* 左右箭頭按鈕：固定在圖片兩側垂直置中 */
+.showcase-nav{
+  position:absolute;
+  top:0;
+  height:60svh;
+  width:100%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 10px;
+  pointer-events:none;
+  z-index:10;
+}
+.ss-btn{
+  width:40px; height:40px;
+  border:none;
+  border-radius:50%;
+  background:var(--yellow);
+  display:flex; align-items:center; justify-content:center;
+  font-size:16px; color:var(--black);
+  cursor:pointer; pointer-events:all;
+  transition:all .2s;
+  user-select:none;
+}
+.ss-btn:active{opacity:.75}
+.ss-btn.hidden{opacity:0; pointer-events:none}
+
+/* 指示點：固定在按鈕上方 */
+.showcase-dots{
+  position:absolute;
+  bottom:80px;   /* 往上移 */
+  left:0; right:0;
+  display:flex; gap:8px;
+  align-items:center; justify-content:center;
+  z-index:5;
+}
+.sdot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.2);transition:all .3s}
+.sdot.active{background:var(--yellow);transform:scale(1.5)}
+
+/* 下一頁按鈕：固定在底部，永遠看得到 */
+#showcaseNextBtn{
+  position:absolute;
+  bottom:16px;
+  left:50%;
+  transform:translateX(-50%);
+  width:calc(100% - 56px);
+  max-width:340px;
+  padding:13px;
+  background:rgba(255,255,255,0.9);
+  border:none;
+  color:var(--black);
+  font-family:'Noto Sans TC',sans-serif;
+  font-size:12px; letter-spacing:2px;
+  text-align:center;
+  cursor:pointer; transition:all .2s;
+  z-index:20;
+}
+#showcaseNextBtn:hover{background:#fff}
+#showcaseNextBtn:active{opacity:.7}
+
+/* 進度條 */
+.showcase-progress{position:absolute;bottom:0;left:0;right:0;height:2px;background:rgba(255,255,255,.08)}
+.sp-bar{height:100%;background:var(--yellow);transition:width .3s ease}
+
+/* 上滑提示：隱藏 */
+.showcase-hint{ display:none; }
+
+/* ══ 桌機版 Showcase RWD（768px+）══ */
+@media(min-width:768px){
+
+  /* showcase 整體：左圖右文，用 grid 精準控制 */
+  #product-showcase{
+    display:grid;
+    grid-template-columns:55% 45%;
+    grid-template-rows:100svh;
+    overflow:hidden;
+  }
+
+  /* 圖片區：左欄，垂直置中 */
+  .showcase-img-wrap{
+    position:relative;
+    grid-column:1;
+    grid-row:1;
+    height:100svh;
+    width:100%;
+    padding:48px 32px 48px 48px;
+    top:auto; left:auto; right:auto;
+  }
+  .showcase-img{
+    max-height:88svh;
+    max-width:100%;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%) scale(0.92);
+  }
+  .showcase-img.active{
+    opacity:1;
+    transform:translate(-50%,-50%) scale(1);
+  }
+  .showcase-img.exit-left{
+    opacity:0;
+    transform:translate(-50%,-50%) scale(0.92) translateX(-30px);
+  }
+  .showcase-img.exit-right{
+    opacity:0;
+    transform:translate(-50%,-50%) scale(0.92) translateX(30px);
+  }
+
+  /* 爆炸圖層：跟圖片同框，所以也要 translate 定位 */
+  .expl-layer{
+    position:absolute;
+    top:48px; bottom:48px;
+    left:48px; right:32px;
+  }
+
+  /* 文字區：右欄，垂直置中 */
+  .showcase-text-wrap{
+    position:relative;
+    grid-column:2;
+    grid-row:1;
+    height:100svh;
+    width:100%;
+    padding:0 48px;
+    top:auto; left:auto; right:auto;
+    display:flex;
+    align-items:center;
+    overflow:visible;
+  }
+  .showcase-slide{
+    position:relative;
+    left:auto; right:auto; top:auto;
+    width:100%;
+    opacity:0;
+    transform:translateY(14px);
+  }
+  .showcase-slide.active{
+    opacity:1;
+    transform:translateY(0);
+  }
+  .ss-tag{ font-size:13px; letter-spacing:3px; margin-bottom:12px; }
+  .ss-title{ font-size:clamp(32px,3.2vw,48px); margin-bottom:16px; }
+  .ss-desc{ font-size:18px; line-height:1.75; margin-bottom:14px; }
+  .ss-step{ font-size:13px; }
+
+  /* 箭頭：在圖片區（左欄）兩側垂直置中 */
+  .showcase-nav{
+    position:absolute;
+    top:0; left:0;
+    width:55%;
+    height:100svh;
+    padding:0 14px;
+  }
+
+  /* 指示點：右欄底部置中 */
+  .showcase-dots{
+    position:absolute;
+    bottom:72px;
+    left:55%;
+    width:45%;
+    justify-content:center;
+    padding:0;
+  }
+
+  /* 繼續填問卷：右欄底部置中 */
+  #showcaseNextBtn{
+    position:absolute;
+    bottom:16px;
+    left:55%;
+    width:calc(45% - 96px);
+    max-width:360px;
+    transform:translateX(calc(-50% + 22.5%));
+  }
+
+  /* phase-2/3（圖更大）桌機版不需要特別調整，grid 已撐滿 */
+  .showcase-phase-2 .showcase-img-wrap,
+  .showcase-phase-3 .showcase-img-wrap{
+    height:100svh !important;
+  }
+  .showcase-phase-2 .showcase-text-wrap,
+  .showcase-phase-3 .showcase-text-wrap{
+    height:100svh !important;
+    margin-top:0 !important;
+  }
+}
+
+
+/* 剖面圖/設計圖：放更大讓細節看清楚 */
+.showcase-img-full{
+  max-width:98% !important;
+  /* 當這張是 active 時，讓圖片區上下都可顯示 */
+}
+/* 手機版：第 2、3 頁（剖面圖/設計圖）圖片區更高 */
+.showcase-phase-2 .showcase-img-wrap,
+.showcase-phase-3 .showcase-img-wrap{
+  height:68svh !important;
+}
+.showcase-phase-2 .showcase-text-wrap,
+.showcase-phase-3 .showcase-text-wrap{
+  top:66svh !important;
+  height:18svh !important;
+}
+
+/* ══ 爆炸動畫（showcase 第二頁觸發）══ */
+.expl-layer{
+  position:absolute;
+  top:0;left:0;width:100%;height:100%;
+  pointer-events:none;
+  opacity:0;
+  transition:opacity .4s ease;
+}
+.expl-layer.visible{ opacity:1; pointer-events:all; }
+
+/* 五個零件疊在同一個框裡 */
+.expl-layer .ep-img{
+  position:absolute;
+  top:0;left:0;width:100%;height:100%;
+  object-fit:contain;
+  mix-blend-mode:screen;
+  transition:opacity .45s ease, transform .65s cubic-bezier(0.34,1.45,0.64,1);
+}
+#ep-all{ opacity:1; z-index:10; transition:opacity .4s ease; }
+.ep-piece{ opacity:0; z-index:5; }
+#ep-cover  { transform:translateY(38%); }
+#ep-basket { transform:translateY(20%); }
+#ep-seal   { transform:translateY(3%);  }
+#ep-ring   { transform:translateY(-18%);}
+#ep-body   { transform:translateY(-33%);}
+
+.expl-layer.exploded #ep-all    { opacity:0; }
+.expl-layer.exploded .ep-piece  { opacity:1; transform:translateY(0)!important; }
+.expl-layer.exploded #ep-cover  { transition-delay:.00s; }
+.expl-layer.exploded #ep-basket { transition-delay:.05s; }
+.expl-layer.exploded #ep-seal   { transition-delay:.10s; }
+.expl-layer.exploded #ep-ring   { transition-delay:.15s; }
+.expl-layer.exploded #ep-body   { transition-delay:.20s; }
+
+/* 標籤：疊加在圖片右側 */
+.expl-labels{
+  position:absolute;
+  top:0;right:0;
+  width:120px;
+  height:100%;
+  pointer-events:none;
+}
+.expl-lbl{
+  position:absolute;
+  left:4px;
+  display:flex;align-items:center;gap:5px;
+  opacity:0;
+  transform:translateX(-8px) translateY(-50%);
+  transition:opacity .35s ease, transform .4s cubic-bezier(0.34,1.3,0.64,1);
+  white-space:nowrap;
+}
+#elbl-cover  {top:9.2%;transition-delay:.28s}
+#elbl-basket {top:28%; transition-delay:.33s}
+#elbl-seal   {top:47%; transition-delay:.38s}
+#elbl-ring   {top:72%; transition-delay:.43s}
+#elbl-body   {top:87%; transition-delay:.48s}
+.expl-lbl-line{width:10px;height:1px;background:rgba(196,164,94,.5);flex-shrink:0}
+.expl-lbl-text{font-family:'Noto Sans TC',sans-serif;font-size:9px;letter-spacing:.8px;color:rgba(196,164,94,.85)}
+.expl-layer.exploded .expl-lbl{opacity:1;transform:translateX(0) translateY(-50%)}
+
+/* 爆炸切換按鈕（已改為自動觸發，此段保留備用）*/
+.expl-toggle-btns{
+  position:absolute;
+  bottom:10px;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;gap:8px;
+  opacity:0;
+  transition:opacity .3s ease;
+  z-index:20;
+}
+.expl-layer.visible ~ .expl-toggle-btns{ opacity:1; }
+.ep-btn{
+  padding:7px 16px;
+  border:1px solid rgba(255,255,255,.2);
+  background:transparent;
+  color:rgba(255,255,255,.5);
+  font-family:'Noto Sans TC',sans-serif;
+  font-size:10px;letter-spacing:1px;
+  cursor:pointer;transition:all .2s;
+}
+.ep-btn.on{
+  background:rgba(238,200,48,.15);
+  border-color:rgba(238,200,48,.5);
+  color:rgba(238,200,48,.9);
+}
+
+/* ══ 下一頁按鈕 ══ */
+.next-btn{
+  display:block;
+  width:calc(100% - 56px);
+  max-width:340px;
+  margin:20px auto 0;
+  padding:14px;
+  background:transparent;
+  border:1px solid rgba(255,255,255,.2);
+  color:rgba(255,255,255,.5);
+  font-family:'Noto Sans TC',sans-serif;
+  font-size:12px;letter-spacing:2px;
+  text-align:center;
+  cursor:pointer;transition:all .2s;
+  position:relative;z-index:20;
+}
+.next-btn:hover{border-color:var(--yellow);color:rgba(255,255,255,.9)}
+.next-btn:active{opacity:.7}
+
+::-webkit-scrollbar{width:0}
+
+  /* ══ 桌機版 RWD（螢幕寬度 ≥ 768px）══ */
+@media (min-width: 768px) {
+
+  /* 解除手機寬度限制 */
+  body {
+    max-width: 100%;
+  }
+
+  /* Hero 桌機版：文字左對齊，圖片佔滿 */
+  .hero-body {
+    text-align: left;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 80px 80px;
+  }
+  .hero-title {
+    font-size: clamp(44px, 5vw, 72px);
+  }
+  .hero-sub {
+    font-size: 15px;
+  }
+  .hero-cta {
+    display: inline-block;
+    width: auto;
+    padding: 18px 48px;
+  }
+
+  /* 圖片全螢幕面板：文字區塊置中限寬 */
+  .ip-content {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 80px 64px;
+  }
+  .ip-title {
+    font-size: clamp(28px, 3vw, 42px);
+  }
+
+  /* 問卷 section：內容置中限寬 */
+  .sec, .sec-dark, .sec-off {
+    padding: 80px calc((100% - 860px) / 2);
+  }
+
+  /* 痛點選項：桌機改雙欄 */
+  .pain-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
+
+  /* 功能選項：桌機改雙欄 */
+  .feat-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 40px;
+  }
+  .feat-card {
+    border-top: 1px solid rgba(255,255,255,.07);
+  }
+
+  /* 意願選項：稍微放大 */
+  .intent-opt {
+    padding: 22px 20px;
+  }
+  .ilabel {
+    font-size: 15px;
+  }
+
+  /* 產品面板：左圖右文字並排 */
+  .prod-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 64px 80px;
+  }
+  .prod-img {
+    margin-bottom: 0;
+    aspect-ratio: 1/1;
+  }
+
+  /* 性別按鈕：三欄並排 */
+  .gender-grid {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .gbtn:nth-child(3) {
+    grid-column: auto;
+  }
+
+  /* 過渡橫幅：放大 */
+  .t-banner {
+    padding: 80px 40px;
+  }
+  .tb-title {
+    font-size: clamp(32px, 4vw, 52px);
+  }
+
+  /* 表單：限制寬度置中 */
+  #s5 .rv {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  /* 感謝頁 */
+  .ty {
+    padding: 80px 40px;
+  }
+
+  /* 右側指示點：桌機稍微放大 */
+  .pi-dot {
+    width: 6px;
+    height: 6px;
+  }
+
+  /* Q 數字放大 */
+  .q-num {
+    font-size: 60px;
+  }
+  .q-title {
+    font-size: clamp(26px, 3vw, 36px);
+  }
+}
+</style>
+</head>
+<body>
+
+<div id="pgbar"></div>
+
+<!-- ══ HERO（吸附） ══ -->
+<section class="hero snap" id="s0">
+  <div class="hero-img" id="heroImg"></div>
+  <div class="hero-grad"></div>
+  <div class="hero-body">
+    <span class="hero-badge">HUROYAMA × 米鹿設計</span>
+    <h1 class="hero-title">廚房水槽<br><em>快排濾網</em><br>即將登場</h1>
+    <p class="hero-sub">一個彈跳動作，解決五種廚房困擾。<br>上市前，先聽聽你的聲音。</p>
+    <a href="#pain-panel" class="hero-cta">開始填寫，搶先知道早鳥優惠 →</a>
+  </div>
+  <div class="sc-cue"><div class="sc-line"></div></div>
+</section>
+
+<!-- ══ PAIN INTRO PANEL（吸附） ══ -->
+<div class="img-panel snap" id="pain-panel">
+  <div class="ip-bg" style="background-image:url('https://pic.mieloo-corp.com/uploads/original/58/f2/2f36dadbe14253bc71acd1376dff.jpg')"></div>
+  <div class="ip-grad"></div>
+  <div class="ip-content rv">
+    <div class="ip-line"></div>
+    <span class="ip-tag">The Problem · 你的廚房痛點</span>
+    <h2 class="ip-title">每次洗完碗<br>你是不是也這樣？</h2>
+    <p class="ip-desc">菜渣、積水、臭味、黏膩感……<br>明明洗完了，廚房感覺還是很髒。</p>
+    <button class="next-btn" onclick="window.scrollTo({top:document.getElementById('s1').offsetTop,behavior:'smooth'})">告訴我你的痛點 →</button>
+  </div>
+</div>
+
+<!-- ══ Q1 PAIN（自由捲動，內容較長） ══ -->
+<section class="sec no-snap" id="s1">
+  <div class="rv">
+    <div class="sdots">
+      <div class="sd on"></div><div class="sd"></div><div class="sd"></div><div class="sd"></div>
+    </div>
+    <span class="eyebrow">Q1 · 痛點確認</span>
+    <div class="q-num">01</div>
+    <h2 class="q-title">你家水槽<br>是否也有這些<strong>困擾</strong>？<span class="cbadge" id="pb"></span></h2>
+    <p class="step-hint">可複選 · 第 1 題，共 4 題</p>
+  </div>
+  <div class="pain-list rv d1">
+    <div class="pain-card" onclick="togP(this)" data-id="p1">
+      <span class="pemoji">🤢</span>
+      <div><div class="pmain">菜渣積在排水口，要伸手去撈</div><span class="psub">明知道髒，卻不得不碰</span></div>
+      <div class="pchk">✓</div>
+    </div>
+    <div class="pain-card" onclick="togP(this)" data-id="p2">
+      <span class="pemoji">💧</span>
+      <div><div class="pmain">水槽排水不順、容易積水</div><span class="psub">洗個碗水就淹到一半</span></div>
+      <div class="pchk">✓</div>
+    </div>
+    <div class="pain-card" onclick="togP(this)" data-id="p3">
+      <span class="pemoji">😤</span>
+      <div><div class="pmain">排水口有臭味從下水道倒灌</div><span class="psub">煮好的飯旁邊飄來奇怪臭味</span></div>
+      <div class="pchk">✓</div>
+    </div>
+    <div class="pain-card" onclick="togP(this)" data-id="p4">
+      <span class="pemoji">🧽</span>
+      <div><div class="pmain">濾網難清洗，油膩黏滑</div><span class="psub">刷了半天還是有滑膩感</span></div>
+      <div class="pchk">✓</div>
+    </div>
+    <div class="pain-card" onclick="togP(this)" data-id="p5">
+      <span class="pemoji">👀</span>
+      <div><div class="pmain">廚餘殘渣裸露在外，視覺很噁心</div><span class="psub">客人來家裡超尷尬</span></div>
+      <div class="pchk">✓</div>
+    </div>
+    <div class="pain-card" onclick="togP(this)" data-id="p6">
+      <span class="pemoji">🪲</span>
+      <div><div class="pmain">排水口容易發霉、滋生細菌</div><span class="psub">怎麼清都還是有黑黑的東西</span></div>
+      <div class="pchk">✓</div>
+    </div>
+  </div>
+  <button class="next-btn" style="border-color:rgba(0,0,0,.15);color:var(--txt2);margin-top:20px;" onclick="window.scrollTo({top:document.getElementById('sol-panel').offsetTop,behavior:'smooth'})">繼續 →</button>
+</section>
+
+<!-- ══ SOLUTION PANEL（吸附） ══ -->
+<div class="img-panel snap" id="sol-panel">
+  <div class="ip-bg" style="background-image:url('https://pic.mieloo-corp.com/uploads/medium/1c/ab/4dbfb9b62ad03377c966006998e9.png')"></div>
+  <div class="ip-grad"></div>
+  <div class="ip-content rv">
+    <div class="ip-line"></div>
+    <span class="ip-tag">The Solution · 解決方案</span>
+    <h2 class="ip-title">這些困擾，<br>一個動作全部解決</h2>
+    <p class="ip-desc">浴山快排濾網：密封 · 快排 · 易洗 · 美型<br>四合一，為廚房而生。</p>
+    <button class="next-btn" onclick="window.scrollTo({top:document.getElementById('product-showcase').offsetTop,behavior:'smooth'})">看看產品設計 →</button>
+  </div>
+</div>
+
+<!-- ══ APPLE-STYLE SHOWCASE（touch swipe 版，snap 相容）══ -->
+<div id="product-showcase" class="snap">
+
+    <!-- 圖片區 -->
+    <div class="showcase-img-wrap">
+      <img class="showcase-img active" id="simg-0"
+        src="https://pic.mieloo-corp.com/uploads/medium2x/15/84/eb4bfc67b3a546a5ea54c2e9a881.png" alt="浴山快排濾網">
+      <img class="showcase-img" id="simg-1"
+        src="https://pic.mieloo-corp.com/uploads/medium2x/c7/26/c7eceb539c3fd63de1cbff964a1a.png" alt="零件結構">
+      <img class="showcase-img showcase-img-full" id="simg-2"
+        src="https://pic.mieloo-corp.com/uploads/medium/ec/0b/bb5f4dd41c82dc3231ef92e1465d.png" alt="剖面結構">
+      <img class="showcase-img showcase-img-full" id="simg-3"
+        src="https://pic.mieloo-corp.com/uploads/medium/bc/1a/321eeca5ad542496bce8a8911b66.png" alt="設計草圖">
+
+      <!-- 爆炸動畫圖層（第二頁「每個零件都有它的意義」時顯示） -->
+      <div class="expl-layer" id="explLayer">
+        <img class="ep-img" id="ep-all"
+          src="https://pic.mieloo-corp.com/uploads/medium2x/15/84/eb4bfc67b3a546a5ea54c2e9a881.png" alt="完整產品">
+        <img class="ep-img ep-piece" id="ep-body"
+          src="https://pic.mieloo-corp.com/uploads/medium2x/37/e2/8fe31499ed10fa4cb4e14d90c49c.png" alt="杯體">
+        <img class="ep-img ep-piece" id="ep-ring"
+          src="https://pic.mieloo-corp.com/uploads/medium2x/14/3a/9e58a7ff2240ddc1651d89d8e30f.png" alt="矽膠環">
+        <img class="ep-img ep-piece" id="ep-seal"
+          src="https://pic.mieloo-corp.com/uploads/medium2x/8f/b1/cb24c438ff34f273b94c182b6563.png" alt="密封止水">
+        <img class="ep-img ep-piece" id="ep-basket"
+          src="https://pic.mieloo-corp.com/uploads/medium2x/17/66/5f0dad57c395622aff763a8ea831.png" alt="渣籃">
+        <img class="ep-img ep-piece" id="ep-cover"
+          src="https://pic.mieloo-corp.com/uploads/medium2x/e3/99/3c25951fd112d7dde1a2308313a0.png" alt="導流外蓋">
+        <!-- 標籤 -->
+        <div class="expl-labels">
+          <div class="expl-lbl" id="elbl-cover"><div class="expl-lbl-line"></div><span class="expl-lbl-text">金屬導流外蓋</span></div>
+          <div class="expl-lbl" id="elbl-basket"><div class="expl-lbl-line"></div><span class="expl-lbl-text">金屬渣籃</span></div>
+          <div class="expl-lbl" id="elbl-seal"><div class="expl-lbl-line"></div><span class="expl-lbl-text">密封止水結構</span></div>
+          <div class="expl-lbl" id="elbl-ring"><div class="expl-lbl-line"></div><span class="expl-lbl-text">矽膠適配環</span></div>
+          <div class="expl-lbl" id="elbl-body"><div class="expl-lbl-line"></div><span class="expl-lbl-text">杯體（主架構）</span></div>
+        </div>
+      </div>
+
+      <!-- 爆炸切換按鈕已移除，改為進入頁面自動觸發 -->
+    </div>
+
+    <!-- 說明文字區 -->
+    <div class="showcase-text-wrap">
+      <div class="showcase-slide active" id="stxt-0">
+        <span class="ss-tag">Product · 產品一覽</span>
+        <h3 class="ss-title">浴山｜廚房水槽<br>快排濾網</h3>
+        <p class="ss-desc">304 不鏽鋼拉絲質感外蓋，搭配食品級矽膠密封環與彈跳機構。一按排水、一按止水，洗碗不再是負擔。</p>
+        <div class="ss-line"></div>
+        <span class="ss-step">01 / 04</span>
+      </div>
+      <div class="showcase-slide" id="stxt-1">
+        <span class="ss-tag">Structure · 產品結構</span>
+        <h3 class="ss-title">每個零件<br>都有它的意義</h3>
+        <p class="ss-desc">金屬導流外蓋 · 金屬渣籃 · 密封止水結構 · 矽膠適配環 · 杯體主架構，五件組成一套完整廚房排水解決方案。</p>
+        <div class="ss-line"></div>
+        <span class="ss-step">02 / 04</span>
+      </div>
+      <div class="showcase-slide" id="stxt-2">
+        <span class="ss-tag">Cross Section · 剖面工藝</span>
+        <h3 class="ss-title">看不見的地方<br>才是真正的工藝</h3>
+        <p class="ss-desc">彈跳柱 + 頂出彈簧 + 密封環，三重結構確保密封不漏氣、彈跳 10,000 次不損壞。工程師級的用料，放在廚房水槽裡。</p>
+        <div class="ss-line"></div>
+        <span class="ss-step">03 / 04</span>
+      </div>
+      <div class="showcase-slide" id="stxt-3">
+        <span class="ss-tag">Design · 設計理念</span>
+        <h3 class="ss-title">從厭惡型清理<br>到優雅化維護</h3>
+        <p class="ss-desc">我們重新設計了「餐後清理」這件事。一個彈跳，阻斷臭味；一個提拉，廚餘優雅入桶。廚房，也可以是享受的地方。</p>
+        <div class="ss-line"></div>
+        <span class="ss-step">04 / 04</span>
+      </div>
+    </div>
+
+    <!-- 左右切換按鈕 -->
+    <div class="showcase-nav">
+      <button class="ss-btn hidden" id="ssBtnPrev" onclick="showcaseGo(-1)">←</button>
+      <button class="ss-btn" id="ssBtnNext" onclick="showcaseGo(1)">→</button>
+    </div>
+
+    <!-- 進度條 -->
+    <div class="showcase-progress"><div class="sp-bar" id="spBar"></div></div>
+
+    <!-- 段落指示點 -->
+    <div class="showcase-dots">
+      <div class="sdot active" id="sdot-0"></div>
+      <div class="sdot" id="sdot-1"></div>
+      <div class="sdot" id="sdot-2"></div>
+      <div class="sdot" id="sdot-3"></div>
+    </div>
+
+    <span class="showcase-hint">← 左右滑動 →</span>
+    <button id="showcaseNextBtn" onclick="window.scrollTo({top:document.getElementById('s2').offsetTop,behavior:'smooth'})">繼續填問卷 →</button>
+</div>
+
+<!-- ══ Q2 FEATURES（吸附） ══ -->
+<section class="sec-dark snap" id="s2">
+  <div class="rv">
+    <div class="sdots">
+      <div class="sd sdd dn"></div><div class="sd sdd on"></div><div class="sd sdd"></div><div class="sd sdd"></div>
+    </div>
+    <span class="eyebrow eyebrow-g">Q2 · 功能偏好</span>
+    <div class="q-num q-num-d">02</div>
+    <h2 class="q-title q-white">以下哪個特色<br>最打動你？<span class="cbadge" id="fb"></span></h2>
+    <p class="step-hint step-hint-d">可複選 · 第 2 題，共 4 題</p>
+    <div class="yline"></div>
+  </div>
+  <div class="feat-list rv d1">
+    <div class="feat-card" onclick="togF(this)" data-id="f1">
+      <span class="fnum">01</span>
+      <div class="fbody">
+        <span class="ftag">Quick Drain</span>
+        <h3 class="fname">彈跳快排，一按就通</h3>
+        <p class="fdesc">輕輕一按切換排水與止水。不碰濾網、不伸手進積水，一個動作完成一切。</p>
+      </div>
+      <div class="fchk">✓</div>
+    </div>
+    <div class="feat-card" onclick="togF(this)" data-id="f2">
+      <span class="fnum">02</span>
+      <div class="fbody">
+        <span class="ftag">Anti-Odor Seal</span>
+        <h3 class="fname">密封防臭，阻斷下水道氣體</h3>
+        <p class="fdesc">食品級矽膠密封環，物理阻隔硫化氫異味倒灌。廚房不再有莫名臭味。</p>
+      </div>
+      <div class="fchk">✓</div>
+    </div>
+    <div class="feat-card" onclick="togF(this)" data-id="f3">
+      <span class="fnum">03</span>
+      <div class="fbody">
+        <span class="ftag">Invisible Design</span>
+        <h3 class="fname">隱蔽美型，菜渣眼不見為淨</h3>
+        <p class="fdesc">翼型導水蓋遮蔽濾籃，304 不鏽鋼拉絲質感與精品水槽完美融合。</p>
+      </div>
+      <div class="fchk">✓</div>
+    </div>
+    <div class="feat-card" onclick="togF(this)" data-id="f4">
+      <span class="fnum">04</span>
+      <div class="fbody">
+        <span class="ftag">Easy Clean</span>
+        <h3 class="fname">秒取渣籃，清理不沾手</h3>
+        <p class="fdesc">渣籃板手設計，像倒咖啡渣般優雅處理廚餘。可放洗碗機，真正省力。</p>
+      </div>
+      <div class="fchk">✓</div>
+    </div>
+  </div>
+  <button class="next-btn" onclick="window.scrollTo({top:document.getElementById('s3').offsetTop,behavior:'smooth'})">繼續 →</button>
+</section>
+
+<!-- ══ Q3 INTENT（吸附） ══ -->
+<section class="sec-off snap" id="s3">
+  <div class="rv">
+    <div class="sdots">
+      <div class="sd dn"></div><div class="sd dn"></div><div class="sd on"></div><div class="sd"></div>
+    </div>
+    <span class="eyebrow">Q3 · 購買意願</span>
+    <div class="q-num">03</div>
+    <h2 class="q-title">看完以上，<br>最接近你感受的是？</h2>
+    <p class="step-hint">單選 · 第 3 題，共 4 題</p>
+  </div>
+  <div class="intent-list rv d1">
+    <div class="intent-opt" data-val="high" onclick="selI(this)">
+      <div class="iradio"></div>
+      <div><div class="ilabel">這就是我一直在找的，換個好的理所當然</div><span class="isub">已準備好支持了 🙌</span></div>
+    </div>
+    <div class="intent-opt" data-val="mid" onclick="selI(this)">
+      <div class="iradio"></div>
+      <div><div class="ilabel">功能讓我覺得值得特別花一筆預算</div><span class="isub">很有興趣，等正式上線再決定</span></div>
+    </div>
+    <div class="intent-opt" data-val="low" onclick="selI(this)">
+      <div class="iradio"></div>
+      <div><div class="ilabel">有興趣，但想等早鳥優惠或特別方案</div><span class="isub">優惠價的話會考慮</span></div>
+    </div>
+    <div class="intent-opt" data-val="browse" onclick="selI(this)">
+      <div class="iradio"></div>
+      <div><div class="ilabel">目前只是路過，幫你填填看</div><span class="isub">感謝你的時間！</span></div>
+    </div>
+  </div>
+  <button class="next-btn" style="border-color:rgba(0,0,0,.15);color:var(--txt2);" onclick="window.scrollTo({top:document.getElementById('s4').offsetTop,behavior:'smooth'})">繼續 →</button>
+</section>
+
+<!-- ══ Q4 GENDER（吸附） ══ -->
+<section class="sec snap" id="s4">
+  <div class="rv">
+    <div class="sdots">
+      <div class="sd dn"></div><div class="sd dn"></div><div class="sd dn"></div><div class="sd on"></div>
+    </div>
+    <span class="eyebrow">Q4 · 基本資料</span>
+    <div class="q-num">04</div>
+    <h2 class="q-title" style="font-size:clamp(20px,5vw,24px)">您的性別</h2>
+    <p class="step-hint">單選 · 第 4 題，共 4 題</p>
+    <div class="gender-grid">
+      <button class="gbtn" data-val="female" onclick="selG(this)">女性</button>
+      <button class="gbtn" data-val="male" onclick="selG(this)">男性</button>
+      <button class="gbtn" data-val="other" onclick="selG(this)">其他 / 不透露</button>
+    </div>
+    <button class="next-btn" style="margin-top:24px;border-color:rgba(0,0,0,.15);color:var(--txt2);" onclick="window.scrollTo({top:document.getElementById('tBanner').offsetTop,behavior:'smooth'})">繼續 →</button>
+  </div>
+</section>
+
+<!-- ══ TRANSITION（吸附） ══ -->
+<div class="t-banner snap rv" id="tBanner">
+  <span class="tb-label">Coming Soon · 即將上線</span>
+  <h2 class="tb-title">準備上嘖嘖募資了！</h2>
+  <p class="tb-sub">留下你的聯絡方式，正式集資時<br>我們第一時間通知你搶先早鳥名額。</p>
+</div>
+
+<!-- ══ FORM（吸附） ══ -->
+<section class="sec snap" id="s5">
+  <div class="rv">
+    <span class="eyebrow">Contact · 留下聯絡方式</span>
+    <div class="q-num">✉</div>
+    <h2 class="q-title" style="margin-bottom:6px">填完就搶先入列</h2>
+    <p class="step-hint" style="margin-bottom:24px">早鳥優惠通知，名單內優先</p>
+    <div class="yline"></div>
+  </div>
+  <div class="rv d1">
+    <div class="fgroup">
+      <label class="flabel">電子信箱 <span class="br">必填</span></label>
+      <input type="email" class="finput" id="eIn" placeholder="your@email.com" inputmode="email" autocomplete="email">
+      <div class="ferr" id="eErr">請輸入有效的電子信箱</div>
+    </div>
+    <div class="fgroup">
+      <label class="flabel">手機號碼 <span class="bo">選填</span></label>
+      <input type="tel" class="finput" id="pIn" placeholder="09xx-xxx-xxx" inputmode="tel" autocomplete="tel">
+    </div>
+    <div class="fgroup">
+      <label class="flabel">有什麼話想說？ <span class="bo">選填</span></label>
+      <textarea class="finput" id="cIn" placeholder="任何想法或建議都歡迎…"></textarea>
+    </div>
+    <button class="subbtn" id="subBtn" onclick="doSub()">提交，搶先知道早鳥優惠 →</button>
+    <p class="privacy">您的資料僅用於產品上市通知，不會提供給第三方</p>
+  </div>
+</section>
+
+<!-- ══ THANK YOU ══ -->
+<div class="ty snap" id="ty">
+  <div class="ty-icon">🎉</div>
+  <h2 class="ty-title">謝謝你的支持！</h2>
+  <p class="ty-sub">我們已收到你的回覆。<br>浴山快排濾網正式上嘖嘖時，<br>你將是第一批知道的人。</p>
+  <div class="eb-card">
+    <span class="eb-label">Early Bird · 早鳥預覽</span>
+    <div class="eb-price">$599</div>
+    <span class="eb-orig">正式售價 $790</span>
+    <p class="eb-desc">早鳥限量 200 組<br>名單中的你已優先鎖定資格 ✓</p>
+  </div>
+</div>
+
+<div class="site-footer" id="footer">
+  <div class="sf-name">米鹿設計 MIELOO DESIGN</div>
+  <div class="sf-sub">HUROYAMA — 浴山系列</div>
+</div>
+
+<!-- ══ PAGE INDICATOR（右側點點） ══ -->
+<div class="page-indicator" id="pageInd">
+  <div class="pi-dot" onclick="goTo('s0')" title="首頁"></div>
+  <div class="pi-dot" onclick="goTo('pain-panel')" title="痛點"></div>
+  <div class="pi-dot" onclick="goTo('sol-panel')" title="解決方案"></div>
+  <div class="pi-dot" onclick="goTo('s2')" title="功能特色"></div>
+  <div class="pi-dot" onclick="goTo('s3')" title="購買意願"></div>
+  <div class="pi-dot" onclick="goTo('s4')" title="性別"></div>
+  <div class="pi-dot" onclick="goTo('s5')" title="留下資料"></div>
+</div>
+
+<script>
+// ── STATE
+const S={pains:[],feats:[],intent:null,gender:null};
+
+// ── INTERACTIONS
+function togP(el){
+  el.classList.toggle('sel');
+  const id=el.dataset.id;
+  S.pains=el.classList.contains('sel')?[...new Set([...S.pains,id])]:S.pains.filter(x=>x!==id);
+  const b=document.getElementById('pb');
+  b.textContent=S.pains.length+' 項已選';
+  b.classList.toggle('show',S.pains.length>0);
+}
+function togF(el){
+  el.classList.toggle('sel');
+  const id=el.dataset.id;
+  S.feats=el.classList.contains('sel')?[...new Set([...S.feats,id])]:S.feats.filter(x=>x!==id);
+  const b=document.getElementById('fb');
+  b.textContent=S.feats.length+' 項已選';
+  b.classList.toggle('show',S.feats.length>0);
+}
+function selI(el){document.querySelectorAll('.intent-opt').forEach(o=>o.classList.remove('sel'));el.classList.add('sel');S.intent=el.dataset.val;}
+function selG(el){document.querySelectorAll('.gbtn').forEach(b=>b.classList.remove('sel'));el.classList.add('sel');S.gender=el.dataset.val;}
+function goTo(id){const el=document.getElementById(id);if(el)window.scrollTo({top:el.offsetTop,behavior:'smooth'});}
+
+// ── SUBMIT
+function doSub(){
+  const email=document.getElementById('eIn').value.trim();
+  const err=document.getElementById('eErr');
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){err.classList.add('show');document.getElementById('eIn').focus();return;}
+  err.classList.remove('show');
+  const btn=document.getElementById('subBtn');btn.textContent='提交中…';btn.disabled=true;
+  // ── TODO: 串接 Google Apps Script
+  // const URL='YOUR_APPS_SCRIPT_URL';
+  // fetch(URL,{method:'POST',headers:{'Content-Type':'application/json'},
+  //   body:JSON.stringify({email,phone:document.getElementById('pIn').value,
+  //   comment:document.getElementById('cIn').value,...S,ts:new Date().toISOString()})
+  // }).then(showThanks).catch(showThanks);
+  setTimeout(showThanks,900);
+}
+function showThanks(){
+  ['s5','tBanner','footer'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
+  document.getElementById('pageInd').style.display='none';
+  const ty=document.getElementById('ty');ty.classList.add('show');
+  ty.scrollIntoView({behavior:'smooth'});
+}
+
+// ── SCROLL ANIMATIONS
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});
+},{threshold:0.06});
+document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+
+// ── SHOWCASE：touch swipe + 按鈕切換
+const showcase=document.getElementById('product-showcase');
+const sImgs=[0,1,2,3].map(i=>document.getElementById('simg-'+i));
+const sTxts=[0,1,2,3].map(i=>document.getElementById('stxt-'+i));
+const sDots=[0,1,2,3].map(i=>document.getElementById('sdot-'+i));
+const spBar=document.getElementById('spBar');
+const btnPrev=document.getElementById('ssBtnPrev');
+const btnNext=document.getElementById('ssBtnNext');
+let scPhase=0;
+
+// 爆炸動畫控制（自動觸發，無需按鈕）
+const explLayer=document.getElementById('explLayer');
+let epTimer=null;
+
+function epReset(){
+  clearTimeout(epTimer);
+  if(explLayer){ explLayer.classList.remove('visible','exploded'); }
+}
+function epTrigger(){
+  // 進入頁面後短暫延遲再開始爆炸，讓圖片先顯示
+  if(explLayer){
+    explLayer.classList.add('visible');
+    clearTimeout(epTimer);
+    epTimer=setTimeout(()=>{
+      explLayer.classList.add('exploded');
+    }, 0);  // 0.6s 後觸發爆炸
+  }
+}
+
+function showcaseSet(phase){
+  scPhase=Math.max(0,Math.min(3,phase));
+
+  const isExplodePage=(scPhase===1);
+
+  // 爆炸頁：進入時自動觸發，離開時重置
+  if(isExplodePage){
+    epTrigger();
+  } else {
+    epReset();
+  }
+
+  // 爆炸頁隱藏 simg-1
+  sImgs.forEach((el,i)=>{
+    if(el) el.classList.toggle('active', i===scPhase && !(isExplodePage && i===1));
+  });
+  sTxts.forEach((el,i)=>{if(el)el.classList.toggle('active',i===scPhase);});
+  // 手機版：依頁面調整圖片區高度（03/04 頁圖更大）
+  if(window.innerWidth < 768){
+    const imgWrap = document.querySelector('.showcase-img-wrap');
+    const textWrap = document.querySelector('.showcase-text-wrap');
+    if(imgWrap && textWrap){
+      const imgH = (scPhase >= 2) ? '68svh' : '60svh';
+      const txtTop = (scPhase >= 2) ? '66svh' : '58svh';
+      imgWrap.style.height = imgH;
+      textWrap.style.top = txtTop;
+    }
+  }
+
+  sDots.forEach((el,i)=>{if(el)el.classList.toggle('active',i===scPhase);});
+  if(spBar)spBar.style.width=((scPhase/3)*100)+'%';
+  if(btnPrev)btnPrev.classList.toggle('hidden',scPhase===0);
+  if(btnNext)btnNext.classList.toggle('hidden',scPhase===3);
+  // 加 phase class 到 showcase 本體，讓 CSS 可以按頁面調整樣式
+  if(showcase){
+    showcase.className='snap';
+    if(scPhase===2) showcase.classList.add('showcase-phase-2');
+    if(scPhase===3) showcase.classList.add('showcase-phase-3');
+  }
+}
+function showcaseGo(dir){ showcaseSet(scPhase+dir); }
+
+// Touch swipe（手機）
+if(showcase){
+  let tx=0,ty=0;
+  showcase.addEventListener('touchstart',e=>{
+    tx=e.touches[0].clientX;
+    ty=e.touches[0].clientY;
+  },{passive:true});
+  showcase.addEventListener('touchend',e=>{
+    const dx=e.changedTouches[0].clientX-tx;
+    const dy=e.changedTouches[0].clientY-ty;
+    if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>40){
+      showcaseGo(dx<0?1:-1);
+    }
+  },{passive:true});
+
+  // Mouse drag（桌機）
+  let mx=0,dragging=false;
+  showcase.addEventListener('mousedown',e=>{mx=e.clientX;dragging=true;});
+  showcase.addEventListener('mouseup',e=>{
+    if(!dragging)return;
+    const dx=e.clientX-mx;
+    if(Math.abs(dx)>60) showcaseGo(dx<0?1:-1);
+    dragging=false;
+  });
+  showcase.addEventListener('mouseleave',()=>{dragging=false;});
+}
+
+// 鍵盤左右鍵（桌機）
+document.addEventListener('keydown',e=>{
+  // 只在 showcase 可見時觸發
+  const sc=document.getElementById('product-showcase');
+  if(!sc) return;
+  const rect=sc.getBoundingClientRect();
+  const visible=rect.top<window.innerHeight&&rect.bottom>0;
+  if(!visible) return;
+  if(e.key==='ArrowRight') showcaseGo(1);
+  if(e.key==='ArrowLeft') showcaseGo(-1);
+});
+
+// 初始化
+showcaseSet(0);
+
+// ── PAGE INDICATOR + PROGRESS + PARALLAX
+const snapIds=['s0','pain-panel','sol-panel','s2','s3','s4','s5'];
+const piDots=document.querySelectorAll('.pi-dot');
+const heroImg=document.getElementById('heroImg');
+const ipBgs=document.querySelectorAll('.ip-bg');
+
+window.addEventListener('scroll',()=>{
+  // Progress bar
+  const h=Math.max(document.body.scrollHeight-window.innerHeight,1);
+  document.getElementById('pgbar').style.width=(window.scrollY/h*100)+'%';
+
+  // Showcase 更新（已改為 touch 觸發，此處移除）
+
+  // Page indicator
+  const pi=document.getElementById('pageInd');
+  window.scrollY>100?pi.classList.add('show'):pi.classList.remove('show');
+
+  // Active dot
+  let cur=0;
+  snapIds.forEach((id,i)=>{
+    const el=document.getElementById(id);
+    if(el&&window.scrollY>=el.offsetTop-200)cur=i;
+  });
+  piDots.forEach((d,i)=>{
+    d.classList.remove('on');
+    if(i===cur)d.classList.add('on');
+  });
+
+  // Hero parallax
+  if(window.scrollY<window.innerHeight*1.2){
+    heroImg.style.transform=`scale(1.1) translateY(${window.scrollY*0.26}px)`;
+  }
+
+  // Image panel parallax
+  ipBgs.forEach(bg=>{
+    const rect=bg.parentElement.getBoundingClientRect();
+    if(rect.top<window.innerHeight&&rect.bottom>0){
+      const offset=(rect.top/window.innerHeight)*-16;
+      bg.style.transform=`scale(1.08) translateY(${offset}px)`;
+    }
+  });
+},{passive:true});
+</script>
+</body>
+</html>
