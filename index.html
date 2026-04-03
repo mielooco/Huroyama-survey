@@ -162,7 +162,7 @@ body{
 .pain-card{background:var(--white);padding:18px 16px;cursor:pointer;border:2px solid transparent;display:flex;align-items:flex-start;gap:12px;transition:border-color .18s,background .18s;user-select:none}
 .pain-card:active{opacity:.82}
 .pain-card.sel{border-color:var(--yellow);background:#fffef4}
-.pchk{width:22px;height:22px;min-width:22px;border:1.5px solid var(--lgray);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:transparent;transition:all .18s;margin-top:2px;flex-shrink:0}
+.pchk{width:22px;height:22px;min-width:22px;border:1.5px solid rgba(0,0,0,.35);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:transparent;transition:all .18s;margin-top:2px;flex-shrink:0}
 .pain-card.sel .pchk{background:var(--yellow);border-color:var(--yellow);color:var(--black);font-weight:800}
 .pemoji{font-size:20px;min-width:26px;flex-shrink:0;margin-top:1px}
 .pmain{font-size:13.5px;line-height:1.3;color:var(--txt)}
@@ -177,7 +177,7 @@ body{
 .ftag{font-size:9px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:7px;display:block}
 .fname{font-family:'Noto Serif TC',serif;font-size:clamp(16px,4.5vw,19px);font-weight:300;color:#fff;margin-bottom:7px}
 .fdesc{font-size:12px;color:var(--steel);line-height:1.8}
-.fchk{width:24px;height:24px;min-width:24px;border:1.5px solid rgba(255,255,255,.14);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:transparent;transition:all .2s;margin-top:2px;flex-shrink:0}
+.fchk{width:24px;height:24px;min-width:24px;border:1.5px solid rgba(238,200,48,.6);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:transparent;transition:all .2s;margin-top:2px;flex-shrink:0}
 .feat-card.sel .fchk{background:var(--yellow);border-color:var(--yellow);color:var(--black);font-weight:800}
 
 .prod-panel{padding:44px 24px;border-bottom:1px solid var(--lgray)}
@@ -253,7 +253,7 @@ textarea.finput{resize:vertical;min-height:88px}
 .page-indicator.show{opacity:1}
 .pi-dot{
   width:4px;height:4px;border-radius:50%;
-  background:rgba(0,0,0,.2);
+  background:rgba(255,255,255,.7);
   transition:all .3s;
   cursor:pointer;
 }
@@ -326,7 +326,7 @@ textarea.finput{resize:vertical;min-height:88px}
 }
 .showcase-slide{
   position:absolute;
-  left:28px; right:28px;
+  left:0; right:0;   /* text-wrap 的 padding 已處理留白 */
   top:8px;
   opacity:0;
   transform:translateY(14px);
@@ -409,19 +409,20 @@ textarea.finput{resize:vertical;min-height:88px}
 
 @media(min-width:768px){
 
+  /* showcase：圖片區自動填滿，文字欄固定 360px */
   #product-showcase{
-    display:grid;
-    grid-template-columns:55% 45%;
-    grid-template-rows:100svh;
+    display:flex;
+    flex-direction:row;
+    height:100svh;
     overflow:hidden;
   }
 
+  /* 圖片區：flex 填滿剩餘空間 */
   .showcase-img-wrap{
     position:relative;
-    grid-column:1;
-    grid-row:1;
+    flex:1;
     height:100svh;
-    width:100%;
+    min-width:0;
     padding:48px 32px 48px 48px;
     top:auto; left:auto; right:auto;
   }
@@ -446,19 +447,20 @@ textarea.finput{resize:vertical;min-height:88px}
     transform:translate(-50%,-50%) scale(0.92) translateX(30px);
   }
 
+  /* 爆炸圖層對齊圖片框 */
   .expl-layer{
     position:absolute;
     top:48px; bottom:48px;
     left:48px; right:32px;
   }
 
+  /* 文字區：固定 360px，不跟隨視窗縮放 */
   .showcase-text-wrap{
     position:relative;
-    grid-column:2;
-    grid-row:1;
+    width:360px;
+    flex-shrink:0;
     height:100svh;
-    width:100%;
-    padding:0 48px;
+    padding:0 40px;
     top:auto; left:auto; right:auto;
     display:flex;
     align-items:center;
@@ -475,39 +477,52 @@ textarea.finput{resize:vertical;min-height:88px}
     opacity:1;
     transform:translateY(0);
   }
-  .ss-tag{ font-size:13px; letter-spacing:3px; margin-bottom:12px; }
-  .ss-title{ font-size:clamp(32px,3.2vw,48px); margin-bottom:16px;
-  }
-  .ss-desc{ font-size:18px; line-height:1.75; margin-bottom:14px; }
-  .ss-step{ font-size:13px;
-  }
 
+  /* 桌機版文字大小 */
+  .ss-tag{ font-size:11px; letter-spacing:3px; margin-bottom:10px; }
+  .ss-title{ font-size:26px; line-height:1.4; margin-bottom:14px; }
+  .ss-desc{ font-size:15px; line-height:1.8; margin-bottom:12px; }
+  .ss-step{ font-size:12px; }
+
+  /* 箭頭：圖片區（flex:1部分）兩側垂直置中
+     用 position:absolute 定位在 showcase 內，
+     右邊界限制在文字欄左緣 */
   .showcase-nav{
     position:absolute;
-    top:0; left:0;
-    width:55%;
+    top:0;
+    left:0;
+    right:360px;    /* 不超過文字欄 */
     height:100svh;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
     padding:0 14px;
+    pointer-events:none;
+    z-index:10;
   }
 
+  /* 指示點：文字欄底部 */
   .showcase-dots{
     position:absolute;
     bottom:72px;
-    left:55%;
-    width:45%;
+    right:0;
+    width:360px;
     justify-content:center;
     padding:0;
+    left:auto;
   }
 
+  /* 繼續填問卷：整頁底部水平置中 */
   #showcaseNextBtn{
     position:absolute;
     bottom:16px;
-    left:55%;
-    width:calc(45% - 96px);
-    max-width:360px;
-    transform:translateX(calc(-50% + 22.5%));
+    left:50%;
+    width:calc(100% - 160px);
+    max-width:420px;
+    transform:translateX(-50%);
   }
 
+  /* phase 2/3 桌機版高度不變 */
   .showcase-phase-2 .showcase-img-wrap,
   .showcase-phase-3 .showcase-img-wrap{
     height:100svh !important;
@@ -793,36 +808,34 @@ textarea.finput{resize:vertical;min-height:88px}
   </div>
   <div class="pain-list rv d1">
     <div class="pain-card" onclick="togP(this)" data-id="p1">
-      <span class="pemoji">🤢</span>
+      <div class="pchk">✓</div>
       <div><div class="pmain">菜渣積在排水口，要伸手去撈</div><span class="psub">明知道髒，卻不得不碰</span></div>
-      <div class="pchk">✓</div>
-   
-  </div>
+      <span class="pemoji">🤢</span>
+    </div>
     <div class="pain-card" onclick="togP(this)" data-id="p2">
-      <span class="pemoji">💧</span>
-      <div><div class="pmain">水槽排水不順、容易積水</div><span class="psub">洗個碗水就淹到一半</span></div>
       <div class="pchk">✓</div>
+      <div><div class="pmain">水槽排水不順、容易積水</div><span class="psub">洗個碗水就淹到一半</span></div>
+      <span class="pemoji">💧</span>
     </div>
     <div class="pain-card" onclick="togP(this)" data-id="p3">
-      <span class="pemoji">😤</span>
-      <div><div class="pmain">排水口有臭味從下水道倒灌</div><span class="psub">煮好的飯旁邊飄來奇怪臭味</span></div>
       <div class="pchk">✓</div>
+      <div><div class="pmain">排水口有臭味從下水道倒灌</div><span class="psub">煮好的飯旁邊飄來奇怪臭味</span></div>
+      <span class="pemoji">😤</span>
     </div>
     <div class="pain-card" onclick="togP(this)" data-id="p4">
-      <span class="pemoji">🧽</span>
+      <div class="pchk">✓</div>
       <div><div class="pmain">濾網難清洗，油膩黏滑</div><span class="psub">刷了半天還是有滑膩感</span></div>
-      <div class="pchk">✓</div>
-    
-</div>
+      <span class="pemoji">🧽</span>
+    </div>
     <div class="pain-card" onclick="togP(this)" data-id="p5">
-      <span class="pemoji">👀</span>
-      <div><div class="pmain">廚餘殘渣裸露在外，視覺很噁心</div><span class="psub">客人來家裡超尷尬</span></div>
       <div class="pchk">✓</div>
+      <div><div class="pmain">廚餘殘渣裸露在外，視覺很噁心</div><span class="psub">客人來家裡超尷尬</span></div>
+      <span class="pemoji">👀</span>
     </div>
     <div class="pain-card" onclick="togP(this)" data-id="p6">
-      <span class="pemoji">🪲</span>
-      <div><div class="pmain">排水口容易發霉、滋生細菌</div><span class="psub">怎麼清都還是有黑黑的東西</span></div>
       <div class="pchk">✓</div>
+      <div><div class="pmain">排水口容易發霉、滋生細菌</div><span class="psub">怎麼清都還是有黑黑的東西</span></div>
+      <span class="pemoji">🪲</span>
     </div>
   </div>
   <button class="next-btn" style="border-color:rgba(0,0,0,.15);color:var(--txt2);margin-top:20px;"
@@ -946,6 +959,7 @@ onclick="window.scrollTo({top:document.getElementById('sol-panel').offsetTop,beh
   </div>
   <div class="feat-list rv d1">
     <div class="feat-card" onclick="togF(this)" data-id="f1">
+      <div class="fchk">✓</div>
       <span 
 class="fnum">01</span>
       <div class="fbody">
@@ -953,9 +967,9 @@ class="fnum">01</span>
         <h3 class="fname">彈跳快排，一按就通</h3>
         <p class="fdesc">輕輕一按切換排水與止水。不碰濾網、不伸手進積水，一個動作完成一切。</p>
       </div>
-      <div class="fchk">✓</div>
     </div>
     <div class="feat-card" onclick="togF(this)" data-id="f2">
+      <div class="fchk">✓</div>
       <span class="fnum">02</span>
       <div class="fbody">
         <span class="ftag">Anti-Odor Seal</span>
@@ -963,18 +977,18 @@ class="fnum">01</span>
         
 <p class="fdesc">食品級矽膠密封環，物理阻隔硫化氫異味倒灌。廚房不再有莫名臭味。</p>
       </div>
-      <div class="fchk">✓</div>
     </div>
     <div class="feat-card" onclick="togF(this)" data-id="f3">
+      <div class="fchk">✓</div>
       <span class="fnum">03</span>
       <div class="fbody">
         <span class="ftag">Invisible Design</span>
         <h3 class="fname">隱蔽美型，菜渣眼不見為淨</h3>
         <p class="fdesc">翼型導水蓋遮蔽濾籃，304 不鏽鋼拉絲質感與精品水槽完美融合。</p>
       </div>
-      <div class="fchk">✓</div>
     </div>
     <div class="feat-card" onclick="togF(this)" data-id="f4">
+      <div class="fchk">✓</div>
       <span class="fnum">04</span>
  
       <div class="fbody">
@@ -982,7 +996,6 @@ class="fnum">01</span>
         <h3 class="fname">秒取渣籃，清理不沾手</h3>
         <p class="fdesc">渣籃板手設計，像倒咖啡渣般優雅處理廚餘。可放洗碗機，真正省力。</p>
       </div>
-      <div class="fchk">✓</div>
     </div>
   </div>
   <button class="next-btn" onclick="window.scrollTo({top:document.getElementById('s3').offsetTop,behavior:'smooth'})">繼續 →</button>
