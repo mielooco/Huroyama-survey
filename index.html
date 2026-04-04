@@ -43,12 +43,17 @@ src="https://www.facebook.com/tr?id=你的PixelID&ev=PageView&noscript=1"
   --txt:#1a1a18;
   --txt2:#686864;
   --txt3:#9a9a96;
+  /* Android Chrome 相容：vh fallback */
+  --vh100: 100vh;
+}
+@supports (height: 100svh) {
+  :root { --vh100: 100svh; }
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 
 /* ══ SCROLL SNAP 核心設定 ══ */
 html{
-  scroll-snap-type: y proximity;
+  scroll-snap-type: y mandatory;
   overflow-y: scroll;
   height: 100%;
 }
@@ -67,7 +72,8 @@ body{
 .no-snap{ scroll-snap-align: none; }
 
 #product-showcase{
-  scroll-snap-align: none !important;
+  scroll-snap-align: start !important;
+  scroll-snap-stop: always !important;
 }
 
 #pgbar{
@@ -79,7 +85,8 @@ body{
 /* ══ HERO ══ */
 .hero{
   position:relative;
-  height:100svh;
+  height:100vh;
+  height:var(--vh100);
   min-height:580px;
   overflow:hidden;
   display:flex;
@@ -109,7 +116,8 @@ body{
 
 .img-panel{
   position:relative;
-  height:100svh;
+  height:100vh;
+  height:var(--vh100);
   min-height:500px;
   overflow:hidden;
   display:flex;
@@ -131,21 +139,21 @@ body{
 .ip-title{font-family:'Noto Serif TC',serif;font-size:clamp(28px,7.5vw,38px);font-weight:300;color:#fff;line-height:1.4;margin-bottom:14px}
 .ip-desc{font-size:16px;color:rgba(255,255,255,.65);line-height:1.4}
 
-.sec{padding:52px 24px 60px}
-.sec-dark{background:var(--black);padding:52px 24px 60px}
-.sec-off{background:var(--off);padding:52px 24px 60px}
+.sec{padding:52px 24px 64px; scroll-snap-align: start;}
+.sec-dark{background:var(--black);padding:52px 24px 64px; scroll-snap-align: start;}
+.sec-off{background:var(--off);padding:52px 24px 64px; scroll-snap-align: start;}
 
-.eyebrow{font-size:9px;letter-spacing:3.5px;color:var(--txt3);text-transform:uppercase;margin-bottom:14px;display:block}
+.eyebrow{font-size:10px;letter-spacing:3.5px;color:var(--txt3);text-transform:uppercase;margin-bottom:10px;display:block}
 .eyebrow-g{color:var(--gold)}
-.q-num{font-family:'DM Serif Display',serif;font-size:44px;color:var(--lgray);line-height:1;margin-bottom:10px}
-.q-num-d{color:rgba(255,255,255,.08)}
-.q-title{font-family:'Noto Serif TC',serif;font-size:clamp(20px,5.5vw,26px);font-weight:300;line-height:1.5;margin-bottom:6px}
+.q-num{font-family:'DM Serif Display',serif;font-size:48px;color:var(--black);line-height:1;margin-bottom:8px}
+.q-num-d{color:rgba(255,255,255,.85)}
+.q-title{font-family:'Noto Serif TC',serif;font-size:clamp(22px,5.5vw,28px);font-weight:300;line-height:1.5;margin-bottom:6px}
 .q-white{color:#fff}
 .q-title strong{font-weight:700;position:relative}
 .q-title strong::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:var(--yellow)}
-.step-hint{font-size:11px;color:var(--txt3);margin-bottom:24px}
+.step-hint{font-size:11px;color:var(--txt3);margin-bottom:20px;letter-spacing:.3px}
 .step-hint-d{color:var(--steel)}
-.yline{width:28px;height:2px;background:var(--yellow);margin:14px 0 24px}
+.yline{width:28px;height:2px;background:var(--yellow);margin:12px 0 22px}
 
 .sdots{display:flex;gap:6px;margin-bottom:18px}
 .sd{width:6px;height:6px;border-radius:50%;background:var(--lgray);transition:all .3s}
@@ -158,8 +166,8 @@ body{
 .cbadge{display:inline-block;background:var(--yellow);color:var(--black);font-size:10px;font-weight:700;padding:2px 9px;border-radius:10px;margin-left:8px;opacity:0;transition:opacity .3s}
 .cbadge.show{opacity:1}
 
-.pain-list{display:flex;flex-direction:column;gap:2px;margin-top:4px}
-.pain-card{background:var(--white);padding:18px 16px;cursor:pointer;border:2px solid transparent;display:flex;align-items:flex-start;gap:12px;transition:border-color .18s,background .18s;user-select:none}
+.pain-list{display:flex;flex-direction:column;gap:3px;margin-top:8px}
+.pain-card{background:var(--white);padding:16px 16px;cursor:pointer;border:2px solid transparent;display:flex;align-items:flex-start;gap:12px;transition:border-color .18s,background .18s;user-select:none;border-radius:2px}
 .pain-card:active{opacity:.82}
 .pain-card.sel{border-color:var(--yellow);background:#fffef4}
 .pchk{width:22px;height:22px;min-width:22px;border:1.5px solid rgba(0,0,0,.35);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:transparent;transition:all .18s;margin-top:2px;flex-shrink:0}
@@ -171,7 +179,7 @@ body{
 .feat-list{display:flex;flex-direction:column}
 .feat-card{border-top:1px solid rgba(255,255,255,.07);padding:26px 0;display:flex;gap:16px;align-items:flex-start;cursor:pointer;transition:opacity .2s;position:relative}
 .feat-card:active{opacity:.75}
-.fnum{font-family:'DM Serif Display',serif;font-size:30px;color:rgba(255,255,255,.09);line-height:1;min-width:34px;transition:color .25s;flex-shrink:0}
+.fnum{font-family:'DM Serif Display',serif;font-size:30px;color:rgba(255,255,255,.85);line-height:1;min-width:34px;transition:color .25s;flex-shrink:0}
 .feat-card.sel .fnum{color:var(--yellow)}
 .fbody{flex:1}
 .ftag{font-size:9px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:7px;display:block}
@@ -187,8 +195,8 @@ body{
 .prod-title{font-family:'Noto Serif TC',serif;font-size:clamp(18px,5vw,22px);font-weight:300;margin-bottom:10px;line-height:1.4}
 .prod-desc{font-size:13px;color:var(--txt2);line-height:1.4}
 
-.intent-list{display:flex;flex-direction:column;gap:2px;margin-top:20px}
-.intent-opt{background:var(--white);padding:19px 16px;cursor:pointer;border:2px solid transparent;display:flex;align-items:flex-start;gap:13px;transition:all .18s}
+.intent-list{display:flex;flex-direction:column;gap:3px;margin-top:20px}
+.intent-opt{background:var(--white);padding:18px 16px;cursor:pointer;border:2px solid transparent;display:flex;align-items:flex-start;gap:13px;transition:all .18s;border-radius:2px}
 .intent-opt:active{opacity:.82}
 .intent-opt.sel{border-color:var(--black)}
 .iradio{width:18px;height:18px;min-width:18px;border:1.5px solid var(--mgray);border-radius:50%;position:relative;transition:all .18s;margin-top:2px;flex-shrink:0}
@@ -274,7 +282,8 @@ textarea.finput{resize:vertical;min-height:88px}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes bounce{0%{transform:scale(0);opacity:0}60%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
 #product-showcase{
-  height:100svh;
+  height:100vh;
+  height:var(--vh100);
   min-height:500px;
   position:relative;   
   background:var(--black);
@@ -285,7 +294,8 @@ textarea.finput{resize:vertical;min-height:88px}
 .showcase-img-wrap{
   position:absolute;
   top:0; left:0; right:0;
-  height:60svh;
+  height:60vh;
+  height:calc(var(--vh100) * 0.6);
   display:flex;
   align-items:center;
   justify-content:center;
@@ -317,26 +327,30 @@ textarea.finput{resize:vertical;min-height:88px}
 
 .showcase-text-wrap{
   position:absolute;
-  top:58svh;   
+  top:58vh;
+  top:calc(var(--vh100) * 0.58);
   left:0; right:0;
-  height:28svh;
-  padding:0 28px;
+  bottom:80px;
+  padding:16px 28px 0;
   z-index:2;
-  overflow:hidden;
+  overflow:visible;
 }
 .showcase-slide{
   position:absolute;
-  left:0; right:0;   /* text-wrap 的 padding 已處理留白 */
-  top:8px;
+  left:0; right:0;
+  top:0;
+  padding:0 28px;
   opacity:0;
   transform:translateY(14px);
   transition:opacity .4s ease, transform .4s ease;
   pointer-events:none;
+  visibility:hidden;
 }
 .showcase-slide.active{
   opacity:1;
   transform:translateY(0);
   pointer-events:all;
+  visibility:visible;
 }
 .ss-tag{font-size:12px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:8px;display:block}
 .ss-title{font-family:'Noto Serif TC',serif;font-size:clamp(22px,5.5vw,32px);font-weight:300;color:#fff;line-height:1.35;margin-bottom:8px}
@@ -347,7 +361,8 @@ textarea.finput{resize:vertical;min-height:88px}
 .showcase-nav{
   position:absolute;
   top:0;
-  height:60svh;
+  height:60vh;
+  height:calc(var(--vh100) * 0.6);
   width:100%;
   display:flex;
   justify-content:space-between;
@@ -409,30 +424,45 @@ textarea.finput{resize:vertical;min-height:88px}
 
 @media(min-width:768px){
 
-  /* showcase：圖片區自動填滿，文字欄固定 360px */
+  /* ══ SHOWCASE 桌機版：左右各半，乾淨重寫 ══ */
   #product-showcase{
+    position:relative;
     display:flex;
     flex-direction:row;
-    height:100svh;
+    height:100vh;
+    height:var(--vh100);
     overflow:hidden;
+    background:var(--black);
   }
 
-  /* 圖片區：flex 填滿剩餘空間 */
+  /* ── 左半：圖片區，flex 佔 50% ── */
   .showcase-img-wrap{
     position:relative;
-    flex:1;
-    height:100svh;
-    min-width:0;
-    padding:48px 32px 48px 48px;
-    top:auto; left:auto; right:auto;
+    flex:0 0 50%;
+    width:50%;
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:var(--black);
+    overflow:hidden;
+    top:auto; left:auto; right:auto; bottom:auto;
   }
+
+  /* 圖片：absolute 疊在同位置，只有 .active 顯示 */
   .showcase-img{
-    max-height:88svh;
-    max-width:100%;
     position:absolute;
-    top:50%;
-    left:50%;
+    top:50%; left:50%;
     transform:translate(-50%,-50%) scale(0.92);
+    width:80%;
+    height:auto;
+    max-height:80vh;
+    max-height:calc(var(--vh100) * 0.80);
+    max-width:80%;
+    object-fit:contain;
+    opacity:0;
+    transition:opacity .45s ease, transform .45s ease;
+    filter:drop-shadow(0 12px 40px rgba(0,0,0,.5));
   }
   .showcase-img.active{
     opacity:1;
@@ -440,112 +470,177 @@ textarea.finput{resize:vertical;min-height:88px}
   }
   .showcase-img.exit-left{
     opacity:0;
-    transform:translate(-50%,-50%) scale(0.92) translateX(-30px);
+    transform:translate(-50%,-50%) scale(0.94) translateX(-20px);
   }
   .showcase-img.exit-right{
     opacity:0;
-    transform:translate(-50%,-50%) scale(0.92) translateX(30px);
+    transform:translate(-50%,-50%) scale(0.94) translateX(20px);
   }
 
-  /* 爆炸圖層對齊圖片框 */
+  /* simg-3（第4頁）覆寫：同樣 80% 寬，不用 full */
+  .showcase-img-full{
+    max-width:80% !important;
+    width:80% !important;
+  }
+
+  /* 爆炸圖層：撐滿左半區 */
   .expl-layer{
     position:absolute;
-    top:48px; bottom:48px;
-    left:48px; right:32px;
+    top:5%; bottom:5%;
+    left:10%; right:10%;
   }
 
-  /* 文字區：固定 360px，不跟隨視窗縮放 */
+  /* 桌機版文字標籤位置 */
+  .expl-labels{
+    right:5% !important;
+  }
+
+  /* ── 右半：文字區，flex 佔 50% ── */
   .showcase-text-wrap{
-    position:relative;
-    width:360px;
-    flex-shrink:0;
-    height:100svh;
-    padding:0 40px;
-    top:auto; left:auto; right:auto;
+    position:relative !important;
+    flex:0 0 50%;
+    width:50%;
+    height:100%;
     display:flex;
     align-items:center;
-    overflow:visible;
+    background:var(--black);
+    overflow:hidden;
+    top:0 !important;
+    left:auto !important;
+    right:auto !important;
+    bottom:auto !important;
+    padding:0;
+    z-index:2;
   }
+
+  /* 所有 slide 疊在同位置（absolute），垂直置中靠 flex 父層 */
   .showcase-slide{
-    position:relative;
-    left:auto; right:auto; top:auto;
-    width:100%;
+    position:absolute;
+    top:0; left:0; right:0; bottom:0;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:0 10% 0 8%;
     opacity:0;
-    transform:translateY(14px);
+    visibility:hidden;
+    transform:translateY(10px);
+    transition:opacity .4s ease, transform .4s ease;
+    pointer-events:none;
   }
   .showcase-slide.active{
     opacity:1;
+    visibility:visible;
     transform:translateY(0);
+    pointer-events:all;
   }
 
-  /* 桌機版文字大小 */
-  .ss-tag{ font-size:11px; letter-spacing:3px; margin-bottom:10px; }
-  .ss-title{ font-size:26px; line-height:1.4; margin-bottom:14px; }
-  .ss-desc{ font-size:15px; line-height:1.8; margin-bottom:12px; }
-  .ss-step{ font-size:12px; }
+  /* 桌機版文字樣式 */
+  .ss-tag{
+    font-size:10px;
+    letter-spacing:4px;
+    color:var(--gold);
+    text-transform:uppercase;
+    margin-bottom:16px;
+    display:block;
+  }
+  .ss-title{
+    font-family:'Noto Serif TC',serif;
+    font-size:clamp(28px, 3vw, 44px);
+    font-weight:300;
+    line-height:1.35;
+    color:#fff;
+    margin-bottom:20px;
+  }
+  .ss-desc{
+    font-size:clamp(13px, 1.2vw, 16px);
+    line-height:1.9;
+    color:rgba(255,255,255,.6);
+    margin-bottom:20px;
+  }
+  .ss-line{
+    width:28px;
+    height:2px;
+    background:var(--yellow);
+    margin-bottom:12px;
+  }
+  .ss-step{
+    font-size:12px;
+    letter-spacing:2px;
+    color:rgba(255,255,255,.28);
+  }
 
-  /* 箭頭：圖片區（flex:1部分）兩側垂直置中
-     用 position:absolute 定位在 showcase 內，
-     右邊界限制在文字欄左緣 */
+  /* ── 箭頭：← 左半左側，→ 左半右側，垂直置中 ── */
   .showcase-nav{
     position:absolute;
-    top:0;
-    left:0;
-    right:360px;    /* 不超過文字欄 */
-    height:100svh;
+    top:0; left:0;
+    width:50%;
+    height:100%;
     display:flex;
     justify-content:space-between;
     align-items:center;
-    padding:0 14px;
+    padding:0 20px;
     pointer-events:none;
-    z-index:10;
+    z-index:20;
+  }
+  .ss-btn{
+    width:44px;
+    height:44px;
+    font-size:16px;
+    flex-shrink:0;
   }
 
-  /* 指示點：文字欄底部 */
+  /* ── 指示點：右半底部，左對齊文字 ── */
   .showcase-dots{
     position:absolute;
-    bottom:72px;
-    right:0;
-    width:360px;
-    justify-content:center;
-    padding:0;
-    left:auto;
+    right:0; left:50%;
+    bottom:48px;
+    width:50%;
+    justify-content:flex-start;
+    padding:0 0 0 8%;
   }
 
-  /* 繼續填問卷：整頁底部水平置中 */
+  /* ── 繼續填問卷：整頁正下方置中 ── */
   #showcaseNextBtn{
     position:absolute;
     bottom:16px;
     left:50%;
-    width:calc(100% - 160px);
-    max-width:420px;
     transform:translateX(-50%);
+    width:clamp(220px, 22vw, 320px);
+    max-width:none;
+    padding:14px 20px;
+    font-size:11px;
+    letter-spacing:2px;
+    background:rgba(255,255,255,.9);
+    z-index:30;
   }
 
-  /* phase 2/3 桌機版高度不變 */
+  /* phase 2/3：桌機版不需要手機版的高度覆寫 */
+  .showcase-phase-2 .showcase-img-wrap,
+  .showcase-phase-3 .showcase-img-wrap,
+  .showcase-phase-2 .showcase-text-wrap,
+  .showcase-phase-3 .showcase-text-wrap{
+    height:100% !important;
+    top:auto !important;
+    bottom:auto !important;
+  }
+}
+
+
+@media(max-width:767px){
   .showcase-phase-2 .showcase-img-wrap,
   .showcase-phase-3 .showcase-img-wrap{
-    height:100svh !important;
+    height:68vh !important;
+    height:calc(var(--vh100) * 0.68) !important;
   }
   .showcase-phase-2 .showcase-text-wrap,
   .showcase-phase-3 .showcase-text-wrap{
-    height:100svh !important;
-    margin-top:0 !important;
+    top:58vh !important;
+    top:calc(var(--vh100) * 0.58) !important;
   }
-}
-
-
-.showcase-img-full{
-  max-width:98% !important;
-}
-.showcase-phase-2 .showcase-img-wrap,
-.showcase-phase-3 .showcase-img-wrap{
-  height:68svh !important;
-}
-.showcase-phase-2 .showcase-text-wrap,
-.showcase-phase-3 .showcase-text-wrap{
-  top:66svh !important;
-  height:18svh !important;
+  .showcase-phase-2 .showcase-text-wrap .showcase-slide,
+  .showcase-phase-3 .showcase-text-wrap .showcase-slide{
+    padding-top:20px;
+  }
 }
 
 .expl-layer{
@@ -587,10 +682,11 @@ textarea.finput{resize:vertical;min-height:88px}
 
 .expl-labels{
   position:absolute;
-  top:0;right:0;
-  width:120px;
+  top:0;right:-8%;
+  width:200px;
   height:100%;
   pointer-events:none;
+  overflow:visible;
 }
 .expl-lbl{
   position:absolute;
@@ -607,8 +703,8 @@ textarea.finput{resize:vertical;min-height:88px}
 #elbl-seal   {top:47%; transition-delay:.38s}
 #elbl-ring   {top:72%; transition-delay:.43s}
 #elbl-body   {top:87%; transition-delay:.48s}
-.expl-lbl-line{width:10px;height:1px;background:rgba(196,164,94,.5);flex-shrink:0}
-.expl-lbl-text{font-family:'Noto Sans TC',sans-serif;font-size:9px;letter-spacing:.8px;color:rgba(196,164,94,.85)}
+.expl-lbl-line{width:28px;height:1px;background:rgba(196,164,94,.5);flex-shrink:0}
+.expl-lbl-text{font-family:'Noto Sans TC',sans-serif;font-size:14px;letter-spacing:.8px;color:rgba(196,164,94,.85)}
 .expl-layer.exploded .expl-lbl{opacity:1;transform:translateX(0) translateY(-50%)}
 
 .expl-toggle-btns{
@@ -796,7 +892,7 @@ textarea.finput{resize:vertical;min-height:88px}
 </div>
 </div>
 
-<section class="sec no-snap" id="s1">
+<section class="sec snap" id="s1">
   <div class="rv">
     <div class="sdots">
       <div class="sd on"></div><div class="sd"></div><div class="sd"></div><div class="sd"></div>
@@ -1201,6 +1297,15 @@ function showThanks(){
   ty.scrollIntoView({behavior:'smooth'});
 }
 
+// ── ANDROID CHROME VH FIX
+// 動態設定 --vh 解決 Android Chrome address bar 造成的高度跳動
+function setVH(){
+  const vh = window.innerHeight;
+  document.documentElement.style.setProperty('--vh100', vh + 'px');
+}
+setVH();
+window.addEventListener('resize', setVH, {passive:true});
+
 // ── SCROLL ANIMATIONS
 const obs=new IntersectionObserver(entries=>{
   entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});
@@ -1252,16 +1357,18 @@ const isExplodePage=(scPhase===1);
     if(el) el.classList.toggle('active', i===scPhase && !(isExplodePage && i===1));
   });
   sTxts.forEach((el,i)=>{if(el)el.classList.toggle('active',i===scPhase);});
-// 手機版：依頁面調整圖片區高度（03/04 頁圖更大）
+
+  // 手機版：依頁面調整圖片區高度（03/04 頁圖更大）
   if(window.innerWidth < 768){
     const imgWrap = document.querySelector('.showcase-img-wrap');
     const textWrap = document.querySelector('.showcase-text-wrap');
-if(imgWrap && textWrap){
-      const imgH = (scPhase >= 2) ? '68svh' : '60svh';
-const txtTop = (scPhase >= 2) ? '66svh' : '58svh';
+    if(imgWrap && textWrap){
+      const vh = window.innerHeight;
+      const imgH = (scPhase >= 2) ? (vh * 0.68)+'px' : (vh * 0.60)+'px';
+      const txtTop = (scPhase >= 2) ? (vh * 0.66)+'px' : (vh * 0.58)+'px';
       imgWrap.style.height = imgH;
       textWrap.style.top = txtTop;
-}
+    }
   }
 
   sDots.forEach((el,i)=>{if(el)el.classList.toggle('active',i===scPhase);});
@@ -1318,7 +1425,7 @@ document.addEventListener('keydown',e=>{
 showcaseSet(0);
 
 // ── PAGE INDICATOR + PROGRESS + PARALLAX
-const snapIds=['s0','pain-panel','sol-panel','s2','s3','s4','s5'];
+const snapIds=['s0','pain-panel','s1','sol-panel','product-showcase','s2','s3','s4','s5'];
 const piDots=document.querySelectorAll('.pi-dot');
 const heroImg=document.getElementById('heroImg');
 const ipBgs=document.querySelectorAll('.ip-bg');
@@ -1328,7 +1435,7 @@ window.addEventListener('scroll',()=>{
   document.getElementById('pgbar').style.width=(window.scrollY/h*100)+'%';
 
   // Showcase 更新（已改為 touch 觸發，此處移除）
-
+   
   // Page indicator
   const pi=document.getElementById('pageInd');
   window.scrollY>100?pi.classList.add('show'):pi.classList.remove('show');
