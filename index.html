@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>浴山｜廚房水槽快排濾網 — 上市前意見募集</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@200;300;400;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=你的GAID"></script>
 <script>
@@ -38,7 +38,7 @@ src="https://www.facebook.com/tr?id=你的PixelID&ev=PageView&noscript=1"
   --mgray:#aeaeaa;
   --black:#141412;
   --steel:#7a8490;
-  --gold:#c4a45e;
+  --gold:#eec830;
   --yellow:#eec830;
   --txt:#1a1a18;
   --txt2:#686864;
@@ -105,6 +105,7 @@ body{
 }
 .hero-body{position:relative;padding:0 24px 52px;text-align:center}
 .hero-badge{display:inline-block;font-size:9px;letter-spacing:4px;color:rgba(255,255,255,.38);text-transform:uppercase;margin-bottom:14px;animation:fu .8s ease .2s both}
+.hero-logo{display:block;height:72px;width:auto;margin:0 auto 20px;object-fit:contain;animation:fu .8s ease .2s both;filter:brightness(0) invert(1);}
 .hero-title{font-family:'Noto Serif TC',serif;font-size:clamp(30px,8vw,44px);font-weight:200;color:#fff;line-height:1.3;margin-bottom:14px;animation:fu .8s ease .4s both}
 .hero-title em{font-family:'DM Serif Display',serif;font-style:italic;color:var(--gold)}
 .hero-sub{font-size:13px;font-weight:300;color:rgba(255,255,255,.55);line-height:1.4;margin-bottom:32px;animation:fu .8s ease .6s both}
@@ -135,7 +136,7 @@ body{
 }
 .ip-content{position:relative;padding:32px 28px 44px;width:100%;text-align:center;max-width:480px;}
 .ip-line{width:28px;height:2px;background:var(--yellow);margin:0 auto 16px;}
-.ip-tag{font-size:12px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:12px;display:block}
+.ip-tag{font-size:12px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:12px;display:block;text-shadow:0 1px 6px rgba(0,0,0,.8), 0 0 20px rgba(0,0,0,.6);}
 .ip-title{font-family:'Noto Serif TC',serif;font-size:clamp(28px,7.5vw,38px);font-weight:300;color:#fff;line-height:1.4;margin-bottom:14px}
 .ip-desc{font-size:16px;color:rgba(255,255,255,.65);line-height:1.4}
 
@@ -404,17 +405,18 @@ textarea.finput{resize:vertical;min-height:88px}
   transform:translateX(-50%);
   width:calc(100% - 56px);
   max-width:340px;
-  padding:13px;
-  background:rgba(255,255,255,0.9);
+  padding:16px 24px;
+  background:var(--yellow);
   border:none;
   color:var(--black);
   font-family:'Noto Sans TC',sans-serif;
   font-size:12px; letter-spacing:2px;
+  font-weight:500;
   text-align:center;
-  cursor:pointer; transition:all .2s;
+  cursor:pointer; transition:opacity .2s;
   z-index:20;
 }
-#showcaseNextBtn:hover{background:#fff}
+#showcaseNextBtn:hover{opacity:.88}
 #showcaseNextBtn:active{opacity:.7}
 
 .showcase-progress{position:absolute;bottom:0;left:0;right:0;height:2px;background:rgba(255,255,255,.08)}
@@ -607,10 +609,12 @@ textarea.finput{resize:vertical;min-height:88px}
     transform:translateX(-50%);
     width:clamp(220px, 22vw, 320px);
     max-width:none;
-    padding:14px 20px;
-    font-size:11px;
+    padding:16px 24px;
+    font-size:12px;
+    font-weight:500;
     letter-spacing:2px;
-    background:rgba(255,255,255,.9);
+    background:var(--yellow);
+    color:var(--black);
     z-index:30;
   }
 
@@ -738,17 +742,18 @@ textarea.finput{resize:vertical;min-height:88px}
   width:calc(100% - 56px);
   max-width:340px;
   margin:20px auto 0;
-  padding:14px;
-  background:transparent;
-  border:1px solid rgba(255,255,255,.2);
-  color:rgba(255,255,255,.5);
+  padding:16px 24px;
+  background:var(--yellow);
+  border:2px solid var(--yellow);
+  color:var(--black);
   font-family:'Noto Sans TC',sans-serif;
   font-size:12px;letter-spacing:2px;
+  font-weight:500;
   text-align:center;
-  cursor:pointer;transition:all .2s;
+  cursor:pointer;transition:opacity .2s;
   position:relative;z-index:20;
 }
-.next-btn:hover{border-color:var(--yellow);color:rgba(255,255,255,.9)}
+.next-btn:hover{opacity:.88}
 .next-btn:active{opacity:.7}
 
 ::-webkit-scrollbar{width:0}
@@ -760,10 +765,14 @@ textarea.finput{resize:vertical;min-height:88px}
   }
 
   .hero-body {
-    text-align: left;
+    text-align: center;
     max-width: 1100px;
     margin: 0 auto;
     padding: 0 80px 80px;
+  }
+  .hero-logo {
+    margin: 0 auto 24px;
+    height: 96px;
   }
   .hero-title {
     font-size: clamp(44px, 5vw, 72px);
@@ -871,7 +880,8 @@ textarea.finput{resize:vertical;min-height:88px}
   <div class="hero-img" id="heroImg"></div>
   <div class="hero-grad"></div>
   <div class="hero-body">
-    <span class="hero-badge">HUROYAMA × 米鹿設計</span>
+    <img src="https://pic.mieloo-corp.com/uploads/medium/ec/8c/0498cef723b64fe276e18da9eb1a.png"
+      alt="HUROYAMA" class="hero-logo">
     <h1 class="hero-title">廚房水槽<br><em>快排濾網</em><br>即將登場</h1>
     <p class="hero-sub">一個彈跳動作，解決五種廚房困擾。<br>上市前，先聽聽你的聲音。</p>
     <a href="#pain-panel" class="hero-cta">開始填寫，搶先知道早鳥優惠 →</a>
@@ -934,8 +944,7 @@ textarea.finput{resize:vertical;min-height:88px}
       <span class="pemoji">🪲</span>
     </div>
   </div>
-  <button class="next-btn" style="border-color:rgba(0,0,0,.15);color:var(--txt2);margin-top:20px;"
-onclick="window.scrollTo({top:document.getElementById('sol-panel').offsetTop,behavior:'smooth'})">繼續 →</button>
+  <button class="next-btn" onclick="window.scrollTo({top:document.getElementById('sol-panel').offsetTop,behavior:'smooth'})">繼續 →</button>
 </section>
 
 <div class="img-panel snap" id="sol-panel">
@@ -1127,8 +1136,7 @@ class="ilabel">有興趣，但想等早鳥優惠或特別方案</div><span class
       <div><div class="ilabel">目前只是路過，幫你填填看</div><span class="isub">感謝你的時間！</span></div>
     </div>
   </div>
-  <button class="next-btn" style="border-color:rgba(0,0,0,.15);color:var(--txt2);"
-onclick="window.scrollTo({top:document.getElementById('s4').offsetTop,behavior:'smooth'})">繼續 →</button>
+  <button class="next-btn" onclick="window.scrollTo({top:document.getElementById('s4').offsetTop,behavior:'smooth'})">繼續 →</button>
 </section>
 
 <section class="sec snap" id="s4">
@@ -1146,7 +1154,7 @@ onclick="window.scrollTo({top:document.getElementById('s4').offsetTop,behavior:'
       <button class="gbtn" data-val="other" onclick="selG(this)">其他 / 不透露</button>
   
    </div>
-    <button class="next-btn" style="margin-top:24px;border-color:rgba(0,0,0,.15);color:var(--txt2);" onclick="window.scrollTo({top:document.getElementById('tBanner').offsetTop,behavior:'smooth'})">繼續 →</button>
+    <button class="next-btn" onclick="window.scrollTo({top:document.getElementById('tBanner').offsetTop,behavior:'smooth'})">繼續 →</button>
   </div>
 </section>
 
