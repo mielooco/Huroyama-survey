@@ -232,7 +232,7 @@ textarea.finput{resize:vertical;min-height:88px}
 .subbtn:disabled{background:var(--lgray);color:var(--mgray);cursor:not-allowed}
 .privacy{font-size:11px;color:var(--txt3);text-align:center;margin-top:14px;line-height:1.8}
 
-.ty{display:none;min-height:100svh;background:var(--black);flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 24px}
+.ty{display:none;min-height:100vh;min-height:var(--vh100);background:var(--black);flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 24px}
 .ty.show{display:flex;animation:fadeIn .7s ease both}
 .ty-icon{width:70px;height:70px;background:var(--yellow);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:28px;animation:bounce .6s ease .2s both}
 .ty-title{font-family:'Noto Sans TC',sans-serif;font-size:clamp(24px,7vw,34px);font-weight:300;color:#fff;margin-bottom:12px;line-height:1.4}
@@ -618,11 +618,15 @@ textarea.finput{resize:vertical;min-height:88px}
     z-index:30;
   }
 
-  /* phase 2/3：桌機版不需要手機版的高度覆寫 */
+  /* phase 2/3/4/5：桌機版不需要手機版的高度覆寫 */
   .showcase-phase-2 .showcase-img-wrap,
   .showcase-phase-3 .showcase-img-wrap,
+  .showcase-phase-4 .showcase-img-wrap,
+  .showcase-phase-5 .showcase-img-wrap,
   .showcase-phase-2 .showcase-text-wrap,
-  .showcase-phase-3 .showcase-text-wrap{
+  .showcase-phase-3 .showcase-text-wrap,
+  .showcase-phase-4 .showcase-text-wrap,
+  .showcase-phase-5 .showcase-text-wrap{
     height:100% !important;
     top:auto !important;
     bottom:auto !important;
@@ -632,17 +636,23 @@ textarea.finput{resize:vertical;min-height:88px}
 
 @media(max-width:767px){
   .showcase-phase-2 .showcase-img-wrap,
-  .showcase-phase-3 .showcase-img-wrap{
+  .showcase-phase-3 .showcase-img-wrap,
+  .showcase-phase-4 .showcase-img-wrap,
+  .showcase-phase-5 .showcase-img-wrap{
     height:68vh !important;
     height:calc(var(--vh100) * 0.68) !important;
   }
   .showcase-phase-2 .showcase-text-wrap,
-  .showcase-phase-3 .showcase-text-wrap{
+  .showcase-phase-3 .showcase-text-wrap,
+  .showcase-phase-4 .showcase-text-wrap,
+  .showcase-phase-5 .showcase-text-wrap{
     top:58vh !important;
     top:calc(var(--vh100) * 0.58) !important;
   }
   .showcase-phase-2 .showcase-text-wrap .showcase-slide,
-  .showcase-phase-3 .showcase-text-wrap .showcase-slide{
+  .showcase-phase-3 .showcase-text-wrap .showcase-slide,
+  .showcase-phase-4 .showcase-text-wrap .showcase-slide,
+  .showcase-phase-5 .showcase-text-wrap .showcase-slide{
     padding-top:20px;
   }
 }
@@ -1186,6 +1196,10 @@ class="ilabel">有興趣，但想等早鳥優惠或特別方案</div><span class
   </div>
   <div class="rv d1">
     <div class="fgroup">
+      <label class="flabel">姓名或暱稱 <span class="bo">選填</span></label>
+      <input type="text" class="finput" id="nIn" placeholder="你想讓我們怎麼稱呼你？" inputmode="text" autocomplete="nickname">
+    </div>
+    <div class="fgroup">
       <label class="flabel">電子信箱 <span class="br">必填</span></label>
       <input type="email" class="finput" 
 id="eIn" placeholder="your@email.com" inputmode="email" autocomplete="email">
@@ -1275,11 +1289,12 @@ const err=document.getElementById('eErr');
 
   // 3. 整理要傳送的問卷資料
   const payload = {
+    name: document.getElementById('nIn').value,
     email: email,
     phone: document.getElementById('pIn').value,
     comment: document.getElementById('cIn').value,
-    pains: S.pains.join(', '), // 將痛點複選陣列轉成字串
-    feats: S.feats.join(', '), // 將功能複選陣列轉成字串
+    pains: S.pains.join(', '),
+    feats: S.feats.join(', '),
     intent: S.intent,
     gender: S.gender
   };
@@ -1398,8 +1413,10 @@ const isExplodePage=(scPhase===1);
   // 加 phase class 到 showcase 本體，讓 CSS 可以按頁面調整樣式
   if(showcase){
     showcase.className='snap';
-if(scPhase===2) showcase.classList.add('showcase-phase-2');
+    if(scPhase===2) showcase.classList.add('showcase-phase-2');
     if(scPhase===3) showcase.classList.add('showcase-phase-3');
+    if(scPhase===4) showcase.classList.add('showcase-phase-4');
+    if(scPhase===5) showcase.classList.add('showcase-phase-5');
   }
 }
 function showcaseGo(dir){ showcaseSet(scPhase+dir); }
