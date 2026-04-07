@@ -1271,6 +1271,23 @@ function selG(el){document.querySelectorAll('.gbtn').forEach(b=>b.classList.remo
 function goTo(id){const el=document.getElementById(id);if(el)window.scrollTo({top:el.offsetTop,behavior:'smooth'});}
 
 // ── SUBMIT: 修改為適合 GitHub Pages 的 fetch 方式 ──
+
+// 痛點與功能的對照表
+const painLabels = {
+  p1: '菜渣積在排水口，要伸手去撈',
+  p2: '水槽排水不順、容易積水',
+  p3: '排水口有臭味從下水道倒灌',
+  p4: '濾網難清洗，油膩黏滑',
+  p5: '廚餘殘渣裸露在外，視覺很噁心',
+  p6: '排水口容易發霉、滋生細菌'
+};
+const featLabels = {
+  f1: '按壓快排，一按就通',
+  f2: '密封防臭，阻斷下水道氣體',
+  f3: '隱蔽美型，菜渣眼不見為淨',
+  f4: '秒取渣籃，清理不沾手'
+};
+
 function doSub(){
   const email=document.getElementById('eIn').value.trim();
 const err=document.getElementById('eErr');
@@ -1294,7 +1311,9 @@ const err=document.getElementById('eErr');
     phone: document.getElementById('pIn').value,
     comment: document.getElementById('cIn').value,
     pains: S.pains.join(', '),
+    pains_text: S.pains.map(p => painLabels[p] || p).join('、'),
     feats: S.feats.join(', '),
+    feats_text: S.feats.map(f => featLabels[f] || f).join('、'),
     intent: S.intent,
     gender: S.gender
   };
