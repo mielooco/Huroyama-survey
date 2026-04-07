@@ -398,6 +398,7 @@ textarea.finput{resize:vertical;min-height:88px}
 .sdot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.2);transition:all .3s}
 .sdot.active{background:var(--yellow);transform:scale(1.5)}
 
+/* 繼續填問卷：預設隱藏，最後一頁才顯示 */
 #showcaseNextBtn{
   position:absolute;
   bottom:16px;
@@ -413,11 +414,45 @@ textarea.finput{resize:vertical;min-height:88px}
   font-size:12px; letter-spacing:2px;
   font-weight:500;
   text-align:center;
-  cursor:pointer; transition:opacity .2s;
+  cursor:pointer;
+  transition:opacity .4s ease, visibility .4s ease;
   z-index:20;
+  opacity:0;
+  visibility:hidden;
 }
-#showcaseNextBtn:hover{opacity:.88}
+#showcaseNextBtn.show{ opacity:1; visibility:visible; }
 #showcaseNextBtn:active{opacity:.7}
+
+/* 滑動提示動畫 */
+.swipe-hint{
+  position:absolute;
+  bottom:24px;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  align-items:center;
+  gap:10px;
+  z-index:25;
+  opacity:0;
+  transition:opacity .6s ease;
+  pointer-events:none;
+  white-space:nowrap;
+}
+.swipe-hint.show{ opacity:1; }
+.swipe-icon{
+  font-size:22px;
+  animation:swingLR 1.5s ease-in-out infinite;
+}
+@keyframes swingLR{
+  0%{ transform:translateX(6px); opacity:.5; }
+  50%{ transform:translateX(-6px); opacity:1; }
+  100%{ transform:translateX(6px); opacity:.5; }
+}
+.swipe-txt{
+  font-size:11px;
+  letter-spacing:2px;
+  color:rgba(255,255,255,.5);
+}
 
 .showcase-progress{position:absolute;bottom:0;left:0;right:0;height:2px;background:rgba(255,255,255,.08)}
 .sp-bar{height:100%;background:var(--yellow);transition:width .3s ease}
@@ -1018,15 +1053,15 @@ textarea.finput{resize:vertical;min-height:88px}
       </div>
       <div class="showcase-slide" id="stxt-1">
         <span class="ss-tag">Structure · 產品結構</span>
-        <h3 class="ss-title">透過五個零件<br>組合成一套過濾系統</h3>
-        <p class="ss-desc">金屬導流外蓋・金屬渣籃・密封止水結構・矽膠適配環・外杯體，每一件，都有它存在的理由。</p>
+        <h3 class="ss-title">看起來是五個零件<br>其實是一套系統</h3>
+        <p class="ss-desc">金屬導流外蓋・金屬渣籃・密封止水結構・矽膠適配環・杯體主架構，每一件，都有它存在的理由。</p>
         <div class="ss-line"></div>
         <span class="ss-step">02 / 06</span>
       </div>
       <div class="showcase-slide" id="stxt-2">
         <span class="ss-tag">Fluid · 火山錐體導流</span>
         <h3 class="ss-title">接近滿載，<br>排水仍比傳統快 20%。</h3>
-        <p class="ss-desc">渣籃中央隆起的火山錐體結構與浮動式設計，讓廚餘沉降於周緣，水道始終保持暢通。菜渣再多，排水不卡頓。</p>
+        <p class="ss-desc">渣籃中央隆起的火山錐體結構，讓廚餘沉降於周緣，中央水道始終保持暢通。菜渣再多，排水不卡頓。</p>
         <div class="ss-line"></div>
         <span class="ss-step">03 / 06</span>
       </div>
@@ -1070,6 +1105,10 @@ textarea.finput{resize:vertical;min-height:88px}
     </div>
 
     <span class="showcase-hint">← 左右滑動 →</span>
+    <div class="swipe-hint" id="swipeHint">
+      <span class="swipe-icon">👆</span>
+      <span class="swipe-txt">左右滑動查看產品</span>
+    </div>
     <button id="showcaseNextBtn" onclick="window.scrollTo({top:document.getElementById('s2').offsetTop,behavior:'smooth'})">繼續填問卷 →</button>
 </div>
 
@@ -1395,16 +1434,31 @@ epTimer=setTimeout(()=>{
   }
 }
 
+const swipeHint=document.getElementById('swipeHint');
+const nextBtn=document.getElementById('showcaseNextBtn');
+let swipeHintTimer=null;
+let hasSwipped=false;
+
+function showSwipeHint(){
+  if(hasSwipped) return;
+  if(swipeHint) swipeHint.classList.add('show');
+  clearTimeout(swipeHintTimer);
+  swipeHintTimer=setTimeout(()=>{
+    if(swipeHint) swipeHint.classList.remove('show');
+  }, 3000);
+}
+
 function showcaseSet(phase){
   scPhase=Math.max(0,Math.min(5,phase));
-const isExplodePage=(scPhase===1);
+  const isExplodePage=(scPhase===1);
+  const isLastPage=(scPhase===5);
 
   // 爆炸頁：進入時自動觸發，離開時重置
   if(isExplodePage){
     epTrigger();
   } else {
     epReset();
-}
+  }
 
   // 爆炸頁隱藏 simg-1
   sImgs.forEach((el,i)=>{
@@ -1412,14 +1466,14 @@ const isExplodePage=(scPhase===1);
   });
   sTxts.forEach((el,i)=>{if(el)el.classList.toggle('active',i===scPhase);});
 
-  // 手機版：依頁面調整圖片區高度（03/04 頁圖更大）
+  // 手機版：依頁面調整圖片區高度
   if(window.innerWidth < 768){
     const imgWrap = document.querySelector('.showcase-img-wrap');
     const textWrap = document.querySelector('.showcase-text-wrap');
     if(imgWrap && textWrap){
       const vh = window.innerHeight;
       const imgH = (scPhase >= 2) ? (vh * 0.68)+'px' : (vh * 0.60)+'px';
-      const txtTop = (scPhase >= 2) ? (vh * 0.66)+'px' : (vh * 0.58)+'px';
+      const txtTop = (scPhase >= 2) ? (vh * 0.58)+'px' : (vh * 0.58)+'px';
       imgWrap.style.height = imgH;
       textWrap.style.top = txtTop;
     }
@@ -1429,7 +1483,12 @@ const isExplodePage=(scPhase===1);
   if(spBar)spBar.style.width=((scPhase/5)*100)+'%';
   if(btnPrev)btnPrev.classList.toggle('hidden',scPhase===0);
   if(btnNext)btnNext.classList.toggle('hidden',scPhase===5);
-  // 加 phase class 到 showcase 本體，讓 CSS 可以按頁面調整樣式
+
+  // 最後一頁：顯示繼續按鈕，隱藏滑動提示
+  if(nextBtn) nextBtn.classList.toggle('show', isLastPage);
+  if(swipeHint && isLastPage) swipeHint.classList.remove('show');
+
+  // 加 phase class
   if(showcase){
     showcase.className='snap';
     if(scPhase===2) showcase.classList.add('showcase-phase-2');
@@ -1438,7 +1497,13 @@ const isExplodePage=(scPhase===1);
     if(scPhase===5) showcase.classList.add('showcase-phase-5');
   }
 }
-function showcaseGo(dir){ showcaseSet(scPhase+dir); }
+function showcaseGo(dir){
+  if(!hasSwipped){
+    hasSwipped=true;
+    if(swipeHint) swipeHint.classList.remove('show');
+  }
+  showcaseSet(scPhase+dir);
+}
 
 // Touch swipe（手機）
 if(showcase){
@@ -1479,6 +1544,16 @@ document.addEventListener('keydown',e=>{
 });
 // 初始化
 showcaseSet(0);
+
+// showcase 進入畫面時顯示滑動提示
+const showcaseObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting && !hasSwipped){
+      setTimeout(showSwipeHint, 600);
+    }
+  });
+},{threshold:0.5});
+if(showcase) showcaseObs.observe(showcase);
 
 // ── PAGE INDICATOR + PROGRESS + PARALLAX
 const snapIds=['s0','pain-panel','s1','sol-panel','product-showcase','s2','s3','s4','s5'];
