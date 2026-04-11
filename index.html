@@ -991,12 +991,12 @@ textarea.finput{resize:vertical;min-height:88px}
   <div class="pain-list rv d1">
     <div class="pain-card" onclick="togP(this)" data-id="p1">
       <div class="pchk">✓</div>
-      <div><div class="pmain">菜渣積在排水口，要伸手去撈</div><span class="psub">明知道髒，卻不得不碰</span></div>
-      <span class="pemoji">🤢</span>
+      <div><div class="pmain">堆滿菜渣的渣籃必須用手提起倒掉，還很難倒乾淨</div><span class="psub">每次清理都是一場心理煎熬</span></div>
+      <span class="pemoji">🗑️</span>
     </div>
     <div class="pain-card" onclick="togP(this)" data-id="p2">
       <div class="pchk">✓</div>
-      <div><div class="pmain">水槽排水不順、容易積水</div><span class="psub">洗個碗，水就淹一半</span></div>
+      <div><div class="pmain">渣籃堆滿菜渣，造成排水不順與積水</div><span class="psub">洗個碗，水就淹一半</span></div>
       <span class="pemoji">💧</span>
     </div>
     <div class="pain-card" onclick="togP(this)" data-id="p3">
@@ -1006,18 +1006,13 @@ textarea.finput{resize:vertical;min-height:88px}
     </div>
     <div class="pain-card" onclick="togP(this)" data-id="p4">
       <div class="pchk">✓</div>
-      <div><div class="pmain">濾網難清洗，油膩黏滑</div><span class="psub">刷了半天還是有滑膩感</span></div>
+      <div><div class="pmain">濾網油膩黏滑，清洗時造成的心理負擔</div><span class="psub">刷了半天還是有滑膩感</span></div>
       <span class="pemoji">🧽</span>
     </div>
     <div class="pain-card" onclick="togP(this)" data-id="p5">
       <div class="pchk">✓</div>
       <div><div class="pmain">廚餘殘渣裸露在外，視覺很噁心</div><span class="psub">客人來家裡超尷尬</span></div>
       <span class="pemoji">👀</span>
-    </div>
-    <div class="pain-card" onclick="togP(this)" data-id="p6">
-      <div class="pchk">✓</div>
-      <div><div class="pmain">排水口容易發霉、滋生細菌</div><span class="psub">怎麼清都還是有黑黑的東西</span></div>
-      <span class="pemoji">🪲</span>
     </div>
   </div>
   <button class="next-btn" onclick="window.scrollTo({top:document.getElementById('sol-panel').offsetTop,behavior:'smooth'})">繼續 →</button>
@@ -1344,12 +1339,11 @@ function goTo(id){const el=document.getElementById(id);if(el)window.scrollTo({to
 
 // 痛點與功能的對照表
 const painLabels = {
-  p1: '菜渣積在排水口，要伸手去撈',
-  p2: '水槽排水不順、容易積水',
+  p1: '堆滿菜渣的渣籃必須用手提起倒掉，還很難倒乾淨',
+  p2: '渣籃堆滿菜渣，造成排水不順與積水',
   p3: '排水口有臭味從下水道倒灌',
-  p4: '濾網難清洗，油膩黏滑',
-  p5: '廚餘殘渣裸露在外，視覺很噁心',
-  p6: '排水口容易發霉、滋生細菌'
+  p4: '濾網油膩黏滑，清洗時造成的心理負擔',
+  p5: '廚餘殘渣裸露在外，視覺很噁心'
 };
 const featLabels = {
   f1: '按壓快排，一按就通',
