@@ -79,7 +79,7 @@ body{
 #pgbar{
   position:fixed;top:0;left:50%;transform:translateX(-50%);
   max-width:480px;width:0%;height:3px;
-  background:rgba(238, 200, 48, 0.5);z-index:999;transition:width .2s;
+  background:rgba(80,168,204,0.5);z-index:999;transition:width .2s;
 }
 
 /* ══ HERO ══ */
@@ -269,7 +269,7 @@ textarea.finput{resize:vertical;min-height:88px}
 .pi-dot.on{
   background:var(--yellow);
   transform:scale(1.8);
-  box-shadow:0 0 0 2px rgba(238,200,48,.3);
+  box-shadow:0 0 0 2px rgba(80,168,204,.3);
 }
 .pi-dot.on-dark{background:rgba(255,255,255,.6)}
 .pi-dot.on-dark.on{background:var(--yellow)}
@@ -315,7 +315,7 @@ textarea.finput{resize:vertical;min-height:88px}
   transition:opacity .45s ease, transform .45s ease;
   filter:drop-shadow(0 8px 32px rgba(0,0,0,.55));
 }
-  #simg-3 {
+  #simg-4 {
   width: 300%;
   max-width: 300%;
 }
@@ -415,16 +415,7 @@ textarea.finput{resize:vertical;min-height:88px}
   padding:16px 24px;
   background:var(--yellow);
   border:none;
-  color:var(--black);
-  font-family:'Noto Sans TC',sans-serif;
-  font-size:12px; letter-spacing:2px;
-  font-weight:500;
-  text-align:center;
-  cursor:pointer;
-  transition:opacity .4s ease, visibility .4s ease;
-  z-index:20;
-  opacity:0;
-  visibility:hidden;
+  color:#fff;
 }
 #showcaseNextBtn.show{ opacity:1; visibility:visible; }
 #showcaseNextBtn:active{opacity:.7}
@@ -655,19 +646,19 @@ textarea.finput{resize:vertical;min-height:88px}
     font-weight:500;
     letter-spacing:2px;
     background:var(--yellow);
-    color:var(--black);
+    color:#fff;
     z-index:30;
   }
 
-  /* phase 2/3/4/5：桌機版不需要手機版的高度覆寫 */
-  .showcase-phase-2 .showcase-img-wrap,
+  /* phase 3/4/5/6：桌機版不需要手機版的高度覆寫 */
   .showcase-phase-3 .showcase-img-wrap,
   .showcase-phase-4 .showcase-img-wrap,
   .showcase-phase-5 .showcase-img-wrap,
-  .showcase-phase-2 .showcase-text-wrap,
+  .showcase-phase-6 .showcase-img-wrap,
   .showcase-phase-3 .showcase-text-wrap,
   .showcase-phase-4 .showcase-text-wrap,
-  .showcase-phase-5 .showcase-text-wrap{
+  .showcase-phase-5 .showcase-text-wrap,
+  .showcase-phase-6 .showcase-text-wrap{
     height:100% !important;
     top:auto !important;
     bottom:auto !important;
@@ -676,24 +667,24 @@ textarea.finput{resize:vertical;min-height:88px}
 
 
 @media(max-width:767px){
-  .showcase-phase-2 .showcase-img-wrap,
   .showcase-phase-3 .showcase-img-wrap,
   .showcase-phase-4 .showcase-img-wrap,
-  .showcase-phase-5 .showcase-img-wrap{
+  .showcase-phase-5 .showcase-img-wrap,
+  .showcase-phase-6 .showcase-img-wrap{
     height:68vh !important;
     height:calc(var(--vh100) * 0.68) !important;
   }
-  .showcase-phase-2 .showcase-text-wrap,
   .showcase-phase-3 .showcase-text-wrap,
   .showcase-phase-4 .showcase-text-wrap,
-  .showcase-phase-5 .showcase-text-wrap{
+  .showcase-phase-5 .showcase-text-wrap,
+  .showcase-phase-6 .showcase-text-wrap{
     top:58vh !important;
     top:calc(var(--vh100) * 0.58) !important;
   }
-  .showcase-phase-2 .showcase-text-wrap .showcase-slide,
   .showcase-phase-3 .showcase-text-wrap .showcase-slide,
   .showcase-phase-4 .showcase-text-wrap .showcase-slide,
-  .showcase-phase-5 .showcase-text-wrap .showcase-slide{
+  .showcase-phase-5 .showcase-text-wrap .showcase-slide,
+  .showcase-phase-6 .showcase-text-wrap .showcase-slide{
     padding-top:20px;
   }
 }
@@ -1039,17 +1030,19 @@ textarea.finput{resize:vertical;min-height:88px}
 <div id="product-showcase" class="snap">
 
     <div class="showcase-img-wrap">
-      <img class="showcase-img active" id="simg-0"
-        src="https://pic.mieloo-corp.com/uploads/medium2x/15/84/eb4bfc67b3a546a5ea54c2e9a881.png" alt="浴山快排濾網">
+      <img class="showcase-img active" id="simg-0" 
+           src="https://pic.mieloo-corp.com/uploads/medium/a6/be/bac8db4f13dc61c69ba68ffc072b.png" alt="傳統鐵製提籠">
       <img class="showcase-img" id="simg-1"
-        src="https://pic.mieloo-corp.com/uploads/medium2x/c7/26/c7eceb539c3fd63de1cbff964a1a.png" alt="零件結構">
+        src="https://pic.mieloo-corp.com/uploads/medium/2a/7f/846753f49fd1f95776dcbeac6624.png" alt="浴山快排濾網">
       <img class="showcase-img" id="simg-2"
-        src="https://pic.mieloo-corp.com/uploads/medium/f7/47/69c6093ea0b01f280088d2c7bd18.png" alt="火山錐體">
+        src="https://pic.mieloo-corp.com/uploads/medium2x/c7/26/c7eceb539c3fd63de1cbff964a1a.png" alt="零件結構">
       <img class="showcase-img" id="simg-3"
-        src="https://pic.mieloo-corp.com/uploads/medium/66/d1/720feaa67b7f8a341e5708b7b6b7.png" alt="隱蔽美型">
+        src="https://pic.mieloo-corp.com/uploads/medium/f7/47/69c6093ea0b01f280088d2c7bd18.png" alt="火山錐體">
       <img class="showcase-img" id="simg-4"
-        src="https://pic.mieloo-corp.com/uploads/medium/5c/bf/004b6d59c1bf57b924054b23625f.png" alt="剖面工藝">
+        src="https://pic.mieloo-corp.com/uploads/medium/66/d1/720feaa67b7f8a341e5708b7b6b7.png" alt="隱蔽美型">
       <img class="showcase-img" id="simg-5"
+        src="https://pic.mieloo-corp.com/uploads/medium/5c/bf/004b6d59c1bf57b924054b23625f.png" alt="剖面工藝">
+      <img class="showcase-img" id="simg-6"
         src="https://pic.mieloo-corp.com/uploads/original/7b/f0/173e08a0d86e13a54d3155193a69.gif" alt="設計理念">
 
       <div class="expl-layer" id="explLayer">
@@ -1077,46 +1070,53 @@ textarea.finput{resize:vertical;min-height:88px}
 
     <div class="showcase-text-wrap">
       <div class="showcase-slide active" id="stxt-0">
+    <span class="ss-tag">Intro · 痛點分析</span>
+    <h3 class="ss-title">傳統型<br>鐵製水槽提籠</h3>
+    <p class="ss-desc">清理時容易直接接觸廚餘，使用過程也較難避免異味與視覺上的不適，讓水槽維護變得較不輕鬆。</p>
+    <div class="ss-line"></div>
+    <span class="ss-step">01 / 07</span>
+  </div>
+      <div class="showcase-slide" id="stxt-1">
         <span class="ss-tag">Product · 產品一覽</span>
         <h3 class="ss-title">浴山｜廚房水槽<br>快排濾網</h3>
         <p class="ss-desc">一個按壓，切換排水與止水。一個提拉，廚餘優雅入桶。浴山快排濾網，流理台水槽清潔不再是負擔。</p>
         <div class="ss-line"></div>
-        <span class="ss-step">01 / 06</span>
+        <span class="ss-step">02 / 07</span>
       </div>
-      <div class="showcase-slide" id="stxt-1">
+      <div class="showcase-slide" id="stxt-2">
         <span class="ss-tag">Structure · 產品結構</span>
         <h3 class="ss-title">看起來是五個零件<br>其實是一套系統</h3>
         <p class="ss-desc">金屬導流外蓋・金屬渣籃・密封止水結構・矽膠適配環・杯體主架構，每一件，都有它存在的理由。</p>
         <div class="ss-line"></div>
-        <span class="ss-step">02 / 06</span>
+        <span class="ss-step">03 / 07</span>
       </div>
-      <div class="showcase-slide" id="stxt-2">
+      <div class="showcase-slide" id="stxt-3">
         <span class="ss-tag">Fluid · 火山錐體導流</span>
         <h3 class="ss-title">接近滿載，<br>排水仍比傳統快 20%。</h3>
         <p class="ss-desc">渣籃中央隆起的火山錐體結構，讓廚餘沉降於周緣，中央水道始終保持暢通。菜渣再多，排水不卡頓。</p>
         <div class="ss-line"></div>
-        <span class="ss-step">03 / 06</span>
+        <span class="ss-step">04 / 07</span>
       </div>
-      <div class="showcase-slide" id="stxt-3">
+      <div class="showcase-slide" id="stxt-4">
         <span class="ss-tag">Design · 隱蔽美型</span>
         <h3 class="ss-title">菜渣看不到，<br>質感看得到。</h3>
         <p class="ss-desc">翼狀開口・中央橫樑・不銹鋼304金屬，遮蔽底部廚餘視線。與家中水槽融為一體，如同原廠一體成型。</p>
         <div class="ss-line"></div>
-        <span class="ss-step">04 / 06</span>
+        <span class="ss-step">05 / 07</span>
       </div>
-      <div class="showcase-slide" id="stxt-4">
+      <div class="showcase-slide" id="stxt-5">
         <span class="ss-tag">Seal · 剖面工藝</span>
         <h3 class="ss-title">按壓，手不碰髒水。<br>密封，臭味聞不到。</h3>
         <p class="ss-desc">密封墊圈形成物理屏障，阻斷沼氣從下水道倒灌。浮動柱・頂出彈簧・密封環，三重結構，按壓 10,000 次不損壞。</p>
         <div class="ss-line"></div>
-        <span class="ss-step">05 / 06</span>
+        <span class="ss-step">06 / 07</span>
       </div>
-      <div class="showcase-slide" id="stxt-5">
+      <div class="showcase-slide" id="stxt-6">
         <span class="ss-tag">Clean · 設計理念</span>
         <h3 class="ss-title">像倒咖啡渣一樣，<br>廚餘優雅入桶。</h3>
         <p class="ss-desc">握著渣籃把手，廚餘俐落倒入廚餘桶。雙手不沾污物，廚房家事，也可以很優雅。</p>
         <div class="ss-line"></div>
-        <span class="ss-step">06 / 06</span>
+        <span class="ss-step">07 / 07</span>
       </div>
     </div>
 
@@ -1134,6 +1134,7 @@ textarea.finput{resize:vertical;min-height:88px}
       <div class="sdot" id="sdot-3"></div>
       <div class="sdot" id="sdot-4"></div>
       <div class="sdot" id="sdot-5"></div>
+      <div class="sdot" id="sdot-6"></div>
     </div>
 
     <span class="showcase-hint">← 左右滑動 →</span>
@@ -1437,9 +1438,9 @@ const obs=new IntersectionObserver(entries=>{
 document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
 // ── SHOWCASE：touch swipe + 按鈕切換
 const showcase=document.getElementById('product-showcase');
-const sImgs=[0,1,2,3,4,5].map(i=>document.getElementById('simg-'+i));
-const sTxts=[0,1,2,3,4,5].map(i=>document.getElementById('stxt-'+i));
-const sDots=[0,1,2,3,4,5].map(i=>document.getElementById('sdot-'+i));
+const sImgs=[0,1,2,3,4,5,6].map(i=>document.getElementById('simg-'+i));
+const sTxts=[0,1,2,3,4,5,6].map(i=>document.getElementById('stxt-'+i));
+const sDots=[0,1,2,3,4,5,6].map(i=>document.getElementById('sdot-'+i));
 const spBar=document.getElementById('spBar');
 const btnPrev=document.getElementById('ssBtnPrev');
 const btnNext=document.getElementById('ssBtnNext');
@@ -1480,9 +1481,9 @@ function showSwipeHint(){
 }
 
 function showcaseSet(phase){
-  scPhase=Math.max(0,Math.min(5,phase));
-  const isExplodePage=(scPhase===1);
-  const isLastPage=(scPhase===5);
+  scPhase=Math.max(0,Math.min(6,phase));
+  const isExplodePage=(scPhase===2);
+  const isLastPage=(scPhase===6);
 
   // 爆炸頁：進入時自動觸發，離開時重置
   if(isExplodePage){
@@ -1493,7 +1494,7 @@ function showcaseSet(phase){
 
   // 爆炸頁隱藏 simg-1
   sImgs.forEach((el,i)=>{
-    if(el) el.classList.toggle('active', i===scPhase && !(isExplodePage && i===1));
+    if(el) el.classList.toggle('active', i===scPhase && !(isExplodePage && i===2));
   });
   sTxts.forEach((el,i)=>{if(el)el.classList.toggle('active',i===scPhase);});
 
@@ -1511,9 +1512,9 @@ function showcaseSet(phase){
   }
 
   sDots.forEach((el,i)=>{if(el)el.classList.toggle('active',i===scPhase);});
-  if(spBar)spBar.style.width=((scPhase/5)*100)+'%';
+  if(spBar)spBar.style.width=((scPhase/6)*100)+'%';
   if(btnPrev)btnPrev.classList.toggle('hidden',scPhase===0);
-  if(btnNext)btnNext.classList.toggle('hidden',scPhase===5);
+  if(btnNext)btnNext.classList.toggle('hidden',scPhase===6);
 
   // 最後一頁：顯示繼續按鈕，隱藏滑動提示
   if(nextBtn) nextBtn.classList.toggle('show', isLastPage);
@@ -1522,10 +1523,10 @@ function showcaseSet(phase){
   // 加 phase class
   if(showcase){
     showcase.className='snap';
-    if(scPhase===2) showcase.classList.add('showcase-phase-2');
     if(scPhase===3) showcase.classList.add('showcase-phase-3');
     if(scPhase===4) showcase.classList.add('showcase-phase-4');
     if(scPhase===5) showcase.classList.add('showcase-phase-5');
+    if(scPhase===6) showcase.classList.add('showcase-phase-6');
   }
 }
 function showcaseGo(dir){
