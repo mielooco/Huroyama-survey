@@ -327,6 +327,18 @@ textarea.finput{resize:vertical;min-height:88px}
   width: 200%;
   max-width: 200%;
 }
+  #simg-3 {
+  width: 150%;
+  max-width: 150%;
+}
+  #simg-5 {
+  width: 150%;
+  max-width: 150%;
+}
+  #simg-6 {
+  width: 120%;
+  max-width: 120%;
+}
 .showcase-img.active{
   opacity:1;
   transform:scale(1) translateY(0);
@@ -741,6 +753,7 @@ textarea.finput{resize:vertical;min-height:88px}
   height:100%;
   pointer-events:none;
   overflow:visible;
+  display:none;
 }
 .expl-lbl{
   position:absolute;
@@ -873,7 +886,7 @@ textarea.finput{resize:vertical;min-height:88px}
   }
 
   .sec, .sec-dark, .sec-off {
-    padding: 80px calc((100% - 860px) / 2);
+    padding: 80px max(48px, calc((100% - 860px) / 2));
   }
 
   .pain-list {
@@ -1039,7 +1052,7 @@ textarea.finput{resize:vertical;min-height:88px}
 
     <div class="showcase-img-wrap">
       <img class="showcase-img active" id="simg-0" 
-        src="https://pic.mieloo-corp.com/uploads/medium/09/ee/48ba9999b428324ad3b0f7f6e454.png" alt="傳統鐵製提籠">
+           src="https://pic.mieloo-corp.com/uploads/medium/09/ee/48ba9999b428324ad3b0f7f6e454.png" alt="傳統鐵製提籠">
       <img class="showcase-img" id="simg-1"
         src="https://pic.mieloo-corp.com/uploads/medium/f5/55/edb297c32d1a40bac9d303c77210.png" alt="浴山快排濾網">
       <img class="showcase-img" id="simg-2"
@@ -1478,6 +1491,27 @@ const swipeHint=document.getElementById('swipeHint');
 const nextBtn=document.getElementById('showcaseNextBtn');
 let swipeHintTimer=null;
 let hasSwipped=false;
+let autoPlayTimer=null;
+let autoPlayDone=false;
+
+function stopAutoPlay(){
+  if(autoPlayTimer){
+    clearInterval(autoPlayTimer);
+    autoPlayTimer=null;
+  }
+}
+
+function startAutoPlay(){
+  if(autoPlayDone) return;
+  autoPlayTimer=setInterval(()=>{
+    if(scPhase < 6){
+      showcaseSet(scPhase+1);
+    } else {
+      stopAutoPlay();
+      autoPlayDone=true;
+    }
+  }, 1500);
+}
 
 function showSwipeHint(){
   if(hasSwipped) return;
@@ -1542,6 +1576,8 @@ function showcaseGo(dir){
     hasSwipped=true;
     if(swipeHint) swipeHint.classList.remove('show');
   }
+  stopAutoPlay();
+  autoPlayDone=true;
   showcaseSet(scPhase+dir);
 }
 
@@ -1590,6 +1626,12 @@ const showcaseObs = new IntersectionObserver(entries=>{
   entries.forEach(e=>{
     if(e.isIntersecting && !hasSwipped){
       setTimeout(showSwipeHint, 600);
+    }
+    if(e.isIntersecting && !autoPlayDone){
+      setTimeout(startAutoPlay, 800);
+    }
+    if(!e.isIntersecting){
+      stopAutoPlay();
     }
   });
 },{threshold:0.5});
