@@ -43,11 +43,8 @@ src="https://www.facebook.com/tr?id=1043810354313464&ev=PageView&noscript=1"
   --txt:#1a1a18;
   --txt2:#686864;
   --txt3:#9a9a96;
-  /* Android Chrome 相容：vh fallback */
+  /* Android Chrome / LINE 相容：vh fallback */
   --vh100: 100vh;
-}
-@supports (height: 100svh) {
-  :root { --vh100: 100svh; }
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 
@@ -965,6 +962,15 @@ textarea.finput{resize:vertical;min-height:88px}
   }
 }
 </style>
+<script>
+// LINE / WebView vh 修正：用 JS 計算真實視窗高度
+function setVh(){
+  document.documentElement.style.setProperty('--vh100', window.innerHeight + 'px');
+}
+setVh();
+window.addEventListener('resize', setVh);
+window.addEventListener('orientationchange', function(){ setTimeout(setVh, 200); });
+</script>
 </head>
 <body>
 
