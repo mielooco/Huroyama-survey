@@ -1427,6 +1427,7 @@ const err=document.getElementById('eErr');
     // ══ [新增] 提交成功後觸發追蹤事件 ══
     if(typeof fbq !== 'undefined') {
       fbq('track', 'Lead', { content_name: 'Huroyama_Survey' }); // Meta Pixel 轉換
+      fbq('trackCustom', 'SurveySubmit', { content_name: '浴山快排濾網_問卷填答' }); // 自訂轉換
     }
     if(typeof gtag !== 'undefined') {
       gtag('event', 'generate_lead', { 'event_category': 'Survey' }); // GA4 轉換
@@ -1642,6 +1643,22 @@ const showcaseObs = new IntersectionObserver(entries=>{
   });
 },{threshold:0.5});
 if(showcase) showcaseObs.observe(showcase);
+
+// ── SurveyVisit：進入 Q1 時觸發 ──
+const s1El = document.getElementById('s1');
+if(s1El){
+  const surveyVisitObs = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        if(typeof fbq !== 'undefined'){
+          fbq('trackCustom', 'SurveyVisit', { content_name: '浴山快排濾網_問卷到站' });
+        }
+        surveyVisitObs.unobserve(s1El); // 只觸發一次
+      }
+    });
+  },{threshold:0.5});
+  surveyVisitObs.observe(s1El);
+}
 
 // ── PAGE INDICATOR + PROGRESS + PARALLAX
 const snapIds=['s0','pain-panel','s1','sol-panel','product-showcase','s2','s3','s4','s5'];
