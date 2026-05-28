@@ -1169,8 +1169,53 @@ window.addEventListener('orientationchange', function(){ setTimeout(setVh, 200);
       <span class="swipe-icon">👆</span>
       <span class="swipe-txt">左右滑動查看產品</span>
     </div>
-    <button id="showcaseNextBtn" onclick="window.scrollTo({top:document.getElementById('s2').offsetTop,behavior:'smooth'})">繼續填問卷 →</button>
+    <button id="showcaseNextBtn" onclick="window.scrollTo({top:document.getElementById('s1b').offsetTop,behavior:'smooth'})">繼續填問卷 →</button>
 </div>
+
+
+<section class="sec snap" id="s1b">
+  <div class="rv">
+    <div class="sdots">
+      <div class="sd dn"></div><div class="sd dn"></div><div class="sd on"></div><div class="sd"></div><div class="sd"></div>
+    </div>
+    <span class="eyebrow">Q1.5 · 水槽規格</span>
+    <div class="q-num">01.5</div>
+    <h2 class="q-title">你家水槽的<br>排水孔尺寸？<span class="cbadge" id="sb"></span></h2>
+    <p class="step-hint">單選 · 第 2 題，共 5 題</p>
+    <div class="yline"></div>
+  </div>
+  <div class="pain-list rv d1" id="sink-list">
+    <div class="pain-card" onclick="togS(this)" data-id="s_14">
+      <div class="pchk">✓</div>
+      <div>
+        <div class="pmain">傳統水槽 14cm</div>
+        <span class="psub">蓋子是一塊黑色橡膠皮</span>
+      </div>
+    </div>
+    <div class="pain-card" onclick="togS(this)" data-id="s_18">
+      <div class="pchk">✓</div>
+      <div>
+        <div class="pmain">新式水槽 18cm</div>
+        <span class="psub">排水口寬，但是渣籃比較淺</span>
+      </div>
+    </div>
+    <div class="pain-card" onclick="togS(this)" data-id="s_185">
+      <div class="pchk">✓</div>
+      <div>
+        <div class="pmain">韓系水槽 18.5cm</div>
+        <span class="psub">排水口寬，渣籃大而深</span>
+      </div>
+    </div>
+    <div class="pain-card" onclick="togS(this)" data-id="s_unknown">
+      <div class="pchk">✓</div>
+      <div>
+        <div class="pmain">不清楚，不確定</div>
+        <span class="psub">沒有特別注意過</span>
+      </div>
+    </div>
+  </div>
+  <button class="next-btn" onclick="window.scrollTo({top:document.getElementById('s2').offsetTop,behavior:'smooth'})">繼續 →</button>
+</section>
 
 <section class="sec-dark snap" id="s2">
   <div class="rv">
@@ -1180,7 +1225,7 @@ window.addEventListener('orientationchange', function(){ setTimeout(setVh, 200);
     <span class="eyebrow eyebrow-g">Q2 · 功能偏好</span>
     <div class="q-num q-num-d">02</div>
     <h2 class="q-title q-white">以下哪個特色<br>最打動你？<span class="cbadge" id="fb"></span></h2>
-    <p class="step-hint step-hint-d">可複選 · 第 2 題，共 4 題</p>
+    <p class="step-hint step-hint-d">可複選 · 第 3 題，共 5 題</p>
     <div class="yline"></div>
   </div>
   <div class="feat-list rv d1">
@@ -1236,7 +1281,7 @@ class="fnum">01</span>
   
    <div class="q-num">03</div>
     <h2 class="q-title">看完以上，<br>最接近你感受的是？</h2>
-    <p class="step-hint">單選 · 第 3 題，共 4 題</p>
+    <p class="step-hint">單選 · 第 4 題，共 5 題</p>
   </div>
   <div class="intent-list rv d1">
     <div class="intent-opt" data-val="high" onclick="selI(this)">
@@ -1268,7 +1313,7 @@ class="ilabel">有興趣，但想等早鳥優惠或特別方案</div><span class
     <span class="eyebrow">Q4 · 基本資料</span>
     <div class="q-num">04</div>
     <h2 class="q-title" style="font-size:clamp(20px,5vw,24px)">您的性別</h2>
-    <p class="step-hint">單選 · 第 4 題，共 4 題</p>
+    <p class="step-hint">單選 · 第 5 題，共 5 題</p>
     <div class="gender-grid">
       <button class="gbtn" data-val="female" onclick="selG(this)">女性</button>
       <button class="gbtn" data-val="male" onclick="selG(this)">男性</button>
@@ -1347,7 +1392,7 @@ id="eIn" placeholder="your@email.com" inputmode="email" autocomplete="email">
 
 <script>
 // ── STATE
-const S={pains:[],feats:[],intent:null,gender:null};
+const S={pains:[],feats:[],intent:null,gender:null,sink:null};
 // ── INTERACTIONS
 function togP(el){
   el.classList.toggle('sel');
@@ -1356,6 +1401,13 @@ function togP(el){
   const b=document.getElementById('pb');
   b.textContent=S.pains.length+' 項已選';
   b.classList.toggle('show',S.pains.length>0);
+}
+function togS(el){
+  document.querySelectorAll('#sink-list .pain-card.sel').forEach(c=>{
+    c.classList.remove('sel');
+  });
+  el.classList.add('sel');
+  S.sink = el.dataset.id;
 }
 function togF(el){
   el.classList.toggle('sel');
@@ -1403,6 +1455,12 @@ const err=document.getElementById('eErr');
   btn.disabled=true;
 
   // 3. 整理要傳送的問卷資料
+  const sinkLabels = {
+    s_14: '傳統水槽 14cm',
+    s_18: '新式水槽 18cm',
+    s_185: '韓系水槽 18.5cm',
+    s_unknown: '不清楚，不確定'
+  };
   const payload = {
     name: document.getElementById('nIn').value,
     email: email,
@@ -1410,6 +1468,8 @@ const err=document.getElementById('eErr');
     comment: document.getElementById('cIn').value,
     pains: S.pains.join(', '),
     pains_text: S.pains.map(p => painLabels[p] || p).join('、'),
+    sink: S.sink || '',
+    sink_text: sinkLabels[S.sink] || '未作答',
     feats: S.feats.join(', '),
     feats_text: S.feats.map(f => featLabels[f] || f).join('、'),
     intent: S.intent,
