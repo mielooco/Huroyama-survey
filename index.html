@@ -816,6 +816,22 @@ textarea.finput{resize:vertical;min-height:88px}
 .next-btn:hover{opacity:.88}
 .next-btn:active{opacity:.7}
 
+/* sink-hint-img */
+.sink-hint-img{
+  display:block;
+  width:160px;
+  height:160px;
+  object-fit:cover;
+  border-radius:10px;
+  flex-shrink:0;
+}
+@media(min-width:768px){
+  .sink-hint-img{
+    width:250px;
+    height:250px;
+  }
+}
+
 ::-webkit-scrollbar{width:0}
 
 /* sol-panel 背景圖調整 */
@@ -1174,13 +1190,18 @@ window.addEventListener('orientationchange', function(){ setTimeout(setVh, 200);
 
 
 <section class="sec snap" id="s1b">
-  <div class="rv">
+  <div class="rv" style="position:relative;">
     <div class="sdots">
       <div class="sd dn"></div><div class="sd dn"></div><div class="sd on"></div><div class="sd"></div><div class="sd"></div>
     </div>
     <span class="eyebrow">Q2 · 水槽規格</span>
-    <div class="q-num">02</div>
-    <h2 class="q-title">你家水槽的<br>排水孔尺寸？<span class="cbadge" id="sb"></span></h2>
+    <div style="display:flex;align-items:center;gap:16px;">
+      <div>
+        <div class="q-num">02</div>
+        <h2 class="q-title">你家水槽的<br>排水孔尺寸？<span class="cbadge" id="sb"></span></h2>
+      </div>
+      <img src="https://pic.mieloo-corp.com/uploads/original/6b/60/1404f5185b0b3b386d349ef08e36.jpg" class="sink-hint-img">
+    </div>
     <p class="step-hint">單選 · 第 2 題，共 5 題</p>
     <div class="yline"></div>
   </div>
@@ -1189,7 +1210,7 @@ window.addEventListener('orientationchange', function(){ setTimeout(setVh, 200);
       <div class="pchk">✓</div>
       <div>
         <div class="pmain">傳統水槽 14cm</div>
-        <span class="psub">蓋子是一塊黑色橡膠皮</span>
+        <span class="psub">蓋子是一塊黑色橡膠皮，如上圖</span>
       </div>
     </div>
     <div class="pain-card" onclick="togS(this)" data-id="s_18">
