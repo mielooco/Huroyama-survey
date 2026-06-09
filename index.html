@@ -1776,6 +1776,7 @@ const showcaseObs = new IntersectionObserver(entries=>{
     }
     if(!e.isIntersecting){
       stopAutoPlay();
+      autoPlayDone=true;
     }
   });
 },{threshold:0.5});
