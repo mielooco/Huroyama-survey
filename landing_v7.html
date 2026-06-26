@@ -146,14 +146,14 @@ body{
 
 /* ════════ HERO (w0) ════════ */
 #w0 .wp-body{position:relative;padding:0;display:flex;flex-direction:column;justify-content:space-between;background:var(--black)}
-.hero-top{position:relative;z-index:1;padding:calc(28px + env(safe-area-inset-top)) 24px 0;text-align:center;transform:translateY(var(--w0-logo-dy,0px))}
-.hero-img{position:absolute;inset:0;background:url('https://pic.mieloo-corp.com/uploads/medium/4b/ef/bfe657322d1d8d0551450c97d199.png') center var(--w0-bg-posy,calc(50% - 30px))/cover no-repeat;transform:scale(var(--w0-bg-zoom,1));transform-origin:center center;}
+.hero-top{position:relative;z-index:1;padding:calc(28px + env(safe-area-inset-top)) 24px 0;text-align:center}
+.hero-img{position:absolute;inset:0;background:url('https://pic.mieloo-corp.com/uploads/medium/4b/ef/bfe657322d1d8d0551450c97d199.png') center calc(50% - 30px)/cover no-repeat;}
 .hero-grad{position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,8,6,.42) 0%,rgba(8,8,6,.20) 22%,rgba(8,8,6,.72) 62%,rgba(8,8,6,.95) 100%);}
-.hero-body{position:relative;z-index:1;padding:0 24px 36px;text-align:center;transform:translateY(var(--w0-body-dy,0px))}
-.hero-logo{display:block;height:var(--w0-logo-h,60px);width:auto;margin:0 auto;object-fit:contain;filter:brightness(0) invert(1) drop-shadow(0 2px 12px rgba(0,0,0,.55));animation:fu .8s ease .2s both}
-.hero-title{font-family:'Noto Sans TC',sans-serif;font-size:calc(clamp(33px,9vw,50px) * var(--w0-title-scale,1));font-weight:700;color:#fff;line-height:1.3;margin-bottom:16px;animation:fu .8s ease .4s both}
+.hero-body{position:relative;z-index:1;padding:0 24px 36px;text-align:center}
+.hero-logo{display:block;height:60px;width:auto;margin:0 auto;object-fit:contain;filter:brightness(0) invert(1) drop-shadow(0 2px 12px rgba(0,0,0,.55));animation:fu .8s ease .2s both}
+.hero-title{font-family:'Noto Sans TC',sans-serif;font-size:clamp(33px,9vw,50px);font-weight:700;color:#fff;line-height:1.3;margin-bottom:16px;animation:fu .8s ease .4s both}
 .hero-title em{font-style:normal;color:var(--gold)}
-.hero-sub{font-size:calc(14px * var(--w0-sub-scale,1));font-weight:300;color:rgba(255,255,255,.88);line-height:1.6;margin-bottom:8px;animation:fu .8s ease .6s both}
+.hero-sub{font-size:14px;font-weight:300;color:rgba(255,255,255,.88);line-height:1.6;margin-bottom:8px;animation:fu .8s ease .6s both}
 .hero-skip{display:inline-block;margin-top:14px;font-size:11px;letter-spacing:1px;color:rgba(255,255,255,.55);text-decoration:underline;text-underline-offset:3px;cursor:pointer;animation:fu .8s ease .9s both}
 
 /* ════════ IMAGE PANELS (w1 pain, w2 sol) ════════ */
@@ -197,7 +197,7 @@ body{
 
 /* ════════ Q4 PRICE + SLIDER (w7) ════════ */
 #w7 .wp-body{background:var(--black);justify-content:flex-end;position:relative;overflow:hidden}
-.q4-bg{position:absolute;inset:0;background:url('https://pic.mieloo-corp.com/uploads/medium/bc/60/92a9b4ccd0edd46792e6ec1e4c6d.jpg') center 50%/cover no-repeat;}
+.q4-bg{position:absolute;inset:0;background:url('https://pic.mieloo-corp.com/uploads/medium/bc/60/92a9b4ccd0edd46792e6ec1e4c6d.jpg') center top/cover no-repeat;}
 .q4-grad{position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,8,6,.12) 0%,rgba(8,8,6,.45) 38%,rgba(8,8,6,.88) 60%,rgba(8,8,6,.97) 78%,rgba(8,8,6,.99) 100%);}
 .price-wrap{position:relative;z-index:1;padding:24px 28px 22px;text-align:center;max-width:480px;margin:0 auto;width:100%}
 .price-eyebrow{font-size:11px;letter-spacing:3.5px;color:#bfe6f3;text-transform:uppercase;margin-bottom:12px;display:block}
@@ -377,25 +377,7 @@ textarea.finput{resize:vertical;min-height:72px}
   .sink-hint-img{width:130px;height:130px}
   .price-big{font-size:88px}
 }
-/* ════════ DESIGN EDIT MODE (W0 試點，正式版會移除) ════════ */
-#edToggle{position:fixed;top:10px;right:10px;z-index:9999;background:#1E5BAE;color:#fff;border:none;border-radius:30px;font-family:'Noto Sans TC',sans-serif;font-size:12px;letter-spacing:1px;padding:8px 14px;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.4);display:none}
-#edToggle.avail{display:block}
-#edToggle.on{background:#c0392b}
-.ed-on [data-edit]{outline:1.5px dashed rgba(80,168,204,.9);outline-offset:-1px;cursor:grab}
-.ed-on [data-edit]:active{cursor:grabbing}
-.ed-on .hero-grad{pointer-events:none}
-.ed-on [data-edit].ed-sel{outline-color:#EEC830;outline-width:2px}
-.ed-handle{position:absolute;width:26px;height:26px;border-radius:50%;background:#EEC830;border:2px solid #fff;z-index:9998;display:none;align-items:center;justify-content:center;font-size:12px;color:#141412;cursor:nwse-resize;box-shadow:0 1px 6px rgba(0,0,0,.5);touch-action:none}
-.ed-on .ed-handle.show{display:flex}
-#edPanel{position:fixed;left:10px;right:10px;bottom:10px;z-index:9999;background:rgba(20,20,18,.96);border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:12px 14px;display:none;font-family:'Noto Sans TC',sans-serif;backdrop-filter:blur(6px)}
-#edPanel.on{display:block}
-.edp-row{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-bottom:8px}
-.edp-hint{font-size:12px;color:rgba(255,255,255,.7);line-height:1.5}
-.edp-btn{background:#1E5BAE;color:#fff;border:none;border-radius:5px;font-size:12px;padding:9px 12px;cursor:pointer;font-family:'Noto Sans TC',sans-serif;letter-spacing:1px;flex:1}
-.edp-btn.ghost{background:rgba(255,255,255,.12)}
-#edExport{width:100%;height:74px;margin-top:8px;font-size:11px;font-family:monospace;background:#0d0d0c;color:#9fe;border:1px solid rgba(255,255,255,.16);border-radius:6px;padding:8px;display:none;resize:none}
-#edExport.show{display:block}
-
+</style>
 <script>
 function setVh(){document.documentElement.style.setProperty('--vh100',window.innerHeight+'px');}
 setVh();window.addEventListener('resize',setVh);
@@ -409,14 +391,14 @@ window.addEventListener('orientationchange',function(){setTimeout(setVh,200);});
   <!-- ════ w0 HERO ════ -->
   <section class="wpage active" id="w0">
     <div class="wp-body">
-      <div class="hero-img" data-edit="bg"></div>
+      <div class="hero-img"></div>
       <div class="hero-grad"></div>
-      <div class="hero-top" data-edit="logo">
+      <div class="hero-top">
         <img src="https://pic.mieloo-corp.com/uploads/medium/ec/8c/0498cef723b64fe276e18da9eb1a.png" alt="HUROYAMA" class="hero-logo">
       </div>
-      <div class="hero-body" data-edit="body">
-        <h1 class="hero-title" data-text="title">廚房水槽<br><em>快排濾網</em><br>即將登場</h1>
-        <p class="hero-sub" data-text="sub">解決廚房裡最噁心的三件事——<br>菜渣看不到、臭味聞不到、廚餘摸不到。<br>上市前，先聽聽你的聲音。</p>
+      <div class="hero-body">
+        <h1 class="hero-title">廚房水槽<br><em>快排濾網</em><br>即將登場</h1>
+        <p class="hero-sub">解決廚房裡最噁心的三件事——<br>菜渣看不到、臭味聞不到、廚餘摸不到。<br>上市前，先聽聽你的聲音。</p>
         <span class="hero-skip" onclick="goTo(4)">時間有限？直接填問卷 →</span>
       </div>
     </div>
@@ -989,165 +971,6 @@ function doSub(){
 
 /* init */
 showPage(0);
-</script>
-<button id="edToggle" onclick="edToggle()">✎ 編輯</button>
-<div id="edPanel">
-  <div class="edp-hint" id="edHint">點一下元素選取它 → 拖曳移動位置、拖角落黃點縮放、雙擊文字改字。只調得動上下與大小，左右維持置中（保證各手機一致）。</div>
-  <div class="edp-row" style="margin-top:10px">
-    <button class="edp-btn" onclick="edExport()">匯出設定</button>
-    <button class="edp-btn ghost" onclick="edReset()">重設</button>
-  </div>
-  <textarea id="edExport" readonly></textarea>
-</div>
-
-<script>
-/* ════════ DESIGN EDIT MODE — W0 試點 ════════ */
-(function(){
-  const page = document.getElementById('w0');
-  if(!page) return;
-  const toggle = document.getElementById('edToggle');
-  const panel  = document.getElementById('edPanel');
-  const exportBox = document.getElementById('edExport');
-
-  // 只在 W0 顯示開關
-  function refreshAvail(){
-    const onW0 = document.getElementById('w0').classList.contains('active');
-    toggle.classList.toggle('avail', onW0);
-    if(!onW0){ edOff(); }
-  }
-  // 監看頁面切換
-  const mo = new MutationObserver(refreshAvail);
-  mo.observe(document.getElementById('w0'), {attributes:true, attributeFilter:['class']});
-  refreshAvail();
-
-  const D = {bgPosY:50, bgZoom:1, logoDy:0, logoH:60, bodyDy:0, titleScale:1, subScale:1};
-  const DEF = Object.assign({}, D);
-
-  function apply(){
-    page.style.setProperty('--w0-bg-posy', D.bgPosY+'%');
-    page.style.setProperty('--w0-bg-zoom', D.bgZoom);
-    page.style.setProperty('--w0-logo-dy', D.logoDy+'px');
-    page.style.setProperty('--w0-logo-h', D.logoH+'px');
-    page.style.setProperty('--w0-body-dy', D.bodyDy+'px');
-    page.style.setProperty('--w0-title-scale', D.titleScale);
-    page.style.setProperty('--w0-sub-scale', D.subScale);
-    if(sel) positionHandle();
-  }
-
-  let editing=false, sel=null;
-  const handle = document.createElement('div');
-  handle.className='ed-handle'; handle.textContent='⤢';
-  document.body.appendChild(handle);
-
-  window.edToggle=function(){ editing?edOff():edOn(); };
-  function edOn(){
-    editing=true;
-    document.body.classList.add('ed-on');
-    toggle.classList.add('on'); toggle.textContent='✓ 完成';
-    panel.classList.add('on');
-  }
-  function edOff(){
-    editing=false;
-    document.body.classList.remove('ed-on');
-    toggle.classList.remove('on'); toggle.textContent='✎ 編輯';
-    panel.classList.remove('on');
-    exportBox.classList.remove('show');
-    deselect();
-    [...page.querySelectorAll('[data-text]')].forEach(t=>t.removeAttribute('contenteditable'));
-  }
-  window.edOff=edOff;
-
-  function select(el){
-    deselect(); sel=el; el.classList.add('ed-sel');
-    handle.classList.add('show'); positionHandle();
-  }
-  function deselect(){ if(sel){sel.classList.remove('ed-sel');} sel=null; handle.classList.remove('show'); }
-  function positionHandle(){
-    if(!sel) return;
-    const r = sel.getBoundingClientRect();
-    handle.style.left = (r.right-13)+'px';
-    handle.style.top  = (r.bottom-13)+'px';
-  }
-  window.addEventListener('scroll', positionHandle, true);
-  window.addEventListener('resize', positionHandle);
-
-  // ── 拖曳移動（垂直）
-  let drag=null;
-  function startMove(e, el){
-    const type = el.dataset.edit;
-    drag={mode:'move', type, startY:(e.touches?e.touches[0].clientY:e.clientY),
-          base:(type==='bg'?D.bgPosY:type==='logo'?D.logoDy:D.bodyDy)};
-    e.preventDefault();
-  }
-  function startResize(e){
-    if(!sel) return;
-    const type = sel.dataset.edit;
-    drag={mode:'resize', type, startY:(e.touches?e.touches[0].clientY:e.clientY),
-          base:(type==='bg'?D.bgZoom:type==='logo'?D.logoH:D.titleScale),
-          base2:(type==='body'?D.subScale:null)};
-    e.preventDefault(); e.stopPropagation();
-  }
-  function onMove(e){
-    if(!drag) return;
-    const y=(e.touches?e.touches[0].clientY:e.clientY);
-    const dy=y-drag.startY;
-    const H=window.innerHeight||800;
-    if(drag.mode==='move'){
-      if(drag.type==='bg') D.bgPosY=clamp(drag.base+dy/H*100, 0, 100);
-      if(drag.type==='logo') D.logoDy=clamp(drag.base+dy, -120, 600);
-      if(drag.type==='body') D.bodyDy=clamp(drag.base+dy, -600, 200);
-    } else {
-      if(drag.type==='bg') D.bgZoom=clamp(drag.base+dy/200, 1, 3);
-      if(drag.type==='logo') D.logoH=clamp(drag.base+dy, 28, 170);
-      if(drag.type==='body'){ const f=clamp(drag.base+dy/160,.6,2); D.titleScale=f; D.subScale=clamp(drag.base2+dy/160,.6,2);}
-    }
-    apply(); e.preventDefault();
-  }
-  function endDrag(){ drag=null; }
-  function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
-
-  // attach to editable elements
-  [...page.querySelectorAll('[data-edit]')].forEach(el=>{
-    el.addEventListener('pointerdown', e=>{
-      if(!editing) return;
-      if(e.target===handle) return;
-      select(el); startMove(e, el);
-    });
-  });
-  handle.addEventListener('pointerdown', e=>{ if(editing) startResize(e); });
-  document.addEventListener('pointermove', onMove, {passive:false});
-  document.addEventListener('pointerup', endDrag);
-
-  // 文字編輯：雙擊
-  [...page.querySelectorAll('[data-text]')].forEach(t=>{
-    t.addEventListener('dblclick', e=>{
-      if(!editing) return;
-      t.setAttribute('contenteditable','true'); t.focus();
-      e.stopPropagation();
-    });
-  });
-
-  window.edExport=function(){
-    const title=page.querySelector('[data-text="title"]').innerHTML.trim();
-    const sub=page.querySelector('[data-text="sub"]').innerHTML.trim();
-    const txt =
-`/* === W0 設定（貼回給 Claude 固定）=== */
---w0-bg-posy: ${D.bgPosY.toFixed(1)}%;
---w0-bg-zoom: ${D.bgZoom.toFixed(3)};
---w0-logo-dy: ${Math.round(D.logoDy)}px;
---w0-logo-h:  ${Math.round(D.logoH)}px;
---w0-body-dy: ${Math.round(D.bodyDy)}px;
---w0-title-scale: ${D.titleScale.toFixed(3)};
---w0-sub-scale:   ${D.subScale.toFixed(3)};
-標題HTML: ${title}
-副標HTML: ${sub}`;
-    exportBox.value=txt; exportBox.classList.add('show');
-    exportBox.focus(); exportBox.select();
-  };
-  window.edReset=function(){ Object.assign(D, DEF); apply(); };
-
-  apply();
-})();
 </script>
 </body>
 </html>
