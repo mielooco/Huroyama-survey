@@ -145,14 +145,15 @@ body{
 .cbadge.show{opacity:1}
 
 /* ════════ HERO (w0) ════════ */
-#w0 .wp-body{position:relative;padding:0;justify-content:flex-end;background:var(--black)}
+#w0 .wp-body{position:relative;padding:0;display:flex;flex-direction:column;justify-content:space-between;background:var(--black)}
+.hero-top{position:relative;z-index:1;padding:calc(28px + env(safe-area-inset-top)) 24px 0;text-align:center}
 .hero-img{position:absolute;inset:0;background:url('https://pic.mieloo-corp.com/uploads/medium/4b/ef/bfe657322d1d8d0551450c97d199.png') center calc(50% - 30px)/cover no-repeat;}
-.hero-grad{position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,8,6,.18) 0%,rgba(8,8,6,.72) 60%,rgba(8,8,6,.95) 100%);}
-.hero-body{position:relative;padding:0 24px 32px;text-align:center}
-.hero-logo{display:block;height:64px;width:auto;margin:0 auto 18px;object-fit:contain;filter:brightness(0) invert(1);animation:fu .8s ease .2s both}
-.hero-title{font-family:'Noto Sans TC',sans-serif;font-size:clamp(30px,8vw,44px);font-weight:700;color:#fff;line-height:1.3;margin-bottom:14px;animation:fu .8s ease .4s both}
+.hero-grad{position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,8,6,.42) 0%,rgba(8,8,6,.20) 22%,rgba(8,8,6,.72) 62%,rgba(8,8,6,.95) 100%);}
+.hero-body{position:relative;z-index:1;padding:0 24px 36px;text-align:center}
+.hero-logo{display:block;height:60px;width:auto;margin:0 auto;object-fit:contain;filter:brightness(0) invert(1) drop-shadow(0 2px 12px rgba(0,0,0,.55));animation:fu .8s ease .2s both}
+.hero-title{font-family:'Noto Sans TC',sans-serif;font-size:clamp(33px,9vw,50px);font-weight:700;color:#fff;line-height:1.3;margin-bottom:16px;animation:fu .8s ease .4s both}
 .hero-title em{font-style:normal;color:var(--gold)}
-.hero-sub{font-size:13px;font-weight:300;color:rgba(255,255,255,.85);line-height:1.5;margin-bottom:8px;animation:fu .8s ease .6s both}
+.hero-sub{font-size:14px;font-weight:300;color:rgba(255,255,255,.88);line-height:1.6;margin-bottom:8px;animation:fu .8s ease .6s both}
 .hero-skip{display:inline-block;margin-top:14px;font-size:11px;letter-spacing:1px;color:rgba(255,255,255,.55);text-decoration:underline;text-underline-offset:3px;cursor:pointer;animation:fu .8s ease .9s both}
 
 /* ════════ IMAGE PANELS (w1 pain, w2 sol) ════════ */
@@ -195,14 +196,16 @@ body{
 .sink-hint-img{width:104px;height:104px;object-fit:cover;border-radius:8px;flex-shrink:0}
 
 /* ════════ Q4 PRICE + SLIDER (w7) ════════ */
-#w7 .wp-body{background:var(--black);justify-content:center}
-.price-wrap{padding:34px 28px;text-align:center;max-width:480px;margin:0 auto;width:100%}
-.price-eyebrow{font-size:10px;letter-spacing:3.5px;color:var(--steel);text-transform:uppercase;margin-bottom:18px;display:block}
+#w7 .wp-body{background:var(--black);justify-content:flex-end;position:relative;overflow:hidden}
+.q4-bg{position:absolute;inset:0;background:url('https://pic.mieloo-corp.com/uploads/medium/bc/60/92a9b4ccd0edd46792e6ec1e4c6d.jpg') center top/cover no-repeat;}
+.q4-grad{position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,8,6,.12) 0%,rgba(8,8,6,.45) 38%,rgba(8,8,6,.88) 60%,rgba(8,8,6,.97) 78%,rgba(8,8,6,.99) 100%);}
+.price-wrap{position:relative;z-index:1;padding:24px 28px 22px;text-align:center;max-width:480px;margin:0 auto;width:100%}
+.price-eyebrow{font-size:11px;letter-spacing:3.5px;color:#bfe6f3;text-transform:uppercase;margin-bottom:12px;display:block}
 .price-label{font-size:13px;color:rgba(255,255,255,.6);margin-bottom:6px;letter-spacing:1px}
-.price-big{font-family:'Noto Sans TC',sans-serif;font-size:72px;font-weight:700;color:#fff;line-height:1;margin-bottom:6px}
+.price-big{font-family:'Noto Sans TC',sans-serif;font-size:72px;font-weight:700;color:#fff;line-height:1;margin-bottom:6px;text-shadow:0 2px 14px rgba(0,0,0,.55)}
 .price-big::before{content:'$';font-size:38px;vertical-align:super;color:var(--gold);margin-right:2px;font-weight:400}
-.price-orig{font-size:13px;color:var(--steel);text-decoration:line-through;margin-bottom:30px;display:block}
-.price-q{font-size:16px;color:#fff;font-weight:500;margin-bottom:26px;line-height:1.5}
+.price-orig{font-size:13px;color:rgba(255,255,255,.6);text-decoration:line-through;margin-bottom:18px;display:block}
+.price-q{font-size:17px;color:#fff;font-weight:500;margin-bottom:22px;line-height:1.5;text-shadow:0 1px 8px rgba(0,0,0,.6)}
 /* slider */
 .slider-shell{margin-top:8px}
 .slider-track-wrap{position:relative;padding:0 6px}
@@ -289,6 +292,8 @@ textarea.finput{resize:vertical;min-height:72px}
 .eb-price{font-family:'Noto Sans TC',sans-serif;font-size:48px;color:#fff;line-height:1;margin-bottom:4px;font-weight:700}
 .eb-orig{font-size:13px;color:var(--steel);text-decoration:line-through;margin-bottom:14px;display:block}
 .eb-desc{font-size:13px;color:var(--steel);line-height:1.7}
+.ty-status{width:calc(100% - 56px);max-width:340px;margin:26px auto 0;display:flex;flex-direction:column;gap:10px}
+.ty-status-row{background:rgba(80,168,204,.10);border:1px solid rgba(80,168,204,.32);color:#bfe6f3;font-size:13px;padding:13px 16px;border-radius:6px;letter-spacing:.5px;line-height:1.4}
 .lottery-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(80,168,204,.14);border:1px solid rgba(80,168,204,.4);color:var(--gold);font-size:12px;padding:10px 18px;border-radius:30px;margin:26px auto 0;letter-spacing:1px}
 .ty-follow{padding:28px 24px 40px;text-align:center}
 .ty-follow-hint{font-size:14px;color:rgba(255,255,255,.9);line-height:1.7;margin-bottom:20px}
@@ -388,8 +393,10 @@ window.addEventListener('orientationchange',function(){setTimeout(setVh,200);});
     <div class="wp-body">
       <div class="hero-img"></div>
       <div class="hero-grad"></div>
-      <div class="hero-body">
+      <div class="hero-top">
         <img src="https://pic.mieloo-corp.com/uploads/medium/ec/8c/0498cef723b64fe276e18da9eb1a.png" alt="HUROYAMA" class="hero-logo">
+      </div>
+      <div class="hero-body">
         <h1 class="hero-title">廚房水槽<br><em>快排濾網</em><br>即將登場</h1>
         <p class="hero-sub">解決廚房裡最噁心的三件事——<br>菜渣看不到、臭味聞不到、廚餘摸不到。<br>上市前，先聽聽你的聲音。</p>
         <span class="hero-skip" onclick="goTo(4)">時間有限？直接填問卷 →</span>
@@ -559,13 +566,15 @@ window.addEventListener('orientationchange',function(){setTimeout(setVh,200);});
   <!-- ════ w7 Q4 PRICE + SLIDER ════ -->
   <section class="wpage" id="w7">
     <div class="wprog on-dark"><div class="wprog-track"><div class="wprog-bar"></div></div><div class="wprog-txt"></div></div>
-    <div class="wp-body center">
+    <div class="wp-body" id="q4Body">
+      <div class="q4-bg"></div>
+      <div class="q4-grad"></div>
       <div class="price-wrap">
         <span class="price-eyebrow">Q4 · 價格心動度</span>
         <p class="price-label">早鳥預計價格</p>
         <div class="price-big" id="priceShown">699</div>
         <span class="price-orig">正式售價 $790</span>
-        <p class="price-q">看到這個價格，你有多心動？</p>
+        <p class="price-q">請告訴我們您的<br>心動指數有幾分？</p>
         <div class="slider-shell">
           <div class="slider-track-wrap">
             <input type="range" min="1" max="7" step="1" value="4" class="price-slider" id="priceSlider"
@@ -589,12 +598,34 @@ window.addEventListener('orientationchange',function(){setTimeout(setVh,200);});
     </div>
   </section>
 
-  <!-- ════ w8 Q5 GENDER ════ -->
+  <!-- ════ w7b ADD-ON PREFERENCE (multi-select) ════ -->
+  <section class="wpage" id="w7b">
+    <div class="wprog"><div class="wprog-track"><div class="wprog-bar"></div></div><div class="wprog-txt"></div></div>
+    <div class="wp-body">
+      <div class="pad">
+        <span class="eyebrow">Q5 · 加購偏好</span>
+        <h2 class="q-title">未來如果推出這些<br><strong>廚房好夥伴</strong>，<br>你會想要哪個？</h2>
+        <p class="step-hint">可複選</p>
+        <div class="pain-list">
+          <div class="pain-card" onclick="togA(this)" data-id="a1"><div class="pchk">✓</div><div><div class="pmain">廚餘桶</div><span class="psub">搭配濾網使用，廚餘倒進去更順手</span></div><span class="pemoji">🪣</span></div>
+          <div class="pain-card" onclick="togA(this)" data-id="a2"><div class="pchk">✓</div><div><div class="pmain">清潔三寶</div><span class="psub">過碳酸鈉＋小蘇打＋檸檬酸，分裝瓶＋使用教學</span></div><span class="pemoji">🧼</span></div>
+          <div class="pain-card" onclick="togA(this)" data-id="a3"><div class="pchk">✓</div><div><div class="pmain">備用耗材組</div><span class="psub">矽膠密封環等補充包</span></div><span class="pemoji">🔁</span></div>
+          <div class="pain-card" onclick="togA(this)" data-id="a0"><div class="pchk">✓</div><div><div class="pmain">暫時都沒興趣</div><span class="psub">先看看濾網就好</span></div><span class="pemoji">🙅</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="wp-nav">
+      <button class="btn-prev" onclick="prev()">←</button>
+      <button class="btn-next" onclick="next()">繼續 →</button>
+    </div>
+  </section>
+
+  <!-- ════ w8 Q6 GENDER ════ -->
   <section class="wpage" id="w8">
     <div class="wprog"><div class="wprog-track"><div class="wprog-bar"></div></div><div class="wprog-txt"></div></div>
     <div class="wp-body">
       <div class="pad">
-        <span class="eyebrow">Q5 · 基本資料</span>
+        <span class="eyebrow">Q6 · 基本資料</span>
         <h2 class="q-title" style="font-size:clamp(20px,5vw,24px)">您的性別</h2>
         <p class="step-hint">單選</p>
         <div class="gender-grid">
@@ -641,10 +672,6 @@ window.addEventListener('orientationchange',function(){setTimeout(setVh,200);});
             <div class="tg-box">✓</div>
             <div><div class="tg-main">我要參加抽獎</div><span class="tg-sub">送出後加入 LINE 好友即完成參加，中獎以 LINE 通知</span></div>
           </div>
-          <div class="toggle-row" id="tgTrio" onclick="togToggle('tgTrio')">
-            <div class="tg-box">✓</div>
-            <div><div class="tg-main">對「浴山清潔三寶」有興趣</div><span class="tg-sub">未來推出設計感清潔系列時，想優先收到消息</span></div>
-          </div>
         </div>
 
         <div class="fgroup">
@@ -678,17 +705,14 @@ window.addEventListener('orientationchange',function(){setTimeout(setVh,200);});
       <div class="ty-top">
         <div class="ty-icon">🎉</div>
         <h2 class="ty-title">謝謝你的支持！</h2>
-        <p class="ty-sub">我們已收到你的回覆。<br>預計 8 月上嘖嘖，屆時第一時間通知你，<br>你將是第一批知道的人。</p>
-        <div class="eb-card">
-          <span class="eb-label">Early Bird · 早鳥預覽</span>
-          <div class="eb-price">$599</div>
-          <span class="eb-orig">正式售價 $790</span>
-          <p class="eb-desc">早鳥限量 200 組<br>名單中的你已優先鎖定資格 ✓</p>
+        <p class="ty-sub">我們已收到你的回覆。<br>預計 8 月上嘖嘖，屆時第一時間通知你，<br>你會是第一批知道的人。</p>
+        <div class="ty-status">
+          <div class="ty-status-row">✓ 早鳥資格・限量 200 組・已為你鎖定</div>
+          <div class="ty-status-row" id="lotteryRow">🎲 抽獎資格已登記，加 LINE 好友即完成參加</div>
         </div>
-        <div class="lottery-tag" id="lotteryTag">🎲 抽獎資格已登記，加 LINE 好友完成參加</div>
       </div>
       <div class="ty-follow">
-        <p class="ty-follow-hint">產品上線通知＋抽獎結果不漏接<br>加入我們，搶先掌握早鳥優惠 🎉</p>
+        <p class="ty-follow-hint">產品上線通知＋抽獎結果不漏接<br>加入我們，搶先掌握最新消息 🎉</p>
         <a href="https://lin.ee/qyNMRN0" target="_blank" class="ty-follow-btn ty-follow-line">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
           加入 LINE 好友 · 完成抽獎參加
@@ -706,13 +730,13 @@ window.addEventListener('orientationchange',function(){setTimeout(setVh,200);});
 
 <script>
 /* ════════ WIZARD ENGINE ════════ */
-const PAGES = ['w0','w1','w2','w3','w4','w5','w6','w7','w8','w9','w10','w11'];
-const SURVEY = {w4:1,w5:2,w6:3,w7:4,w8:5}; // page -> X of 5
-const SURVEY_TOTAL = 5;
+const PAGES = ['w0','w1','w2','w3','w4','w5','w6','w7','w7b','w8','w9','w10','w11'];
+const SURVEY = {w4:1,w5:2,w6:3,w7:4,w7b:5,w8:6}; // page -> X of 6
+const SURVEY_TOTAL = 6;
 let cur = 0;
 let submitted = false;
 
-const S = {pains:[],feats:[],intent:null,gender:null,sink:null,priceScore:null,priceShown:699,lottery:true,trio:false};
+const S = {pains:[],feats:[],intent:null,gender:null,sink:null,priceScore:null,priceShown:699,lottery:true,addons:[]};
 
 function showPage(i){
   i = Math.max(0, Math.min(PAGES.length-1, i));
@@ -782,6 +806,22 @@ function togF(el){
   const b=document.getElementById('fb');b.textContent=S.feats.length+' 項已選';b.classList.toggle('show',S.feats.length>0);
 }
 function selG(el){document.querySelectorAll('.gbtn').forEach(b=>b.classList.remove('sel'));el.classList.add('sel');S.gender=el.dataset.val;}
+function togA(el){
+  const id=el.dataset.id;
+  const cards=[...document.querySelectorAll('#w7b .pain-card')];
+  if(id==='a0'){
+    // 「暫時都沒興趣」：選它就清掉其他；其他全清
+    const willOn=!el.classList.contains('sel');
+    cards.forEach(c=>c.classList.remove('sel'));
+    if(willOn) el.classList.add('sel');
+  } else {
+    el.classList.toggle('sel');
+    // 選了實際品項就取消「都沒興趣」
+    const none=cards.find(c=>c.dataset.id==='a0');
+    if(none) none.classList.remove('sel');
+  }
+  S.addons=cards.filter(c=>c.classList.contains('sel')).map(c=>c.dataset.id);
+}
 
 /* ════════ Q4 SLIDER ════════ */
 function onSlide(el){
@@ -807,7 +847,6 @@ function togToggle(id){
   const el=document.getElementById(id);
   el.classList.toggle('on');
   if(id==='tgLottery') S.lottery=el.classList.contains('on');
-  if(id==='tgTrio') S.trio=el.classList.contains('on');
 }
 
 /* ════════ SHOWCASE ════════ */
@@ -868,6 +907,7 @@ w3.addEventListener('touchend',e=>{
 const painLabels={p1:'堆滿菜渣的渣籃必須用手提起倒掉，還很難倒乾淨',p2:'渣籃堆滿菜渣，造成排水不順與積水',p3:'排水口有臭味從下水道倒灌',p4:'濾網油膩黏滑，清洗時造成的心理負擔',p5:'廚餘殘渣裸露在外，視覺很噁心'};
 const featLabels={f1:'按壓快排，一按就通',f2:'密封防臭，阻斷下水道氣體',f3:'隱蔽美型，菜渣眼不見為淨',f4:'秒取渣籃，清理不沾手'};
 const sinkLabels={s_14:'傳統水槽 14cm',s_18:'新式水槽 18cm',s_185:'韓系水槽 18.5cm',s_unknown:'不清楚，不確定'};
+const addonLabels={a1:'廚餘桶',a2:'清潔三寶',a3:'備用耗材組',a0:'暫時都沒興趣'};
 
 function doSub(){
   const email=document.getElementById('eIn').value.trim();
@@ -897,9 +937,15 @@ function doSub(){
     // ★ Q4 數字分數（1-7）＋ 露出價格
     price_shown:S.priceShown,
     price_score:S.priceScore,
-    // ★ 抽獎 / 加購探針
+    // ★ 抽獎
     lottery:S.lottery?'參加':'未參加',
-    trio_interest:S.trio?'有興趣':'無'
+    // ★ 加購偏好（one-hot，後台一欄一品項 1/0）
+    addons:S.addons.join(', '),
+    addons_text:S.addons.map(a=>addonLabels[a]||a).join('、'),
+    addon_bin:S.addons.includes('a1')?1:0,
+    addon_trio:S.addons.includes('a2')?1:0,
+    addon_refill:S.addons.includes('a3')?1:0,
+    addon_none:S.addons.includes('a0')?1:0
   };
 
   const GAS_URL="https://script.google.com/macros/s/AKfycby8loHM_Th6iMYyERRPy_O1KQrWD21ZshQiMATU7C9gZSa1621Q2w-S38N4NIFjGVrs/exec";
@@ -913,7 +959,7 @@ function doSub(){
     if(typeof gtag!=='undefined') gtag('event','generate_lead',{'event_category':'Survey'});
     submitted=true;
     // 感謝頁依抽獎勾選顯示
-    document.getElementById('lotteryTag').style.display = S.lottery?'inline-flex':'none';
+    var lr=document.getElementById('lotteryRow'); if(lr) lr.style.display = S.lottery?'block':'none';
     showPage(PAGES.indexOf('w11'));
   })
   .catch(err=>{
