@@ -1,0 +1,1691 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>浴山｜廚房水槽快排濾網 — 上市前意見募集</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','1043810354313464');fbq('track','PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1043810354313464&ev=PageView&noscript=1"/></noscript>
+
+<!-- GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=你的GAID"></script>
+<script>
+window.dataLayer=window.dataLayer||[];
+function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());gtag('config','你的GAID');
+</script>
+
+<style>
+/* ═══════════════════════════════════════
+   1. TOKENS
+═══════════════════════════════════════ */
+:root {
+  --white:  #ffffff;
+  --off:    #f5f5f3;
+  --lgray:  #e6e6e4;
+  --mgray:  #aeaeaa;
+  --black:  #141412;
+  --steel:  #7a8490;
+  --gold:   #50A8CC;
+  --navy:   #0A2540;
+  --blue:   #1E5BAE;
+  --txt:    #1a1a18;
+  --txt2:   #686864;
+  --txt3:   #9a9a96;
+  --f-zh:   'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+  --f-en:   'DM Sans', sans-serif;
+  --col-w:  460px;
+  --pad:    24px;
+  --prog-h: 46px;
+  --btn-h:  52px;   /* v8.10：全站按鈕統一高度，對齊 W0 */
+  /* v8.5 背景縮放基準：以「高度」鎖定縮放比例。
+     視窗高 ≥ 基準 → 維持此比例不放大（拉寬只是露出更多圖、構圖不動）；
+     視窗高 < 基準 → 才等比縮小。背景仍鋪滿整個視窗、兩側滿版。 */
+  --bg-base-h: 1080px;
+}
+
+/* ═══════════════════════════════════════
+   2. RESET + BASE
+═══════════════════════════════════════ */
+*, *::before, *::after {
+  margin: 0; padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+html { height: 100%; }
+body {
+  font-family: var(--f-zh);
+  font-weight: 400;
+  background: var(--black);   /* v8.3：基底改深色，首屏圖片頁 fallback */
+  color: var(--txt);
+  overflow-x: hidden;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+img { display: block; max-width: 100%; }
+button { cursor: pointer; font-family: var(--f-zh); border: none; outline: none; -webkit-appearance: none; border-radius: 0; }
+input, textarea { font-family: var(--f-zh); outline: none; -webkit-appearance: none; border-radius: 0; }
+a { text-decoration: none; }
+
+/* ═══════════════════════════════════════
+   3. LAYOUT — 置中 App 框（背景全幅、內容置中浮上）
+═══════════════════════════════════════ */
+/* v8.3：移除側邊 body::before，背景改由 .bg-layer 固定鋪滿全視窗 */
+
+#col {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: var(--col-w);
+  margin: 0 auto;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  background: transparent;   /* v8.3：欄位透明，讓全幅背景透出，不分塊 */
+}
+
+/* ═══════════════════════════════════════
+   4. PROGRESS BAR — fixed，只在 Q 頁顯示
+═══════════════════════════════════════ */
+#prog {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0; right: 0;
+  height: var(--prog-h);
+  z-index: 300;
+  background: rgba(245,245,243,0.97);
+  border-bottom: 1px solid var(--lgray);
+  align-items: center;
+  gap: 12px;
+  padding: 0 var(--pad);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transition: background .2s, border-color .2s;
+}
+#prog.on { display: flex; }
+/* v8.11 Q3：黑底白字 */
+#prog.prog-dark {
+  background: rgba(20,20,18,.97);
+  border-bottom-color: rgba(255,255,255,.08);
+}
+#prog.prog-dark .prog-label { color: rgba(255,255,255,.5); }
+#prog.prog-dark .prog-track { background: rgba(255,255,255,.1); }
+/* v8.11 Q4：透明，讓底圖透出 */
+#prog.prog-clear {
+  background: transparent;
+  border-bottom-color: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+#prog.prog-clear .prog-label { color: rgba(255,255,255,.7); }
+#prog.prog-clear .prog-track { background: rgba(255,255,255,.2); }
+
+/* 桌機：限制到欄寬並置中 */
+@media (min-width: 480px) {
+  #prog {
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: var(--col-w);
+    width: 100%;
+  }
+}
+
+.prog-track {
+  flex: 1;
+  height: 3px;
+  background: var(--lgray);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.prog-fill {
+  height: 100%;
+  background: var(--gold);
+  border-radius: 2px;
+  transition: width .45s ease;
+  width: 0%;
+}
+.prog-label { font-size: 10px; letter-spacing: 1px; color: var(--txt3); white-space: nowrap; }
+
+/* ═══════════════════════════════════════
+   5. PAGE BASE
+═══════════════════════════════════════ */
+.page {
+  display: none;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  position: relative;
+  overflow-x: hidden;
+}
+.page.active { display: flex; }
+
+.page-dark   { background: var(--black); color: #fff; }
+.page-light  { background: var(--off);   color: var(--txt); }
+.page-white  { background: var(--white); color: var(--txt); }
+.page-bg-img { background: var(--black); }
+
+/* Q 頁面：頂部留出 prog bar 高度 */
+.page-q { } /* v8.6：上方位移改由 .page-q .pc-pad 處理，避免與 5% 安全內距重複計算 */
+
+/* ═══════════════════════════════════════
+   6. BACKGROUND LAYERS
+   ⚠️ 全部用 longhand，禁用 shorthand+var（v7 全黑元兇）
+═══════════════════════════════════════ */
+.bg-layer {
+  /* v8.5：鋪滿整個視窗（兩側滿版），但縮放比例由高度鎖定、不隨視窗放大。
+     background-size 高度 = min(視窗高, 基準高)；視窗更大只露出更多圖、構圖不位移。 */
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-repeat: no-repeat;
+  background-position: center calc(50% - 100px);
+  background-size: auto min(100dvh, var(--bg-base-h));
+}
+.bg-hero {
+  background-image: url('https://pic.mieloo-corp.com/uploads/medium/4b/ef/bfe657322d1d8d0551450c97d199.png');
+  background-position: center top;
+}
+.bg-w1 {
+  background-image: url('https://pic.mieloo-corp.com/uploads/medium/89/9f/13c9939bba16ddf99f411d4f22f8.jpg');
+  background-position: center;
+}
+.bg-w2 {
+  background-image: url('https://pic.mieloo-corp.com/uploads/medium/1c/ab/4dbfb9b62ad03377c966006998e9.png');
+  background-position: center 30%;
+}
+.bg-q4 {
+  background-image: url('https://pic.mieloo-corp.com/uploads/medium/bc/60/92a9b4ccd0edd46792e6ec1e4c6d.jpg');
+  background-position: center;
+  background-size: auto 150dvh;
+}
+.bg-overlay {
+  /* v8.5：暗化層鋪滿全視窗 */
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(8,8,6,.14) 0%, rgba(8,8,6,.62) 55%, rgba(8,8,6,.92) 100%);
+}
+
+/* ═══════════════════════════════════════
+   7. PAGE CONTENT WRAPPER
+═══════════════════════════════════════ */
+.pc {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  /* v8.6：水平內縮 5% = 90% 安全框左右邊 */
+  padding: 0 5%;
+}
+.pc-end   { justify-content: flex-end; padding-top: 5dvh; padding-bottom: max(env(safe-area-inset-bottom, 0px), 5dvh); }
+.pc-top   { justify-content: flex-start; padding-top: 25dvh; padding-bottom: max(env(safe-area-inset-bottom, 0px), 5dvh); } /* v8.9 W1：內容落在 guideline 480–960 區間 */
+.pc-center{ justify-content: center; align-items: center; text-align: center; padding-top: 5dvh; padding-bottom: 5dvh; }
+.pc-pad   { padding-top: 5dvh; padding-bottom: max(env(safe-area-inset-bottom, 0px), 5dvh); }
+/* ip-backdrop removed v8.10 */
+/* v8.18 表單欄位底色 */
+.form-fields-wrap {
+  background: var(--off);
+  border-radius: 4px;
+  padding: 6px 0 2px;   /* v8.22: 拿掉左右 padding，對齊標籤與輸入框 */
+  margin: 4px 0 0;
+}
+/* v8.6：Q 頁需同時讓開進度條與守住上方 5% 安全線 */
+.page-q .pc-pad { padding-top: max(5dvh, calc(var(--prog-h) + 10px)); }
+.page-white .pc-pad { padding-top: 5dvh; padding-bottom: max(env(safe-area-inset-bottom, 0px), 5dvh); }
+
+/* ═══════════════════════════════════════
+   8. BUTTONS
+═══════════════════════════════════════ */
+.btn {
+  display: block;
+  width: 100%;
+  height: var(--btn-h);
+  padding: 0 24px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-align: center;
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity .2s;
+}
+.btn:active { opacity: .76; }
+
+.btn-gold  { background: var(--gold); color: #fff; }
+.btn-ghost {
+  background: transparent;
+  color: rgba(255,255,255,.5);
+  border: 1px solid rgba(255,255,255,.18);
+  font-size: 11px; letter-spacing: 1.5px;
+  margin-top: 10px;
+}
+.btn-line  { background: #00B900; color: #fff; }
+
+.nav-row {
+  display: flex;
+  gap: 10px;
+  margin-top: auto;       /* v8.1: \u8cbc\u5e95\uff0c\u8ddf hero/IP \u9801\u540c\u5957\u908f\u8f2f */
+  padding-top: 24px;      /* \u8207\u4e0a\u65b9\u5167\u5bb9\u7559\u767d */
+}
+.btn-back {
+  flex: 0 0 auto;
+  height: var(--btn-h);
+  padding: 0 20px;
+  background: var(--lgray);
+  color: var(--txt2);
+  font-size: 18px;
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity .2s;
+}
+.btn-back:active { opacity: .7; }
+.btn-fwd {
+  flex: 1;
+  height: var(--btn-h);
+  padding: 0 24px;
+  background: var(--gold);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-align: center;
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity .2s, background .25s;
+}
+.btn-fwd:disabled { background: var(--lgray); color: var(--mgray); cursor: not-allowed; }
+.btn-fwd:not(:disabled):active { opacity: .76; }
+
+/* ═══════════════════════════════════════
+   9. TYPOGRAPHY
+═══════════════════════════════════════ */
+/* v8.17：Q 頁標題左緣貼綠框（10% from viewport = 5% inside .pc） */
+.page-q .q-num,
+.page-q .q-title,
+.page-q .q-hint,
+.page-q .eyebrow { padding-left: 5%; }
+/* v8.22：表單欄位左右都貼綠框，gender-grid 在 fgroup 內不需額外縮進 */
+.page-q .fgroup { padding-left: 5%; padding-right: 5%; }
+
+.eyebrow {
+  display: block;
+  font-size: 10px; letter-spacing: 3.5px;
+  color: var(--txt3); text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.eyebrow-g { color: var(--gold); }
+.eyebrow-w { color: rgba(255,255,255,.42); }
+
+.q-num {
+  font-size: clamp(40px, 11vw, 52px);
+  font-weight: 700; line-height: 1;
+  margin-bottom: 6px;
+}
+.q-num-d { color: rgba(255,255,255,.82); }
+.q-title {
+  font-size: clamp(21px, 5.8vw, 27px);
+  font-weight: 700; line-height: 1.45;
+  margin-bottom: 4px;
+}
+.q-title-w { color: #fff; }
+.q-hint { font-size: 12px; color: var(--txt3); letter-spacing: .3px; margin-bottom: 18px; }
+.q-hint-w { color: rgba(255,255,255,.35); }
+
+.yline { width: 28px; height: 2px; background: var(--gold); margin: 12px 0 20px; }
+
+.cbadge {
+  display: none;   /* v8.18 fix: hidden until selected */
+  background: var(--gold); color: #fff;
+  font-size: 12px; font-weight: 700;
+  padding: 2px 9px; border-radius: 10px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+.cbadge.on { display: inline-block; }
+
+/* IP panel 行銷頁 */
+.ip-line    { width: 28px; height: 2px; background: var(--gold); margin-bottom: 14px; animation: fadeUp .7s ease .1s both; }
+.ip-kicker  { display: block; font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: #fff; text-shadow: 0 1px 8px rgba(0,0,0,.9); margin-bottom: 10px; animation: fadeUp .7s ease .2s both; }
+.ip-title   { font-size: clamp(28px, 8.5vw, 42px); font-weight: 700; color: #fff; line-height: 1.4; margin-bottom: 14px; animation: fadeUp .7s ease .35s both; }
+.ip-desc    { font-size: 14px; color: rgba(255,255,255,.84); line-height: 1.7; margin-bottom: 28px; animation: fadeUp .7s ease .5s both; }
+
+/* ═══════════════════════════════════════
+   10. HERO (w0)
+═══════════════════════════════════════ */
+.hero-logo {
+  display: block; height: 62px; width: auto;
+  margin: 0 auto 20px;
+  filter: brightness(0) invert(1);
+  animation: fadeUp .8s ease .2s both;
+}
+.hero-title {
+  font-size: clamp(28px, 8.5vw, 42px);
+  font-weight: 700; color: #fff;
+  line-height: 1.3; text-align: center;
+  margin-bottom: 14px;
+  animation: fadeUp .8s ease .4s both;
+}
+.hero-title em { font-style: normal; color: var(--gold); }
+.ip-title em    { font-style: normal; color: var(--gold); }
+.hero-sub {
+  font-size: 14px; font-weight: 300;
+  color: rgba(255,255,255,.82); line-height: 1.7;
+  text-align: center; margin-bottom: 30px;
+  animation: fadeUp .8s ease .6s both;
+}
+.hero-cta-wrap { animation: fadeUp .8s ease .8s both; }
+
+/* ═══════════════════════════════════════
+   11. CHECK LIST (Q1 痛點, Q5 加購)
+═══════════════════════════════════════ */
+.check-list { display: flex; flex-direction: column; gap: 3px; flex: 1; min-height: 0; } /* v8.16: 左緣貼綠框 */
+
+.check-card {
+  background: var(--white);
+  padding: 13px 0;
+  cursor: pointer;
+  border: 2px solid transparent;
+  display: flex; align-items: center; gap: 11px;
+  transition: border-color .18s, background .18s;
+  user-select: none; border-radius: 2px;
+  flex: 1; min-height: 0;
+}
+.check-card:active { opacity: .82; }
+.check-card.sel { border-color: var(--gold); background: #e8f4fa; }
+
+.cbox {
+  width: 42px; height: 42px; min-width: 42px;
+  border: 2px solid rgba(0,0,0,.28);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; color: transparent;
+  transition: all .18s; flex-shrink: 0;
+}
+.check-card.sel .cbox { background: var(--gold); border-color: var(--gold); color: #fff; font-weight: 800; }
+
+.c-emoji { font-size: 26px; min-width: 34px; flex-shrink: 0; }
+.c-main  { font-size: 16px; line-height: 1.35; color: var(--txt); }
+.c-sub   { font-size: 14px; color: var(--txt3); margin-top: 3px; display: block; }
+
+/* ═══════════════════════════════════════
+   12. RADIO LIST (Q2 水槽, Q6 性別單選備用)
+═══════════════════════════════════════ */
+.radio-list { display: flex; flex-direction: column; gap: 3px; flex: 1; min-height: 0; }
+
+.radio-card {
+  background: var(--white); padding: 15px 0;
+  cursor: pointer; border: 2px solid transparent;
+  display: flex; align-items: center; gap: 12px;
+  transition: border-color .18s; user-select: none;
+  flex: 1; min-height: 0;
+}
+.radio-card:active { opacity: .82; }
+.radio-card.sel { border-color: var(--black); }
+
+.rdot {
+  width: 42px; height: 42px; min-width: 42px;
+  border: 2px solid var(--mgray); border-radius: 50%;
+  position: relative; transition: all .18s;
+  flex-shrink: 0;
+}
+.radio-card.sel .rdot { border-color: var(--black); }
+.radio-card.sel .rdot::after {
+  content: ''; position: absolute; inset: 6px;
+  background: var(--black); border-radius: 50%;
+}
+.r-main { font-size: 16px; line-height: 1.35; color: var(--txt); }
+.r-sub  { font-size: 12px; color: var(--txt2); margin-top: 3px; display: block; }
+
+/* ═══════════════════════════════════════
+   13. FEAT LIST (Q3 功能偏好)
+═══════════════════════════════════════ */
+.feat-list { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+
+.feat-card {
+  border-top: 1px solid rgba(255,255,255,.08);
+  padding: 10px 0; display: flex; gap: 14px;
+  align-items: center; cursor: pointer; transition: opacity .2s;
+  flex: 1; min-height: 0;
+}
+.feat-card:active { opacity: .72; }
+
+.fchk {
+  width: 46px; height: 46px; min-width: 46px;
+  border: 2px solid rgba(80,168,204,.5); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; color: transparent;
+  transition: all .2s; margin-top: 2px; flex-shrink: 0;
+}
+.feat-card.sel .fchk { background: var(--gold); border-color: var(--gold); color: #fff; font-weight: 800; }
+
+.fnum {
+  font-size: 28px; color: rgba(255,255,255,.65);
+  line-height: 1; min-width: 30px; transition: color .25s; flex-shrink: 0;
+}
+.feat-card.sel .fnum { color: var(--gold); }
+
+.fbody { flex: 1; }
+.ftag  { display: none; } /* v8.9 Q3：英文副標刪除，卡片高度縮小 */
+.fname { font-size: clamp(16px, 4.5vw, 19px); font-weight: 700; color: #fff; margin-bottom: 5px; line-height: 1.3; }
+.fdesc { font-size: 12px; color: rgba(255,255,255,.74); line-height: 1.7; }
+
+/* ═══════════════════════════════════════
+   14. PRICE SLIDER (Q4)
+═══════════════════════════════════════ */
+.price-label { font-size: 10px; letter-spacing: 3px; color: rgba(255,255,255,.4); text-transform: uppercase; margin-bottom: 12px; display: block; }
+
+.price-badge {
+  display: block; text-align: center;
+  font-size: clamp(72px, 20vw, 100px); font-weight: 700;
+  color: var(--gold); line-height: 1; margin-bottom: 6px;
+  letter-spacing: -2px;
+  text-shadow: none;
+  -webkit-text-stroke: 10px #fff;
+  paint-order: stroke fill;
+}
+.price-badge sup { font-size: .38em; vertical-align: super; letter-spacing: 0; color: var(--gold); }
+.price-orig { font-size: 14px; color: rgba(255,255,255,.45); text-decoration: line-through; letter-spacing: 1px; text-align: center; }
+
+/* v8.17：Q4 價格＋滑條置中，滑條落在 75dvh（y:1440 黃線） */
+.q4-block {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: flex-end;
+  padding-bottom: 14dvh; /* 調整讓滑條落在 75% 線：nav在5dvh+52px, 滑條下方內容~6dvh */
+}
+.slider-section { margin: 16px 0 0; text-align: center; width: 100%; }
+.slider-q { font-size: clamp(21px, 5.8vw, 27px); font-weight: 700; color: #fff; line-height: 1.45; margin-bottom: 22px; }
+
+.slider-end-labels {
+  display: flex; justify-content: space-between;
+  font-size: 14px; color: rgba(255,255,255,.85); margin-bottom: 10px; font-weight: 500;
+}
+.slider-must {
+  font-size: 20px; font-weight: 700; letter-spacing: 1px;
+  color: var(--gold); background: rgba(80,168,204,.18);
+  padding: 6px 18px; border-radius: 20px;
+  border: 1px solid rgba(80,168,204,.5);
+  transition: opacity .4s;
+}
+#heartSlider.touched ~ * .slider-must,
+.slider-must.hide { opacity: 0; pointer-events: none; }
+
+input[type=range] {
+  -webkit-appearance: none; width: 100%; height: 4px;
+  border-radius: 2px; background: rgba(255,255,255,.14);
+  outline: none; cursor: pointer; transition: background .3s;
+  --val: 0%;
+}
+input[type=range].touched {
+  background: linear-gradient(to right, var(--gold) 0%, var(--gold) var(--val), rgba(255,255,255,.14) var(--val), rgba(255,255,255,.14) 100%);
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: rgba(255,255,255,.25);
+  border: 2px solid rgba(255,255,255,.25);
+  transition: background .25s, border .25s, transform .2s;
+}
+input[type=range].touched::-webkit-slider-thumb {
+  background: var(--gold); border-color: var(--gold); transform: scale(1.15);
+}
+input[type=range]::-moz-range-thumb {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: rgba(255,255,255,.25); border: 2px solid rgba(255,255,255,.25);
+}
+input[type=range].touched::-moz-range-thumb { background: var(--gold); border-color: var(--gold); }
+
+.slider-val-wrap { text-align: center; margin: 20px 0 6px; }
+.slider-val { font-size: 52px; font-weight: 700; color: #fff; line-height: 1; opacity: 0; transition: opacity .3s; }
+.slider-val.show { opacity: 1; }
+.slider-prompt { text-align: center; font-size: 14px; color: rgba(255,255,255,.85); letter-spacing: .5px; font-weight: 500; }
+
+/* ═══════════════════════════════════════
+   15. GENDER GRID (Q6)
+═══════════════════════════════════════ */
+.gender-grid {
+  display: flex; flex-direction: row;
+  gap: 6px; margin-top: 4px;
+}
+.gbtn {
+  flex: 1;
+  height: var(--btn-h);
+  padding: 0 8px; background: var(--white);
+  border: 2px solid var(--lgray); font-size: 14px;
+  font-family: var(--f-zh); color: var(--txt);
+  text-align: center; transition: all .18s; display: flex; align-items: center; justify-content: center;
+}
+.gbtn:nth-child(3) { flex: 1.4; }
+.gbtn:active { opacity: .8; }
+.gbtn.sel { border-color: var(--black); background: var(--black); color: #fff; }
+
+/* ═══════════════════════════════════════
+   16. SHOWCASE (w3)
+═══════════════════════════════════════ */
+#showcase {
+  background: var(--black);
+  height: 100vh; height: 100dvh;
+  min-height: 580px;
+  overflow: visible;
+  user-select: none;
+  position: relative;
+  /* v8.7：showcase 文字與按鈕的底部安全內距（= 90% 安全框下緣） */
+  --sc-safe-b: max(env(safe-area-inset-bottom, 0px), 5dvh);
+}
+
+/* 圖片區 — 上 57% */
+.sc-img-area {
+  position: fixed;
+  inset: 0;
+  background-repeat: no-repeat;
+  background-position: center calc(50% - 150px);
+  background-size: auto calc(min(100dvh, var(--bg-base-h)) * 0.7);
+  z-index: 0;
+}
+/* sc-img removed v8.23 — images now via background-image */
+/* 特定圖片尺寸覆寫 */
+
+/* 文字區 — 下半 */
+.sc-txt-area {
+  position: absolute;
+  top: 65%; left: 0; right: 0; bottom: calc(var(--sc-safe-b) + var(--btn-h) + 20px);
+  overflow: hidden; z-index: 2;
+}
+.sc-slide {
+  position: absolute; top: 0; left: 0; right: 0;
+  padding: 12px 5% 0;
+  opacity: 0; transform: translateY(12px);
+  transition: opacity .38s ease, transform .38s ease;
+  pointer-events: none; visibility: hidden;
+}
+.sc-slide.active { opacity: 1; transform: translateY(0); pointer-events: all; visibility: visible; }
+.sc-tag  { display: block; font-size: 13px; color: var(--gold); margin-bottom: 9px; font-family: var(--f-zh); font-weight: 500; }
+.sc-ttl  { font-size: clamp(21px, 5.8vw, 27px); font-weight: 700; color: #fff; line-height: 1.35; margin-bottom: 8px; }
+.sc-desc { font-size: 14px; color: rgba(255,255,255,.85); line-height: 1.7; }
+.sc-step { display: block; font-size: 11px; letter-spacing: 2px; color: rgba(255,255,255,.25); margin-top: 10px; font-family: var(--f-en); }
+
+/* 左右箭頭 */
+
+/* 點狀指示 */
+.sc-dots {
+  position: absolute; bottom: calc(var(--sc-safe-b) + var(--btn-h) + 10px); left: 0; right: 0;
+  display: flex; gap: 7px; justify-content: center; align-items: center; z-index: 5;
+}
+.scdot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: rgba(255,255,255,.18); transition: all .3s;
+}
+.scdot.active { background: var(--gold); transform: scale(1.5); }
+
+/* 底部進度 */
+.sc-pgbar { position: absolute; z-index: 2; bottom: calc(var(--sc-safe-b) + var(--btn-h) + 10px + 12px); left: 0; right: 0; height: 2px; background: rgba(255,255,255,.07); }
+.sc-pgfill { height: 100%; background: var(--gold); transition: width .3s ease; }
+
+/* 底部常駐導航列（v8.1） */
+.sc-btnrow {
+  position: absolute; bottom: var(--sc-safe-b); left: 0; right: 0;
+  display: flex; gap: 10px;
+  padding: 12px 5% 0;   /* v8.8：底部內距歸零，按鈕底緣貼齊 90% 安全線 */
+  background: linear-gradient(180deg, rgba(20,20,18,0) 0%, rgba(20,20,18,.9) 40%, var(--black) 100%);
+  z-index: 15;
+}
+.sc-btn-back {
+  flex: 0 0 auto;
+  height: var(--btn-h);
+  padding: 0 20px;
+  background: rgba(255,255,255,.1);
+  color: rgba(255,255,255,.7);
+  font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity .2s;
+}
+.sc-btn-back:active { opacity: .7; }
+.sc-btn-next {
+  flex: 1;
+  height: var(--btn-h);
+  padding: 0 24px;
+  background: var(--gold); color: #fff;
+  font-size: 12px; font-weight: 500; letter-spacing: 2px; text-align: center;
+  font-family: var(--f-zh);
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity .2s;
+}
+.sc-btn-next:active { opacity: .76; }
+
+/* 「跳過」移到右上角（v8.1） */
+.sc-skip {
+  position: absolute; top: 5dvh; right: 5%;
+  font-size: 12px; color: rgba(255,255,255,.4); letter-spacing: 1px;
+  cursor: pointer; transition: color .2s; z-index: 25;
+  padding: 4px 8px;
+}
+.sc-skip:active { color: rgba(255,255,255,.75); }
+
+/* 滑動提示 */
+.sc-hint {
+  position: absolute; bottom: 370px; left: 50%; transform: translateX(-50%);
+  display: flex; align-items: center; gap: 9px;
+  opacity: 0; transition: opacity .5s; pointer-events: none; white-space: nowrap; z-index: 20;
+}
+.sc-hint.show { opacity: 1; }
+.sh-icon { font-size: 20px; animation: swingX 2s ease-in-out infinite; }
+.sh-txt  { font-size: 11px; letter-spacing: 2px; color: rgba(255,255,255,.42); }
+
+/* ═══════════════════════════════════════
+   17. EXPLODE LAYER
+═══════════════════════════════════════ */
+.expl-layer {
+  position: absolute; inset: 0; pointer-events: none;
+  opacity: 0; transition: opacity .4s ease; z-index: 1;
+  transform: translateY(-100px) scale(0.7); transform-origin: center center;
+}
+.expl-layer.visible { opacity: 1; }
+
+.ep-img {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  object-fit: contain; mix-blend-mode: screen;
+  transition: opacity .45s ease, transform .65s cubic-bezier(0.34,1.45,0.64,1);
+}
+#ep-all    { opacity: 1; z-index: 10; transition: opacity .4s ease; }
+.ep-piece  { opacity: 0; z-index: 5; }
+#ep-cover  { transform: translateY(38%); }
+#ep-basket { transform: translateY(20%); }
+#ep-seal   { transform: translateY(3%); }
+#ep-ring   { transform: translateY(-18%); }
+#ep-body   { transform: translateY(-33%); }
+
+.expl-layer.exploded #ep-all   { opacity: 0; }
+.expl-layer.exploded .ep-piece { opacity: 1; transform: translateY(0) !important; }
+.expl-layer.exploded #ep-cover  { transition-delay: .00s; }
+.expl-layer.exploded #ep-basket { transition-delay: .05s; }
+.expl-layer.exploded #ep-seal   { transition-delay: .10s; }
+.expl-layer.exploded #ep-ring   { transition-delay: .15s; }
+.expl-layer.exploded #ep-body   { transition-delay: .20s; }
+
+
+/* ═══════════════════════════════════════
+   18. CONTACT FORM (w10)
+═══════════════════════════════════════ */
+.form-sub   { font-size: 12px; color: var(--txt3); margin-bottom: 6px; }
+
+.lottery-box {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 12px 14px; margin: 8px 0;
+  border: 2px solid var(--gold); border-radius: 2px;
+  background: rgba(80,168,204,.08);
+  cursor: pointer; user-select: none; transition: background .18s;
+}
+.lottery-box.chk { border-color: var(--gold); }
+.lchk {
+  width: 22px; height: 22px; min-width: 22px;
+  border: 1.5px solid var(--mgray); border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; color: transparent; transition: all .18s;
+  margin-top: 1px; flex-shrink: 0;
+}
+.lottery-box.chk .lchk { background: var(--gold); border-color: var(--gold); color: #fff; font-weight: 800; }
+.l-label { font-size: 14px; line-height: 1.4; color: var(--txt); }
+.l-sub   { font-size: 12px; color: var(--txt3); margin-top: 3px; display: block; }
+
+.fgroup { margin-bottom: 8px; }
+.flabel {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 14px; letter-spacing: 1px; text-transform: uppercase;
+  color: var(--txt2); margin-bottom: 5px;
+}
+.tag-r { background: var(--gold); color: #fff; font-size: 12px; padding: 2px 8px; }
+.tag-o { background: var(--lgray); color: var(--txt2); font-size: 12px; padding: 2px 8px; }
+
+.finput {
+  width: 100%; padding: 9px 12px;
+  background: var(--white); border: 2px solid transparent;
+  font-size: 15px; font-family: var(--f-zh); color: var(--txt);
+  transition: border-color .2s;
+}
+.finput:focus { border-color: var(--gold); }
+.finput::placeholder { color: var(--txt3); font-size: 14px; }
+textarea.finput { resize: vertical; min-height: 40px; }
+
+.ferr { font-size: 12px; color: #c0392b; margin-top: 5px; display: none; }
+.ferr.on { display: block; }
+
+.privacy { font-size: 12px; color: var(--txt3); text-align: center; margin-top: 14px; line-height: 1.8; }
+
+/* ═══════════════════════════════════════
+   19. THANKS (w11)
+═══════════════════════════════════════ */
+.ty-icon {
+  width: 70px; height: 70px; background: var(--gold); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; font-size: 28px;
+  margin: 0 auto 26px; animation: bounceIn .6s ease .1s both;
+}
+.ty-title {
+  font-size: clamp(23px, 6.5vw, 31px); font-weight: 700; color: #fff;
+  text-align: center; line-height: 1.35; margin-bottom: 10px;
+}
+.ty-sub { font-size: 14px; color: rgba(255,255,255,.58); text-align: center; line-height: 1.7; margin-bottom: 12px; }
+
+/* v8.16: 早鳥資格副標（藍色大字） */
+.ty-earlybird {
+  font-size: 18px; font-weight: 700;
+  color: var(--gold); text-align: center;
+  margin: 4px 0 16px; letter-spacing: .5px;
+}
+.ty-card { display: none; } /* v8.16: 卡片移除 */
+.ty-card-tag { display: none; }
+.ty-card-txt { display: none; }
+
+.ig-link { display: block; text-align: center; color: rgba(255,255,255,.35); font-size: 11px; letter-spacing: 1px; padding: 12px; margin-top: 4px; transition: color .2s; }
+.ig-link:hover { color: rgba(255,255,255,.6); }
+/* v8.11 感謝頁新增 */
+.btn-ig {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  width: 100%; height: var(--btn-h);
+  background: linear-gradient(90deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  color: #fff; font-size: 14px; font-weight: 500; letter-spacing: 1.5px;
+  border-radius: 99px; margin-top: 10px; transition: opacity .2s;
+}
+.btn-ig:active { opacity: .8; }
+.btn-line-full {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  width: 100%; height: var(--btn-h);
+  background: #00B900; color: #fff;
+  font-size: 14px; font-weight: 500; letter-spacing: 1.5px;
+  border-radius: 99px; margin-top: 0; transition: opacity .2s;
+}
+.btn-line-full:active { opacity: .8; }
+.ty-img-placeholder {
+  width: 100%; aspect-ratio: 4/3;
+  background: rgba(255,255,255,.06);
+  border: 1px dashed rgba(255,255,255,.15);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,.2); font-size: 12px; letter-spacing: 1px;
+  margin: 18px 0;
+}
+.ty-social-label {
+  font-size: 14px; color: rgba(255,255,255,.6); text-align: center;
+  line-height: 1.6; margin-bottom: 14px;
+}
+
+.site-footer { text-align: center; padding: 26px var(--pad) max(env(safe-area-inset-bottom, 0px), 32px); border-top: 1px solid rgba(255,255,255,.07); margin-top: 18px; }
+.sf-name { font-size: 12px; letter-spacing: 2px; color: rgba(255,255,255,.25); }
+.sf-sub  { font-size: 10px; color: rgba(255,255,255,.14); margin-top: 4px; }
+
+/* ═══════════════════════════════════════
+   20. ANIMATIONS
+═══════════════════════════════════════ */
+@keyframes fadeUp   { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
+@keyframes bounceIn { 0% { transform:scale(0); opacity:0; } 60% { transform:scale(1.12); } 100% { transform:scale(1); opacity:1; } }
+@keyframes swingX   { 0%,100% { transform:translateX(5px); opacity:.5; } 50% { transform:translateX(-5px); opacity:1; } }
+/* v8.20 感謝頁 LINE 抽獎區動畫 */
+@keyframes fingerBounce {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(8px); }
+}
+@keyframes linePulse {
+  0%   { box-shadow: 0 0 0 0 rgba(0,185,0,.55); }
+  70%  { box-shadow: 0 0 0 14px rgba(0,185,0,0); }
+  100% { box-shadow: 0 0 0 0 rgba(0,185,0,0); }
+}
+.ty-lottery-label {
+  font-size: 14px; font-weight: 700;
+  color: #fff; text-align: center;
+  margin: 16px 0 6px; letter-spacing: .3px;
+}
+.ty-finger {
+  font-size: 28px; text-align: center;
+  margin-bottom: 8px;
+  animation: fingerBounce 1s ease-in-out infinite;
+  display: block;
+}
+.ty-line-wrap { width: 100%; border-radius: 99px; }
+.ty-line-wrap .btn-line-full {
+  animation: linePulse 1.8s ease-out infinite;
+  border-radius: 99px;
+}
+
+</style>
+</head>
+<body>
+
+<!-- ══ FIXED PROGRESS BAR ══ -->
+<div id="prog">
+  <div class="prog-track"><div class="prog-fill" id="pfill"></div></div>
+  <span class="prog-label" id="plabel">1 / 6</span>
+</div>
+
+<!-- ══ MAIN COLUMN ══ -->
+<div id="col">
+
+  <!-- ─────────────────────────────────────
+       PAGE 0 · w0 · Hero 品牌開場
+  ───────────────────────────────────── -->
+  <div data-page="0" class="page page-bg-img active">
+    <div class="bg-layer bg-hero"></div>
+    <div class="bg-overlay"></div>
+    <div class="pc pc-end">
+      <img src="https://pic.mieloo-corp.com/uploads/medium/ec/8c/0498cef723b64fe276e18da9eb1a.png"
+           alt="HUROYAMA 浴山" class="hero-logo">
+      <h1 class="hero-title">廚房水槽<br><em>快排濾網</em><br>即將登場</h1>
+      <p class="hero-sub">解決廚房裡最噁心的三件事——<br>菜渣看不到、臭味聞不到、廚餘摸不到。<br>上市前，先聽聽你的聲音。</p>
+      <div class="hero-cta-wrap">
+        <button class="btn btn-gold" onclick="goto(1)">開始，搶先知道早鳥優惠 →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────────────────────
+       PAGE 1 · w1 · The Problem
+  ───────────────────────────────────── -->
+  <div data-page="1" class="page page-bg-img">
+    <div class="bg-layer bg-w1"></div>
+    <div class="bg-overlay"></div>
+    <div class="pc pc-top">
+      <div class="ip-line"></div>
+      <span class="ip-kicker">The Problem · 你的廚房痛點</span>
+      <h2 class="ip-title">每次洗完碗<br>你是不是也這樣？</h2>
+      <p class="ip-desc">菜渣、積水、臭味、黏膩感……<br>明明洗完了，廚房感覺還是很髒。</p>
+      <div class="nav-row">
+        <button class="btn-back" onclick="goto(0)">←</button>
+        <button class="btn-fwd" onclick="goto(2)">告訴我你的痛點 →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────────────────────
+       PAGE 2 · w2 · The Solution
+  ───────────────────────────────────── -->
+  <div data-page="2" class="page page-bg-img">
+    <div class="bg-layer bg-w2"></div>
+    <div class="bg-overlay"></div>
+    <div class="pc pc-top">
+      <div class="ip-line"></div>
+      <span class="ip-kicker">The Solution · 解決方案</span>
+      <h2 class="ip-title">菜渣．看不到<br><em>臭味．聞不到</em><br>廚餘．摸不到</h2>
+      <p class="ip-desc">浴山快排濾網：密封・快排・易洗・美型。<br>為廚房而生。</p>
+      <div class="nav-row">
+        <button class="btn-back" onclick="goto(1)">←</button>
+        <button class="btn-fwd" onclick="goto(3)">看看產品設計 →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────────────────────
+       PAGE 3 · w3 · 產品展示（7 格輪播 + 爆炸圖）
+  ───────────────────────────────────── -->
+  <div data-page="3" class="page page-dark">
+    <div id="showcase">
+
+      <!-- 圖片區 -->
+      <div class="sc-img-area" id="scImgArea">
+        <!-- 爆炸圖層（slide 2 觸發） -->
+        <div class="expl-layer" id="explLayer">
+          <img class="ep-img" id="ep-all"
+            src="https://pic.mieloo-corp.com/uploads/medium2x/15/84/eb4bfc67b3a546a5ea54c2e9a881.png" alt="完整產品">
+          <img class="ep-img ep-piece" id="ep-body"
+            src="https://pic.mieloo-corp.com/uploads/medium2x/37/e2/8fe31499ed10fa4cb4e14d90c49c.png" alt="杯體">
+          <img class="ep-img ep-piece" id="ep-ring"
+            src="https://pic.mieloo-corp.com/uploads/medium2x/14/3a/9e58a7ff2240ddc1651d89d8e30f.png" alt="矽膠環">
+          <img class="ep-img ep-piece" id="ep-seal"
+            src="https://pic.mieloo-corp.com/uploads/medium2x/8f/b1/cb24c438ff34f273b94c182b6563.png" alt="密封止水">
+          <img class="ep-img ep-piece" id="ep-basket"
+            src="https://pic.mieloo-corp.com/uploads/medium2x/17/66/5f0dad57c395622aff763a8ea831.png" alt="渣籃">
+          <img class="ep-img ep-piece" id="ep-cover"
+            src="https://pic.mieloo-corp.com/uploads/medium2x/e3/99/3c25951fd112d7dde1a2308313a0.png" alt="導流外蓋">
+        </div>
+
+      </div>
+
+      <!-- 文字區 -->
+      <div class="sc-txt-area">
+        <div class="sc-slide active" id="st-0">
+          <span class="sc-tag">痛點分析</span>
+          <h3 class="sc-ttl">傳統型<br>鐵製水槽提籠</h3>
+          <p class="sc-desc">清理時容易直接接觸廚餘，使用過程也較難避免異味與視覺上的不適，讓水槽維護變得較不輕鬆。</p>
+        </div>
+        <div class="sc-slide" id="st-1">
+          <span class="sc-tag">產品一覽</span>
+          <h3 class="sc-ttl">浴山｜廚房水槽<br>快排濾網</h3>
+          <p class="sc-desc">一個按壓，切換排水與止水。一個提拉，廚餘優雅入桶。流理台水槽清潔不再是負擔。</p>
+        </div>
+        <div class="sc-slide" id="st-2">
+          <span class="sc-tag">產品結構</span>
+          <h3 class="sc-ttl">看起來是五個零件<br>其實是一套系統</h3>
+          <p class="sc-desc">金屬導流外蓋・金屬渣籃・密封止水結構・矽膠適配環・杯體主架構，每一件，都有它存在的理由。</p>
+        </div>
+        <div class="sc-slide" id="st-3">
+          <span class="sc-tag">火山錐體導流</span>
+          <h3 class="sc-ttl">接近滿載，<br>排水仍比傳統快 20%。</h3>
+          <p class="sc-desc">渣籃中央隆起的火山錐體結構，讓廚餘沉降於周緣，中央水道始終保持暢通。菜渣再多，排水不卡頓。</p>
+        </div>
+        <div class="sc-slide" id="st-4">
+          <span class="sc-tag">隱蔽美型</span>
+          <h3 class="sc-ttl">菜渣看不到，<br>質感看得到。</h3>
+          <p class="sc-desc">翼狀開口・中央橫樑・不鏽鋼 304，遮蔽底部廚餘視線。與家中水槽融為一體，如同原廠一體成型。</p>
+        </div>
+        <div class="sc-slide" id="st-5">
+          <!-- ⚠️ 待校正：耐久次數請確認 10,000 或 500,000 後全站統一 -->
+          <span class="sc-tag">密封止臭</span>
+          <h3 class="sc-ttl">按壓，手不碰髒水。<br>密封，臭味聞不到。</h3>
+          <p class="sc-desc">密封墊圈形成物理屏障，阻斷沼氣從下水道倒灌。浮動柱・頂出彈簧・密封環，三重結構，按壓 10,000 次不損壞。</p>
+        </div>
+        <div class="sc-slide" id="st-6">
+          <span class="sc-tag">倒廚餘不沾手</span>
+          <h3 class="sc-ttl">像倒咖啡渣一樣，<br>廚餘優雅入桶。</h3>
+          <p class="sc-desc">握著渣籃把手，廚餘俐落倒入廚餘桶。雙手不沾污物，廚房家事，也可以很優雅。</p>
+        </div>
+      </div>
+
+      <!-- 箭頭導航 -->
+
+      <!-- 指示點 -->
+      <div class="sc-dots">
+        <div class="scdot active" id="sd-0"></div>
+        <div class="scdot" id="sd-1"></div>
+        <div class="scdot" id="sd-2"></div>
+        <div class="scdot" id="sd-3"></div>
+        <div class="scdot" id="sd-4"></div>
+        <div class="scdot" id="sd-5"></div>
+        <div class="scdot" id="sd-6"></div>
+      </div>
+
+      <!-- 底部進度條 -->
+      <div class="sc-pgbar"><div class="sc-pgfill" id="scPgFill"></div></div>
+
+      <!-- 底部常駐導航列（v8.1） -->
+      <div class="sc-btnrow">
+        <button class="sc-btn-back" id="scBack" onclick="scBackAction()">←</button>
+        <button class="sc-btn-next" id="scNextBtn" onclick="scNextAction()">下一張 →</button>
+      </div>
+
+      <!-- 跳過（右上角） -->
+      <span class="sc-skip" onclick="goto(4)">跳過 →</span>
+
+      <!-- 滑動提示 -->
+      <div class="sc-hint" id="scHint">
+        <span class="sh-icon">👆</span>
+        <span class="sh-txt">左右滑動查看產品</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────────────────────
+       PAGE 4 · w4 · Q1 痛點（複選）
+  ───────────────────────────────────── -->
+  <div data-page="4" class="page page-light page-q">
+    <div class="pc pc-pad">
+      <div class="q-num">Q01</div>
+      <h2 class="q-title">你家水槽<br>是否也有這些困擾？<span class="cbadge" id="pb1"></span></h2>
+      <p class="q-hint">可複選</p>
+      <div class="check-list">
+        <div class="check-card" onclick="togPain(this)" data-id="p1">
+          <div class="cbox">✓</div>
+          <span class="c-emoji">🗑️</span>
+          <div><div class="c-main">堆滿菜渣的渣籃必須用手提起倒掉，還很難倒乾淨</div><span class="c-sub">每次清理都是一場心理煎熬</span></div>
+        </div>
+        <div class="check-card" onclick="togPain(this)" data-id="p2">
+          <div class="cbox">✓</div>
+          <span class="c-emoji">💧</span>
+          <div><div class="c-main">渣籃堆滿菜渣，造成排水不順與積水</div><span class="c-sub">洗個碗，水就淹一半</span></div>
+        </div>
+        <div class="check-card" onclick="togPain(this)" data-id="p3">
+          <div class="cbox">✓</div>
+          <span class="c-emoji">😤</span>
+          <div><div class="c-main">排水口有臭味從下水道倒灌</div><span class="c-sub">煮好的飯旁邊飄來奇怪臭味</span></div>
+        </div>
+        <div class="check-card" onclick="togPain(this)" data-id="p4">
+          <div class="cbox">✓</div>
+          <span class="c-emoji">🧽</span>
+          <div><div class="c-main">濾網油膩黏滑，清洗時造成的心理負擔</div><span class="c-sub">刷了半天還是有滑膩感</span></div>
+        </div>
+        <div class="check-card" onclick="togPain(this)" data-id="p5">
+          <div class="cbox">✓</div>
+          <span class="c-emoji">👀</span>
+          <div><div class="c-main">廚餘殘渣裸露在外，視覺很噁心</div><span class="c-sub">客人來家裡超尷尬</span></div>
+        </div>
+      </div>
+      <div class="nav-row">
+        <button class="btn-back" onclick="goto(3)">←</button>
+        <button class="btn-fwd" onclick="goto(5)">繼續 →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────────────────────
+       PAGE 5 · w5 · Q2 水槽尺寸（單選）
+  ───────────────────────────────────── -->
+  <div data-page="5" class="page page-light page-q">
+    <div class="pc pc-pad">
+      <div class="q-num">Q02</div>
+      <h2 class="q-title">你家水槽的<br>排水孔尺寸？</h2>
+      <p class="q-hint">單選</p>
+      <div class="radio-list" id="sinkList">
+        <div class="radio-card" onclick="selSink(this)" data-id="s_14">
+          <div class="rdot"></div>
+          <div><div class="r-main">傳統水槽 14 cm</div><span class="r-sub">蓋子是一塊黑色橡膠皮</span></div>
+        </div>
+        <div class="radio-card" onclick="selSink(this)" data-id="s_18">
+          <div class="rdot"></div>
+          <div><div class="r-main">新式水槽 18 cm</div><span class="r-sub">排水口寬，但渣籃比較淺</span></div>
+        </div>
+        <div class="radio-card" onclick="selSink(this)" data-id="s_185">
+          <div class="rdot"></div>
+          <div><div class="r-main">韓系水槽 18.5 cm</div><span class="r-sub">排水口寬，渣籃大而深</span></div>
+        </div>
+        <div class="radio-card" onclick="selSink(this)" data-id="s_unknown">
+          <div class="rdot"></div>
+          <div><div class="r-main">不清楚、不確定</div><span class="r-sub">沒有特別注意過</span></div>
+        </div>
+      </div>
+      <div class="nav-row">
+        <button class="btn-back" onclick="goto(4)">←</button>
+        <button class="btn-fwd" onclick="goto(6)">繼續 →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────────────────────
+       PAGE 6 · w6 · Q3 功能偏好（複選）
+  ───────────────────────────────────── -->
+  <div data-page="6" class="page page-dark page-q">
+    <div class="pc pc-pad">
+      <div class="q-num q-num-d">Q03</div>
+      <h2 class="q-title q-title-w">以下哪個特色<br>最打動你？<span class="cbadge" id="pb3"></span></h2>
+      <p class="q-hint q-hint-w">可複選</p>
+      <div class="feat-list">
+        <div class="feat-card" onclick="togFeat(this)" data-id="f1">
+          <div class="fchk">✓</div><span class="fnum">01</span>
+          <div class="fbody">
+            <span class="ftag">Quick Drain</span>
+            <h3 class="fname">按壓快排，一按就通</h3>
+            <p class="fdesc">切換排水與止水，不碰濾網、不伸手進積水，一個動作完成一切。</p>
+          </div>
+        </div>
+        <div class="feat-card" onclick="togFeat(this)" data-id="f2">
+          <div class="fchk">✓</div><span class="fnum">02</span>
+          <div class="fbody">
+            <span class="ftag">Anti-Odor Seal</span>
+            <h3 class="fname">密封防臭，阻斷下水道氣體</h3>
+            <p class="fdesc">食品級矽膠密封環，物理阻隔硫化氫異味倒灌。廚房不再有莫名臭味。</p>
+          </div>
+        </div>
+        <div class="feat-card" onclick="togFeat(this)" data-id="f3">
+          <div class="fchk">✓</div><span class="fnum">03</span>
+          <div class="fbody">
+            <span class="ftag">Invisible Design</span>
+            <h3 class="fname">隱蔽美型，菜渣眼不見為淨</h3>
+            <p class="fdesc">翼型導水蓋遮蔽濾籃，304 不鏽鋼拉絲質感與精品水槽完美融合。</p>
+          </div>
+        </div>
+        <div class="feat-card" onclick="togFeat(this)" data-id="f4">
+          <div class="fchk">✓</div><span class="fnum">04</span>
+          <div class="fbody">
+            <span class="ftag">Easy Clean</span>
+            <h3 class="fname">秒取渣籃，清理不沾手</h3>
+            <p class="fdesc">渣籃板手設計，像倒咖啡渣般優雅處理廚餘。可放洗碗機，真正省力。</p>
+          </div>
+        </div>
+      </div>
+      <div class="nav-row">
+        <button class="btn-back" onclick="goto(5)">←</button>
+        <button class="btn-fwd" onclick="goto(7)">繼續 →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────────────────────
+       PAGE 7 · w7 · Q4 價格 $699 + 心動滑桿
+  ───────────────────────────────────── -->
+  <div data-page="7" class="page page-bg-img page-q">
+    <div class="bg-layer bg-q4"></div>
+    <div class="bg-overlay"></div>
+    <div class="pc pc-pad">
+      <div class="q-num q-num-d">Q04</div>
+      <h2 class="q-title q-title-w">早鳥預計價格</h2>
+      <div class="q4-block">
+        <div class="price-badge"><sup>$</sup>699</div>
+        <p class="price-orig">正式售價 $790</p>
+        <div class="slider-section">
+          <p class="slider-q">請告訴我們您的<br>心動指數有幾分？</p>
+          <div class="slider-end-labels">
+            <span>非常不心動 · 1</span>
+            <span class="slider-must">☝️ 必滑</span>
+            <span>7 · 非常心動</span>
+          </div>
+          <input type="range" id="heartSlider" min="1" max="7" value="4" step="1">
+          <div class="slider-val-wrap">
+            <div class="slider-val" id="sliderVal">4</div>
+          </div>
+          <p class="slider-prompt" id="sliderPrompt">拖曳滑桿開始評分</p>
+        </div>
+      </div>
+      <div class="nav-row">
+        <button class="btn-back" onclick="goto(6)">←</button>
+        <button class="btn-fwd" id="q4Next" disabled onclick="goto(8)">繼續 →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────────────────────
+       PAGE 8 · w7b · Q5 加購偏好（複選）
+  ───────────────────────────────────── -->
+  <div data-page="8" class="page page-light page-q">
+    <div class="pc pc-pad">
+      <div class="q-num">Q05</div>
+      <h2 class="q-title">未來如果推出這些<br>廚房好夥伴，<br>你會想要哪個？<span class="cbadge" id="pb5"></span></h2>
+      <p class="q-hint">可複選（僅測偏好，不問價格）</p>
+      <div class="check-list" id="addonList">
+        <div class="check-card" onclick="togAddon(this)" data-id="a1">
+          <div class="cbox">✓</div>
+          <span class="c-emoji">🪣</span>
+          <div><div class="c-main">廚餘桶</div><span class="c-sub">搭配濾網使用，廚餘倒進去更順手</span></div>
+        </div>
+        <div class="check-card" onclick="togAddon(this)" data-id="a2">
+          <div class="cbox">✓</div>
+          <span class="c-emoji">🧼</span>
+          <div><div class="c-main">清潔三寶</div><span class="c-sub">過碳酸鈉＋小蘇打＋檸檬酸，設計分裝瓶＋使用教學</span></div>
+        </div>
+        <div class="check-card" onclick="togAddon(this)" data-id="a3">
+          <div class="cbox">✓</div>
+          <span class="c-emoji">🔁</span>
+          <div><div class="c-main">備用耗材組</div><span class="c-sub">矽膠密封環等補充包</span></div>
+        </div>
+        <div class="check-card" onclick="togAddon(this)" data-id="a0">
+          <div class="cbox">✓</div>
+          <span class="c-emoji">🙅</span>
+          <div><div class="c-main">暫時都沒興趣</div></div>
+        </div>
+      </div>
+      <div class="nav-row">
+        <button class="btn-back" onclick="goto(7)">←</button>
+        <button class="btn-fwd" onclick="goto(9)">繼續 →</button>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- ─────────────────────────────────────
+       PAGE 10 · w9 · ✓ 問卷完成里程碑（過場）
+  ───────────────────────────────────── -->
+  <div data-page="9" class="page page-light page-q">
+    <div class="pc pc-pad">
+      <div class="q-num">Q06</div>
+      <h2 class="q-title">留下聯絡方式<br>填完就搶先入列</h2>
+      <p class="q-hint">早鳥通知 + 抽獎資格，名單內優先 🎁</p>
+
+      <!-- 性別（從 Q6 合併） -->
+      <div class="fgroup">
+        <label class="flabel">您的性別 <span class="tag-o">選填</span></label>
+        <div class="gender-grid" id="genderGrid">
+          <button class="gbtn" data-val="female" onclick="selGender(this)">女性</button>
+          <button class="gbtn" data-val="male"   onclick="selGender(this)">男性</button>
+          <button class="gbtn" data-val="other"  onclick="selGender(this)">其他 / 不透露</button>
+        </div>
+      </div>
+
+      <!-- 表單欄位 -->
+      <div class="form-fields-wrap">
+      <div class="fgroup">
+        <label class="flabel">姓名或暱稱 <span class="tag-o">選填</span></label>
+        <input type="text" class="finput" id="nIn" placeholder="你想讓我們怎麼稱呼你？" inputmode="text" autocomplete="nickname">
+      </div>
+      <div class="fgroup">
+        <label class="flabel">電子信箱 <span class="tag-r">必填</span></label>
+        <input type="email" class="finput" id="eIn" placeholder="your@email.com" inputmode="email" autocomplete="email">
+        <div class="ferr" id="eErr">請輸入有效的電子信箱</div>
+      </div>
+      <div class="fgroup">
+        <label class="flabel">手機號碼 <span class="tag-o">選填</span></label>
+        <input type="tel" class="finput" id="pIn" placeholder="09xx-xxx-xxx" inputmode="tel" autocomplete="tel">
+      </div>
+      <div class="fgroup">
+        <label class="flabel">有什麼話想說？ <span class="tag-o">選填</span></label>
+        <textarea class="finput" id="cIn" placeholder="任何想法或建議都歡迎…"></textarea>
+      </div>
+      </div><!-- /form-fields-wrap -->
+      <p class="privacy" style="text-align:center;margin-top:10px;margin-bottom:4px">您的資料僅用於產品上市通知，不會提供給第三方</p>
+      <div class="nav-row">
+        <button class="btn-back" onclick="goto(8)">←</button>
+        <button class="btn btn-gold" id="subBtn" onclick="doSubmit()" style="flex:1">提交，搶先知道早鳥優惠 →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────────────────────
+       PAGE 12 · w11 · 感謝頁
+  ───────────────────────────────────── -->
+  <div data-page="10" class="page page-dark">
+    <div class="pc pc-pad" style="align-items:center;text-align:center">
+      <div class="ty-icon">🎉</div>
+      <img src="https://pic.mieloo-corp.com/uploads/medium/ec/8c/0498cef723b64fe276e18da9eb1a.png"
+           alt="HUROYAMA 浴山" class="hero-logo">
+      <h2 class="ty-title">謝謝你的支持！</h2>
+      <p class="ty-sub">我們已收到你的回覆。<br>預計 8 月上嘖嘖，屆時第一時間通知你。</p>
+      <p class="ty-earlybird">✓ 限量 200 組・已為你鎖定</p>
+
+      <!-- 產品圖片已移除 v8.19 -->
+
+      <!-- 社群 CTA -->
+      <p class="ty-social-label">產品上線通知不漏接<br>追蹤我們，搶先掌握早鳥優惠 🎉</p>
+
+      <p class="ty-lottery-label">加入 LINE 好友，即完成抽獎參加 🎁</p>
+      <div class="ty-finger">👇</div>
+      <div class="ty-line-wrap">
+        <a href="https://lin.ee/qyNMRN0" class="btn-line-full" target="_blank" rel="noopener">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.105.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.070 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+        加入 LINE 好友
+      </a>
+      </div><!-- /ty-line-wrap -->
+      <a href="https://www.instagram.com/mieloo_design/" class="btn-ig" target="_blank" rel="noopener">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        追蹤 Instagram
+      </a>
+    </div>
+    <div class="site-footer">
+      <div class="sf-name">米鹿設計 MIELOO DESIGN</div>
+      <div class="sf-sub">HUROYAMA — 浴山系列</div>
+    </div>
+  </div>
+
+</div><!-- #col end -->
+
+
+<script>
+/* ═══════════════════════════════════════
+   STATE
+═══════════════════════════════════════ */
+const S = {
+  pains:       [],    // p1–p5
+  sink:        null,  // s_14 / s_18 / s_185 / s_unknown
+  feats:       [],    // f1–f4
+  price_score: null,  // 1–7
+  addons:      [],    // a1/a2/a3/a0
+  gender:      null,  // female/male/other
+  lottery:     false
+};
+
+const GAS_URL = 'https://script.google.com/macros/s/AKfycby8loHM_Th6iMYyERRPy_O1KQrWD21ZshQiMATU7C9gZSa1621Q2w-S38N4NIFjGVrs/exec';
+
+/* ═══════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════ */
+const pages = Array.from(document.querySelectorAll('[data-page]'));
+let cur = 0;
+
+// Q page index → progress (1–6)
+const QPROG = { 4:1, 5:2, 6:3, 7:4, 8:5 };
+
+function goto(n) {
+  pages[cur].classList.remove('active');
+  cur = Math.max(0, Math.min(10, n));
+  pages[cur].classList.add('active');
+  window.scrollTo(0, 0);
+  setBodyBg(cur);
+  updateProg(cur);
+  onEnterPage(cur);
+}
+
+/* v8.3：實心色頁面讓 body 同色，背景一體不分塊；圖片頁由 .bg-layer 全幅覆蓋 */
+function setBodyBg(n) {
+  const c = pages[n].classList;
+  let bg = 'var(--black)';                 // 圖片頁 / 深色頁 fallback
+  if (c.contains('page-white'))      bg = 'var(--white)';
+  else if (c.contains('page-light')) bg = 'var(--off)';
+  else if (c.contains('page-dark'))  bg = 'var(--black)';
+  document.body.style.background = bg;
+}
+
+function updateProg(n) {
+  const prog  = document.getElementById('prog');
+  const pfill = document.getElementById('pfill');
+  const plbl  = document.getElementById('plabel');
+  prog.classList.remove('prog-dark','prog-clear');
+  if (QPROG[n]) {
+    const q = QPROG[n];
+    prog.classList.add('on');
+    pfill.style.width = (q / 6 * 100) + '%';
+    plbl.textContent  = q + ' / 5';
+    if (n === 6) prog.classList.add('prog-dark');   // Q3 黑底
+    if (n === 7) prog.classList.add('prog-clear');  // Q4 透明
+  } else {
+    prog.classList.remove('on');
+  }
+}
+
+function onEnterPage(n) {
+  if (n === 3) {
+    // Showcase: restore background image + swipe hint
+    scSet(scPhase);
+    setTimeout(() => {
+      if (!scHasSwiped) {
+        const hint = document.getElementById('scHint');
+        if (hint) { hint.classList.add('show'); setTimeout(() => hint.classList.remove('show'), 3500); }
+      }
+    }, 900);
+  }
+  if (n === 12) {
+    // v8.11: LINE + IG always visible, no lottery conditional
+  }
+}
+
+/* ═══════════════════════════════════════
+   Q1 — PAIN 複選
+═══════════════════════════════════════ */
+function togPain(el) {
+  el.classList.toggle('sel');
+  const id = el.dataset.id;
+  S.pains = el.classList.contains('sel')
+    ? [...new Set([...S.pains, id])]
+    : S.pains.filter(x => x !== id);
+  badge('pb1', S.pains.length);
+}
+
+/* ═══════════════════════════════════════
+   Q2 — SINK 單選
+═══════════════════════════════════════ */
+function selSink(el) {
+  document.querySelectorAll('#sinkList .radio-card').forEach(c => c.classList.remove('sel'));
+  el.classList.add('sel');
+  S.sink = el.dataset.id;
+}
+
+/* ═══════════════════════════════════════
+   Q3 — FEAT 複選
+═══════════════════════════════════════ */
+function togFeat(el) {
+  el.classList.toggle('sel');
+  const id = el.dataset.id;
+  S.feats = el.classList.contains('sel')
+    ? [...new Set([...S.feats, id])]
+    : S.feats.filter(x => x !== id);
+  badge('pb3', S.feats.length);
+}
+
+/* ═══════════════════════════════════════
+   Q4 — SLIDER 心動指數
+═══════════════════════════════════════ */
+(function initSlider() {
+  const sl  = document.getElementById('heartSlider');
+  const val = document.getElementById('sliderVal');
+  const pmt = document.getElementById('sliderPrompt');
+  const btn = document.getElementById('q4Next');
+  let touched = false;
+
+  function update(v) {
+    S.price_score = parseInt(v);
+    const pct = ((v - 1) / 6 * 100).toFixed(1) + '%';
+    sl.style.setProperty('--val', pct);
+    if (!touched) {
+      touched = true;
+      sl.classList.add('touched');
+      val.classList.add('show');
+      pmt.textContent = '你的心動指數';
+      btn.disabled = false;
+      // 隱藏「必滑」提示
+      const mustEl = document.querySelector('.slider-must');
+      if (mustEl) mustEl.classList.add('hide');
+    }
+    val.textContent = v;
+  }
+
+  sl.addEventListener('input',  () => update(sl.value));
+  sl.addEventListener('change', () => update(sl.value));
+})();
+
+/* ═══════════════════════════════════════
+   Q5 — ADDON 複選（a0 互斥）
+═══════════════════════════════════════ */
+function togAddon(el) {
+  const id = el.dataset.id;
+  if (id === 'a0') {
+    // 選「無」→ 清空其他
+    document.querySelectorAll('#addonList .check-card').forEach(c => c.classList.remove('sel'));
+    S.addons = [];
+    if (true) { el.classList.add('sel'); S.addons = ['a0']; }
+  } else {
+    // 取消「無」
+    const a0el = document.querySelector('#addonList [data-id="a0"]');
+    if (a0el) a0el.classList.remove('sel');
+    S.addons = S.addons.filter(x => x !== 'a0');
+    // Toggle current
+    el.classList.toggle('sel');
+    S.addons = el.classList.contains('sel')
+      ? [...new Set([...S.addons, id])]
+      : S.addons.filter(x => x !== id);
+  }
+  badge('pb5', S.addons.filter(x => x !== 'a0').length);
+}
+
+/* ═══════════════════════════════════════
+   Q6 — GENDER 單選
+═══════════════════════════════════════ */
+function selGender(el) {
+  document.querySelectorAll('#genderGrid .gbtn').forEach(b => b.classList.remove('sel'));
+  el.classList.add('sel');
+  S.gender = el.dataset.val;
+}
+
+/* LOTTERY: 抽獎改由 LINE 加好友追蹤 v8.20 */
+
+/* ═══════════════════════════════════════
+   SUBMIT
+═══════════════════════════════════════ */
+const painLabels = {
+  p1:'堆滿菜渣的渣籃必須用手提起倒掉，還很難倒乾淨',
+  p2:'渣籃堆滿菜渣，造成排水不順與積水',
+  p3:'排水口有臭味從下水道倒灌',
+  p4:'濾網油膩黏滑，清洗時造成的心理負擔',
+  p5:'廚餘殘渣裸露在外，視覺很噁心'
+};
+const featLabels = {
+  f1:'按壓快排，一按就通', f2:'密封防臭，阻斷下水道氣體',
+  f3:'隱蔽美型，菜渣眼不見為淨', f4:'秒取渣籃，清理不沾手'
+};
+const sinkLabels = {
+  s_14:'傳統水槽14cm', s_18:'新式水槽18cm',
+  s_185:'韓系水槽18.5cm', s_unknown:'不清楚'
+};
+const addonLabels = {
+  a1:'廚餘桶', a2:'清潔三寶', a3:'備用耗材組', a0:'暫時都沒興趣'
+};
+
+function doSubmit() {
+  const email = document.getElementById('eIn').value.trim();
+  const eErr  = document.getElementById('eErr');
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    eErr.classList.add('on');
+    document.getElementById('eIn').focus();
+    return;
+  }
+  eErr.classList.remove('on');
+
+  const btn = document.getElementById('subBtn');
+  btn.textContent = '提交中…'; btn.disabled = true;
+
+  const payload = {
+    name:    document.getElementById('nIn').value.trim(),
+    email,
+    phone:   document.getElementById('pIn').value.trim(),
+    comment: document.getElementById('cIn').value.trim(),
+    // Pain
+    pains:       S.pains.join(', '),
+    pains_text:  S.pains.map(p => painLabels[p]||p).join('、'),
+    p1: S.pains.includes('p1')?1:0, p2: S.pains.includes('p2')?1:0,
+    p3: S.pains.includes('p3')?1:0, p4: S.pains.includes('p4')?1:0,
+    p5: S.pains.includes('p5')?1:0,
+    // Sink
+    sink:        S.sink,
+    sink_text:   sinkLabels[S.sink] || '',
+    // Feats
+    feats:       S.feats.join(', '),
+    feats_text:  S.feats.map(f => featLabels[f]||f).join('、'),
+    f1: S.feats.includes('f1')?1:0, f2: S.feats.includes('f2')?1:0,
+    f3: S.feats.includes('f3')?1:0, f4: S.feats.includes('f4')?1:0,
+    // Price
+    price_shown: 699,
+    price_score: S.price_score,
+    // Addons
+    addons:       S.addons.join(', '),
+    addons_text:  S.addons.map(a => addonLabels[a]||a).join('、'),
+    addon_bin:    S.addons.includes('a1')?1:0,
+    addon_trio:   S.addons.includes('a2')?1:0,
+    addon_refill: S.addons.includes('a3')?1:0,
+    addon_none:   S.addons.includes('a0')?1:0,
+    // Gender + lottery
+    gender:  S.gender,
+    lottery: '未參加'  // v8.20: 抽獎改由 LINE 好友追蹤
+  };
+
+  fetch(GAS_URL, { method:'POST', mode:'no-cors', body: JSON.stringify(payload) })
+    .then(() => {
+      if (typeof fbq !== 'undefined') fbq('track', 'Lead', { content_name:'Huroyama_Survey_v8' });
+      if (typeof gtag !== 'undefined') gtag('event', 'generate_lead', { event_category:'Survey' });
+      goto(10);
+    })
+    .catch(err => {
+      console.error('提交失敗:', err);
+      alert('提交可能失敗，請檢查網路狀態');
+      btn.textContent = '提交，搶先知道早鳥優惠 →';
+      btn.disabled = false;
+    });
+}
+
+/* ═══════════════════════════════════════
+   SHOWCASE
+═══════════════════════════════════════ */
+let scPhase = 0;
+let scHasSwiped = false;
+let epTimer = null;
+
+// v8.23: 圖片改 background-image
+const SC_IMGS = [
+  'https://pic.mieloo-corp.com/uploads/medium/09/ee/48ba9999b428324ad3b0f7f6e454.png',
+  'https://pic.mieloo-corp.com/uploads/medium/f5/55/edb297c32d1a40bac9d303c77210.png',
+  null,
+  'https://pic.mieloo-corp.com/uploads/medium/f7/47/69c6093ea0b01f280088d2c7bd18.png',
+  'https://pic.mieloo-corp.com/uploads/medium/d6/99/d7909c7e0c1bbe860e3cb91ab657.png',
+  'https://pic.mieloo-corp.com/uploads/original/8e/79/aaf6c3421d79672b7ea65c6430e0.gif',
+  'https://pic.mieloo-corp.com/uploads/original/7b/f0/173e08a0d86e13a54d3155193a69.gif',
+];
+const scImgArea = document.getElementById('scImgArea');
+const txtEls  = [0,1,2,3,4,5,6].map(i => document.getElementById('st-'+i));
+const dotEls  = [0,1,2,3,4,5,6].map(i => document.getElementById('sd-'+i));
+const explEl  = document.getElementById('explLayer');
+const scPgFil = document.getElementById('scPgFill');
+const scBack    = document.getElementById('scBack');
+const scNextBtn = document.getElementById('scNextBtn');
+
+function scSet(n) {
+  scPhase = Math.max(0, Math.min(6, n));
+
+  // Background image switch
+  if (scPhase === 2) {
+    scImgArea.style.backgroundImage = 'none';
+    explEl.classList.add('visible');
+    clearTimeout(epTimer);
+    epTimer = setTimeout(() => explEl.classList.add('exploded'), 200);
+  } else {
+    clearTimeout(epTimer);
+    explEl.classList.remove('visible','exploded');
+    scImgArea.style.backgroundImage = SC_IMGS[scPhase] ? `url('${SC_IMGS[scPhase]}')` : 'none';
+  }
+
+  // Text slides
+  txtEls.forEach((el, i) => el.classList.toggle('active', i === scPhase));
+
+  // Dots
+  dotEls.forEach((el, i) => el.classList.toggle('active', i === scPhase));
+
+  // Progress
+  scPgFil.style.width = (scPhase / 6 * 100) + '%';
+
+  // Arrows（輔助）
+
+  // 底部常駐按鈕（v8.1）
+  scBack.textContent = '←';
+  if (scPhase === 6) {
+    scNextBtn.textContent = '繼續填問卷 →';
+  } else {
+    scNextBtn.textContent = '下一張 (' + (scPhase + 2) + '/7) →';
+  }
+}
+
+/* 底部按鈕動作（v8.1） */
+function scBackAction() {
+  if (scPhase === 0) { goto(2); }   // 第一張 → 回上一頁
+  else { scGo(-1); }
+}
+function scNextAction() {
+  if (scPhase === 6) { goto(4); }   // 最後一張 → 進問卷
+  else { scGo(1); }
+}
+
+function scGo(dir) {
+  if (!scHasSwiped) {
+    scHasSwiped = true;
+    document.getElementById('scHint').classList.remove('show');
+  }
+  scSet(scPhase + dir);
+}
+
+// Touch swipe
+const sc = document.getElementById('showcase');
+let scTX = 0;
+sc.addEventListener('touchstart', e => { scTX = e.touches[0].clientX; }, { passive:true });
+sc.addEventListener('touchend',   e => {
+  const dx = e.changedTouches[0].clientX - scTX;
+  if (Math.abs(dx) > 40) { scHasSwiped = true; document.getElementById('scHint').classList.remove('show'); scGo(dx < 0 ? 1 : -1); }
+}, { passive:true });
+
+// Mouse drag
+let scMX = 0, scDrag = false;
+sc.addEventListener('mousedown', e => { scMX = e.clientX; scDrag = true; });
+sc.addEventListener('mouseup',   e => {
+  if (!scDrag) return;
+  const dx = e.clientX - scMX;
+  if (Math.abs(dx) > 55) scGo(dx < 0 ? 1 : -1);
+  scDrag = false;
+});
+sc.addEventListener('mouseleave', () => { scDrag = false; });
+
+// Keyboard (only when on showcase page)
+document.addEventListener('keydown', e => {
+  if (cur !== 3) return;
+  if (e.key === 'ArrowRight') scGo(1);
+  if (e.key === 'ArrowLeft')  scGo(-1);
+});
+
+// Init showcase
+scSet(0);
+
+/* ═══════════════════════════════════════
+   BADGE UTIL
+═══════════════════════════════════════ */
+function badge(id, count) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = count > 0 ? count + ' 項已選' : '';
+  el.classList.toggle('on', count > 0);
+}
+
+/* ═══════════════════════════════════════
+   INIT
+═══════════════════════════════════════ */
+// Show first page
+pages[0].classList.add('active'); // already in HTML but set via JS for safety
+setBodyBg(0);
+updateProg(0);
+</script>
+</body>
+</html>
