@@ -1056,7 +1056,7 @@ textarea.finput { resize: vertical; min-height: 40px; }
       </div>
       <div class="nav-row">
         <button class="btn-back" onclick="goto(3)">←</button>
-        <button class="btn-fwd" onclick="goto(5)">繼續 →</button>
+        <button class="btn-fwd" id="q1Next" disabled onclick="goto(5)">繼續 →</button>
       </div>
     </div>
   </div>
@@ -1089,7 +1089,7 @@ textarea.finput { resize: vertical; min-height: 40px; }
       </div>
       <div class="nav-row">
         <button class="btn-back" onclick="goto(4)">←</button>
-        <button class="btn-fwd" onclick="goto(6)">繼續 →</button>
+        <button class="btn-fwd" id="q2Next" disabled onclick="goto(6)">繼續 →</button>
       </div>
     </div>
   </div>
@@ -1138,7 +1138,7 @@ textarea.finput { resize: vertical; min-height: 40px; }
       </div>
       <div class="nav-row">
         <button class="btn-back" onclick="goto(5)">←</button>
-        <button class="btn-fwd" onclick="goto(7)">繼續 →</button>
+        <button class="btn-fwd" id="q3Next" disabled onclick="goto(7)">繼續 →</button>
       </div>
     </div>
   </div>
@@ -1208,7 +1208,7 @@ textarea.finput { resize: vertical; min-height: 40px; }
       </div>
       <div class="nav-row">
         <button class="btn-back" onclick="goto(7)">←</button>
-        <button class="btn-fwd" onclick="goto(9)">繼續 →</button>
+        <button class="btn-fwd" id="q5Next" disabled onclick="goto(9)">繼續 →</button>
       </div>
     </div>
   </div>
@@ -1389,6 +1389,7 @@ function togPain(el) {
     ? [...new Set([...S.pains, id])]
     : S.pains.filter(x => x !== id);
   badge('pb1', S.pains.length);
+  document.getElementById('q1Next').disabled = S.pains.length === 0;
 }
 
 /* ═══════════════════════════════════════
@@ -1398,6 +1399,7 @@ function selSink(el) {
   document.querySelectorAll('#sinkList .radio-card').forEach(c => c.classList.remove('sel'));
   el.classList.add('sel');
   S.sink = el.dataset.id;
+  document.getElementById('q2Next').disabled = false;
 }
 
 /* ═══════════════════════════════════════
@@ -1410,6 +1412,7 @@ function togFeat(el) {
     ? [...new Set([...S.feats, id])]
     : S.feats.filter(x => x !== id);
   badge('pb3', S.feats.length);
+  document.getElementById('q3Next').disabled = S.feats.length === 0;
 }
 
 /* ═══════════════════════════════════════
@@ -1465,6 +1468,7 @@ function togAddon(el) {
       : S.addons.filter(x => x !== id);
   }
   badge('pb5', S.addons.filter(x => x !== 'a0').length);
+  document.getElementById('q5Next').disabled = S.addons.length === 0;
 }
 
 /* ═══════════════════════════════════════
