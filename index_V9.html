@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>HUROYAMA v9.0 ─ 全頁五層零耦合重構</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+
+<!-- ═══════════════════════════════════════════════════════════
+     HUROYAMA  全站 11 頁  五層零耦合重建  v9.0  正式版
+     ───────────────────────────────────────────────────────────
+     骨架基準：v8.30 showcase（L0/L1 視窗滿版・L2/L3/L4/chrome 460 置中欄）
+     內容基準：HUROYAMA_v8_rebuild_brief.md（v7.12 全文沿用）
+     定位基準：HUROYAMA_v8_28_規格表.xlsx（文字/圖片/按鈕三表）
+
+     L0 底色      z:0   視窗滿版・死層
+     L1 背景圖    z:1   視窗滿版・longhand bg props（依頁面換圖/換尺寸）
+     ── 以下在 460 置中欄（stage，z:2 起算） ──
+     L2 文字      z:2   內容區，固定位置・內部可捲，依頁型 top 不同
+     L3 按鈕      z:3   全站統一導航邏輯，依頁型 bottom 不同
+     L4 獨立圖    z:4   LOGO／縮圖／勾選圖層・pointer-events:none（視頁面使用）
+     chrome      z:5   頁面專屬常駐 UI（跳過／提示／進度條等）
+
+     頁型分類（依 v8.28 規格表）：
+     - W0   Hero        bg-img full，L2=pc-end 底部置中，L3=滿版CTA
+     - W1/2 narrative    bg-img full，L2=pc-top 25dvh 左對齊，L3=back+fwd 5dvh
+     - W3   showcase     （v8.30 原版・本檔搬入不動）
+     - Q01/05 checklist  page-q，L2=5dvh 綠框起點，L3=fixed 12px
+     - Q02  radio        同 Q01 + 右側縮圖(L4)
+     - Q03  feat-list    page-q dark
+     - Q04  price        bg-img + slider
+     - W9   milestone    過場，dark，置中
+     - Q06  contact      page-q light，表單
+     - W11  感謝頁       flow-scrolling（終端內容頁，依 Lin 先前決議不用固定框）
+
+     變數：每層 XY 都掛在 :root，改一層不動別層。
+     ═══════════════════════════════════════════════════════════ -->
+
+<style>
+:root {
+  --white:#fff; --off:#f5f5f3; --lgray:#e6e6e4; --mgray:#aeaeaa; --black:#141412; --steel:#7a8490;
+  --gold:#50A8CC; --navy:#0A2540; --blue:#1E5BAE;
+  --txt:#1a1a18; --txt2:#686864; --txt3:#9a9a96;
+  --f-zh:'Noto Sans TC','Microsoft JhengHei',sans-serif;
+  --f-en:'DM Sans',sans-serif;
+  --f-ital:'Playfair Display',serif;
+  --col-w:460px;
+  --btn-h:52px;
+  --prog-h:46px;
+  --bg-base-h:1080px;
+  --sc-safe-b:max(env(safe-area-inset-bottom,0px),5dvh);
+
+  /* ── W0 Hero ── */
+  --w0-img-y: calc(50% - 100px);
+  --w0-img-h: calc(min(100dvh,var(--bg-base-h)) + 200px); /* +200px 補償 -100px 位移造成的底部空白 */
+
+  /* ── W1/W2 narrative ── */
+  --w12-img-y: calc(50% - 100px);
+  --w12-img-h: calc(min(100dvh,var(--bg-base-h)) + 200px); /* +200px 補償 -100px 位移造成的底部空白 */
+  --w12-top: 25dvh;
+  --w12-bottom: calc(var(--sc-safe-b) + var(--btn-h) + 16px);
+
+  /* ── Q pages (checklist/radio/feat/contact) ── */
+  --q-top: max(5dvh, calc(var(--prog-h) + 10px));
+  --q-bottom: calc(var(--sc-safe-b) + var(--btn-h) + 16px);
+
+  /* ── Q04 price (bg-img) ── */
+  --q4-img-h: 150dvh;
+
+  /* ── W9 milestone / W11 thank-you ── */
+  --w9-top: 0;
+
+  --L3-q-bottom: var(--sc-safe-b);
+  --L3-narr-bottom: var(--sc-safe-b);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html,body { height:100%; font-family:var(--f-zh); overflow:hidden; background:#000; }
+body.guides .page { outline:1px dashed rgba(255,0,0,.15); }
+
+/* 多頁容器：一次只顯示 active 頁，其餘 display:none（單檔範本內可逐頁檢視） */
+.page { position:fixed; inset:0; display:none; }
+.page.active { display:block; }
+
+/* ───────── 共用：置中欄 stage（裝 L2/L3/L4/chrome） ───────── */
+.stage {
+  position:fixed; inset:0;
+  width:100%; max-width:var(--col-w); margin:0 auto;
+  overflow:hidden; user-select:none;
+  z-index:2;
+}
+
+/* ───────── 共用：L0 底色（視窗滿版） ───────── */
+.layer-bg-color { position:fixed; inset:0; z-index:0; }
+.bg-dark  { background:var(--black); }
+.bg-light { background:var(--off); }
+
+/* ───────── 共用：L1 背景圖（視窗滿版，longhand props） ───────── */
+.layer-bg-image { position:fixed; inset:0; z-index:1; }
+.bg-img-area {
+  position:absolute; inset:0;
+  background-repeat:no-repeat;
+  background-position:center var(--img-y, 50%);
+  background-size:auto var(--img-h, auto);
+}
+/* 暗化遮罩（僅 W0/W1/W2，沿用 v8.26：上淺下深漸層，確保文字可讀性；
+   嵌在 L1 容器內、緊接背景圖之後，與圖片同層堆疊，永遠蓋在圖片上方） */
+.bg-overlay { position:absolute; inset:0; pointer-events:none; background:linear-gradient(180deg,rgba(8,8,6,.14) 0%,rgba(8,8,6,.62) 55%,rgba(8,8,6,.92) 100%); }
+
+/* ═══════════════════════════════════════════════════════════
+   #prog — 問卷進度條（Q01–Q05 顯示 x/5；Q06 聯絡頁與其他頁不顯示）
+   沿用 v8.26：固定頂部，桌機置中收欄寬；Q03 黑底、Q04 透明
+   ═══════════════════════════════════════════════════════════ */
+#prog {
+  display:none; position:fixed; top:0; left:0; right:0; height:var(--prog-h);
+  z-index:300; background:rgba(245,245,243,.97); border-bottom:1px solid var(--lgray);
+  align-items:center; gap:12px; padding:0 5%;
+  backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px);
+  transition:background .2s, border-color .2s;
+}
+#prog.on { display:flex; }
+#prog.prog-dark { background:rgba(20,20,18,.97); border-bottom-color:rgba(255,255,255,.08); }
+#prog.prog-dark .prog-label { color:rgba(255,255,255,.5); }
+#prog.prog-dark .prog-track { background:rgba(255,255,255,.1); }
+#prog.prog-clear { background:transparent; border-bottom-color:transparent; backdrop-filter:none; -webkit-backdrop-filter:none; }
+#prog.prog-clear .prog-label { color:rgba(255,255,255,.7); }
+#prog.prog-clear .prog-track { background:rgba(255,255,255,.2); }
+@media (min-width:480px) {
+  #prog { left:50%; transform:translateX(-50%); max-width:var(--col-w); width:100%; }
+}
+.prog-track { flex:1; height:3px; background:var(--lgray); border-radius:2px; overflow:hidden; }
+.prog-fill { height:100%; background:var(--gold); border-radius:2px; transition:width .45s ease; width:0%; }
+.prog-label { font-size:10px; letter-spacing:1px; color:var(--txt3); white-space:nowrap; }
+
+/* ═══════════════════════════════════════════════════════════
+   W0 — Hero
+   ═══════════════════════════════════════════════════════════ */
+.w0-stage .layer-text { position:absolute; inset:0; z-index:2; }
+.hero-logo-wrap { position:absolute; left:0; right:0; bottom:50%; display:flex; justify-content:center; align-items:flex-end; padding-bottom:16px; }
+.hero-text-wrap { position:absolute; left:0; right:0; top:50%; bottom:var(--w12-bottom); padding:16px 8% 0; text-align:center; overflow-y:auto; -webkit-overflow-scrolling:touch; }
+.hero-logo { width:auto; height:34px; margin-bottom:22px; filter:brightness(0) invert(1); opacity:.92; }
+.hero-logo-w0 { height:68px; margin-bottom:0; }
+.hero-logo-ty { height:51px; }
+.hero-title { font-size:clamp(28px,8.5vw,42px); font-weight:700; color:#fff; line-height:1.3; margin-bottom:14px; }
+.hero-title-blue { color:var(--gold); }
+.hero-sub { font-size:14px; font-weight:300; color:rgba(255,255,255,.82); line-height:1.7; max-width:340px; margin-left:auto; margin-right:auto; }
+.w0-stage .layer-buttons { position:absolute; left:0; right:0; bottom:0; z-index:3; padding:0 5% var(--sc-safe-b); }
+.btn { display:flex; align-items:center; justify-content:center; height:var(--btn-h); width:100%; border:none; cursor:pointer; font-family:var(--f-zh); transition:opacity .2s; }
+.btn:active { opacity:.78; }
+.btn-gold { background:var(--gold); color:#fff; font-size:12px; font-weight:500; letter-spacing:1px; }
+
+/* ═══════════════════════════════════════════════════════════
+   W1/W2 — narrative
+   ═══════════════════════════════════════════════════════════ */
+.narr-stage .layer-text {
+  position:absolute; top:var(--w12-top); left:0; right:0; bottom:var(--w12-bottom);
+  z-index:2; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:0 10%;
+}
+.ip-line { width:28px; height:2px; background:var(--gold); margin-bottom:14px; animation:fadeUp .7s ease .1s both; }
+.ip-kicker { display:block; font-size:12px; color:#fff; letter-spacing:3px; margin-bottom:10px; font-family:var(--f-en); text-transform:uppercase; animation:fadeUp .7s ease .2s both; }
+.ip-title { font-size:clamp(28px,8.5vw,42px); font-weight:700; color:#fff; line-height:1.4; margin-bottom:14px; animation:fadeUp .7s ease .35s both; }
+.ip-desc { font-size:clamp(14px,3.9vw,16px); color:rgba(255,255,255,.84); line-height:1.7; margin-bottom:28px; animation:fadeUp .7s ease .5s both; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
+.narr-stage .layer-buttons { position:absolute; left:0; right:0; bottom:var(--L3-narr-bottom); z-index:3; display:flex; gap:10px; padding:0 5%; }
+.btn-back { flex:0 0 auto; height:var(--btn-h); padding:0 20px; background:rgba(80,168,204,.16); color:var(--gold); border:none; font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+.btn-fwd { flex:1; height:var(--btn-h); padding:0 24px; background:var(--gold); color:#fff; border:none; font-size:14px; font-weight:500; font-family:var(--f-zh); cursor:pointer; display:flex; align-items:center; justify-content:center; letter-spacing:1px; }
+.btn-back:active, .btn-fwd:active { opacity:.78; }
+
+/* ═══════════════════════════════════════════════════════════
+   W3 Showcase — 原樣保留（class 沿用 sc- 前綴，見下方 HTML）
+   ═══════════════════════════════════════════════════════════ */
+.sc-img-area { background-position:center calc(50% - 150px); background-size:auto calc(min(100dvh,var(--bg-base-h)) * 0.7); }
+.layer-text.sc-text { position:absolute; top:50%; left:0; right:0; bottom:var(--L2-bottom,calc(var(--sc-safe-b) + var(--btn-h) + 20px)); z-index:2; overflow:hidden; }
+.sc-slide { position:absolute; top:0; left:0; right:0; padding:calc(10dvh + 12px) 5% 0; max-height:100%; overflow-y:auto; -webkit-overflow-scrolling:touch; opacity:0; transform:translateY(12px); transition:opacity .38s ease, transform .38s ease; pointer-events:none; visibility:hidden; }
+.sc-slide.active { opacity:1; transform:translateY(0); pointer-events:all; visibility:visible; }
+.sc-tag { display:block; font-size:13px; color:var(--gold); margin-bottom:9px; font-weight:500; }
+.sc-ttl { font-size:clamp(21px,5.8vw,27px); font-weight:700; color:#fff; line-height:1.35; margin-bottom:8px; }
+.sc-desc { font-size:clamp(14px,3.9vw,16px); color:rgba(255,255,255,.85); line-height:1.7; }
+#st-4 .sc-tag, #st-4 .sc-ttl, #st-4 .sc-desc { background:rgba(20,20,18,.82); box-decoration-break:clone; -webkit-box-decoration-break:clone; padding:3px 8px; display:inline; line-height:1.9; }
+#st-2 .sc-tag, #st-2 .sc-ttl, #st-2 .sc-desc { background:rgba(20,20,18,.82); box-decoration-break:clone; -webkit-box-decoration-break:clone; padding:3px 8px; display:inline; line-height:1.9; }
+.expl-layer { position:absolute; inset:0; pointer-events:none; opacity:0; transition:opacity .4s ease; transform:translateY(-100px) scale(.7); transform-origin:center center; }
+.expl-layer.visible { opacity:1; }
+/* S6（st-5）背景圖前的下往上漸層，預設隱藏，由 JS 依 scPhase 切換 */
+.sc-img-overlay { position:absolute; inset:0; pointer-events:none; opacity:0; transition:opacity .3s ease; background:linear-gradient(0deg,rgba(8,8,6,.85) 0%,rgba(8,8,6,.35) 45%,rgba(8,8,6,0) 80%); }
+.sc-img-overlay.show { opacity:1; }
+.ep-img { position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; mix-blend-mode:screen; transition:opacity .45s ease, transform .65s cubic-bezier(.34,1.45,.64,1); }
+#ep-all { opacity:1; z-index:10; transition:opacity .4s ease; }
+.ep-piece { opacity:0; z-index:5; }
+#ep-cover { transform:translateY(38%); } #ep-basket{ transform:translateY(20%); } #ep-seal{ transform:translateY(3%); } #ep-ring{ transform:translateY(-18%); } #ep-body{ transform:translateY(-33%); }
+.expl-layer.exploded #ep-all { opacity:0; }
+.expl-layer.exploded .ep-piece { opacity:1; transform:translateY(0)!important; }
+.expl-layer.exploded #ep-cover{transition-delay:0s;} .expl-layer.exploded #ep-basket{transition-delay:.05s;} .expl-layer.exploded #ep-seal{transition-delay:.1s;} .expl-layer.exploded #ep-ring{transition-delay:.15s;} .expl-layer.exploded #ep-body{transition-delay:.2s;}
+.sc-pgbar { position:absolute; left:0; right:0; bottom:calc(var(--sc-safe-b) + var(--btn-h) + 10px + 12px); height:2px; background:rgba(255,255,255,.07); }
+.sc-pgfill { height:100%; background:var(--gold); transition:width .3s ease; }
+.sc-dots { position:absolute; left:0; right:0; bottom:calc(var(--sc-safe-b) + var(--btn-h) + 10px); display:flex; gap:7px; justify-content:center; align-items:center; }
+.scdot { width:5px; height:5px; border-radius:50%; background:rgba(255,255,255,.18); transition:all .3s; }
+.scdot.active { background:var(--gold); transform:scale(1.5); }
+.sc-btnrow { position:absolute; left:0; right:0; bottom:var(--sc-safe-b); display:flex; gap:10px; padding:12px 5% 0; background:linear-gradient(180deg,rgba(20,20,18,0) 0%,rgba(20,20,18,.9) 40%,var(--black) 100%); }
+.sc-btn-back { flex:0 0 auto; height:var(--btn-h); padding:0 20px; background:rgba(255,255,255,.1); color:rgba(255,255,255,.7); border:none; font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+.sc-btn-next { flex:1; height:var(--btn-h); padding:0 24px; background:var(--gold); color:#fff; border:none; font-size:12px; font-weight:500; letter-spacing:2px; text-align:center; font-family:var(--f-zh); cursor:pointer; display:flex; align-items:center; justify-content:center; }
+.sc-btn-back:active, .sc-btn-next:active { opacity:.76; }
+.sc-skip { position:absolute; top:5dvh; right:5%; font-size:12px; color:rgba(255,255,255,.4); letter-spacing:1px; cursor:pointer; padding:4px 8px; }
+.sc-hint { position:absolute; bottom:calc(50% + 10px); left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:9px; opacity:0; transition:opacity .5s; pointer-events:none; white-space:nowrap; }
+.sc-hint.show { opacity:1; }
+.sh-icon { font-size:20px; animation:swingX 2s ease-in-out infinite; }
+.sh-txt { font-size:11px; letter-spacing:2px; color:rgba(255,255,255,.42); }
+@keyframes swingX { 0%,100%{transform:translateX(5px);opacity:.5;} 50%{transform:translateX(-5px);opacity:1;} }
+
+/* ═══════════════════════════════════════════════════════════
+   Q pages 共用（Q01/02/03/05 checklist/radio/feat, Q06 contact）
+   page-q：L2 top=5dvh，L3 fixed bottom=12px
+   ═══════════════════════════════════════════════════════════ */
+.q-stage .layer-text {
+  position:absolute; top:var(--q-top); left:0; right:0; bottom:var(--q-bottom);
+  z-index:2; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:0 10%;
+}
+.q-num { font-size:clamp(40px,11vw,52px); font-weight:700; line-height:1; margin-bottom:6px; }
+.q-title { font-size:clamp(21px,5.8vw,27px); font-weight:700; line-height:1.45; margin-bottom:4px; }
+.q-hint { font-size:clamp(12px,3.6vw,14px); color:var(--txt3); margin-bottom:18px; }
+.q-light .q-num, .q-light .q-title { color:var(--txt); }
+.q-dark  .q-num, .q-dark  .q-title { color:#fff; }
+.q-dark  .q-hint { color:rgba(255,255,255,.5); }
+
+.c-card { display:flex; align-items:center; gap:11px; padding:13px 14px; border-radius:2px; margin-bottom:3px; cursor:pointer; transition:border-color .18s, background .18s; border:2px solid transparent; }
+.q-light .c-card { background:#fff; }
+.q-dark  .c-card { background:rgba(255,255,255,.06); }
+.c-card.sel { border-color:var(--gold); background:#e8f4fa; }
+.q-dark .c-card.sel { background:rgba(80,168,204,.1); }
+.c-chk { width:42px; height:42px; min-width:42px; border-radius:50%; border:2px solid rgba(0,0,0,.28); flex:0 0 auto; display:flex; align-items:center; justify-content:center; font-size:16px; color:transparent; transition:all .18s; }
+.c-card.sel .c-chk { background:var(--gold); border-color:var(--gold); color:#fff; font-weight:800; }
+.c-emoji { font-size:26px; min-width:34px; flex-shrink:0; }
+.c-main { font-size:clamp(16px,4.3vw,18px); line-height:1.35; }
+.q-light .c-main { color:var(--txt); }
+.q-dark  .c-main { color:#fff; }
+.c-sub { font-size:clamp(14px,3.9vw,16px); color:var(--txt3); margin-top:3px; display:block; }
+.q-dark .c-sub { color:rgba(255,255,255,.55); }
+
+/* Q02 radio + 縮圖(L4) */
+.r-card { display:flex; align-items:center; gap:12px; padding:15px 14px; border-radius:2px; margin-bottom:3px; cursor:pointer; background:#fff; border:2px solid transparent; transition:border-color .18s; }
+.r-card.sel { border-color:var(--black); }
+.r-dot { width:42px; height:42px; min-width:42px; border-radius:50%; border:2px solid var(--mgray); flex:0 0 auto; position:relative; transition:all .18s; }
+.r-card.sel .r-dot { border-color:var(--black); }
+.r-card.sel .r-dot::after { content:''; position:absolute; inset:6px; border-radius:50%; background:var(--black); }
+.r-main { font-size:clamp(16px,4.3vw,18px); color:var(--txt); line-height:1.35; }
+.r-sub { font-size:clamp(12px,3.6vw,14px); color:var(--txt2); margin-top:3px; display:block; }
+.r-thumb { margin-left:auto; max-width:96px; max-height:calc(100% - 20px); object-fit:contain; pointer-events:none; }
+
+/* Q03 feat-list */
+.f-card { display:flex; align-items:center; gap:14px; padding:10px 14px; border-top:1px solid rgba(255,255,255,.08); cursor:pointer; transition:opacity .2s; }
+.f-card:active { opacity:.72; }
+.fchk { width:46px; height:46px; min-width:46px; border-radius:50%; border:2px solid rgba(80,168,204,.5); display:flex; align-items:center; justify-content:center; font-size:10px; color:transparent; transition:all .2s; margin-top:2px; flex-shrink:0; }
+.f-card.sel .fchk { background:var(--gold); border-color:var(--gold); color:#fff; font-weight:800; }
+.fnum { font-size:28px; font-weight:400; color:rgba(255,255,255,.65); flex:0 0 auto; line-height:1; min-width:30px; }
+.f-card.sel .fnum { color:var(--gold); }
+.fbody { flex:1; }
+.fname { font-size:clamp(16px,4.5vw,19px); font-weight:700; color:#fff; margin-bottom:5px; line-height:1.3; }
+.fdesc { font-size:clamp(12px,3.6vw,14px); color:rgba(255,255,255,.74); line-height:1.7; }
+
+.q-stage .layer-buttons { position:absolute; left:0; right:0; bottom:var(--L3-q-bottom); z-index:3; display:flex; gap:10px; padding:12px 5% 0; }
+.q-light .layer-buttons { background:linear-gradient(180deg,rgba(245,245,243,0) 0%,rgba(245,245,243,.92) 40%,var(--off) 100%); }
+.q-dark  .layer-buttons { background:linear-gradient(180deg,rgba(20,20,18,0) 0%,rgba(20,20,18,.9) 40%,var(--black) 100%); }
+.btn-fwd[disabled] { background:var(--mgray); pointer-events:none; opacity:.7; }
+.cbadge { display:inline-flex; align-items:center; justify-content:center; min-width:20px; height:20px; padding:0 6px; border-radius:10px; background:var(--gold); color:#fff; font-size:12px; font-weight:700; margin-left:8px; }
+
+/* Q04 price slider */
+.q-num-d { color:rgba(255,255,255,.82); }
+.q-title-w { color:#fff; }
+.q4-block { flex:1; display:flex; flex-direction:column; align-items:center; text-align:center; margin-top:18px; }
+.slider-section { width:100%; }
+.price-badge { display:block; text-align:center; font-size:clamp(72px,20vw,100px); font-weight:700; color:var(--gold); line-height:1; margin-bottom:6px; letter-spacing:-2px; -webkit-text-stroke:10px #fff; paint-order:stroke fill; }
+.price-badge sup { font-size:.38em; vertical-align:super; letter-spacing:0; color:var(--gold); }
+.price-orig { font-size:14px; color:rgba(255,255,255,.45); text-decoration:line-through; letter-spacing:1px; text-align:center; margin-bottom:30px; }
+.slider-q { font-size:clamp(21px,5.8vw,27px); font-weight:700; color:#fff; margin-bottom:24px; }
+.slider-end-labels { display:flex; justify-content:space-between; width:100%; font-size:clamp(14px,3.9vw,16px); font-weight:500; color:rgba(255,255,255,.85); margin-bottom:8px; }
+.slider-must { font-size:20px; font-weight:700; color:var(--gold); background:rgba(80,168,204,.15); padding:6px 16px; border-radius:20px; margin-bottom:8px; transition:opacity .3s; }
+.slider-must.hide { opacity:0; pointer-events:none; }
+.q4-range { width:100%; accent-color:var(--gold); height:6px; margin-bottom:8px; }
+.slider-val { font-size:52px; font-weight:700; color:#fff; }
+
+/* Q06 contact form */
+.fgroup { margin-bottom:16px; }
+.flabel { display:block; font-size:14px; color:var(--txt2); text-transform:uppercase; margin-bottom:6px; }
+.tag-o { color:var(--txt3); font-weight:400; text-transform:none; }
+.tag-r { color:#d65b5b; font-weight:400; text-transform:none; }
+.finput { width:100%; padding:12px; font-size:15px; color:var(--txt); border:1.5px solid var(--lgray); border-radius:8px; background:#fff; font-family:var(--f-zh); }
+.finput::placeholder { font-size:clamp(14px,3.9vw,16px); color:var(--txt3); }
+textarea.finput { min-height:80px; resize:vertical; }
+.privacy { font-size:clamp(12px,3.6vw,14px); color:var(--txt3); text-align:center; margin-bottom:10px; }
+.gender-grid { display:flex; gap:8px; }
+.gbtn { flex:1; height:var(--btn-h); padding:0 8px; background:#fff; border:2px solid var(--lgray); font-size:14px; font-family:var(--f-zh); color:var(--txt); text-align:center; transition:all .18s; display:flex; align-items:center; justify-content:center; cursor:pointer; border-radius:8px; }
+.gender-grid .gbtn:nth-child(3) { flex:1.4; }
+.gbtn:active { opacity:.8; }
+.gbtn.sel { border-color:var(--black); background:var(--black); color:#fff; }
+.ferr { display:none; font-size:12px; color:#d65b5b; margin-top:4px; }
+.ferr.show { display:block; }
+
+/* ═══════════════════════════════════════════════════════════
+   W11 感謝頁 — flow-scrolling 終端頁（非固定框）
+   ═══════════════════════════════════════════════════════════ */
+.ty-icon { font-size:48px; margin-bottom:18px; }
+.ty-title { font-size:clamp(23px,6.5vw,31px); font-weight:700; color:#fff; line-height:1.4; margin-bottom:14px; }
+.ty-title-line { color:#06C755; }
+.ty-sub { font-size:14px; color:rgba(255,255,255,.75); line-height:1.7; max-width:320px; }
+.ty-page { position:fixed; inset:0; overflow-y:auto; -webkit-overflow-scrolling:touch; z-index:2; }
+.ty-content { min-height:100%; display:flex; flex-direction:column; align-items:center; text-align:center; padding:48px 8% 40px; }
+.ty-earlybird { font-size:18px; font-weight:700; color:var(--gold); margin:14px 0; }
+.ty-social-label { font-size:13px; color:rgba(255,255,255,.6); line-height:1.7; margin-top:24px; }
+.ty-finger { font-size:28px; text-align:center; margin-bottom:8px; animation:fingerBounce 1s ease-in-out infinite; display:block; }
+@keyframes fingerBounce { 0%,100% { transform:translateY(0); } 50% { transform:translateY(8px); } }
+.ty-line-wrap { width:100%; max-width:340px; border-radius:99px; }
+.ty-line-wrap .btn-line-full { margin-top:0; animation:linePulse 1.8s ease-out infinite; }
+@keyframes linePulse {
+  0%   { box-shadow:0 0 0 0 rgba(0,185,0,.55); }
+  70%  { box-shadow:0 0 0 14px rgba(0,185,0,0); }
+  100% { box-shadow:0 0 0 0 rgba(0,185,0,0); }
+}
+.btn-line-full, .btn-ig { display:flex; align-items:center; justify-content:center; height:50px; width:100%; max-width:340px; border-radius:25px; font-size:14px; font-weight:500; color:#fff; margin-top:14px; text-decoration:none; }
+.btn-line-full { background:#06C755; }
+.btn-ig { background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); }
+.ty-footer { margin-top:32px; font-size:12px; color:rgba(255,255,255,.35); letter-spacing:1px; }
+</style>
+</head>
+<body>
+
+<!-- ══ FIXED PROGRESS BAR（Q01–Q05，x/5；Q06 與其他頁不顯示） ══ -->
+<div id="prog">
+  <div class="prog-track"><div class="prog-fill" id="pfill"></div></div>
+  <span class="prog-label" id="plabel">1 / 5</span>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 0 — W0 Hero
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page active" data-page="0" data-bg="dark">
+  <div class="layer-bg-color bg-dark">
+</div>
+  <div class="layer-bg-image" style="--img-y:var(--w0-img-y);--img-h:var(--w0-img-h)">
+    <div class="bg-img-area" style="background-image:url('https://pic.mieloo-corp.com/uploads/medium/4b/ef/bfe657322d1d8d0551450c97d199.png')"></div>
+    <div class="bg-overlay"></div>
+  </div>
+  <div class="stage w0-stage">
+    <div class="layer-text">
+      <div class="hero-logo-wrap">
+        <img class="hero-logo hero-logo-w0" src="https://pic.mieloo-corp.com/uploads/medium/ec/8c/0498cef723b64fe276e18da9eb1a.png" alt="浴山 LOGO">
+      </div>
+      <div class="hero-text-wrap">
+        <h1 class="hero-title">廚房水槽<br><span class="hero-title-blue">快排濾網</span><br>即將登場</h1>
+        <p class="hero-sub">解決廚房裡最噁心的三件事——<br>菜渣看不到、臭味聞不到、廚餘摸不到。<br>上市前，先聽聽你的聲音。</p>
+      </div>
+    </div>
+    <div class="layer-buttons">
+      <button class="btn btn-gold" onclick="goto(1)">開始，搶先知道早鳥優惠 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 1 — W1 痛點 The Problem
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page" data-page="1" data-bg="dark">
+  <div class="layer-bg-color bg-dark">
+</div>
+  <div class="layer-bg-image" style="--img-y:var(--w12-img-y);--img-h:var(--w12-img-h)">
+    <div class="bg-img-area" style="background-image:url('https://pic.mieloo-corp.com/uploads/medium/89/9f/13c9939bba16ddf99f411d4f22f8.jpg')"></div>
+    <div class="bg-overlay"></div>
+  </div>
+  <div class="stage narr-stage">
+    <div class="layer-text">
+      <div class="ip-line"></div>
+      <span class="ip-kicker">The Problem · 你的廚房痛點</span>
+      <h2 class="ip-title">每次洗完碗<br>你是不是也這樣？</h2>
+      <p class="ip-desc">菜渣、積水、臭味、黏膩感……明明洗完了，<br>廚房感覺還是很髒。</p>
+    </div>
+    <div class="layer-buttons">
+      <button class="btn-back" onclick="goto(0)">←</button>
+      <button class="btn-fwd" onclick="goto(2)">告訴我你的痛點 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 2 — W2 解方 The Solution
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page" data-page="2" data-bg="dark">
+  <div class="layer-bg-color bg-dark">
+</div>
+  <div class="layer-bg-image" style="--img-y:var(--w12-img-y);--img-h:var(--w12-img-h)">
+    <div class="bg-img-area" style="background-image:url('https://pic.mieloo-corp.com/uploads/medium/1c/ab/4dbfb9b62ad03377c966006998e9.png')"></div>
+    <div class="bg-overlay"></div>
+  </div>
+  <div class="stage narr-stage">
+    <div class="layer-text">
+      <div class="ip-line"></div>
+      <span class="ip-kicker">The Solution · 解決方案</span>
+      <h2 class="ip-title">菜渣．看不到<br>臭味．聞不到<br>廚餘．摸不到</h2>
+      <p class="ip-desc">浴山快排濾網：密封・快排・易洗・美型。<br>為廚房而生。</p>
+    </div>
+    <div class="layer-buttons">
+      <button class="btn-back" onclick="goto(1)">←</button>
+      <button class="btn-fwd" onclick="goto(3)">看看產品設計 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 3 — W3 Showcase（v8.30 原版搬入，僅 goto() 接上多頁系統）
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page" data-page="3" data-bg="dark">
+  <div class="layer-bg-color bg-dark">
+</div>
+  <div class="layer-bg-image">
+    <div class="sc-img-area bg-img-area" id="scImgArea">
+      <div class="expl-layer" id="explLayer">
+        <img class="ep-img" id="ep-all"    src="https://pic.mieloo-corp.com/uploads/medium2x/15/84/eb4bfc67b3a546a5ea54c2e9a881.png" alt="完整產品">
+        <img class="ep-img ep-piece" id="ep-body"   src="https://pic.mieloo-corp.com/uploads/medium2x/37/e2/8fe31499ed10fa4cb4e14d90c49c.png" alt="杯體">
+        <img class="ep-img ep-piece" id="ep-ring"   src="https://pic.mieloo-corp.com/uploads/medium2x/14/3a/9e58a7ff2240ddc1651d89d8e30f.png" alt="矽膠環">
+        <img class="ep-img ep-piece" id="ep-seal"   src="https://pic.mieloo-corp.com/uploads/medium2x/8f/b1/cb24c438ff34f273b94c182b6563.png" alt="密封止水">
+        <img class="ep-img ep-piece" id="ep-basket" src="https://pic.mieloo-corp.com/uploads/medium2x/17/66/5f0dad57c395622aff763a8ea831.png" alt="渣籃">
+        <img class="ep-img ep-piece" id="ep-cover"  src="https://pic.mieloo-corp.com/uploads/medium2x/e3/99/3c25951fd112d7dde1a2308313a0.png" alt="導流外蓋">
+      </div>
+      <div class="sc-img-overlay" id="scImgOverlay"></div>
+    </div>
+  </div>
+  <div class="stage" id="showcase">
+    <div class="layer-text sc-text">
+      <div class="sc-slide active" id="st-0">
+        <span class="sc-tag">痛點分析</span>
+        <h3 class="sc-ttl">傳統型<br>鐵製水槽提籠</h3>
+        <p class="sc-desc">清理時會直接接觸廚餘，使用過程無法避免異味<br>與視覺上的不適，讓水槽維護變心理負擔。</p>
+      </div>
+      <div class="sc-slide" id="st-1">
+        <span class="sc-tag">產品一覽</span>
+        <h3 class="sc-ttl">浴山｜廚房水槽<br>快排濾網</h3>
+        <p class="sc-desc">看不到菜渣，聞不到臭味，摸不到廚餘<br>流理台水槽清潔不再是負擔。</p>
+      </div>
+      <div class="sc-slide" id="st-2">
+        <div><span class="sc-tag">產品結構</span></div>
+        <div><h3 class="sc-ttl">由五個零件組合<br>一套優雅的排水系統</h3></div>
+        <div><p class="sc-desc">金屬導流蓋・金屬渣籃・密封止水結構・矽膠環・<br>杯體架構，每一個零件，都是關鍵的存在。</p></div>
+      </div>
+      <div class="sc-slide" id="st-3">
+        <span class="sc-tag">火山錐體快排設計</span>
+        <h3 class="sc-ttl">菜渣滿載時，<br>排水仍比傳統快 20%。</h3>
+        <p class="sc-desc">渣籃中央隆起的錐體結構，讓廚餘沉降於周緣，<br>配合外緣水道始終保持暢通。菜渣再多，排水也不卡頓。</p>
+      </div>
+      <div class="sc-slide" id="st-4">
+        <div><span class="sc-tag">隱蔽美型</span></div>
+        <div><h3 class="sc-ttl">菜渣看不到，<br>質感看得到。</h3></div>
+        <div><p class="sc-desc">中央橫樑・翼狀開口・恰巧遮蔽底部廚餘視線。與家中水槽融為一體，如同原廠般一體成型。</p></div>
+      </div>
+      <div class="sc-slide" id="st-5">
+        <span class="sc-tag">密封止臭</span>
+        <h3 class="sc-ttl">按壓，手不碰髒水。<br>密封，臭味聞不到。</h3>
+        <p class="sc-desc">密封墊圈形成物理屏障，阻斷沼氣從下水道倒灌。<br>浮動柱・頂出彈簧・密封環，三重結構，<br>按壓 50,000 次不損壞。</p>
+      </div>
+      <div class="sc-slide" id="st-6">
+        <span class="sc-tag">倒廚餘不沾手</span>
+        <h3 class="sc-ttl">像倒咖啡渣一樣，<br>廚餘優雅入桶。</h3>
+        <p class="sc-desc">專屬廚餘夾，廚餘俐落倒入廚餘桶。雙手不沾污物，廚房家事，也可以很優雅。</p>
+      </div>
+    </div>
+    <div class="layer-buttons">
+      <div class="sc-pgbar"><div class="sc-pgfill" id="scPgFill"></div></div>
+      <div class="sc-dots">
+        <div class="scdot active" id="sd-0"></div><div class="scdot" id="sd-1"></div>
+        <div class="scdot" id="sd-2"></div><div class="scdot" id="sd-3"></div>
+        <div class="scdot" id="sd-4"></div><div class="scdot" id="sd-5"></div>
+        <div class="scdot" id="sd-6"></div>
+      </div>
+      <div class="sc-btnrow">
+        <button class="sc-btn-back" id="scBack" onclick="scBackAction()">←</button>
+        <button class="sc-btn-next" id="scNextBtn" onclick="scNextAction()">下一張 →</button>
+      </div>
+    </div>
+    <div class="layer-top-image">
+</div>
+    <div class="chrome">
+      <span class="sc-skip" onclick="goto(4)">跳過 →</span>
+      <div class="sc-hint" id="scHint">
+        <span class="sh-icon">👆</span>
+        <span class="sh-txt">左右滑動查看產品</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 4 — Q01 痛點確認（淺色，複選 p1–p5）
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page" data-page="4" data-bg="light">
+  <div class="layer-bg-color bg-light">
+</div>
+  <div class="layer-bg-image">
+</div>
+  <div class="stage q-stage">
+    <div class="layer-text q-light">
+      <div class="q-num">Q01</div>
+      <div class="q-title">你家水槽<br>是否也有這些 困擾？</div>
+      <div class="q-hint">可複選</div>
+      <div class="c-card" data-val="p1" onclick="toggleMulti(this,'pains')">
+        <div class="c-chk">✓</div>
+        <span class="c-emoji">🗑️</span>
+        <div><div class="c-main">堆滿菜渣的渣籃必須用手提起倒掉，還很難倒乾淨</div><span class="c-sub">每次清理都是一場心理煎熬</span></div>
+      </div>
+      <div class="c-card" data-val="p2" onclick="toggleMulti(this,'pains')">
+        <div class="c-chk">✓</div>
+        <span class="c-emoji">💧</span>
+        <div><div class="c-main">渣籃堆滿菜渣，造成排水不順與積水</div><span class="c-sub">洗個碗，水就淹一半</span></div>
+      </div>
+      <div class="c-card" data-val="p3" onclick="toggleMulti(this,'pains')">
+        <div class="c-chk">✓</div>
+        <span class="c-emoji">😤</span>
+        <div><div class="c-main">排水口有臭味從下水道倒灌</div><span class="c-sub">煮好的飯旁邊飄來奇怪臭味</span></div>
+      </div>
+      <div class="c-card" data-val="p4" onclick="toggleMulti(this,'pains')">
+        <div class="c-chk">✓</div>
+        <span class="c-emoji">🧽</span>
+        <div><div class="c-main">濾網油膩黏滑，清洗時造成的心理負擔</div><span class="c-sub">刷了半天還是有滑膩感</span></div>
+      </div>
+      <div class="c-card" data-val="p5" onclick="toggleMulti(this,'pains')">
+        <div class="c-chk">✓</div>
+        <span class="c-emoji">👀</span>
+        <div><div class="c-main">廚餘殘渣裸露在外，視覺很噁心</div><span class="c-sub">客人來家裡超尷尬</span></div>
+      </div>
+    </div>
+    <div class="layer-buttons q-light">
+      <button class="btn-back" onclick="goto(3)">←</button>
+      <button class="btn-fwd" id="fwd-4" disabled onclick="goto(5)">下一題<span class="cbadge" id="badge-4" style="display:none">0</span> →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 5 — Q02 水槽尺寸（淺色，單選 sink + 縮圖 L4）
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page" data-page="5" data-bg="light">
+  <div class="layer-bg-color bg-light">
+</div>
+  <div class="layer-bg-image">
+</div>
+  <div class="stage q-stage">
+    <div class="layer-text q-light">
+      <div class="q-num">Q02</div>
+      <div class="q-title">你家水槽的<br>排水孔尺寸？</div>
+      <div class="q-hint">單選</div>
+      <div class="r-card" data-val="s_14" onclick="selectSingle(this,'sink')">
+        <div class="r-dot"></div>
+        <div><div class="r-main">傳統水槽 14cm</div><div class="r-sub">蓋子是一塊黑色橡膠皮</div></div>
+        <img class="r-thumb" src="https://pic.mieloo-corp.com/uploads/original/6b/60/1404f5185b0b3b386d349ef08e36.jpg" alt="14cm 排水孔示意">
+      </div>
+      <div class="r-card" data-val="s_18" onclick="selectSingle(this,'sink')">
+        <div class="r-dot"></div>
+        <div><div class="r-main">新式水槽 18cm</div><div class="r-sub">排水口寬且淺，渣籃如右圖</div></div>
+        <img class="r-thumb" src="https://pic.mieloo-corp.com/uploads/original/7a/ae/e914a800193b9c3aac4718929762.jpeg" alt="18cm 排水孔示意">
+      </div>
+      <div class="r-card" data-val="s_185" onclick="selectSingle(this,'sink')">
+        <div class="r-dot"></div>
+        <div><div class="r-main">韓系水槽 18.5cm</div><div class="r-sub">排水口寬且深，渣籃如右圖</div></div>
+        <img class="r-thumb" src="https://pic.mieloo-corp.com/uploads/original/97/9a/6ee03b6e8a350f1a2537cfd855f4.jpeg" alt="18.5cm 排水孔示意">
+      </div>
+      <div class="r-card" data-val="s_unknown" onclick="selectSingle(this,'sink')">
+        <div class="r-dot"></div>
+        <div><div class="r-main">不清楚、不確定</div><div class="r-sub">沒有特別注意過</div></div>
+      </div>
+    </div>
+    <div class="layer-buttons q-light">
+      <button class="btn-back" onclick="goto(4)">←</button>
+      <button class="btn-fwd" id="fwd-5" disabled onclick="goto(6)">下一題 →</button>
+    </div>
+    <div class="layer-top-image">
+</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 6 — Q03 功能偏好（深色，複選 f1–f4）
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page" data-page="6" data-bg="dark">
+  <div class="layer-bg-color bg-dark">
+</div>
+  <div class="layer-bg-image">
+</div>
+  <div class="stage q-stage">
+    <div class="layer-text q-dark">
+      <div class="q-num q-num-d">Q03</div>
+      <div class="q-title">以下哪個特色<br>最打動你？</div>
+      <div class="q-hint">可複選</div>
+      <div class="f-card" data-val="f1" onclick="toggleMulti(this,'feats')">
+        <div class="fchk">✓</div><span class="fnum">01</span>
+        <div class="fbody"><h3 class="fname">按壓快排，一按就通</h3><p class="fdesc">切換排水與止水，不碰濾網、不伸手進積水，一個動作完成一切。</p></div>
+      </div>
+      <div class="f-card" data-val="f2" onclick="toggleMulti(this,'feats')">
+        <div class="fchk">✓</div><span class="fnum">02</span>
+        <div class="fbody"><h3 class="fname">密封防臭，阻斷下水道氣體</h3><p class="fdesc">食品級矽膠密封環，物理阻隔硫化氫異味倒灌。廚房不再有莫名臭味。</p></div>
+      </div>
+      <div class="f-card" data-val="f3" onclick="toggleMulti(this,'feats')">
+        <div class="fchk">✓</div><span class="fnum">03</span>
+        <div class="fbody"><h3 class="fname">隱蔽美型，菜渣眼不見為淨</h3><p class="fdesc">翼型導水蓋遮蔽濾籃，304 不鏽鋼拉絲質感與精品水槽完美融合。</p></div>
+      </div>
+      <div class="f-card" data-val="f4" onclick="toggleMulti(this,'feats')">
+        <div class="fchk">✓</div><span class="fnum">04</span>
+        <div class="fbody"><h3 class="fname">秒取渣籃，清理不沾手</h3><p class="fdesc">渣籃板手設計，像倒咖啡渣般優雅處理廚餘。可放洗碗機，真正省力。</p></div>
+      </div>
+    </div>
+    <div class="layer-buttons q-dark">
+      <button class="btn-back" onclick="goto(5)">←</button>
+      <button class="btn-fwd" id="fwd-6" disabled onclick="goto(7)">下一題<span class="cbadge" id="badge-6" style="display:none">0</span> →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 7 — Q04 價格心動度（背景圖·深，滑桿 1–7）
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page" data-page="7" data-bg="dark">
+  <div class="layer-bg-color bg-dark">
+</div>
+  <div class="layer-bg-image" style="--img-h:var(--q4-img-h)">
+    <div class="bg-img-area" style="background-image:url('https://pic.mieloo-corp.com/uploads/medium/bc/60/92a9b4ccd0edd46792e6ec1e4c6d.jpg');opacity:.5"></div>
+  </div>
+  <div class="stage q-stage q4-stage">
+    <div class="layer-text q-dark">
+      <div class="q-num q-num-d">Q04</div>
+      <h2 class="q-title q-title-w">早鳥預計價格</h2>
+      <div class="q4-block">
+        <div class="price-badge"><sup>$</sup>699</div>
+        <p class="price-orig">正式售價 $790</p>
+        <div class="slider-section">
+          <p class="slider-q">請告訴我們您的<br>心動指數有幾分？</p>
+          <div class="slider-end-labels"><span>非常不心動</span><span>非常心動</span></div>
+          <div class="slider-must" id="sliderMust">拖曳滑桿開始評分</div>
+          <input type="range" class="q4-range" id="priceRange" min="1" max="7" value="4" oninput="onSlide(this.value)">
+          <div class="slider-val" id="sliderVal">–</div>
+        </div>
+      </div>
+    </div>
+    <div class="layer-buttons q-dark">
+      <button class="btn-back" onclick="goto(6)">←</button>
+      <button class="btn-fwd" id="fwd-7" disabled onclick="goto(8)">下一題 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 8 — Q05 加購偏好（淺色，複選 addon）
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page" data-page="8" data-bg="light">
+  <div class="layer-bg-color bg-light">
+</div>
+  <div class="layer-bg-image">
+</div>
+  <div class="stage q-stage">
+    <div class="layer-text q-light">
+      <div class="q-num">Q05</div>
+      <div class="q-title">未來如果推出這些<br>廚房好夥伴，你會想要哪個？</div>
+      <div class="q-hint">可複選・本題只測偏好、不測價格</div>
+      <div class="c-card" data-val="a1" onclick="toggleAddon(this,'a1')">
+        <div class="c-chk">✓</div>
+        <span class="c-emoji">🪣</span>
+        <div><div class="c-main">廚餘桶</div><span class="c-sub">搭配濾網使用，廚餘倒進去更順手</span></div>
+      </div>
+      <div class="c-card" data-val="a2" onclick="toggleAddon(this,'a2')">
+        <div class="c-chk">✓</div>
+        <span class="c-emoji">🧼</span>
+        <div><div class="c-main">清潔三寶</div><span class="c-sub">過碳酸鈉＋小蘇打＋檸檬酸，設計分裝瓶＋使用教學</span></div>
+      </div>
+      <div class="c-card" data-val="a3" onclick="toggleAddon(this,'a3')">
+        <div class="c-chk">✓</div>
+        <span class="c-emoji">🔁</span>
+        <div><div class="c-main">備用耗材組</div><span class="c-sub">矽膠密封環等補充包</span></div>
+      </div>
+      <div class="c-card" data-val="a0" onclick="toggleAddon(this,'a0')">
+        <div class="c-chk">✓</div>
+        <span class="c-emoji">🙅</span>
+        <div><div class="c-main">暫時都沒興趣</div></div>
+      </div>
+    </div>
+    <div class="layer-buttons q-light">
+      <button class="btn-back" onclick="goto(7)">←</button>
+      <button class="btn-fwd" id="fwd-8" disabled onclick="goto(9)">下一題 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 9 — Q06 聯絡資料（淺色，性別按鈕＋表單，沿用 v8.26：
+     性別併入聯絡頁、選填、按鈕組非卡片；無獨立過場頁；抽獎改為
+     LINE 加好友帶過，無勾選框）
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page" data-page="9" data-bg="light">
+  <div class="layer-bg-color bg-light">
+</div>
+  <div class="layer-bg-image">
+</div>
+  <div class="stage q-stage">
+    <div class="layer-text q-light">
+      <div class="q-num">Q06</div>
+      <div class="q-title" style="margin-bottom:4px">留下聯絡方式<br>填完就搶先入列</div>
+      <div class="q-hint">早鳥通知 + 抽獎資格，名單內優先 🎁</div>
+
+      <div class="fgroup">
+        <label class="flabel">您的性別 <span class="tag-o">選填</span></label>
+        <div class="gender-grid">
+          <button class="gbtn" data-val="female" onclick="selGender(this)">女性</button>
+          <button class="gbtn" data-val="male" onclick="selGender(this)">男性</button>
+          <button class="gbtn" data-val="other" onclick="selGender(this)">其他 / 不透露</button>
+        </div>
+      </div>
+
+      <div class="fgroup">
+        <label class="flabel">姓名或暱稱 <span class="tag-o">選填</span></label>
+        <input type="text" class="finput" id="nIn" placeholder="你想讓我們怎麼稱呼你？" autocomplete="nickname">
+      </div>
+      <div class="fgroup">
+        <label class="flabel">電子信箱 <span class="tag-r">必填</span></label>
+        <input type="email" class="finput" id="eIn" placeholder="your@email.com" inputmode="email" autocomplete="email">
+        <div class="ferr" id="eErr">請輸入有效的電子信箱</div>
+      </div>
+      <div class="fgroup">
+        <label class="flabel">手機號碼 <span class="tag-o">選填</span></label>
+        <input type="tel" class="finput" id="pIn" placeholder="09xx-xxx-xxx" inputmode="tel" autocomplete="tel">
+      </div>
+      <div class="fgroup">
+        <label class="flabel">有什麼話想說？ <span class="tag-o">選填</span></label>
+        <textarea class="finput" id="cIn" placeholder="任何想法或建議都歡迎…"></textarea>
+      </div>
+      <p class="privacy">您的資料僅用於產品上市通知，不會提供給第三方</p>
+    </div>
+    <div class="layer-buttons q-light">
+      <button class="btn-back" onclick="goto(8)">←</button>
+      <button class="btn-fwd" id="subBtn" onclick="doSubmit()" style="flex:1">提交，搶先知道早鳥優惠 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 10 — W11 感謝頁（深色，flow-scrolling 終端頁）
+     v8.26 對齊：抽獎改由「加 LINE 好友」直接帶過，無勾選/條件卡
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page" data-page="10" data-bg="dark">
+  <div class="layer-bg-color bg-dark">
+</div>
+  <div class="layer-bg-image">
+</div>
+  <div class="ty-page">
+    <div class="ty-content">
+      <div class="ty-icon">🎉</div>
+      <img class="hero-logo hero-logo-ty" src="https://pic.mieloo-corp.com/uploads/medium/ec/8c/0498cef723b64fe276e18da9eb1a.png" alt="浴山 LOGO" style="margin-bottom:18px">
+      <h2 class="ty-title">謝謝你的支持！<br><span class="ty-title-line">加入 LINE 好友</span><br>即完成參加抽獎</h2>
+      <p class="ty-sub">我們已收到你的回覆。<br>預計 9 月上嘖嘖，屆時第一時間通知你。</p>
+      <p class="ty-earlybird">✓ 限量 200 組・已為你鎖定</p>
+      <p class="ty-social-label">產品上線通知不漏接<br>追蹤我們，搶先掌握早鳥優惠 🎉</p>
+      <div class="ty-finger">👇</div>
+      <div class="ty-line-wrap">
+        <a class="btn-line-full" href="https://lin.ee/qyNMRN0" target="_blank">加入 LINE 好友</a>
+      </div>
+      <a class="btn-ig" href="https://www.instagram.com/mieloo_design/" target="_blank">追蹤 Instagram</a>
+      <div class="ty-footer">米鹿設計 MIELOO DESIGN<br>HUROYAMA — 浴山系列</div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+/* ════ 全站狀態 ════ */
+const S = { pains:[], feats:[], addons:[], sink:null, gender:null, price_score:null, lottery:false };
+let curPage = 0;
+const TOTAL_PAGES = 11;
+
+/* Q page index → progress (1–5)，沿用 v8.26：Q06/page9 不顯示進度條 */
+const QPROG = { 4:1, 5:2, 6:3, 7:4, 8:5 };
+
+function updateProg(n) {
+  const prog  = document.getElementById('prog');
+  const pfill = document.getElementById('pfill');
+  const plbl  = document.getElementById('plabel');
+  prog.classList.remove('prog-dark','prog-clear');
+  if (QPROG[n]) {
+    const q = QPROG[n];
+    prog.classList.add('on');
+    pfill.style.width = (q / 5 * 100) + '%';
+    plbl.textContent  = q + ' / 5';
+    if (n === 6) prog.classList.add('prog-dark');   // Q03 黑底
+    if (n === 7) prog.classList.add('prog-clear');  // Q04 透明
+  } else {
+    prog.classList.remove('on');
+  }
+}
+
+function goto(n) {
+  if (n<0||n>=TOTAL_PAGES) return;
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const target = document.querySelector(`.page[data-page="${n}"]`);
+  if (target) target.classList.add('active');
+  curPage = n;
+  updateProg(n);
+}
+
+/* ── Q01/Q03 複選 ── */
+function toggleMulti(el, key) {
+  const val = el.dataset.val;
+  const arr = S[key];
+  const idx = arr.indexOf(val);
+  if (idx>-1) { arr.splice(idx,1); el.classList.remove('sel'); }
+  else { arr.push(val); el.classList.add('sel'); }
+  const pageNum = el.closest('.page').dataset.page;
+  const fwd = document.getElementById('fwd-'+pageNum);
+  const badge = document.getElementById('badge-'+pageNum);
+  if (fwd) fwd.disabled = arr.length===0;
+  if (badge) { badge.textContent = arr.length; badge.style.display = arr.length>0?'inline-flex':'none'; }
+}
+
+/* ── Q05 加購（含互斥 a0） ── */
+function toggleAddon(el, val) {
+  if (val==='a0') {
+    S.addons = S.addons.includes('a0') ? [] : ['a0'];
+    document.querySelectorAll('.page[data-page="8"] .c-card').forEach(c=>c.classList.remove('sel'));
+    if (S.addons.includes('a0')) el.classList.add('sel');
+  } else {
+    const idx = S.addons.indexOf('a0');
+    if (idx>-1) { S.addons.splice(idx,1); document.querySelector('.page[data-page="8"] [data-val="a0"]').classList.remove('sel'); }
+    const i2 = S.addons.indexOf(val);
+    if (i2>-1) { S.addons.splice(i2,1); el.classList.remove('sel'); }
+    else { S.addons.push(val); el.classList.add('sel'); }
+  }
+  document.getElementById('fwd-8').disabled = S.addons.length===0;
+}
+
+/* ── Q02/Q06 單選 ── */
+function selectSingle(el, key) {
+  const val = el.dataset.val;
+  el.closest('.layer-text').querySelectorAll('.r-card').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  S[key] = val;
+  const pageNum = el.closest('.page').dataset.page;
+  const fwd = document.getElementById('fwd-'+pageNum);
+  if (fwd) fwd.disabled = false;
+}
+
+/* ── Q04 滑桿 ── */
+function onSlide(v) {
+  S.price_score = +v;
+  document.getElementById('sliderVal').textContent = v;
+  document.getElementById('sliderMust').classList.add('hide');
+  document.getElementById('fwd-7').disabled = false;
+}
+
+/* ── 性別（按鈕組，選填，併入聯絡頁） ── */
+function selGender(el) {
+  el.parentElement.querySelectorAll('.gbtn').forEach(b=>b.classList.remove('sel'));
+  el.classList.add('sel');
+  S.gender = el.dataset.val;
+}
+
+/* ── 提交 ── */
+function doSubmit() {
+  const email = document.getElementById('eIn').value.trim();
+  const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  document.getElementById('eErr').classList.toggle('show', !valid);
+  if (!valid) return;
+  goto(10);
+}
+
+/* ════ Showcase slide engine（v8.30 原樣移植） ════ */
+let scPhase = 0, scHasSwiped = false, epTimer = null;
+const scImgArea = document.getElementById('scImgArea');
+const scImgOverlay = document.getElementById('scImgOverlay');
+const explEl    = document.getElementById('explLayer');
+const scPgFil   = document.getElementById('scPgFill');
+const scNextBtn = document.getElementById('scNextBtn');
+const txtEls = [0,1,2,3,4,5,6].map(i => document.getElementById('st-'+i));
+const dotEls = [0,1,2,3,4,5,6].map(i => document.getElementById('sd-'+i));
+const SC_IMGS = [
+  'https://pic.mieloo-corp.com/uploads/medium/09/ee/48ba9999b428324ad3b0f7f6e454.png',
+  'https://pic.mieloo-corp.com/uploads/medium/f5/55/edb297c32d1a40bac9d303c77210.png',
+  null,
+  'https://pic.mieloo-corp.com/uploads/medium/f7/47/69c6093ea0b01f280088d2c7bd18.png',
+  'https://pic.mieloo-corp.com/uploads/medium/d6/99/d7909c7e0c1bbe860e3cb91ab657.png',
+  'https://pic.mieloo-corp.com/uploads/original/9a/ee/bd9f1d8e3c9389a66fbb6f80435a.gif',
+  'https://pic.mieloo-corp.com/uploads/original/7b/f0/173e08a0d86e13a54d3155193a69.gif',
+];
+function scSet(n) {
+  scPhase = Math.max(0, Math.min(6, n));
+  if (scPhase === 2) {
+    scImgArea.style.backgroundImage = 'none';
+    explEl.classList.add('visible');
+    clearTimeout(epTimer);
+    epTimer = setTimeout(() => explEl.classList.add('exploded'), 200);
+  } else {
+    clearTimeout(epTimer);
+    explEl.classList.remove('visible','exploded');
+    scImgArea.style.backgroundImage = SC_IMGS[scPhase] ? `url('${SC_IMGS[scPhase]}')` : 'none';
+  }
+  scImgOverlay.classList.toggle('show', scPhase === 5);
+  txtEls.forEach((el,i) => el.classList.toggle('active', i === scPhase));
+  dotEls.forEach((el,i) => el.classList.toggle('active', i === scPhase));
+  scPgFil.style.width = (scPhase / 6 * 100) + '%';
+  scNextBtn.textContent = (scPhase === 6) ? '繼續填問卷 →' : '下一張 (' + (scPhase + 2) + '/7) →';
+}
+function scGo(dir) {
+  if (!scHasSwiped) { scHasSwiped = true; document.getElementById('scHint').classList.remove('show'); }
+  scSet(scPhase + dir);
+}
+function scBackAction() { if (scPhase === 0) goto(2); else scGo(-1); }
+function scNextAction() { if (scPhase === 6) goto(4); else scGo(1); }
+
+const sc = document.getElementById('showcase');
+let scTX = 0;
+sc.addEventListener('touchstart', e => { scTX = e.touches[0].clientX; }, { passive:true });
+sc.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - scTX;
+  if (Math.abs(dx) > 40) { scHasSwiped = true; document.getElementById('scHint').classList.remove('show'); scGo(dx < 0 ? 1 : -1); }
+}, { passive:true });
+let scMX = 0, scDrag = false;
+sc.addEventListener('mousedown', e => { scMX = e.clientX; scDrag = true; });
+sc.addEventListener('mouseup',   e => { if (!scDrag) return; const dx = e.clientX - scMX; if (Math.abs(dx) > 55) scGo(dx < 0 ? 1 : -1); scDrag = false; });
+sc.addEventListener('mouseleave', () => { scDrag = false; });
+
+/* ── 初始化 ── */
+goto(0);
+scSet(0);
+setTimeout(() => {
+  if (!scHasSwiped) {
+    const hint = document.getElementById('scHint');
+    hint.classList.add('show');
+    setTimeout(() => hint.classList.remove('show'), 3500);
+  }
+}, 900);
+</script>
+</body>
+</html>
