@@ -877,7 +877,6 @@ function doSubmit() {
   btn.textContent = '送出中…';
 
   const score = S.price_score;
-  const intent = score >= 6 ? 'high' : score >= 3 ? 'mid' : score !== null ? 'low' : '';
 
   const payload = {
     name:    document.getElementById('nIn').value.trim(),
@@ -895,8 +894,8 @@ function doSubmit() {
     f1: +S.feats.includes('f1'), f2: +S.feats.includes('f2'),
     f3: +S.feats.includes('f3'), f4: +S.feats.includes('f4'),
     feats_text: S.feats.map(f=>featLabels[f]||f).join('、'),
-    /* Q4 購買意願 */
-    price_score: score, intent,
+    /* Q4 購買意願：直接送原始分數 1–7 */
+    intent: score,
     /* Q5 加購 — 拆欄 */
     a1: +S.addons.includes('a1'), a2: +S.addons.includes('a2'),
     a3: +S.addons.includes('a3'), a0: +S.addons.includes('a0'),
