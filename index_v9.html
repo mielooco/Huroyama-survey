@@ -690,17 +690,19 @@ textarea.finput { min-height:80px; resize:vertical; }
       <div class="q-hint">早鳥通知 + 抽獎資格，名單內優先 🎁</div>
 
       <div class="fgroup">
-        <label class="flabel">您的性別 <span class="tag-o">選填</span></label>
+        <label class="flabel">您的性別 <span class="tag-r">必填</span></label>
         <div class="gender-grid">
           <button class="gbtn" data-val="female" onclick="selGender(this)">女性</button>
           <button class="gbtn" data-val="male" onclick="selGender(this)">男性</button>
           <button class="gbtn" data-val="other" onclick="selGender(this)">其他 / 不透露</button>
         </div>
+        <div class="ferr" id="gErr">請選擇性別</div>
       </div>
 
       <div class="fgroup">
-        <label class="flabel">姓名或暱稱 <span class="tag-o">選填</span></label>
+        <label class="flabel">姓名或暱稱 <span class="tag-r">必填</span></label>
         <input type="text" class="finput" id="nIn" placeholder="你想讓我們怎麼稱呼你？" autocomplete="nickname">
+        <div class="ferr" id="nErr">請填寫姓名或暱稱</div>
       </div>
       <div class="fgroup">
         <label class="flabel">電子信箱 <span class="tag-r">必填</span></label>
@@ -867,10 +869,17 @@ function selGender(el) {
 
 /* ── 提交 ── */
 function doSubmit() {
+  const name  = document.getElementById('nIn').value.trim();
   const email = document.getElementById('eIn').value.trim();
-  const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  document.getElementById('eErr').classList.toggle('show', !valid);
-  if (!valid) return;
+  const validName  = name.length > 0;
+  const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const validGender = !!S.gender;
+
+  document.getElementById('nErr').classList.toggle('show', !validName);
+  document.getElementById('eErr').classList.toggle('show', !validEmail);
+  document.getElementById('gErr').classList.toggle('show', !validGender);
+
+  if (!validName || !validEmail || !validGender) return;
 
   const btn = document.getElementById('subBtn');
   btn.disabled = true;
