@@ -8,35 +8,23 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
 
-<!-- ═══════════════════════════════════════════════════════════
-     HUROYAMA  全站 11 頁  五層零耦合重建  v9.0  正式版
-     ───────────────────────────────────────────────────────────
-     骨架基準：v8.30 showcase（L0/L1 視窗滿版・L2/L3/L4/chrome 460 置中欄）
-     內容基準：HUROYAMA_v8_rebuild_brief.md（v7.12 全文沿用）
-     定位基準：HUROYAMA_v8_28_規格表.xlsx（文字/圖片/按鈕三表）
-
-     L0 底色      z:0   視窗滿版・死層
-     L1 背景圖    z:1   視窗滿版・longhand bg props（依頁面換圖/換尺寸）
-     ── 以下在 460 置中欄（stage，z:2 起算） ──
-     L2 文字      z:2   內容區，固定位置・內部可捲，依頁型 top 不同
-     L3 按鈕      z:3   全站統一導航邏輯，依頁型 bottom 不同
-     L4 獨立圖    z:4   LOGO／縮圖／勾選圖層・pointer-events:none（視頁面使用）
-     chrome      z:5   頁面專屬常駐 UI（跳過／提示／進度條等）
-
-     頁型分類（依 v8.28 規格表）：
-     - W0   Hero        bg-img full，L2=pc-end 底部置中，L3=滿版CTA
-     - W1/2 narrative    bg-img full，L2=pc-top 25dvh 左對齊，L3=back+fwd 5dvh
-     - W3   showcase     （v8.30 原版・本檔搬入不動）
-     - Q01/05 checklist  page-q，L2=5dvh 綠框起點，L3=fixed 12px
-     - Q02  radio        同 Q01 + 右側縮圖(L4)
-     - Q03  feat-list    page-q dark
-     - Q04  price        bg-img + slider
-     - W9   milestone    過場，dark，置中
-     - Q06  contact      page-q light，表單
-     - W11  感謝頁       flow-scrolling（終端內容頁，依 Lin 先前決議不用固定框）
-
-     變數：每層 XY 都掛在 :root，改一層不動別層。
-     ═══════════════════════════════════════════════════════════ -->
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1043810354313464');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1043810354313464&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
 
 <style>
 :root {
@@ -78,9 +66,8 @@
 
 * { margin:0; padding:0; box-sizing:border-box; }
 html,body { height:100%; font-family:var(--f-zh); overflow:hidden; background:#000; }
-body.guides .page { outline:1px dashed rgba(255,0,0,.15); }
 
-/* 多頁容器：一次只顯示 active 頁，其餘 display:none（單檔範本內可逐頁檢視） */
+/* 多頁容器：一次只顯示 active 頁，其餘 display:none */
 .page { position:fixed; inset:0; display:none; }
 .page.active { display:block; }
 
@@ -105,13 +92,13 @@ body.guides .page { outline:1px dashed rgba(255,0,0,.15); }
   background-position:center var(--img-y, 50%);
   background-size:auto var(--img-h, auto);
 }
-/* 暗化遮罩（僅 W0/W1/W2，沿用 v8.26：上淺下深漸層，確保文字可讀性；
+/* 暗化遮罩（僅 W0/W1/W2：上淺下深漸層，確保文字可讀性；
    嵌在 L1 容器內、緊接背景圖之後，與圖片同層堆疊，永遠蓋在圖片上方） */
 .bg-overlay { position:absolute; inset:0; pointer-events:none; background:linear-gradient(180deg,rgba(8,8,6,.14) 0%,rgba(8,8,6,.62) 55%,rgba(8,8,6,.92) 100%); }
 
 /* ═══════════════════════════════════════════════════════════
    #prog — 問卷進度條（Q01–Q05 顯示 x/5；Q06 聯絡頁與其他頁不顯示）
-   沿用 v8.26：固定頂部，桌機置中收欄寬；Q03 黑底、Q04 透明
+   固定頂部，桌機置中收欄寬；Q03 黑底、Q04 透明
    ═══════════════════════════════════════════════════════════ */
 #prog {
   display:none; position:fixed; top:0; left:0; right:0; height:var(--prog-h);
@@ -169,7 +156,7 @@ body.guides .page { outline:1px dashed rgba(255,0,0,.15); }
 .btn-back:active, .btn-fwd:active { opacity:.78; }
 
 /* ═══════════════════════════════════════════════════════════
-   W3 Showcase — 原樣保留（class 沿用 sc- 前綴，見下方 HTML）
+   W3 Showcase 五層架構（class 用 sc- 前綴，見下方 HTML）
    ═══════════════════════════════════════════════════════════ */
 .sc-img-area { background-position:center calc(50% - 150px); background-size:auto calc(min(100dvh,var(--bg-base-h)) * 0.7); }
 .layer-text.sc-text { position:absolute; top:50%; left:0; right:0; bottom:var(--L2-bottom,calc(var(--sc-safe-b) + var(--btn-h) + 20px)); z-index:2; overflow:hidden; }
@@ -323,6 +310,8 @@ textarea.finput { min-height:80px; resize:vertical; }
 </style>
 </head>
 <body>
+<!-- 訪客紀錄：頁面載入時觸發 GAS doGet，寫入「訪客紀錄」工作表 -->
+<img src="https://script.google.com/macros/s/AKfycby8loHM_Th6iMYyERRPy_O1KQrWD21ZshQiMATU7C9gZSa1621Q2w-S38N4NIFjGVrs/exec?ref=survey" width="1" height="1" style="display:none" alt="">
 
 <!-- ══ FIXED PROGRESS BAR（Q01–Q05，x/5；Q06 與其他頁不顯示） ══ -->
 <div id="prog">
@@ -405,7 +394,7 @@ textarea.finput { min-height:80px; resize:vertical; }
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════
-     PAGE 3 — W3 Showcase（v8.30 原版搬入，僅 goto() 接上多頁系統）
+     PAGE 3 — W3 Showcase
      ═══════════════════════════════════════════════════════════ -->
 <div class="page" data-page="3" data-bg="dark">
   <div class="layer-bg-color bg-dark">
@@ -685,8 +674,8 @@ textarea.finput { min-height:80px; resize:vertical; }
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════
-     PAGE 9 — Q06 聯絡資料（淺色，性別按鈕＋表單，沿用 v8.26：
-     性別併入聯絡頁、選填、按鈕組非卡片；無獨立過場頁；抽獎改為
+     PAGE 9 — Q06 聯絡資料（淺色，性別按鈕＋表單，
+     性別併入聯絡頁、選填、按鈕組非卡片；無獨立過場頁；抽獎以
      LINE 加好友帶過，無勾選框）
      ═══════════════════════════════════════════════════════════ -->
 <div class="page" data-page="9" data-bg="light">
@@ -737,7 +726,7 @@ textarea.finput { min-height:80px; resize:vertical; }
 
 <!-- ═══════════════════════════════════════════════════════════
      PAGE 10 — W11 感謝頁（深色，flow-scrolling 終端頁）
-     v8.26 對齊：抽獎改由「加 LINE 好友」直接帶過，無勾選/條件卡
+     抽獎以「加 LINE 好友」直接帶過，無勾選/條件卡
      ═══════════════════════════════════════════════════════════ -->
 <div class="page" data-page="10" data-bg="dark">
   <div class="layer-bg-color bg-dark">
@@ -769,7 +758,29 @@ const S = { pains:[], feats:[], addons:[], sink:null, gender:null, price_score:n
 let curPage = 0;
 const TOTAL_PAGES = 11;
 
-/* Q page index → progress (1–5)，沿用 v8.26：Q06/page9 不顯示進度條 */
+/* 選項代碼 → 人讀文字（送出 payload 用） */
+const painLabels = {
+  p1:'堆滿菜渣的渣籃必須用手提起倒掉，還很難倒乾淨',
+  p2:'渣籃堆滿菜渣，造成排水不順與積水',
+  p3:'排水口有臭味從下水道倒灌',
+  p4:'濾網油膩黏滑，清洗時造成的心理負擔',
+  p5:'廚餘殘渣裸露在外，視覺很噁心'
+};
+const featLabels = {
+  f1:'按壓快排，一按就通',
+  f2:'密封防臭，阻斷下水道氣體',
+  f3:'隱蔽美型，菜渣眼不見為淨',
+  f4:'秒取渣籃，清理不沾手'
+};
+const sinkLabels = {
+  s_14:'傳統水槽 14cm', s_18:'新式水槽 18cm', s_185:'韓系水槽 18.5cm', s_unknown:'不清楚、不確定'
+};
+const addonLabels = {
+  a1:'廚餘桶', a2:'清潔三寶', a3:'備用耗材組', a0:'暫時都沒興趣'
+};
+const GAS_URL = 'https://script.google.com/macros/s/AKfycby8loHM_Th6iMYyERRPy_O1KQrWD21ZshQiMATU7C9gZSa1621Q2w-S38N4NIFjGVrs/exec';
+
+/* Q page index → progress (1–5)，Q06/page9 不顯示進度條 */
 const QPROG = { 4:1, 5:2, 6:3, 7:4, 8:5 };
 
 function updateProg(n) {
@@ -860,10 +871,55 @@ function doSubmit() {
   const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   document.getElementById('eErr').classList.toggle('show', !valid);
   if (!valid) return;
-  goto(10);
+
+  const btn = document.getElementById('subBtn');
+  btn.disabled = true;
+  btn.textContent = '送出中…';
+
+  const score = S.price_score;
+  const intent = score >= 6 ? 'high' : score >= 3 ? 'mid' : score !== null ? 'low' : '';
+
+  const payload = {
+    name:    document.getElementById('nIn').value.trim(),
+    email,
+    phone:   document.getElementById('pIn').value.trim(),
+    comment: document.getElementById('cIn').value.trim(),
+    /* Q1 痛點 — 拆欄 */
+    p1: +S.pains.includes('p1'), p2: +S.pains.includes('p2'),
+    p3: +S.pains.includes('p3'), p4: +S.pains.includes('p4'),
+    p5: +S.pains.includes('p5'),
+    pains_text: S.pains.map(p=>painLabels[p]||p).join('、'),
+    /* Q2 水槽尺寸 */
+    sink: S.sink, sink_text: sinkLabels[S.sink] || '',
+    /* Q3 功能 — 拆欄 */
+    f1: +S.feats.includes('f1'), f2: +S.feats.includes('f2'),
+    f3: +S.feats.includes('f3'), f4: +S.feats.includes('f4'),
+    feats_text: S.feats.map(f=>featLabels[f]||f).join('、'),
+    /* Q4 購買意願 */
+    price_score: score, intent,
+    /* Q5 加購 — 拆欄 */
+    a1: +S.addons.includes('a1'), a2: +S.addons.includes('a2'),
+    a3: +S.addons.includes('a3'), a0: +S.addons.includes('a0'),
+    addons_text: S.addons.map(a=>addonLabels[a]||a).join('、'),
+    /* Q6 性別 */
+    gender: S.gender || '',
+    lottery: '未參加'
+  };
+
+  fetch(GAS_URL, { method:'POST', mode:'no-cors', body:JSON.stringify(payload) })
+    .then(() => {
+      if (typeof fbq === 'function') fbq('track', 'Lead');
+      goto(10);
+    })
+    .catch(err => {
+      console.error('提交失敗:', err);
+      alert('提交可能失敗，請檢查網路狀態後再試一次');
+      btn.disabled = false;
+      btn.textContent = '提交，搶先知道早鳥優惠 →';
+    });
 }
 
-/* ════ Showcase slide engine（v8.30 原樣移植） ════ */
+/* ════ Showcase slide engine ════ */
 let scPhase = 0, scHasSwiped = false, epTimer = null;
 const scImgArea = document.getElementById('scImgArea');
 const scImgOverlay = document.getElementById('scImgOverlay');
