@@ -1,146 +1,436 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-Hant" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>浴山問卷後台 — 數據儀表板</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --gold:   #50A8CC;
-  --navy:   #0A2540;
-  --blue:   #1E5BAE;
-  --black:  #0e1117;
-  --surface:#161b24;
-  --card:   #1e2535;
-  --border: rgba(255,255,255,.07);
-  --txt:    #e8eaf0;
-  --txt2:   #8b93a7;
-  --txt3:   #4f5668;
-  --f-zh:   'Noto Sans TC', sans-serif;
-  --f-en:   'DM Sans', sans-serif;
-  --radius: 12px;
+/* ═══════════ 主題變數 ═══════════ */
+:root, [data-theme="dark"] {
+  --gold:  #50A8CC;
+  --navy:  #0A2540;
+  --blue:  #1E5BAE;
+  --ice:   #c8e8ff;
+  --txt:   #eef4fb;
+  --txt2:  #8fa3bd;
+  --txt3:  #56688a;
+  --bg:        linear-gradient(155deg, #0d1f3c 0%, #0a2540 50%, #061a2f 100%);
+  --glow1:     rgba(80,168,204,.14);
+  --glow2:     rgba(30,91,174,.12);
+  --card:      rgba(255,255,255,.045);
+  --card-border: rgba(168,212,255,.1);
+  --card-hover:  rgba(126,200,255,.3);
+  --track:     rgba(255,255,255,.05);
+  --header-bg: rgba(10,23,40,.6);
+  --header-border: rgba(168,212,255,.08);
+  --grid-line: rgba(168,212,255,.06);
+  --axis-txt:  rgba(168,212,255,.3);
+  --tooltip-bg:'rgba(10,25,45,.92)';
+  --hero-grad: linear-gradient(128deg, #c8e8ff 0%, #7ec8ff 28%, #6ba3e0 55%, #a8d4ff 100%);
+  --panel-bg:  #0e2038;
+  --f-zh: 'Noto Sans TC', sans-serif;
+  --f-en: 'DM Sans', sans-serif;
+  --r: 20px;
 }
+[data-theme="light"] {
+  --txt:   #0A2540;
+  --txt2:  #4a5f7d;
+  --txt3:  #8ba0bd;
+  --ice:   #1E5BAE;
+  --bg:        linear-gradient(155deg, #eef6ff 0%, #f0f7ff 55%, #e2efff 100%);
+  --glow1:     rgba(80,168,204,.1);
+  --glow2:     rgba(126,200,255,.14);
+  --card:      rgba(255,255,255,.72);
+  --card-border: rgba(30,91,174,.1);
+  --card-hover:  rgba(30,91,174,.3);
+  --track:     rgba(10,37,64,.06);
+  --header-bg: rgba(240,247,255,.7);
+  --header-border: rgba(30,91,174,.1);
+  --grid-line: rgba(30,91,174,.08);
+  --axis-txt:  rgba(30,91,174,.4);
+  --hero-grad: linear-gradient(128deg, #1E5BAE 0%, #50A8CC 45%, #0d1f3c 100%);
+  --panel-bg:  #f4faff;
+}
+
 * { margin:0; padding:0; box-sizing:border-box; }
-html { background:var(--black); color:var(--txt); font-family:var(--f-zh); }
-body { min-height:100vh; padding:0 0 60px; }
+html { scroll-behavior:smooth; }
+body {
+  min-height:100vh; font-family:var(--f-zh); color:var(--txt);
+  background:var(--bg); background-attachment:fixed;
+  padding-bottom:100px; overflow-x:hidden;
+  transition:color .3s ease;
+}
+body::before {
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background:
+    radial-gradient(ellipse 800px 500px at 75% -5%, var(--glow1), transparent 60%),
+    radial-gradient(ellipse 600px 420px at 12% 40%, var(--glow2), transparent 65%);
+}
 
-/* ── 頂部 header ── */
+/* ═══════════ Header ═══════════ */
 .header {
-  background:var(--surface);
-  border-bottom:1px solid var(--border);
-  padding:18px 32px;
-  display:flex; align-items:center; justify-content:space-between;
   position:sticky; top:0; z-index:100;
+  backdrop-filter:blur(20px) saturate(1.6); -webkit-backdrop-filter:blur(20px) saturate(1.6);
+  background:var(--header-bg);
+  border-bottom:1px solid var(--header-border);
+  padding:14px max(24px, 4vw);
+  display:flex; align-items:center; justify-content:space-between;
 }
-.header-logo { display:flex; align-items:center; gap:12px; }
-.header-logo img { height:28px; filter:brightness(0) invert(1); opacity:.85; }
-.header-title { font-size:13px; color:var(--txt2); letter-spacing:.5px; }
-.header-right { display:flex; align-items:center; gap:16px; }
-.refresh-btn {
-  font-size:12px; padding:7px 16px; border-radius:20px;
-  background:rgba(80,168,204,.12); color:var(--gold);
-  border:1px solid rgba(80,168,204,.25); cursor:pointer;
-  font-family:var(--f-en); transition:background .2s;
+.h-logo { display:flex; align-items:center; gap:14px; }
+.h-logo img { height:26px; opacity:.9; }
+[data-theme="dark"] .h-logo img { filter:brightness(0) invert(1); }
+[data-theme="light"] .h-logo img { filter:none; }
+.h-divider { width:1px; height:18px; background:var(--card-border); }
+.h-title { font-size:13px; font-weight:400; color:var(--txt2); letter-spacing:1px; }
+.h-right { display:flex; align-items:center; gap:12px; }
+.h-updated { font-size:11px; color:var(--txt3); font-family:var(--f-en); }
+.hbtn {
+  font-size:12px; font-weight:500; padding:8px 18px; border-radius:99px;
+  background:rgba(80,168,204,.14); color:var(--ice);
+  border:1px solid rgba(80,168,204,.3); cursor:pointer;
+  font-family:var(--f-zh); transition:all .25s ease; letter-spacing:.5px;
+  display:flex; align-items:center; gap:6px;
 }
-.refresh-btn:hover { background:rgba(80,168,204,.2); }
-.last-updated { font-size:11px; color:var(--txt3); }
+.hbtn:hover { background:rgba(80,168,204,.28); transform:translateY(-1px); }
 
-/* ── 主容器 ── */
-.container { max-width:1100px; margin:0 auto; padding:32px 24px; }
-
-/* ── 摘要卡片 ── */
-.summary-grid {
-  display:grid; grid-template-columns:repeat(4,1fr); gap:16px;
-  margin-bottom:32px;
+/* ═══════════ 設定面板 ═══════════ */
+.settings-overlay {
+  position:fixed; inset:0; background:rgba(0,0,0,.4); z-index:200;
+  opacity:0; pointer-events:none; transition:opacity .3s ease;
 }
-@media (max-width:700px) { .summary-grid { grid-template-columns:repeat(2,1fr); } }
-.kpi-card {
-  background:var(--card); border:1px solid var(--border);
-  border-radius:var(--radius); padding:24px 20px;
+.settings-overlay.open { opacity:1; pointer-events:all; }
+.settings-panel {
+  position:fixed; top:0; right:0; bottom:0; width:min(340px, 88vw); z-index:201;
+  background:var(--panel-bg);
+  border-left:1px solid var(--card-border);
+  transform:translateX(100%); transition:transform .35s cubic-bezier(.22,1,.36,1);
+  overflow-y:auto; padding:24px;
 }
-.kpi-label { font-size:11px; color:var(--txt3); letter-spacing:1px; text-transform:uppercase; margin-bottom:10px; }
-.kpi-value { font-size:clamp(28px,4vw,38px); font-weight:700; color:var(--txt); font-family:var(--f-en); line-height:1; }
-.kpi-unit { font-size:14px; color:var(--txt2); margin-left:4px; font-weight:400; }
-.kpi-card.accent .kpi-value { color:var(--gold); }
+.settings-panel.open { transform:translateX(0); }
+.sp-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:26px; }
+.sp-title { font-size:16px; font-weight:700; color:var(--txt); }
+.sp-close { background:none; border:none; font-size:20px; color:var(--txt2); cursor:pointer; padding:4px 8px; }
+.sp-group { margin-bottom:26px; }
+.sp-group-title { font-size:11px; letter-spacing:2px; color:var(--txt3); text-transform:uppercase; font-family:var(--f-en); margin-bottom:12px; }
+.sp-row {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:11px 0; border-bottom:1px solid var(--card-border);
+}
+.sp-label { font-size:14px; color:var(--txt); }
+/* toggle switch */
+.tgl { position:relative; width:44px; height:24px; flex-shrink:0; }
+.tgl input { opacity:0; width:0; height:0; }
+.tgl-slider {
+  position:absolute; inset:0; border-radius:99px; cursor:pointer;
+  background:var(--track); border:1px solid var(--card-border);
+  transition:background .25s ease;
+}
+.tgl-slider::before {
+  content:''; position:absolute; width:18px; height:18px; border-radius:50%;
+  left:2px; top:2px; background:var(--txt2); transition:transform .25s cubic-bezier(.22,1,.36,1), background .25s;
+}
+.tgl input:checked + .tgl-slider { background:var(--gold); border-color:var(--gold); }
+.tgl input:checked + .tgl-slider::before { transform:translateX(20px); background:#fff; }
+/* segmented control（主題/圖型切換） */
+.seg { display:flex; background:var(--track); border-radius:10px; padding:3px; gap:2px; }
+.seg button {
+  flex:1; font-size:12px; padding:7px 12px; border:none; border-radius:8px;
+  background:transparent; color:var(--txt2); cursor:pointer;
+  font-family:var(--f-zh); transition:all .2s ease; white-space:nowrap;
+}
+.seg button.on { background:var(--gold); color:#fff; font-weight:500; }
 
-/* ── 區塊標題 ── */
-.section { margin-bottom:32px; }
-.section-title {
-  font-size:13px; font-weight:500; color:var(--txt2);
-  letter-spacing:1px; text-transform:uppercase;
-  margin-bottom:16px; padding-bottom:10px;
-  border-bottom:1px solid var(--border);
+/* ═══════════ 主容器 ═══════════ */
+.container { max-width:1120px; margin:0 auto; padding:0 max(20px,3vw); position:relative; z-index:1; }
+
+.hero { text-align:center; padding:76px 0 60px; }
+.hero-eyebrow { font-size:13px; letter-spacing:4px; color:var(--gold); text-transform:uppercase; font-family:var(--f-en); font-weight:500; margin-bottom:18px; }
+.hero-number {
+  font-size:clamp(72px,13vw,128px); font-weight:700; font-family:var(--f-en);
+  line-height:1; letter-spacing:-3px;
+  background:var(--hero-grad);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  filter:drop-shadow(0 0 40px rgba(126,200,255,.2));
+}
+.hero-label { font-size:16px; color:var(--txt2); margin-top:14px; font-weight:300; letter-spacing:2px; }
+
+.kpi-row { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; max-width:760px; margin:44px auto 0; }
+@media (max-width:640px){ .kpi-row { grid-template-columns:1fr; } }
+.kpi {
+  background:var(--card); border:1px solid var(--card-border);
+  border-radius:var(--r); padding:26px 20px; text-align:center;
+  backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+  transition:transform .3s ease, border-color .3s ease;
+}
+.kpi:hover { transform:translateY(-3px); border-color:var(--card-hover); }
+.kpi-v { font-size:clamp(26px,4vw,34px); font-weight:700; font-family:var(--f-en); color:var(--ice); line-height:1.1; }
+.kpi-v .u { font-size:14px; font-weight:400; color:var(--txt2); margin-left:3px; }
+.kpi-l { font-size:12px; color:var(--txt3); margin-top:8px; letter-spacing:1.5px; }
+
+.pearl-divider {
+  position:relative; height:1px; margin:70px auto 60px; max-width:520px;
+  background:linear-gradient(90deg, transparent, rgba(126,200,255,.4) 50%, transparent);
+}
+.pearl-divider::after {
+  content:''; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+  width:6px; height:6px; border-radius:50%;
+  background:var(--ice); box-shadow:0 0 12px 3px rgba(126,200,255,.5);
 }
 
-/* ── 圖表卡片 ── */
-.chart-card {
-  background:var(--card); border:1px solid var(--border);
-  border-radius:var(--radius); padding:24px;
+.section { margin-bottom:56px; }
+.sec-head { text-align:center; margin-bottom:34px; }
+.sec-kicker { font-size:11px; letter-spacing:4px; color:var(--gold); text-transform:uppercase; font-family:var(--f-en); font-weight:500; margin-bottom:10px; }
+.sec-title {
+  font-size:clamp(24px,4.6vw,34px); font-weight:700; letter-spacing:.5px;
+  background:var(--hero-grad);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
 }
-.chart-card + .chart-card { margin-top:16px; }
-.chart-title { font-size:14px; font-weight:500; color:var(--txt); margin-bottom:20px; }
 
-/* ── 折線圖 ── */
-.line-chart-wrap { width:100%; overflow-x:auto; }
-canvas { display:block; }
+.card {
+  background:var(--card); border:1px solid var(--card-border);
+  border-radius:var(--r); padding:32px 30px;
+  backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+}
+.card + .card { margin-top:16px; }
+.card-title { font-size:15px; font-weight:500; color:var(--txt); margin-bottom:6px; }
+.card-sub { font-size:12px; color:var(--txt3); margin-bottom:26px; }
 
-/* ── 橫條圖（問題統計）── */
-.bar-list { display:flex; flex-direction:column; gap:12px; }
-.bar-item { display:flex; align-items:center; gap:12px; }
-.bar-label { font-size:13px; color:var(--txt2); min-width:110px; flex-shrink:0; text-align:right; }
-.bar-track { flex:1; height:8px; background:rgba(255,255,255,.06); border-radius:4px; overflow:hidden; }
-.bar-fill { height:100%; border-radius:4px; background:var(--gold); transition:width .6s cubic-bezier(.34,1.3,.64,1); }
-.bar-count { font-size:13px; color:var(--txt); min-width:48px; font-family:var(--f-en); font-weight:500; }
-.bar-pct { font-size:11px; color:var(--txt3); min-width:36px; }
+canvas { display:block; width:100%; }
 
-/* ── 雙欄佈局 ── */
+.bars { display:flex; flex-direction:column; gap:18px; }
+.bar-row { display:grid; grid-template-columns:110px 1fr 84px; align-items:center; gap:16px; }
+@media (max-width:560px){ .bar-row { grid-template-columns:88px 1fr 76px; gap:10px; } }
+.bar-name { font-size:13px; color:var(--txt2); text-align:right; }
+.bar-track { height:10px; background:var(--track); border-radius:99px; overflow:hidden; }
+.bar-fill {
+  height:100%; border-radius:99px; width:0;
+  transition:width 1s cubic-bezier(.22,1,.36,1), background .3s ease, box-shadow .3s ease;
+}
+.bar-meta { font-family:var(--f-en); font-size:13px; color:var(--ice); white-space:nowrap; }
+.bar-meta .pc { color:var(--txt3); font-size:11px; margin-left:6px; }
+
 .two-col { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-@media (max-width:700px) { .two-col { grid-template-columns:1fr; } }
+@media (max-width:720px){ .two-col { grid-template-columns:1fr; } }
 
-/* ── 分佈條（性別/尺寸）── */
-.dist-wrap { display:flex; flex-direction:column; gap:10px; }
-.dist-item { display:flex; align-items:center; gap:10px; }
-.dist-label { font-size:13px; color:var(--txt2); min-width:90px; flex-shrink:0; }
-.dist-bar { flex:1; height:24px; background:rgba(255,255,255,.06); border-radius:6px; overflow:hidden; position:relative; }
-.dist-fill { height:100%; border-radius:6px; background:linear-gradient(90deg, var(--gold) 0%, var(--blue) 100%); transition:width .6s cubic-bezier(.34,1.3,.64,1); }
-.dist-n { font-size:12px; color:var(--txt3); min-width:32px; text-align:right; font-family:var(--f-en); }
+.intent-wrap { display:flex; align-items:flex-end; gap:8px; height:120px; margin-bottom:8px; }
+.ic { flex:1; display:flex; flex-direction:column; align-items:center; gap:6px; height:100%; }
+.ic-bar-zone { flex:1; width:100%; display:flex; align-items:flex-end; justify-content:center; }
+.ic-bar {
+  width:70%; max-width:34px; border-radius:6px 6px 2px 2px; min-height:3px; height:0;
+  background:linear-gradient(180deg, #7ec8ff, #1E5BAE);
+  box-shadow:0 0 12px rgba(80,168,204,.3);
+  transition:height .9s cubic-bezier(.22,1,.36,1);
+}
+.ic-n { font-size:11px; color:var(--txt2); font-family:var(--f-en); }
+.ic-s { font-size:12px; color:var(--txt3); font-family:var(--f-en); }
+.intent-summary { text-align:center; margin-top:22px; }
+.intent-avg {
+  font-size:clamp(44px,7vw,60px); font-weight:700; font-family:var(--f-en); line-height:1;
+  background:var(--hero-grad);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.intent-avg-l { font-size:12px; color:var(--txt3); margin-top:8px; letter-spacing:1.5px; }
 
-/* ── 分數分佈 ── */
-.intent-grid { display:flex; align-items:flex-end; gap:6px; height:90px; }
-.intent-col { flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; }
-.intent-bar-wrap { flex:1; width:100%; display:flex; align-items:flex-end; }
-.intent-bar { width:100%; border-radius:3px 3px 0 0; background:var(--gold); transition:height .5s cubic-bezier(.34,1.3,.64,1); min-height:2px; }
-.intent-n { font-size:10px; color:var(--txt3); font-family:var(--f-en); }
-.intent-lbl { font-size:11px; color:var(--txt3); }
-.intent-avg { font-size:28px; font-weight:700; color:var(--gold); font-family:var(--f-en); margin-top:12px; }
-.intent-avg-label { font-size:12px; color:var(--txt3); margin-top:2px; }
+.dists { display:flex; flex-direction:column; gap:16px; }
+.dist-row { display:grid; grid-template-columns:96px 1fr 40px; align-items:center; gap:14px; }
+.dist-name { font-size:13px; color:var(--txt2); }
+.dist-track { height:26px; background:var(--track); border-radius:9px; overflow:hidden; }
+.dist-fill {
+  height:100%; border-radius:9px; width:0;
+  transition:width 1s cubic-bezier(.22,1,.36,1), background .3s ease;
+}
+.dist-n { font-family:var(--f-en); font-size:13px; color:var(--ice); text-align:right; }
 
-/* ── loading/error ── */
-.loading { text-align:center; padding:80px 20px; color:var(--txt3); font-size:14px; }
-.error-msg { background:rgba(220,60,60,.1); border:1px solid rgba(220,60,60,.2); border-radius:8px; padding:16px; color:#e87070; font-size:13px; margin-bottom:24px; }
+/* ── 圓餅圖 ── */
+.pie-flex { display:flex; align-items:center; gap:28px; flex-wrap:wrap; justify-content:center; }
+.pie-canvas-wrap { position:relative; width:190px; height:190px; flex-shrink:0; }
+.pie-center {
+  position:absolute; inset:0; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; pointer-events:none;
+}
+.pie-center-n { font-size:26px; font-weight:700; font-family:var(--f-en); color:var(--txt); line-height:1; }
+.pie-center-l { font-size:10px; color:var(--txt3); margin-top:4px; letter-spacing:1px; }
+.pie-legend { display:flex; flex-direction:column; gap:10px; min-width:160px; }
+.pl-row { display:flex; align-items:center; gap:10px; font-size:13px; }
+.pl-chip { width:12px; height:12px; border-radius:4px; flex-shrink:0; }
+.pl-name { color:var(--txt2); flex:1; }
+.pl-val { font-family:var(--f-en); color:var(--ice); font-weight:500; }
+.pl-pct { font-family:var(--f-en); color:var(--txt3); font-size:11px; min-width:38px; text-align:right; }
+
+.reveal { opacity:0; transform:translateY(28px); transition:opacity .8s ease, transform .8s cubic-bezier(.22,1,.36,1); }
+.reveal.in { opacity:1; transform:translateY(0); }
+
+.loading { text-align:center; padding:120px 20px; color:var(--txt3); font-size:14px; letter-spacing:2px; }
+.loading::after { content:'…'; animation:dots 1.4s steps(4) infinite; }
+@keyframes dots { 0%{content:''} 25%{content:'.'} 50%{content:'..'} 75%{content:'...'} }
+.error-msg {
+  background:rgba(220,80,80,.08); border:1px solid rgba(220,80,80,.2);
+  border-radius:14px; padding:20px 24px; color:#e89090; font-size:13px;
+  max-width:560px; margin:60px auto; text-align:center; line-height:1.8;
+}
+.foot { text-align:center; margin-top:80px; font-size:11px; color:var(--txt3); letter-spacing:2px; font-family:var(--f-en); }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { transition:none; opacity:1; transform:none; }
+  .bar-fill, .ic-bar, .dist-fill { transition:none; }
+}
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div class="header-logo">
+  <div class="h-logo">
     <img src="https://pic.mieloo-corp.com/uploads/medium/ec/8c/0498cef723b64fe276e18da9eb1a.png" alt="浴山">
-    <span class="header-title">問卷數據儀表板</span>
+    <div class="h-divider"></div>
+    <span class="h-title">問卷數據儀表板</span>
   </div>
-  <div class="header-right">
-    <span class="last-updated" id="lastUpdated">載入中…</span>
-    <button class="refresh-btn" onclick="loadData()">↻ 重新整理</button>
+  <div class="h-right">
+    <span class="h-updated" id="lastUpdated"></span>
+    <button class="hbtn" onclick="loadData()">重新整理</button>
+    <button class="hbtn" onclick="openSettings()">⚙ 設定</button>
   </div>
 </div>
 
+<!-- 設定面板 -->
+<div class="settings-overlay" id="settingsOverlay" onclick="closeSettings()"></div>
+<div class="settings-panel" id="settingsPanel">
+  <div class="sp-head">
+    <div class="sp-title">顯示設定</div>
+    <button class="sp-close" onclick="closeSettings()">✕</button>
+  </div>
+
+  <div class="sp-group">
+    <div class="sp-group-title">介面主題</div>
+    <div class="seg" id="themeSeg">
+      <button data-v="dark" onclick="setTheme('dark')">深色</button>
+      <button data-v="light" onclick="setTheme('light')">淺色</button>
+    </div>
+  </div>
+
+  <div class="sp-group">
+    <div class="sp-group-title">圖表顯示</div>
+    <div class="sp-row">
+      <span class="sp-label">回覆趨勢折線圖</span>
+      <label class="tgl"><input type="checkbox" id="cfg-trend" onchange="applySettings()"><span class="tgl-slider"></span></label>
+    </div>
+    <div class="sp-row">
+      <span class="sp-label">Q1 痛點長條圖</span>
+      <label class="tgl"><input type="checkbox" id="cfg-q1" onchange="applySettings()"><span class="tgl-slider"></span></label>
+    </div>
+    <div class="sp-row">
+      <span class="sp-label">Q3 功能長條圖</span>
+      <label class="tgl"><input type="checkbox" id="cfg-q3" onchange="applySettings()"><span class="tgl-slider"></span></label>
+    </div>
+    <div class="sp-row">
+      <span class="sp-label">Q4 意願分數分布</span>
+      <label class="tgl"><input type="checkbox" id="cfg-q4" onchange="applySettings()"><span class="tgl-slider"></span></label>
+    </div>
+    <div class="sp-row">
+      <span class="sp-label">Q5 加購長條圖</span>
+      <label class="tgl"><input type="checkbox" id="cfg-q5" onchange="applySettings()"><span class="tgl-slider"></span></label>
+    </div>
+  </div>
+
+  <div class="sp-group">
+    <div class="sp-group-title">Q2 水槽尺寸 — 圖型</div>
+    <div class="seg" id="q2Seg">
+      <button data-v="pie" onclick="setChartType('q2','pie')">圓餅圖</button>
+      <button data-v="bars" onclick="setChartType('q2','bars')">長條圖</button>
+      <button data-v="off" onclick="setChartType('q2','off')">隱藏</button>
+    </div>
+  </div>
+
+  <div class="sp-group">
+    <div class="sp-group-title">Q6 性別 — 圖型</div>
+    <div class="seg" id="q6Seg">
+      <button data-v="pie" onclick="setChartType('q6','pie')">圓餅圖</button>
+      <button data-v="bars" onclick="setChartType('q6','bars')">長條圖</button>
+      <button data-v="off" onclick="setChartType('q6','off')">隱藏</button>
+    </div>
+  </div>
+
+  <button class="hbtn" style="width:100%; justify-content:center; margin-top:8px" onclick="resetSettings()">還原預設設定</button>
+</div>
+
 <div class="container" id="app">
-  <div class="loading">載入資料中…</div>
+  <div class="loading">載入資料中</div>
 </div>
 
 <script>
 const GAS_URL = 'https://script.google.com/macros/s/AKfycby8loHM_Th6iMYyERRPy_O1KQrWD21ZshQiMATU7C9gZSa1621Q2w-S38N4NIFjGVrs/exec';
+
+/* ═══ 設定（localStorage 持久化，失敗時退回記憶體） ═══ */
+const DEFAULTS = { theme:'dark', trend:true, q1:true, q3:true, q4:true, q5:true, q2:'pie', q6:'pie' };
+let CFG = { ...DEFAULTS };
+try {
+  const saved = localStorage.getItem('huroyama_dash_cfg');
+  if (saved) {
+    const parsed = JSON.parse(saved);
+    /* 只合併已知欄位，避免舊版資料結構污染新欄位 */
+    Object.keys(DEFAULTS).forEach(k => { if (parsed[k] !== undefined) CFG[k] = parsed[k]; });
+  }
+} catch(e) {}
+
+function saveCfg() {
+  try { localStorage.setItem('huroyama_dash_cfg', JSON.stringify(CFG)); } catch(e) {}
+}
+
+function setTheme(t) {
+  CFG.theme = t;
+  document.documentElement.setAttribute('data-theme', t);
+  saveCfg(); syncSettingsUI();
+  if (lastData) drawLineChart(lastData.daily); /* 重繪以套用主題色 */
+  if (lastData) redrawPies();
+}
+
+function setChartType(q, v) {
+  CFG[q] = v;
+  saveCfg(); syncSettingsUI();
+  if (lastData) render(lastData);
+}
+
+function applySettings() {
+  if (!initDone) return;
+  CFG.trend = document.getElementById('cfg-trend').checked;
+  CFG.q1 = document.getElementById('cfg-q1').checked;
+  CFG.q3 = document.getElementById('cfg-q3').checked;
+  CFG.q4 = document.getElementById('cfg-q4').checked;
+  CFG.q5 = document.getElementById('cfg-q5').checked;
+  saveCfg();
+  if (lastData) render(lastData);
+}
+
+function syncSettingsUI() {
+  document.getElementById('cfg-trend').checked = CFG.trend;
+  document.getElementById('cfg-q1').checked = CFG.q1;
+  document.getElementById('cfg-q3').checked = CFG.q3;
+  document.getElementById('cfg-q4').checked = CFG.q4;
+  document.getElementById('cfg-q5').checked = CFG.q5;
+  document.querySelectorAll('#themeSeg button').forEach(b => b.classList.toggle('on', b.dataset.v === CFG.theme));
+  document.querySelectorAll('#q2Seg button').forEach(b => b.classList.toggle('on', b.dataset.v === CFG.q2));
+  document.querySelectorAll('#q6Seg button').forEach(b => b.classList.toggle('on', b.dataset.v === CFG.q6));
+}
+
+function openSettings() {
+  document.getElementById('settingsOverlay').classList.add('open');
+  document.getElementById('settingsPanel').classList.add('open');
+}
+function closeSettings() {
+  document.getElementById('settingsOverlay').classList.remove('open');
+  document.getElementById('settingsPanel').classList.remove('open');
+}
+function resetSettings() {
+  CFG = { ...DEFAULTS };
+  saveCfg();
+  document.documentElement.setAttribute('data-theme', CFG.theme);
+  syncSettingsUI();
+  if (lastData) render(lastData);
+}
+
+/* ═══ 資料載入 ═══ */
+let lastData = null;
 
 async function loadData() {
   const app = document.getElementById('app');
@@ -149,242 +439,454 @@ async function loadData() {
     const res  = await fetch(GAS_URL + '?action=stats');
     const data = await res.json();
     if (data.error) throw new Error(data.error);
+    lastData = data;
     render(data);
     document.getElementById('lastUpdated').textContent =
-      '最後更新：' + new Date().toLocaleTimeString('zh-TW');
+      new Date().toLocaleTimeString('zh-TW', {hour:'2-digit',minute:'2-digit'}) + ' 已更新';
   } catch (e) {
-    app.innerHTML = `<div class="error-msg">讀取資料失敗：${e.message}<br>請確認 GAS 已部署為 v3 且 action=stats 端點已啟用。</div>`;
-    document.getElementById('lastUpdated').textContent = '讀取失敗';
+    app.innerHTML = `<div class="error-msg">讀取資料失敗：${e.message}<br>請確認 GAS 已部署 v3 並啟用 action=stats 端點。</div>`;
+    document.getElementById('lastUpdated').textContent = '';
   }
 }
 
-function pct(n, total) {
-  if (!total) return '0%';
-  return (n / total * 100).toFixed(0) + '%';
+const pct = (n,t) => t ? (n/t*100).toFixed(0)+'%' : '0%';
+
+/* ═══ 比例色階：0%=螢光綠 → 50%=藍 → 100%=Apple粉紅（連續插值）═══ */
+const RATIO_STOPS = [
+  { p:0,   c:[80, 255, 160] },   /* 螢光綠 */
+  { p:50,  c:[80, 168, 204] },   /* 品牌藍 */
+  { p:100, c:[255, 90, 170] }    /* Apple 亮粉 */
+];
+function ratioColor(p) {
+  p = Math.max(0, Math.min(100, p));
+  let a = RATIO_STOPS[0], b = RATIO_STOPS[RATIO_STOPS.length-1];
+  for (let i=0;i<RATIO_STOPS.length-1;i++) {
+    if (p >= RATIO_STOPS[i].p && p <= RATIO_STOPS[i+1].p) { a = RATIO_STOPS[i]; b = RATIO_STOPS[i+1]; break; }
+  }
+  const t = (b.p===a.p) ? 0 : (p-a.p)/(b.p-a.p);
+  const rgb = a.c.map((v,i) => Math.round(v + (b.c[i]-v)*t));
+  return `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
 }
 
+/* ═══ 主渲染 ═══ */
 function render(d) {
   const app = document.getElementById('app');
-  const s   = d.summary;
-  const n   = +s.totalResponses;
+  const s = d.summary;
+  const n = +s.totalResponses;
 
-  app.innerHTML = `
-    <!-- 摘要 KPI -->
-    <div class="summary-grid">
-      <div class="kpi-card">
-        <div class="kpi-label">總瀏覽數</div>
-        <div class="kpi-value">${(+s.totalVisits).toLocaleString()}<span class="kpi-unit">次</span></div>
-      </div>
-      <div class="kpi-card accent">
-        <div class="kpi-label">總回覆數</div>
-        <div class="kpi-value">${(+s.totalResponses).toLocaleString()}<span class="kpi-unit">份</span></div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">回覆率</div>
-        <div class="kpi-value">${s.responseRate}<span class="kpi-unit">%</span></div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">最新回覆時間</div>
-        <div class="kpi-value" style="font-size:18px; padding-top:6px">${s.latestTime || '—'}</div>
-      </div>
-    </div>
+  const gMap = {female:'女性', male:'男性', other:'其他/不透露'};
+  const gender = {};
+  Object.entries(d.q6_gender).forEach(([k,v]) => { gender[gMap[k]||k] = v; });
 
-    <!-- 每日折線圖 -->
+  let html = `
+    <div class="hero reveal">
+      <div class="hero-eyebrow">HUROYAMA Survey Analytics</div>
+      <div class="hero-number" id="heroNum">0</div>
+      <div class="hero-label">份問卷回覆，持續累積中</div>
+      <div class="kpi-row">
+        <div class="kpi reveal">
+          <div class="kpi-v">${(+s.totalVisits).toLocaleString()}<span class="u">次</span></div>
+          <div class="kpi-l">總瀏覽數</div>
+        </div>
+        <div class="kpi reveal">
+          <div class="kpi-v">${s.responseRate}<span class="u">%</span></div>
+          <div class="kpi-l">回覆率</div>
+        </div>
+        <div class="kpi reveal">
+          <div class="kpi-v" style="font-size:17px;padding-top:8px">${s.latestTime || '—'}</div>
+          <div class="kpi-l">最新回覆</div>
+        </div>
+      </div>
+    </div>`;
+
+  if (CFG.trend) {
+    html += `
+    <div class="pearl-divider"></div>
+    <div class="section reveal">
+      <div class="sec-head">
+        <div class="sec-kicker">Trend</div>
+        <div class="sec-title">回覆趨勢</div>
+      </div>
+      <div class="card">
+        <div class="card-title">每日回覆人數</div>
+        <div class="card-sub">依台北時區統計，滑鼠移入資料點可查看明細</div>
+        <canvas id="lineChart" height="220"></canvas>
+      </div>
+    </div>`;
+  }
+
+  const anyResults = CFG.q1 || CFG.q3 || CFG.q4 || CFG.q5 || CFG.q2!=='off' || CFG.q6!=='off';
+  if (anyResults) {
+    html += `<div class="pearl-divider"></div>
     <div class="section">
-      <div class="section-title">回覆趨勢</div>
-      <div class="chart-card">
-        <div class="chart-title">每日回覆人數</div>
-        <div class="line-chart-wrap">
-          <canvas id="lineChart" height="180"></canvas>
-        </div>
-      </div>
-    </div>
+      <div class="sec-head reveal">
+        <div class="sec-kicker">Results</div>
+        <div class="sec-title">問卷結果分析</div>
+      </div>`;
 
-    <!-- Q1 + Q3 -->
-    <div class="section">
-      <div class="section-title">問卷結果</div>
-      <div class="chart-card">
-        <div class="chart-title">Q1 — 你家水槽是否有這些困擾？（可複選）</div>
-        <div class="bar-list" id="q1bars"></div>
-      </div>
+    if (CFG.q1) html += `
+      <div class="card reveal">
+        <div class="card-title">Q1 — 你家水槽是否有這些困擾？</div>
+        <div class="card-sub">可複選・百分比為勾選人數佔總回覆比例</div>
+        <div class="bars" id="q1bars"></div>
+      </div>`;
 
-      <div class="chart-card" style="margin-top:16px">
-        <div class="chart-title">Q3 — 哪個特色最打動你？（可複選）</div>
-        <div class="bar-list" id="q3bars"></div>
-      </div>
-    </div>
+    if (CFG.q3) html += `
+      <div class="card reveal">
+        <div class="card-title">Q3 — 哪個特色最打動你？</div>
+        <div class="card-sub">可複選</div>
+        <div class="bars" id="q3bars"></div>
+      </div>`;
 
-    <!-- Q4 + Q2 + Q5 + Q6 -->
-    <div class="section">
-      <div class="two-col">
-        <div class="chart-card">
-          <div class="chart-title">Q4 — 購買意願分數</div>
-          <div class="intent-grid" id="intentGrid"></div>
-          <div class="intent-avg" id="intentAvg">—</div>
-          <div class="intent-avg-label">平均分數（滿分 7）</div>
-        </div>
-        <div class="chart-card">
-          <div class="chart-title">Q6 — 性別分布</div>
-          <div class="dist-wrap" id="genderDist"></div>
-        </div>
-      </div>
-      <div class="two-col" style="margin-top:16px">
-        <div class="chart-card">
-          <div class="chart-title">Q2 — 水槽尺寸</div>
-          <div class="dist-wrap" id="sinkDist"></div>
-        </div>
-        <div class="chart-card">
-          <div class="chart-title">Q5 — 有興趣的加購品</div>
-          <div class="bar-list" id="q5bars"></div>
-        </div>
-      </div>
-    </div>
-  `;
+    /* Q4 + Q6 一組 */
+    if (CFG.q4 || CFG.q6 !== 'off') {
+      html += `<div class="two-col" style="margin-top:16px">`;
+      if (CFG.q4) html += `
+        <div class="card reveal">
+          <div class="card-title">Q4 — 購買意願分數</div>
+          <div class="card-sub">1–7 分，分數越高代表越心動</div>
+          <div class="intent-wrap" id="intentGrid"></div>
+          <div class="intent-summary">
+            <div class="intent-avg" id="intentAvg">—</div>
+            <div class="intent-avg-l">平均分數（滿分 7）</div>
+          </div>
+        </div>`;
+      if (CFG.q6 !== 'off') html += `
+        <div class="card reveal">
+          <div class="card-title">Q6 — 性別分布</div>
+          <div class="card-sub">${CFG.q6==='pie'?'圓餅圖':'長條圖'}</div>
+          ${CFG.q6==='pie'
+            ? `<div class="pie-flex">
+                 <div class="pie-canvas-wrap"><canvas id="pie-q6" width="190" height="190"></canvas>
+                   <div class="pie-center"><div class="pie-center-n" id="pie-q6-n"></div><div class="pie-center-l">總數</div></div>
+                 </div>
+                 <div class="pie-legend" id="pie-q6-legend"></div>
+               </div>`
+            : `<div class="dists" id="genderDist"></div>`}
+        </div>`;
+      html += `</div>`;
+    }
 
-  /* ── 折線圖 ── */
-  drawLineChart(d.daily);
+    /* Q2 + Q5 一組 */
+    if (CFG.q2 !== 'off' || CFG.q5) {
+      html += `<div class="two-col" style="margin-top:16px">`;
+      if (CFG.q2 !== 'off') html += `
+        <div class="card reveal">
+          <div class="card-title">Q2 — 水槽尺寸</div>
+          <div class="card-sub">${CFG.q2==='pie'?'圓餅圖':'長條圖'}・單選</div>
+          ${CFG.q2==='pie'
+            ? `<div class="pie-flex">
+                 <div class="pie-canvas-wrap"><canvas id="pie-q2" width="190" height="190"></canvas>
+                   <div class="pie-center"><div class="pie-center-n" id="pie-q2-n"></div><div class="pie-center-l">總數</div></div>
+                 </div>
+                 <div class="pie-legend" id="pie-q2-legend"></div>
+               </div>`
+            : `<div class="dists" id="sinkDist"></div>`}
+        </div>`;
+      if (CFG.q5) html += `
+        <div class="card reveal">
+          <div class="card-title">Q5 — 有興趣的加購品</div>
+          <div class="card-sub">可複選</div>
+          <div class="bars" id="q5bars"></div>
+        </div>`;
+      html += `</div>`;
+    }
+    html += `</div>`;
+  }
 
-  /* ── Q1 痛點 ── */
-  renderBars('q1bars', d.q1_pains.labels, d.q1_pains.counts, n);
+  html += `<div class="foot">MIELOO DESIGN · HUROYAMA — 浴山系列</div>`;
+  app.innerHTML = html;
 
-  /* ── Q3 功能 ── */
-  renderBars('q3bars', d.q3_feats.labels, d.q3_feats.counts, n);
+  animateNumber(document.getElementById('heroNum'), n, 1200);
 
-  /* ── Q4 意願分數 ── */
-  const b = d.q4_intent.buckets;
-  const maxB = Math.max(...Object.values(b), 1);
-  const grid = document.getElementById('intentGrid');
-  grid.innerHTML = [1,2,3,4,5,6,7].map(k => `
-    <div class="intent-col">
-      <div class="intent-bar-wrap">
-        <div class="intent-bar" style="height:${Math.round((b[k]||0)/maxB*70)}px"></div>
-      </div>
-      <div class="intent-n">${b[k]||0}</div>
-      <div class="intent-lbl">${k}</div>
-    </div>`).join('');
-  document.getElementById('intentAvg').textContent = d.q4_intent.avg || '—';
+  if (CFG.trend) drawLineChart(d.daily);
+  if (CFG.q1) renderBars('q1bars', d.q1_pains.labels, d.q1_pains.counts, n);
+  if (CFG.q3) renderBars('q3bars', d.q3_feats.labels, d.q3_feats.counts, n);
+  if (CFG.q5) renderBars('q5bars', d.q5_addons.labels, d.q5_addons.counts, n);
 
-  /* ── Q5 加購 ── */
-  renderBars('q5bars', d.q5_addons.labels, d.q5_addons.counts, n);
-
-  /* ── Q2 水槽 ── */
-  const sink = d.q2_sink;
-  const sinkTotal = Object.values(sink).reduce((a,b)=>a+b,0)||1;
-  document.getElementById('sinkDist').innerHTML =
-    Object.entries(sink).sort((a,b)=>b[1]-a[1]).map(([k,v]) => `
-      <div class="dist-item">
-        <div class="dist-label">${k}</div>
-        <div class="dist-bar"><div class="dist-fill" style="width:${(v/sinkTotal*100).toFixed(0)}%"></div></div>
-        <div class="dist-n">${v}</div>
+  if (CFG.q4) {
+    const b = d.q4_intent.buckets;
+    const maxB = Math.max(...Object.values(b), 1);
+    document.getElementById('intentGrid').innerHTML = [1,2,3,4,5,6,7].map(k => `
+      <div class="ic">
+        <div class="ic-bar-zone"><div class="ic-bar" data-h="${Math.round((b[k]||0)/maxB*86)}"></div></div>
+        <div class="ic-n">${b[k]||0}</div>
+        <div class="ic-s">${k}</div>
       </div>`).join('');
+    document.getElementById('intentAvg').textContent = d.q4_intent.avg || '—';
+  }
 
-  /* ── Q6 性別 ── */
-  const gLabels = {female:'女性',male:'男性',other:'其他/不透露'};
-  const gender = d.q6_gender;
-  const gTotal = Object.values(gender).reduce((a,b)=>a+b,0)||1;
-  document.getElementById('genderDist').innerHTML =
-    Object.entries(gender).sort((a,b)=>b[1]-a[1]).map(([k,v]) => `
-      <div class="dist-item">
-        <div class="dist-label">${gLabels[k]||k}</div>
-        <div class="dist-bar"><div class="dist-fill" style="width:${(v/gTotal*100).toFixed(0)}%"></div></div>
-        <div class="dist-n">${v}</div>
-      </div>`).join('');
+  if (CFG.q2 === 'pie') drawPie('q2', d.q2_sink);
+  else if (CFG.q2 === 'bars') renderDist('sinkDist', d.q2_sink);
+
+  if (CFG.q6 === 'pie') drawPie('q6', gender);
+  else if (CFG.q6 === 'bars') renderDist('genderDist', gender);
+
+  requestAnimationFrame(() => {
+    setupReveal();
+    setTimeout(triggerBars, 300);
+  });
 }
 
+/* ═══ 元件渲染 ═══ */
 function renderBars(elId, labels, counts, total) {
   const max = Math.max(...counts, 1);
-  document.getElementById(elId).innerHTML = labels.map((lbl,i) => `
-    <div class="bar-item">
-      <div class="bar-label">${lbl}</div>
-      <div class="bar-track"><div class="bar-fill" style="width:${(counts[i]/max*100).toFixed(0)}%"></div></div>
-      <div class="bar-count">${counts[i]}</div>
-      <div class="bar-pct">${pct(counts[i], total)}</div>
+  const el = document.getElementById(elId);
+  if (!el) return;
+  el.innerHTML = labels.map((lbl,i) => {
+    const ratioPct = total ? (counts[i]/total*100) : 0;
+    const color = ratioColor(ratioPct);
+    const widthPct = (counts[i]/max*100).toFixed(0);
+    return `
+    <div class="bar-row">
+      <div class="bar-name">${lbl}</div>
+      <div class="bar-track"><div class="bar-fill" data-w="${widthPct}" data-color="${color}"></div></div>
+      <div class="bar-meta">${counts[i]}<span class="pc">${pct(counts[i], total)}</span></div>
+    </div>`;
+  }).join('');
+}
+
+function renderDist(elId, map) {
+  const el = document.getElementById(elId);
+  if (!el) return;
+  const total = Object.values(map).reduce((a,b)=>a+b,0) || 1;
+  el.innerHTML =
+    Object.entries(map).sort((a,b)=>b[1]-a[1]).map(([k,v]) => {
+      const ratioPct = (v/total*100);
+      const color = ratioColor(ratioPct);
+      return `
+      <div class="dist-row">
+        <div class="dist-name">${k}</div>
+        <div class="dist-track"><div class="dist-fill" data-w="${ratioPct.toFixed(0)}" data-color="${color}"></div></div>
+        <div class="dist-n">${v}</div>
+      </div>`;
+    }).join('');
+}
+
+/* ═══ 圓餅圖（donut）═══ */
+const PIE_COLORS = ['#50A8CC', '#1E5BAE', '#7ec8ff', '#a8d4ff', '#0d3a6b', '#6ba3e0'];
+const pieStore = {};
+
+function drawPie(qid, map) {
+  const canvas = document.getElementById('pie-'+qid);
+  if (!canvas) return;
+  const entries = Object.entries(map).sort((a,b)=>b[1]-a[1]);
+  const total = entries.reduce((a,[,v])=>a+v,0) || 1;
+  pieStore[qid] = { entries, total };
+
+  paintPie(canvas, entries, total);
+
+  document.getElementById('pie-'+qid+'-n').textContent = total;
+  document.getElementById('pie-'+qid+'-legend').innerHTML = entries.map(([k,v],i) => `
+    <div class="pl-row">
+      <div class="pl-chip" style="background:${PIE_COLORS[i%PIE_COLORS.length]}"></div>
+      <div class="pl-name">${k}</div>
+      <div class="pl-val">${v}</div>
+      <div class="pl-pct">${(v/total*100).toFixed(0)}%</div>
     </div>`).join('');
+}
+
+function paintPie(canvas, entries, total) {
+  const dpr = window.devicePixelRatio || 1;
+  const SIZE = 190;
+  canvas.width = SIZE*dpr; canvas.height = SIZE*dpr;
+  canvas.style.width = SIZE+'px'; canvas.style.height = SIZE+'px';
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr,dpr);
+  const cx = SIZE/2, cy = SIZE/2, R = SIZE/2-6, r = R*0.62;
+
+  let a0 = -Math.PI/2;
+  entries.forEach(([k,v],i) => {
+    const a1 = a0 + (v/total)*Math.PI*2;
+    ctx.beginPath();
+    ctx.arc(cx,cy,R,a0,a1);
+    ctx.arc(cx,cy,r,a1,a0,true);
+    ctx.closePath();
+    ctx.fillStyle = PIE_COLORS[i%PIE_COLORS.length];
+    ctx.fill();
+    /* 分隔細縫 */
+    ctx.strokeStyle = getComputedStyle(document.body).backgroundColor || '#0a2540';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    a0 = a1;
+  });
+}
+
+function redrawPies() {
+  Object.entries(pieStore).forEach(([qid, s]) => {
+    const canvas = document.getElementById('pie-'+qid);
+    if (canvas) paintPie(canvas, s.entries, s.total);
+  });
+}
+
+function triggerBars() {
+  document.querySelectorAll('.bar-fill[data-w]').forEach(el => {
+    el.style.width = el.dataset.w + '%';
+    if (el.dataset.color) {
+      el.style.background = el.dataset.color;
+      el.style.boxShadow = `0 0 14px ${el.dataset.color.replace('rgb','rgba').replace(')', ',.4)')}`;
+    }
+  });
+  document.querySelectorAll('.dist-fill[data-w]').forEach(el => {
+    el.style.width = el.dataset.w + '%';
+    if (el.dataset.color) el.style.background = el.dataset.color;
+  });
+  document.querySelectorAll('.ic-bar[data-h]').forEach(el => el.style.height = el.dataset.h + 'px');
+}
+
+function setupReveal() {
+  const els = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach((e,i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('in'), (i%4)*90);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold:.12 });
+  els.forEach(el => io.observe(el));
+}
+
+function animateNumber(el, target, dur) {
+  const t0 = performance.now();
+  const step = now => {
+    const p = Math.min((now-t0)/dur, 1);
+    const eased = 1 - Math.pow(1-p, 3);
+    el.textContent = Math.round(target*eased).toLocaleString();
+    if (p < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+
+/* ═══ 折線圖 ═══ */
+function chartColors() {
+  const light = document.documentElement.getAttribute('data-theme') === 'light';
+  return {
+    grid: light ? 'rgba(30,91,174,.08)' : 'rgba(168,212,255,.06)',
+    axis: light ? 'rgba(30,91,174,.4)'  : 'rgba(168,212,255,.3)',
+    line: light ? '#1E5BAE' : '#7ec8ff',
+    dot:  '#50A8CC',
+    dotHover: light ? '#1E5BAE' : '#c8e8ff',
+    fillTop: light ? 'rgba(30,91,174,.18)' : 'rgba(126,200,255,.28)',
+    tooltipBg: light ? 'rgba(240,247,255,.95)' : 'rgba(10,25,45,.92)',
+    tooltipBorder: light ? 'rgba(30,91,174,.3)' : 'rgba(126,200,255,.35)',
+    tooltipTxt: light ? '#0A2540' : '#c8e8ff',
+  };
 }
 
 function drawLineChart(daily) {
   const canvas = document.getElementById('lineChart');
   if (!canvas || !daily || daily.length === 0) return;
-  const W = canvas.parentElement.offsetWidth;
-  canvas.width  = W;
-  canvas.height = 180;
-  const ctx = canvas.getContext('2d');
-  const PAD = { top:16, right:20, bottom:32, left:36 };
-  const w = W - PAD.left - PAD.right;
-  const h = 180 - PAD.top - PAD.bottom;
-  const maxV = Math.max(...daily.map(d=>d.count), 1);
-
-  ctx.clearRect(0,0,W,180);
-
-  /* 格線 */
-  const steps = 4;
-  ctx.strokeStyle = 'rgba(255,255,255,.05)';
-  ctx.lineWidth   = 1;
-  for (let i=0;i<=steps;i++) {
-    const y = PAD.top + h - (i/steps)*h;
-    ctx.beginPath(); ctx.moveTo(PAD.left, y); ctx.lineTo(PAD.left+w, y); ctx.stroke();
-    ctx.fillStyle = 'rgba(255,255,255,.25)';
-    ctx.font = '10px DM Sans, sans-serif';
-    ctx.textAlign = 'right';
-    ctx.fillText(Math.round(maxV*i/steps), PAD.left-6, y+4);
-  }
-
-  /* 點座標 */
-  const pts = daily.map((d,i) => ({
-    x: PAD.left + (i/(daily.length-1||1))*w,
-    y: PAD.top  + h - (d.count/maxV)*h,
-    label: d.date, count: d.count
-  }));
-
-  /* 填充漸層 */
-  const grad = ctx.createLinearGradient(0,PAD.top,0,PAD.top+h);
-  grad.addColorStop(0,'rgba(80,168,204,.3)');
-  grad.addColorStop(1,'rgba(80,168,204,.0)');
-  ctx.beginPath();
-  ctx.moveTo(pts[0].x, PAD.top+h);
-  pts.forEach(p => ctx.lineTo(p.x, p.y));
-  ctx.lineTo(pts[pts.length-1].x, PAD.top+h);
-  ctx.closePath();
-  ctx.fillStyle = grad;
-  ctx.fill();
-
-  /* 折線 */
-  ctx.beginPath();
-  ctx.strokeStyle = '#50A8CC';
-  ctx.lineWidth   = 2;
-  ctx.lineJoin    = 'round';
-  pts.forEach((p,i) => i===0 ? ctx.moveTo(p.x,p.y) : ctx.lineTo(p.x,p.y));
-  ctx.stroke();
-
-  /* 資料點 */
-  pts.forEach(p => {
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, 3.5, 0, Math.PI*2);
-    ctx.fillStyle = '#50A8CC';
-    ctx.fill();
-    ctx.strokeStyle = '#0e1117';
-    ctx.lineWidth = 1.5;
-    ctx.stroke();
-  });
-
-  /* X 軸日期標籤（最多顯示 10 個）── */
-  ctx.fillStyle = 'rgba(255,255,255,.25)';
-  ctx.font = '10px DM Sans, sans-serif';
-  ctx.textAlign = 'center';
-  const step = Math.ceil(daily.length / 10);
-  daily.forEach((d,i) => {
-    if (i % step !== 0 && i !== daily.length-1) return;
-    const x = PAD.left + (i/(daily.length-1||1))*w;
-    ctx.fillText(d.date.slice(5), x, PAD.top+h+18);
-  });
+  paintChart(canvas, daily);
+  canvas.onmousemove = e => hoverChart(canvas, daily, e);
+  canvas.onmouseleave = () => paintChart(canvas, daily);
 }
 
+function chartGeom(canvas, daily) {
+  const W = canvas.parentElement.offsetWidth;
+  const H = 220;
+  const PAD = { top:24, right:24, bottom:36, left:40 };
+  return { W, H, PAD, w:W-PAD.left-PAD.right, h:H-PAD.top-PAD.bottom,
+           maxV: Math.max(...daily.map(d=>d.count), 1) };
+}
+
+function paintChart(canvas, daily, hoverIdx=-1) {
+  const g = chartGeom(canvas, daily);
+  const C = chartColors();
+  canvas.width = g.W; canvas.height = g.H;
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0,0,g.W,g.H);
+
+  ctx.strokeStyle = C.grid;
+  ctx.lineWidth = 1;
+  for (let i=0;i<=4;i++) {
+    const y = g.PAD.top + g.h - (i/4)*g.h;
+    ctx.beginPath(); ctx.moveTo(g.PAD.left,y); ctx.lineTo(g.PAD.left+g.w,y); ctx.stroke();
+    ctx.fillStyle = C.axis;
+    ctx.font = '10px DM Sans';
+    ctx.textAlign = 'right';
+    ctx.fillText(Math.round(g.maxV*i/4), g.PAD.left-8, y+3);
+  }
+
+  const pts = daily.map((d,i) => ({
+    x: g.PAD.left + (i/(daily.length-1||1))*g.w,
+    y: g.PAD.top + g.h - (d.count/g.maxV)*g.h
+  }));
+
+  const grad = ctx.createLinearGradient(0,g.PAD.top,0,g.PAD.top+g.h);
+  grad.addColorStop(0,C.fillTop);
+  grad.addColorStop(1,'rgba(126,200,255,0)');
+  ctx.beginPath();
+  ctx.moveTo(pts[0].x, g.PAD.top+g.h);
+  pts.forEach(p=>ctx.lineTo(p.x,p.y));
+  ctx.lineTo(pts[pts.length-1].x, g.PAD.top+g.h);
+  ctx.closePath(); ctx.fillStyle = grad; ctx.fill();
+
+  ctx.beginPath();
+  ctx.strokeStyle = C.line;
+  ctx.lineWidth = 2;
+  ctx.lineJoin = 'round';
+  pts.forEach((p,i)=> i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y));
+  ctx.stroke();
+
+  pts.forEach((p,i) => {
+    ctx.beginPath();
+    ctx.arc(p.x,p.y, i===hoverIdx?5.5:3, 0, Math.PI*2);
+    ctx.fillStyle = i===hoverIdx ? C.dotHover : C.dot;
+    ctx.fill();
+  });
+
+  ctx.fillStyle = C.axis;
+  ctx.font = '10px DM Sans';
+  ctx.textAlign = 'center';
+  const step = Math.ceil(daily.length/9);
+  daily.forEach((d,i) => {
+    if (i%step!==0 && i!==daily.length-1) return;
+    ctx.fillText(d.date.slice(5), g.PAD.left+(i/(daily.length-1||1))*g.w, g.PAD.top+g.h+22);
+  });
+
+  if (hoverIdx >= 0) {
+    const p = pts[hoverIdx], d = daily[hoverIdx];
+    const label = `${d.date}  ${d.count} 份`;
+    ctx.font = '12px DM Sans';
+    const tw = ctx.measureText(label).width + 20;
+    let tx = p.x - tw/2;
+    tx = Math.max(g.PAD.left, Math.min(tx, g.W-g.PAD.right-tw));
+    const ty = Math.max(6, p.y - 40);
+    ctx.fillStyle = C.tooltipBg;
+    ctx.strokeStyle = C.tooltipBorder;
+    ctx.beginPath();
+    if (ctx.roundRect) ctx.roundRect(tx, ty, tw, 26, 8);
+    else ctx.rect(tx, ty, tw, 26);
+    ctx.fill(); ctx.stroke();
+    ctx.fillStyle = C.tooltipTxt;
+    ctx.textAlign = 'center';
+    ctx.fillText(label, tx+tw/2, ty+17);
+  }
+}
+
+function hoverChart(canvas, daily, e) {
+  const rect = canvas.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const g = chartGeom(canvas, daily);
+  let best = -1, bd = 1e9;
+  daily.forEach((d,i) => {
+    const px = g.PAD.left + (i/(daily.length-1||1))*g.w;
+    const dist = Math.abs(px-x);
+    if (dist < bd) { bd = dist; best = i; }
+  });
+  if (bd < 30) paintChart(canvas, daily, best);
+  else paintChart(canvas, daily);
+}
+
+window.addEventListener('resize', () => { if (lastData && CFG.trend) drawLineChart(lastData.daily); });
+
+/* ═══ 初始化 ═══ */
+let initDone = false;
+document.documentElement.setAttribute('data-theme', CFG.theme);
+syncSettingsUI();
+initDone = true;
 loadData();
-window.addEventListener('resize', () => {
-  /* 視窗改變時重繪折線圖 */
-  const canvas = document.getElementById('lineChart');
-  if (canvas) canvas.dispatchEvent(new Event('redraw'));
-});
 </script>
 </body>
 </html>
