@@ -444,7 +444,7 @@ async function loadData() {
     document.getElementById('lastUpdated').textContent =
       new Date().toLocaleTimeString('zh-TW', {hour:'2-digit',minute:'2-digit'}) + ' 已更新';
   } catch (e) {
-    app.innerHTML = `<div class="error-msg">讀取資料失敗：${e.message}<br>請確認 GAS 已部署 v3 並啟用 action=stats 端點。</div>`;
+    app.innerHTML = `<div class="error-msg">讀取資料失敗：${e.message}<br>請確認 GAS 已部署 v4 並啟用 action=stats 端點。</div>`;
     document.getElementById('lastUpdated').textContent = '';
   }
 }
@@ -473,6 +473,9 @@ function render(d) {
   const app = document.getElementById('app');
   const s = d.summary;
   const n = +s.totalResponses;
+  /* v4：不重複訪客 / 每人轉換率（舊版 GAS 未回傳時退回原欄位） */
+  const uVis  = (s.uniqueVisitors     != null) ? +s.uniqueVisitors     : +s.totalVisits;
+  const uRate = (s.uniqueResponseRate != null) ?  s.uniqueResponseRate :  s.responseRate;
 
   const gMap = {female:'女性', male:'男性', other:'其他/不透露'};
   const gender = {};
@@ -485,12 +488,14 @@ function render(d) {
       <div class="hero-label">份問卷回覆，持續累積中</div>
       <div class="kpi-row">
         <div class="kpi reveal">
-          <div class="kpi-v">${(+s.totalVisits).toLocaleString()}<span class="u">次</span></div>
-          <div class="kpi-l">總瀏覽數</div>
+          <div class="kpi-v">${uVis.toLocaleString()}<span class="u">人</span></div>
+          <div class="kpi-l">不重複訪客</div>
+          <div style="font-size:11px;color:var(--txt3);margin-top:6px;font-family:var(--f-en)">總瀏覽 ${(+s.totalVisits).toLocaleString()} 次</div>
         </div>
         <div class="kpi reveal">
-          <div class="kpi-v">${s.responseRate}<span class="u">%</span></div>
-          <div class="kpi-l">回覆率</div>
+          <div class="kpi-v">${uRate}<span class="u">%</span></div>
+          <div class="kpi-l">每人轉換率</div>
+          <div style="font-size:11px;color:var(--txt3);margin-top:6px;font-family:var(--f-en)">次數轉換率 ${s.responseRate}%</div>
         </div>
         <div class="kpi reveal">
           <div class="kpi-v" style="font-size:17px;padding-top:8px">${s.latestTime || '—'}</div>
