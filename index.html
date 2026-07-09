@@ -669,9 +669,9 @@ textarea.finput { min-height:80px; resize:vertical; }
     <div class="layer-text q-light">
       <div class="q-num">Q06</div>
       <div class="q-title" style="margin-bottom:4px">留下聯絡方式<br>填完就搶先入列</div>
-      <div class="q-hint">早鳥通知 + 抽獎資格，名單內優先 🎁</div>
+      <div class="q-hint">早鳥通知 + 加 LINE 好友送購物優惠券 🎁</div>
       <div class="fgroup">
-        <label class="flabel">您的性別 <span class="tag-r">必填</span></label>
+        <label class="flabel">您的性別 <span class="tag-o">選填</span></label>
         <div class="gender-grid">
           <button class="gbtn" data-val="female" onclick="selGender(this)">女性</button>
           <button class="gbtn" data-val="male" onclick="selGender(this)">男性</button>
@@ -680,7 +680,7 @@ textarea.finput { min-height:80px; resize:vertical; }
         <div class="ferr" id="gErr">請選擇性別</div>
       </div>
       <div class="fgroup">
-        <label class="flabel">姓名或暱稱 <span class="tag-r">必填</span></label>
+        <label class="flabel">姓名或暱稱 <span class="tag-o">選填</span></label>
         <input type="text" class="finput" id="nIn" placeholder="你想讓我們怎麼稱呼你？" autocomplete="nickname">
         <div class="ferr" id="nErr">請填寫姓名或暱稱</div>
       </div>
@@ -718,13 +718,13 @@ textarea.finput { min-height:80px; resize:vertical; }
     <div class="ty-content">
       <div class="ty-icon">🎉</div>
       <img class="hero-logo hero-logo-ty" src="https://pic.mieloo-corp.com/uploads/medium/ec/8c/0498cef723b64fe276e18da9eb1a.png" alt="浴山 LOGO" style="margin-bottom:18px">
-      <h2 class="ty-title">謝謝你的填寫！<br><span class="ty-title-line">點擊加入 LINE 好友</span><br>即刻取得購物優惠</h2>
+      <h2 class="ty-title">謝謝你的填寫！<br><span class="ty-title-line">點擊加入 LINE 好友</span><br>即刻領購物優惠券</h2>
       <p class="ty-sub">已收到您的問卷回覆。<br>浴山廚房水槽濾網，預計 9 月上嘖嘖上線。</p>
       <p class="ty-earlybird">✓ 限量 200 組・已為你鎖定</p>
       <p class="ty-social-label">產品上線通知不漏接<br>追蹤我們，掌握早鳥優惠訊息 🎉</p>
       <div class="ty-finger">👇</div>
       <div class="ty-line-wrap">
-        <a class="btn-line-full" href="https://lin.ee/qyNMRN0" target="_blank">加入 LINE 好友</a>
+        <a class="btn-line-full" href="https://lin.ee/qyNMRN0" target="_blank" onclick="if(typeof fbq==='function')fbq('trackCustom','AddLineClick');">加入 LINE 好友</a>
       </div>
       <a class="btn-ig" href="https://www.instagram.com/mieloo_design/" target="_blank">追蹤 Instagram</a>
       <div class="ty-footer">米鹿設計 MIELOO DESIGN<br>HUROYAMA — 浴山系列</div>
@@ -866,15 +866,10 @@ function selGender(el) {
 }
 /* ── 提交 ── */
 function doSubmit() {
-  const name  = document.getElementById('nIn').value.trim();
   const email = document.getElementById('eIn').value.trim();
-  const validName  = name.length > 0;
   const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  const validGender = !!S.gender;
-  document.getElementById('nErr').classList.toggle('show', !validName);
   document.getElementById('eErr').classList.toggle('show', !validEmail);
-  document.getElementById('gErr').classList.toggle('show', !validGender);
-  if (!validName || !validEmail || !validGender) return;
+  if (!validEmail) return;   // 只有 Email 必填，性別／姓名選填不擋
   const btn = document.getElementById('subBtn');
   btn.disabled = true;
   btn.textContent = '送出中…';
