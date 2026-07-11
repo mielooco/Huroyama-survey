@@ -772,7 +772,8 @@ function huroyamaVid() {
 /* 瀏覽紀錄 ping：頁面載入時帶著 vid 打 GAS doGet（寫入「訪客紀錄」） */
 (function () {
   var img = document.getElementById('visitPing');
-  if (img) img.src = GAS_URL + '?ref=survey&vid=' + encodeURIComponent(huroyamaVid());
+  var pageRef = (new URLSearchParams(location.search).get('ref') || 'direct').slice(0,40);
+  if (img) img.src = GAS_URL + '?ref=' + encodeURIComponent(pageRef) + '&vid=' + encodeURIComponent(huroyamaVid());
 })();
 /* Q page index → progress (1–5)，Q06/page9 不顯示進度條 */
 const QPROG = { 4:1, 5:2, 6:3, 7:4, 8:5 };
