@@ -270,6 +270,38 @@ canvas { display:block; width:100%; }
   border-radius:14px; padding:20px 24px; color:#e89090; font-size:13px;
   max-width:560px; margin:60px auto; text-align:center; line-height:1.8;
 }
+/* ── 留言卡片 ── */
+.cmt-toolbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
+.cmt-count { font-size:12px; color:var(--txt3); }
+.cmt-show-hidden {
+  font-size:11px; color:var(--txt2); cursor:pointer; user-select:none;
+  display:flex; align-items:center; gap:6px;
+}
+.cmt-list { display:flex; flex-direction:column; gap:12px; }
+.cmt-item {
+  border:1px solid var(--card-border); border-radius:14px; padding:16px 18px;
+  background:rgba(255,255,255,.02); transition:opacity .2s ease, border-color .2s ease;
+}
+.cmt-item.mark-good { border-color:rgba(80,255,160,.4); background:rgba(80,255,160,.05); }
+.cmt-item.mark-bad  { border-color:rgba(255,90,170,.3); background:rgba(255,90,170,.04); opacity:.6; }
+.cmt-item.mark-hidden { display:none; }
+.cmt-item.mark-hidden.force-show { display:block; opacity:.45; }
+.cmt-meta { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+.cmt-who { font-size:12px; color:var(--txt2); font-weight:500; }
+.cmt-time { font-size:11px; color:var(--txt3); font-family:var(--f-en); }
+.cmt-text { font-size:14px; color:var(--txt); line-height:1.7; margin-bottom:12px; white-space:pre-wrap; }
+.cmt-actions { display:flex; gap:8px; }
+.cmt-btn {
+  font-size:11px; padding:5px 12px; border-radius:99px; border:1px solid var(--card-border);
+  background:transparent; color:var(--txt3); cursor:pointer; transition:all .2s ease;
+  font-family:var(--f-zh); display:flex; align-items:center; gap:4px;
+}
+.cmt-btn:hover { border-color:var(--card-hover); }
+.cmt-btn.active-good { background:rgba(80,255,160,.15); border-color:rgba(80,255,160,.4); color:#5cffa0; }
+.cmt-btn.active-bad  { background:rgba(255,90,170,.15); border-color:rgba(255,90,170,.4); color:#ff5aaa; }
+.cmt-btn.active-hide { background:rgba(255,255,255,.08); color:var(--txt2); }
+.cmt-empty { text-align:center; color:var(--txt3); font-size:13px; padding:30px 0; }
+
 .foot { text-align:center; margin-top:80px; font-size:11px; color:var(--txt3); letter-spacing:2px; font-family:var(--f-en); }
 
 @media (prefers-reduced-motion: reduce) {
@@ -331,6 +363,10 @@ canvas { display:block; width:100%; }
       <span class="sp-label">Q5 加購長條圖</span>
       <label class="tgl"><input type="checkbox" id="cfg-q5" onchange="applySettings()"><span class="tgl-slider"></span></label>
     </div>
+    <div class="sp-row">
+      <span class="sp-label">留言精選</span>
+      <label class="tgl"><input type="checkbox" id="cfg-comments" onchange="applySettings()"><span class="tgl-slider"></span></label>
+    </div>
   </div>
 
   <div class="sp-group">
@@ -362,7 +398,7 @@ canvas { display:block; width:100%; }
 const GAS_URL = 'https://script.google.com/macros/s/AKfycby8loHM_Th6iMYyERRPy_O1KQrWD21ZshQiMATU7C9gZSa1621Q2w-S38N4NIFjGVrs/exec';
 
 /* ═══ 設定（localStorage 持久化，失敗時退回記憶體） ═══ */
-const DEFAULTS = { theme:'dark', trend:true, q1:true, q3:true, q4:true, q5:true, q2:'pie', q6:'pie' };
+const DEFAULTS = { theme:'dark', trend:true, q1:true, q3:true, q4:true, q5:true, q2:'pie', q6:'pie', comments:true };
 let CFG = { ...DEFAULTS };
 try {
   const saved = localStorage.getItem('huroyama_dash_cfg');
@@ -398,6 +434,7 @@ function applySettings() {
   CFG.q3 = document.getElementById('cfg-q3').checked;
   CFG.q4 = document.getElementById('cfg-q4').checked;
   CFG.q5 = document.getElementById('cfg-q5').checked;
+  CFG.comments = document.getElementById('cfg-comments').checked;
   saveCfg();
   if (lastData) render(lastData);
 }
@@ -408,6 +445,7 @@ function syncSettingsUI() {
   document.getElementById('cfg-q3').checked = CFG.q3;
   document.getElementById('cfg-q4').checked = CFG.q4;
   document.getElementById('cfg-q5').checked = CFG.q5;
+  document.getElementById('cfg-comments').checked = CFG.comments;
   document.querySelectorAll('#themeSeg button').forEach(b => b.classList.toggle('on', b.dataset.v === CFG.theme));
   document.querySelectorAll('#q2Seg button').forEach(b => b.classList.toggle('on', b.dataset.v === CFG.q2));
   document.querySelectorAll('#q6Seg button').forEach(b => b.classList.toggle('on', b.dataset.v === CFG.q6));
@@ -599,6 +637,23 @@ function render(d) {
     html += `</div>`;
   }
 
+  if (CFG.comments && d.comments && d.comments.length > 0) {
+    html += `<div class="pearl-divider"></div>
+    <div class="section reveal">
+      <div class="sec-head">
+        <div class="sec-kicker">Feedback</div>
+        <div class="sec-title">留言精選</div>
+      </div>
+      <div class="card">
+        <div class="cmt-toolbar">
+          <div class="cmt-count" id="cmtCount"></div>
+          <div class="cmt-show-hidden" onclick="toggleShowHidden()" id="cmtShowHiddenToggle">👁 顯示已隱藏</div>
+        </div>
+        <div class="cmt-list" id="cmtList"></div>
+      </div>
+    </div>`;
+  }
+
   html += `<div class="foot">MIELOO DESIGN · HUROYAMA — 浴山系列</div>`;
   app.innerHTML = html;
 
@@ -626,6 +681,8 @@ function render(d) {
 
   if (CFG.q6 === 'pie') drawPie('q6', gender);
   else if (CFG.q6 === 'bars') renderDist('genderDist', gender);
+
+  if (CFG.comments && d.comments) renderComments(d.comments);
 
   requestAnimationFrame(() => {
     setupReveal();
@@ -666,6 +723,78 @@ function renderDist(elId, map) {
         <div class="dist-n">${v}</div>
       </div>`;
     }).join('');
+}
+
+/* ═══ 留言標記（好/壞/隱藏），狀態存 localStorage，不影響原始資料 ═══ */
+let cmtMarks = {};
+try {
+  cmtMarks = JSON.parse(localStorage.getItem('huroyama_cmt_marks') || '{}');
+} catch(e) { cmtMarks = {}; }
+let cmtShowHidden = false;
+
+function saveCmtMarks() {
+  try { localStorage.setItem('huroyama_cmt_marks', JSON.stringify(cmtMarks)); } catch(e) {}
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+/* 過濾「廢話留言」：整則留言拿掉標點/空白後，本質上只是「貴」「便宜」
+   （可加「太/好/有點/偏/再」等修飾字），沒有其他實質內容才會被濾掉。
+   若留言裡還有其他文字（例如「希望便宜一點，但設計真的不錯」），不會被誤殺。 */
+const THROWAWAY_RE = /^(有點|有点|太|好|偏|更|再)?(貴|贵|便宜)(一點|一点|一些|些|點|点)?(了|喔|哦|啊|呀|呢)*[!！。.]*$/;
+function isThrowawayComment(text) {
+  const stripped = String(text).replace(/[\s，,、。.!！?？~～]/g, '');
+  return THROWAWAY_RE.test(stripped);
+}
+
+function renderComments(comments) {
+  comments = comments.filter(c => !isThrowawayComment(c.text));
+  const list = document.getElementById('cmtList');
+  const countEl = document.getElementById('cmtCount');
+  if (!list) return;
+
+  const hiddenCount = comments.filter(c => cmtMarks[c.id] === 'hidden').length;
+  countEl.textContent = `共 ${comments.length} 則留言` + (hiddenCount ? `（${hiddenCount} 則已隱藏）` : '');
+
+  if (comments.length === 0) {
+    list.innerHTML = `<div class="cmt-empty">目前還沒有留言</div>`;
+    return;
+  }
+
+  list.innerHTML = comments.map(c => {
+    const mark = cmtMarks[c.id] || '';
+    const classes = ['cmt-item'];
+    if (mark === 'good') classes.push('mark-good');
+    if (mark === 'bad') classes.push('mark-bad');
+    if (mark === 'hidden') classes.push('mark-hidden', cmtShowHidden ? 'force-show' : '');
+    return `
+    <div class="${classes.join(' ')}" id="cmt-${c.id}">
+      <div class="cmt-meta">
+        <span class="cmt-who">${escapeHtml(c.name)}</span>
+        <span class="cmt-time">${c.time}</span>
+      </div>
+      <div class="cmt-text">${escapeHtml(c.text)}</div>
+      <div class="cmt-actions">
+        <button class="cmt-btn ${mark==='good'?'active-good':''}" onclick="markComment(${c.id},'good')">👍 有幫助</button>
+        <button class="cmt-btn ${mark==='bad'?'active-bad':''}" onclick="markComment(${c.id},'bad')">👎 普通</button>
+        <button class="cmt-btn ${mark==='hidden'?'active-hide':''}" onclick="markComment(${c.id},'hidden')">🙈 隱藏</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function markComment(id, type) {
+  cmtMarks[id] = (cmtMarks[id] === type) ? '' : type; // 再點一次同個按鈕 = 取消標記
+  saveCmtMarks();
+  if (lastData && lastData.comments) renderComments(lastData.comments);
+}
+
+function toggleShowHidden() {
+  cmtShowHidden = !cmtShowHidden;
+  document.getElementById('cmtShowHiddenToggle').style.color = cmtShowHidden ? 'var(--gold)' : '';
+  if (lastData && lastData.comments) renderComments(lastData.comments);
 }
 
 /* ═══ 圓餅圖（donut）═══ */
