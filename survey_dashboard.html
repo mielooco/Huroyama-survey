@@ -725,16 +725,9 @@ function renderDist(elId, map) {
     }).join('');
 }
 
-/* ═══ 留言標記（好/壞/隱藏），狀態存 localStorage，不影響原始資料 ═══ */
-let cmtMarks = {};
-try {
-  cmtMarks = JSON.parse(localStorage.getItem('huroyama_cmt_marks') || '{}');
-} catch(e) { cmtMarks = {}; }
+/* ═══ 留言標記（好/壞/隱藏）— v6：共用狀態，存在 GAS 後端「留言標記」工作表
+   每則留言的 mark 直接來自 stats API 回傳的 c.mark 欄位，所有人看到同一套 ═══ */
 let cmtShowHidden = false;
-
-function saveCmtMarks() {
-  try { localStorage.setItem('huroyama_cmt_marks', JSON.stringify(cmtMarks)); } catch(e) {}
-}
 
 function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -749,13 +742,16 @@ function isThrowawayComment(text) {
   return THROWAWAY_RE.test(stripped);
 }
 
+const CMT_PAGE_SIZE = 20;
+let cmtVisibleCount = CMT_PAGE_SIZE;
+
 function renderComments(comments) {
   comments = comments.filter(c => !isThrowawayComment(c.text));
   const list = document.getElementById('cmtList');
   const countEl = document.getElementById('cmtCount');
   if (!list) return;
 
-  const hiddenCount = comments.filter(c => cmtMarks[c.id] === 'hidden').length;
+  const hiddenCount = comments.filter(c => c.mark === 'hidden').length;
   countEl.textContent = `共 ${comments.length} 則留言` + (hiddenCount ? `（${hiddenCount} 則已隱藏）` : '');
 
   if (comments.length === 0) {
@@ -763,8 +759,12 @@ function renderComments(comments) {
     return;
   }
 
-  list.innerHTML = comments.map(c => {
-    const mark = cmtMarks[c.id] || '';
+  /* 分頁：一次只渲染 cmtVisibleCount 則，避免幾百則留言一次塞爆頁面 */
+  const visible = comments.slice(0, cmtVisibleCount);
+  const remaining = comments.length - visible.length;
+
+  list.innerHTML = visible.map(c => {
+    const mark = c.mark || '';
     const classes = ['cmt-item'];
     if (mark === 'good') classes.push('mark-good');
     if (mark === 'bad') classes.push('mark-bad');
@@ -782,13 +782,38 @@ function renderComments(comments) {
         <button class="cmt-btn ${mark==='hidden'?'active-hide':''}" onclick="markComment(${c.id},'hidden')">🙈 隱藏</button>
       </div>
     </div>`;
-  }).join('');
+  }).join('')
+  + (remaining > 0
+      ? `<button class="cmt-btn" style="align-self:center; padding:9px 26px; font-size:12px" onclick="showMoreComments()">顯示更多（還有 ${remaining} 則）</button>`
+      : '');
 }
 
-function markComment(id, type) {
-  cmtMarks[id] = (cmtMarks[id] === type) ? '' : type; // 再點一次同個按鈕 = 取消標記
-  saveCmtMarks();
+function showMoreComments() {
+  cmtVisibleCount += CMT_PAGE_SIZE;
   if (lastData && lastData.comments) renderComments(lastData.comments);
+}
+
+/* 標記留言：先在本地畫面立即更新（樂觀更新，手感即時），
+   同時把標記送到 GAS 共用工作表，失敗則還原並提示 */
+function markComment(id, type) {
+  if (!lastData || !lastData.comments) return;
+  const c = lastData.comments.find(x => x.id === id);
+  if (!c) return;
+  const prevMark = c.mark || '';
+  const newMark = (prevMark === type) ? '' : type; // 再點一次同個按鈕 = 取消標記
+
+  c.mark = newMark; // 樂觀更新
+  renderComments(lastData.comments);
+
+  fetch(GAS_URL, {
+    method: 'POST', mode: 'no-cors',
+    body: JSON.stringify({ action: 'mark_comment', id, mark: newMark })
+  }).catch(err => {
+    console.error('留言標記同步失敗:', err);
+    c.mark = prevMark; // 送出失敗，還原畫面
+    renderComments(lastData.comments);
+    alert('標記可能未成功同步，請檢查網路後再試一次');
+  });
 }
 
 function toggleShowHidden() {
@@ -877,7 +902,7 @@ function setupReveal() {
         io.unobserve(e.target);
       }
     });
-  }, { threshold:.12 });
+  }, { threshold:.01 });
   els.forEach(el => io.observe(el));
 }
 
