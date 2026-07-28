@@ -348,6 +348,17 @@ canvas { display:block; width:100%; }
 .heat-sub { display:block; font-size:9px; font-weight:400; opacity:.75; margin-top:2px; }
 .heat-note { font-size:11px; color:var(--txt3); margin-top:14px; line-height:1.7; }
 
+/* ── LINE 成效表格 ── */
+.ltable-wrap { max-height:440px; overflow:auto; border-radius:12px; }
+.ltable { width:100%; border-collapse:collapse; font-size:13px; }
+.ltable th {
+  text-align:right; color:var(--txt3); font-weight:400; font-size:11px; letter-spacing:1px;
+  padding:8px 12px; border-bottom:1px solid var(--card-border);
+  position:sticky; top:0; background:var(--panel-bg); z-index:1;
+}
+.ltable td { text-align:right; padding:9px 12px; border-bottom:1px solid var(--card-border); color:var(--txt); font-family:var(--f-en); }
+.ltable td.zh { font-family:var(--f-zh); color:var(--txt2); font-size:12px; text-align:left; }
+
 .foot { text-align:center; margin-top:80px; font-size:11px; color:var(--txt3); letter-spacing:2px; font-family:var(--f-en); }
 
 @media (prefers-reduced-motion: reduce) {
@@ -442,6 +453,8 @@ canvas { display:block; width:100%; }
 
 <script>
 const GAS_URL = 'https://script.google.com/macros/s/AKfycby8loHM_Th6iMYyERRPy_O1KQrWD21ZshQiMATU7C9gZSa1621Q2w-S38N4NIFjGVrs/exec';
+/* 專案管理表 GAS（每日追蹤/募資期追蹤/廣告受眾等，v1.2）：LINE 好友數即時比對用 */
+const MGMT_GAS_URL = 'https://script.google.com/macros/s/AKfycbw1rRTFPKW_DDF44vyKakXjrkTc6PTxAhhn14TuygSZ8ZxXrBQ5nQjVKKnzpp69-W6q/exec';
 
 /* ═══ 設定（localStorage 持久化，失敗時退回記憶體） ═══ */
 const DEFAULTS = { theme:'dark', trend:true, q1:true, q3:true, q4:true, q5:true, q2:'pie', q6:'pie', comments:true };
@@ -515,21 +528,36 @@ function resetSettings() {
 
 /* ═══ 資料載入 ═══ */
 let lastData = null;
+let mgmtData = null;   /* 專案管理表資料（可能為 null：未部署/權限不足時不影響其他功能） */
 let activeTab = 'overview';
+
+/* 日期正規化：管理表日期可能是 "07/10" 文字或 "2026-07-10"，統一成 yyyy-mm-dd */
+function normDate(s) {
+  s = String(s || '').trim();
+  if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+  let m = s.match(/^(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})$/);
+  if (m) return `${m[1]}-${m[2].padStart(2,'0')}-${m[3].padStart(2,'0')}`;
+  m = s.match(/^(\d{1,2})\/(\d{1,2})$/);
+  if (m) {
+    const yr = new Date().getFullYear();
+    return `${yr}-${m[1].padStart(2,'0')}-${m[2].padStart(2,'0')}`;
+  }
+  return s;
+}
 
 function switchTab(t) {
   activeTab = t;
-  const ov = document.getElementById('tab-overview');
-  const cx = document.getElementById('tab-cross');
-  if (ov) ov.style.display = (t === 'overview') ? '' : 'none';
-  if (cx) cx.style.display = (t === 'cross') ? '' : 'none';
-  document.querySelectorAll('.tab-btn').forEach(b => {
-    b.classList.toggle('on', b.textContent === (t === 'overview' ? '總覽' : '交叉分析'));
+  ['overview','cross','line'].forEach(id => {
+    const el = document.getElementById('tab-' + id);
+    if (el) el.style.display = (t === id) ? '' : 'none';
   });
-  /* 切到交叉分析時觸發條形展開動畫與入場動畫 */
-  if (t === 'cross') {
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    b.classList.toggle('on', b.dataset.tab === t);
+  });
+  /* 切分頁時觸發該分頁的入場與條形動畫 */
+  if (t !== 'overview') {
     requestAnimationFrame(() => {
-      document.querySelectorAll('#tab-cross .reveal').forEach(el => el.classList.add('in'));
+      document.querySelectorAll('#tab-' + t + ' .reveal').forEach(el => el.classList.add('in'));
       setTimeout(triggerBars, 150);
     });
   }
@@ -539,15 +567,20 @@ async function loadData() {
   const app = document.getElementById('app');
   document.getElementById('lastUpdated').textContent = '更新中…';
   try {
-    const res  = await fetch(GAS_URL + '?action=stats');
-    const data = await res.json();
+    const [statsR, mgmtR] = await Promise.allSettled([
+      fetch(GAS_URL + '?action=stats').then(r => r.json()),
+      fetch(MGMT_GAS_URL + '?action=list').then(r => r.json())
+    ]);
+    if (statsR.status === 'rejected') throw new Error('問卷 GAS 連線失敗');
+    const data = statsR.value;
     if (data.error) throw new Error(data.error);
     lastData = data;
+    mgmtData = (mgmtR.status === 'fulfilled' && mgmtR.value && mgmtR.value.ok) ? mgmtR.value : null;
     render(data);
     document.getElementById('lastUpdated').textContent =
       new Date().toLocaleTimeString('zh-TW', {hour:'2-digit',minute:'2-digit'}) + ' 已更新';
   } catch (e) {
-    app.innerHTML = `<div class="error-msg">讀取資料失敗：${e.message}<br>請確認 GAS 已部署 v4 並啟用 action=stats 端點。</div>`;
+    app.innerHTML = `<div class="error-msg">讀取資料失敗：${e.message}<br>請確認 GAS 已部署 v8 並啟用 action=stats 端點。</div>`;
     document.getElementById('lastUpdated').textContent = '';
   }
 }
@@ -801,13 +834,117 @@ function render(d) {
     crossHtml = `<div class="error-msg" style="margin-top:60px">交叉分析需要 GAS v7 以上版本。請將 huroyama_GAS_v7.js 貼入 Apps Script 並重新部署。</div>`;
   }
 
+  /* ── LINE 成效分頁（問卷點擊 × 管理表好友數即時比對）── */
+  let lineHtml = '';
+  {
+    const clkTotal  = (s.lineClickTotal  != null) ? +s.lineClickTotal  : null;
+    const clkUnique = (s.lineClickUnique != null) ? +s.lineClickUnique : null;
+
+    /* 管理表每日追蹤：date/budget/spend/land/comp/cpl/ctr/line/note */
+    const mgmtRows = (mgmtData && Array.isArray(mgmtData.survey)) ? mgmtData.survey : null;
+    let friendSum = null;
+    const mgmtByDate = {};
+    if (mgmtRows) {
+      friendSum = 0;
+      mgmtRows.forEach(r => {
+        const key = normDate(r.date);
+        mgmtByDate[key] = r;
+        const lv = parseFloat(r.line);
+        if (!isNaN(lv)) friendSum += lv;
+      });
+    }
+
+    const conv = (friendSum != null && clkUnique > 0)
+      ? (friendSum / clkUnique * 100).toFixed(0) + '%'
+      : '—';
+
+    /* 每日對照表：問卷回覆(stats.daily) × 管理表(line/spend) 依日期合併 */
+    const respByDate = {};
+    (d.daily || []).forEach(x => { respByDate[x.date] = x.count; });
+    const allDates = [...new Set([...Object.keys(respByDate), ...Object.keys(mgmtByDate)])].sort().reverse();
+
+    const tableRows = allDates.map(dt => {
+      const m = mgmtByDate[dt] || {};
+      const lineV  = (m.line  !== undefined && m.line  !== '') ? m.line  : '—';
+      const spendV = (m.spend !== undefined && m.spend !== '') ? m.spend : '—';
+      const noteV  = m.note || '';
+      return `<tr>
+        <td>${dt.slice(5)}</td>
+        <td>${respByDate[dt] ?? '—'}</td>
+        <td>${spendV}</td>
+        <td>${lineV}</td>
+        <td class="zh">${escapeHtml(String(noteV)).slice(0,30)}</td>
+      </tr>`;
+    }).join('');
+
+    /* 點過 LINE 按鈕的填答者名單（GAS v8）*/
+    let clickersHtml = '';
+    if (Array.isArray(d.lineClickers) && d.lineClickers.length > 0) {
+      clickersHtml = `
+      <div class="card reveal">
+        <div class="card-title">點過 LINE 按鈕的填答者</div>
+        <div class="card-sub">用訪客ID 對回問卷回覆・共 ${d.lineClickers.length} 位（僅證明點了按鈕，不代表完成加好友）</div>
+        <div class="ltable-wrap">
+          <table class="ltable">
+            <thead><tr><th style="text-align:left">姓名</th><th style="text-align:left">Email</th></tr></thead>
+            <tbody>${d.lineClickers.map(p => `<tr><td class="zh">${escapeHtml(p.name)}</td><td style="text-align:left">${escapeHtml(p.email)}</td></tr>`).join('')}</tbody>
+          </table>
+        </div>
+      </div>`;
+    }
+
+    lineHtml = `
+    <div class="section reveal" style="margin-top:48px">
+      <div class="sec-head">
+        <div class="sec-kicker">LINE Performance</div>
+        <div class="sec-title">LINE 成效</div>
+      </div>
+
+      <div class="kpi-row" style="max-width:100%; margin-bottom:16px">
+        <div class="kpi reveal">
+          <div class="kpi-v">${clkTotal != null ? clkTotal.toLocaleString() : '—'}<span class="u">次</span></div>
+          <div class="kpi-l">LINE 按鈕點擊</div>
+          <div style="font-size:11px;color:var(--txt3);margin-top:6px">${clkUnique != null ? '不重複 ' + clkUnique + ' 人' : '需 GAS v8'}</div>
+        </div>
+        <div class="kpi reveal">
+          <div class="kpi-v">${friendSum != null ? friendSum.toLocaleString() : '—'}<span class="u">人</span></div>
+          <div class="kpi-l">LINE 好友累計（管理表）</div>
+          <div style="font-size:11px;color:var(--txt3);margin-top:6px">${mgmtRows ? '每日追蹤 line 欄加總' : '管理表連線失敗'}</div>
+        </div>
+        <div class="kpi reveal">
+          <div class="kpi-v">${conv}</div>
+          <div class="kpi-l">點擊 → 加好友 估計轉換</div>
+          <div style="font-size:11px;color:var(--txt3);margin-top:6px">好友累計 ÷ 不重複點擊</div>
+        </div>
+      </div>
+
+      ${!mgmtRows ? `<div class="error-msg">無法讀取專案管理表 GAS。請確認該部署「誰可以存取」設為「所有人」，並已用新版本重新部署。</div>` : ''}
+
+      <div class="card reveal">
+        <div class="card-title">每日對照</div>
+        <div class="card-sub">問卷回覆（自動統計）× 廣告花費 / LINE 好友（管理表「每日追蹤」手動記錄）</div>
+        <div class="ltable-wrap">
+          <table class="ltable">
+            <thead><tr><th style="text-align:left">日期</th><th>問卷回覆</th><th>廣告花費</th><th>LINE 好友</th><th style="text-align:left">備註</th></tr></thead>
+            <tbody>${tableRows || '<tr><td colspan="5" class="zh">尚無資料</td></tr>'}</tbody>
+          </table>
+        </div>
+        <div class="heat-note">「LINE 好友」為管理表手動記錄的每日數字；「LINE 按鈕點擊」自 GAS v8 部署後才開始累計，兩者統計期間可能不同，轉換率僅供參考。</div>
+      </div>
+
+      ${clickersHtml}
+    </div>`;
+  }
+
   html = `
     <div class="tabbar">
-      <button class="tab-btn ${activeTab==='overview'?'on':''}" onclick="switchTab('overview')">總覽</button>
-      <button class="tab-btn ${activeTab==='cross'?'on':''}" onclick="switchTab('cross')">交叉分析</button>
+      <button class="tab-btn ${activeTab==='overview'?'on':''}" data-tab="overview" onclick="switchTab('overview')">總覽</button>
+      <button class="tab-btn ${activeTab==='cross'?'on':''}" data-tab="cross" onclick="switchTab('cross')">交叉分析</button>
+      <button class="tab-btn ${activeTab==='line'?'on':''}" data-tab="line" onclick="switchTab('line')">LINE 成效</button>
     </div>
-    <div id="tab-overview" style="${activeTab==='cross'?'display:none':''}">${html}</div>
-    <div id="tab-cross" style="${activeTab==='overview'?'display:none':''}">${crossHtml}</div>
+    <div id="tab-overview" style="${activeTab!=='overview'?'display:none':''}">${html}</div>
+    <div id="tab-cross" style="${activeTab!=='cross'?'display:none':''}">${crossHtml}</div>
+    <div id="tab-line" style="${activeTab!=='line'?'display:none':''}">${lineHtml}</div>
     <div class="foot">MIELOO DESIGN · HUROYAMA — 浴山系列</div>`;
   app.innerHTML = html;
 
