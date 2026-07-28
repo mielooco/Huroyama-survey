@@ -1,994 +1,1342 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-Hant" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>浴山｜廚房水槽快排濾網 — 上市前意見募集</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>浴山問卷後台 — 數據儀表板</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
-<!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1043810354313464');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1043810354313464&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Meta Pixel Code -->
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --white:#fff; --off:#f5f5f3; --lgray:#e6e6e4; --mgray:#aeaeaa; --black:#141412; --steel:#7a8490;
-  --gold:#50A8CC; --navy:#0A2540; --blue:#1E5BAE;
-  --txt:#1a1a18; --txt2:#686864; --txt3:#9a9a96;
-  --f-zh:'Noto Sans TC','Microsoft JhengHei',sans-serif;
-  --f-en:'DM Sans',sans-serif;
-  --f-ital:'Playfair Display',serif;
-  --col-w:460px;
-  --btn-h:52px;
-  --prog-h:32px;
-  --bg-base-h:1080px;
-  --sc-safe-b:max(env(safe-area-inset-bottom,0px),5dvh);
-  /* ── W0 Hero ── */
-  --w0-img-y: calc(50% - 100px);
-  --w0-img-h: calc(min(100dvh,var(--bg-base-h)) + 200px); /* +200px 補償 -100px 位移造成的底部空白 */
-  /* ── W1/W2 narrative ── */
-  --w12-img-y: calc(50% - 100px);
-  --w12-img-h: calc(min(100dvh,var(--bg-base-h)) + 200px); /* +200px 補償 -100px 位移造成的底部空白 */
-  --w12-top: 25dvh;
-  --w12-bottom: calc(var(--sc-safe-b) + var(--btn-h) + 16px);
-  /* ── Q pages (checklist/radio/feat/contact) ── */
-  --q-top: max(5dvh, calc(var(--prog-h) + 10px));
-  --q-bottom: calc(var(--sc-safe-b) + var(--btn-h) + 16px);
-  /* ── Q04 price (bg-img) ── */
-  --q4-img-h: 150dvh;
-  /* ── W9 milestone / W11 thank-you ── */
-  --w9-top: 0;
-  --L3-q-bottom: var(--sc-safe-b);
-  --L3-narr-bottom: var(--sc-safe-b);
+/* ═══════════ 主題變數 ═══════════ */
+:root, [data-theme="dark"] {
+  --gold:  #50A8CC;
+  --navy:  #0A2540;
+  --blue:  #1E5BAE;
+  --ice:   #c8e8ff;
+  --txt:   #eef4fb;
+  --txt2:  #8fa3bd;
+  --txt3:  #56688a;
+  --bg:        linear-gradient(155deg, #0d1f3c 0%, #0a2540 50%, #061a2f 100%);
+  --glow1:     rgba(80,168,204,.14);
+  --glow2:     rgba(30,91,174,.12);
+  --card:      rgba(255,255,255,.045);
+  --card-border: rgba(168,212,255,.1);
+  --card-hover:  rgba(126,200,255,.3);
+  --track:     rgba(255,255,255,.05);
+  --header-bg: rgba(10,23,40,.6);
+  --header-border: rgba(168,212,255,.08);
+  --grid-line: rgba(168,212,255,.06);
+  --axis-txt:  rgba(168,212,255,.3);
+  --tooltip-bg:'rgba(10,25,45,.92)';
+  --hero-grad: linear-gradient(128deg, #c8e8ff 0%, #7ec8ff 28%, #6ba3e0 55%, #a8d4ff 100%);
+  --panel-bg:  #0e2038;
+  --f-zh: 'Noto Sans TC', sans-serif;
+  --f-en: 'DM Sans', sans-serif;
+  --r: 20px;
 }
+[data-theme="light"] {
+  --txt:   #0A2540;
+  --txt2:  #4a5f7d;
+  --txt3:  #8ba0bd;
+  --ice:   #1E5BAE;
+  --bg:        linear-gradient(155deg, #eef6ff 0%, #f0f7ff 55%, #e2efff 100%);
+  --glow1:     rgba(80,168,204,.1);
+  --glow2:     rgba(126,200,255,.14);
+  --card:      rgba(255,255,255,.72);
+  --card-border: rgba(30,91,174,.1);
+  --card-hover:  rgba(30,91,174,.3);
+  --track:     rgba(10,37,64,.06);
+  --header-bg: rgba(240,247,255,.7);
+  --header-border: rgba(30,91,174,.1);
+  --grid-line: rgba(30,91,174,.08);
+  --axis-txt:  rgba(30,91,174,.4);
+  --hero-grad: linear-gradient(128deg, #1E5BAE 0%, #50A8CC 45%, #0d1f3c 100%);
+  --panel-bg:  #f4faff;
+}
+
 * { margin:0; padding:0; box-sizing:border-box; }
-html,body { height:100%; font-family:var(--f-zh); overflow:hidden; background:#000; }
-/* 多頁容器：一次只顯示 active 頁，其餘 display:none */
-.page { position:fixed; inset:0; display:none; }
-.page.active { display:block; }
-/* ───────── 共用：置中欄 stage（裝 L2/L3/L4/chrome） ───────── */
-.stage {
-  position:fixed; inset:0;
-  width:100%; max-width:var(--col-w); margin:0 auto;
-  overflow:hidden; user-select:none;
-  z-index:2;
+html { scroll-behavior:smooth; }
+body {
+  min-height:100vh; font-family:var(--f-zh); color:var(--txt);
+  background:var(--bg); background-attachment:fixed;
+  padding-bottom:100px; overflow-x:hidden;
+  transition:color .3s ease;
 }
-/* ───────── 共用：L0 底色（視窗滿版） ───────── */
-.layer-bg-color { position:fixed; inset:0; z-index:0; }
-.bg-dark  { background:var(--black); }
-.bg-light { background:var(--off); }
-/* ───────── 共用：L1 背景圖（視窗滿版，longhand props） ───────── */
-.layer-bg-image { position:fixed; inset:0; z-index:1; }
-.bg-img-area {
-  position:absolute; inset:0;
-  background-repeat:no-repeat;
-  background-position:center var(--img-y, 50%);
-  background-size:auto var(--img-h, auto);
+body::before {
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background:
+    radial-gradient(ellipse 800px 500px at 75% -5%, var(--glow1), transparent 60%),
+    radial-gradient(ellipse 600px 420px at 12% 40%, var(--glow2), transparent 65%);
 }
-/* 暗化遮罩（僅 W0/W1/W2：上淺下深漸層，確保文字可讀性；
-   嵌在 L1 容器內、緊接背景圖之後，與圖片同層堆疊，永遠蓋在圖片上方） */
-.bg-overlay { position:absolute; inset:0; pointer-events:none; background:linear-gradient(180deg,rgba(8,8,6,.14) 0%,rgba(8,8,6,.62) 55%,rgba(8,8,6,.92) 100%); }
-/* ═══════════════════════════════════════════════════════════
-   #prog — 問卷進度條（Q01–Q05 顯示 x/5；Q06 聯絡頁與其他頁不顯示）
-   固定頂部，桌機置中收欄寬；Q03 黑底、Q04 透明
-   ═══════════════════════════════════════════════════════════ */
-#prog {
-  display:none; position:fixed; top:0; left:0; right:0; height:var(--prog-h);
-  z-index:300; background:rgba(245,245,243,.97); border-bottom:1px solid var(--lgray);
-  align-items:center; gap:12px; padding:0 5%;
-  backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px);
-  transition:background .2s, border-color .2s;
+
+/* ═══════════ Header ═══════════ */
+.header {
+  position:sticky; top:0; z-index:100;
+  backdrop-filter:blur(20px) saturate(1.6); -webkit-backdrop-filter:blur(20px) saturate(1.6);
+  background:var(--header-bg);
+  border-bottom:1px solid var(--header-border);
+  padding:14px max(24px, 4vw);
+  display:flex; align-items:center; justify-content:space-between;
 }
-#prog.on { display:flex; }
-#prog.prog-dark { background:rgba(20,20,18,.97); border-bottom-color:rgba(255,255,255,.08); }
-#prog.prog-dark .prog-label { color:rgba(255,255,255,.5); }
-#prog.prog-dark .prog-track { background:rgba(255,255,255,.1); }
-#prog.prog-clear { background:transparent; border-bottom-color:transparent; backdrop-filter:none; -webkit-backdrop-filter:none; }
-#prog.prog-clear .prog-label { color:rgba(255,255,255,.7); }
-#prog.prog-clear .prog-track { background:rgba(255,255,255,.2); }
-@media (min-width:480px) {
-  #prog { left:50%; transform:translateX(-50%); max-width:var(--col-w); width:100%; }
+.h-logo { display:flex; align-items:center; gap:14px; }
+.h-logo img { height:26px; opacity:.9; }
+[data-theme="dark"] .h-logo img { filter:brightness(0) invert(1); }
+[data-theme="light"] .h-logo img { filter:brightness(0); }
+.h-divider { width:1px; height:18px; background:var(--card-border); }
+.h-title { font-size:13px; font-weight:400; color:var(--txt2); letter-spacing:1px; }
+.h-right { display:flex; align-items:center; gap:12px; }
+.h-updated { font-size:11px; color:var(--txt3); font-family:var(--f-en); }
+.hbtn {
+  font-size:12px; font-weight:500; padding:8px 18px; border-radius:99px;
+  background:rgba(80,168,204,.14); color:var(--ice);
+  border:1px solid rgba(80,168,204,.3); cursor:pointer;
+  font-family:var(--f-zh); transition:all .25s ease; letter-spacing:.5px;
+  display:flex; align-items:center; gap:6px;
 }
-.prog-track { flex:1; height:3px; background:var(--lgray); border-radius:2px; overflow:hidden; }
-.prog-fill { height:100%; background:var(--gold); border-radius:2px; transition:width .45s ease; width:0%; }
-.prog-label { font-size:10px; letter-spacing:1px; color:var(--txt3); white-space:nowrap; }
-/* ═══════════════════════════════════════════════════════════
-   W0 — Hero
-   ═══════════════════════════════════════════════════════════ */
-.w0-stage .layer-text { position:absolute; inset:0; z-index:2; }
-.hero-logo-wrap { position:absolute; left:0; right:0; bottom:50%; display:flex; justify-content:center; align-items:flex-end; padding-bottom:16px; }
-.hero-text-wrap { position:absolute; left:0; right:0; top:50%; bottom:var(--w12-bottom); padding:16px 8% 0; text-align:center; overflow-y:auto; -webkit-overflow-scrolling:touch; }
-.hero-logo { width:auto; height:34px; margin-bottom:22px; filter:brightness(0) invert(1); opacity:.92; }
-.hero-logo-w0 { height:68px; margin-bottom:0; }
-.hero-logo-ty { height:51px; }
-.hero-title { font-size:clamp(28px,8.5vw,42px); font-weight:700; color:#fff; line-height:1.3; margin-bottom:14px; }
-.hero-title-blue { color:var(--gold); }
-.hero-sub { font-size:14px; font-weight:300; color:rgba(255,255,255,.82); line-height:1.7; max-width:340px; margin-left:auto; margin-right:auto; }
-.w0-stage .layer-buttons { position:absolute; left:0; right:0; bottom:0; z-index:3; padding:0 5% var(--sc-safe-b); }
-.btn { display:flex; align-items:center; justify-content:center; height:var(--btn-h); width:100%; border:none; cursor:pointer; font-family:var(--f-zh); transition:opacity .2s; }
-.btn:active { opacity:.78; }
-.btn-gold { background:var(--gold); color:#fff; font-size:12px; font-weight:500; letter-spacing:1px; }
-/* ═══════════════════════════════════════════════════════════
-   W1/W2 — narrative
-   ═══════════════════════════════════════════════════════════ */
-.narr-stage .layer-text {
-  position:absolute; top:var(--w12-top); left:0; right:0; bottom:var(--w12-bottom);
-  z-index:2; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:0 10%;
+.hbtn:hover { background:rgba(80,168,204,.28); transform:translateY(-1px); }
+
+/* ═══════════ 設定面板 ═══════════ */
+.settings-overlay {
+  position:fixed; inset:0; background:rgba(0,0,0,.4); z-index:200;
+  opacity:0; pointer-events:none; transition:opacity .3s ease;
 }
-.ip-line { width:28px; height:2px; background:var(--gold); margin-bottom:14px; animation:fadeUp .7s ease .1s both; }
-.ip-kicker { display:block; font-size:12px; color:#fff; letter-spacing:3px; margin-bottom:10px; font-family:var(--f-en); text-transform:uppercase; animation:fadeUp .7s ease .2s both; }
-.ip-title { font-size:clamp(28px,8.5vw,42px); font-weight:700; color:#fff; line-height:1.4; margin-bottom:14px; animation:fadeUp .7s ease .35s both; }
-.ip-desc { font-size:clamp(14px,3.9vw,16px); color:rgba(255,255,255,.84); line-height:1.7; margin-bottom:28px; animation:fadeUp .7s ease .5s both; }
-@keyframes fadeUp { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
-.narr-stage .layer-buttons { position:absolute; left:0; right:0; bottom:var(--L3-narr-bottom); z-index:3; display:flex; gap:10px; padding:0 5%; }
-.btn-back { flex:0 0 auto; height:var(--btn-h); padding:0 20px; background:rgba(80,168,204,.16); color:var(--gold); border:none; font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
-.btn-fwd { flex:1; height:var(--btn-h); padding:0 24px; background:var(--gold); color:#fff; border:none; font-size:14px; font-weight:500; font-family:var(--f-zh); cursor:pointer; display:flex; align-items:center; justify-content:center; letter-spacing:1px; }
-.btn-back:active, .btn-fwd:active { opacity:.78; }
-/* ═══════════════════════════════════════════════════════════
-   W3 Showcase 五層架構（class 用 sc- 前綴，見下方 HTML）
-   ═══════════════════════════════════════════════════════════ */
-.sc-img-area { background-position:center calc(50% - 150px); background-size:auto calc(min(100dvh,var(--bg-base-h)) * 0.7); }
-.layer-text.sc-text { position:absolute; top:50%; left:0; right:0; bottom:var(--L2-bottom,calc(var(--sc-safe-b) + var(--btn-h) + 20px)); z-index:2; overflow:hidden; }
-.sc-slide { position:absolute; top:0; left:0; right:0; padding:calc(10dvh + 12px) 5% 0; max-height:100%; overflow-y:auto; -webkit-overflow-scrolling:touch; opacity:0; transform:translateY(12px); transition:opacity .38s ease, transform .38s ease; pointer-events:none; visibility:hidden; }
-.sc-slide.active { opacity:1; transform:translateY(0); pointer-events:all; visibility:visible; }
-.sc-tag { display:block; font-size:13px; color:var(--gold); margin-bottom:9px; font-weight:500; }
-.sc-ttl { font-size:clamp(21px,5.8vw,27px); font-weight:700; color:#fff; line-height:1.35; margin-bottom:8px; }
-.sc-desc { font-size:clamp(14px,3.9vw,16px); color:rgba(255,255,255,.85); line-height:1.7; }
-#st-4 .sc-tag, #st-4 .sc-ttl, #st-4 .sc-desc { background:rgba(20,20,18,.82); box-decoration-break:clone; -webkit-box-decoration-break:clone; padding:0 8px; display:inline; line-height:1.45; }
-#st-2 .sc-tag, #st-2 .sc-ttl, #st-2 .sc-desc { background:rgba(20,20,18,.82); box-decoration-break:clone; -webkit-box-decoration-break:clone; padding:0 8px; display:inline; line-height:1.45; }
-.expl-layer { position:absolute; inset:0; pointer-events:none; opacity:0; transition:opacity .4s ease; transform:translateY(-100px) scale(.7); transform-origin:center center; }
-.expl-layer.visible { opacity:1; }
-/* S6（st-5）背景圖前的下往上漸層，預設隱藏，由 JS 依 scPhase 切換 */
-.sc-img-overlay { position:absolute; inset:0; pointer-events:none; opacity:0; transition:opacity .3s ease; background:linear-gradient(0deg,rgba(8,8,6,.85) 0%,rgba(8,8,6,.35) 45%,rgba(8,8,6,0) 80%); }
-.sc-img-overlay.show { opacity:1; }
-.ep-img { position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; mix-blend-mode:screen; transition:opacity .45s ease, transform .65s cubic-bezier(.34,1.45,.64,1); }
-#ep-all { opacity:1; z-index:10; transition:opacity .4s ease; }
-.ep-piece { opacity:0; z-index:5; }
-#ep-cover { transform:translateY(38%); } #ep-basket{ transform:translateY(20%); } #ep-seal{ transform:translateY(3%); } #ep-ring{ transform:translateY(-18%); } #ep-body{ transform:translateY(-33%); }
-.expl-layer.exploded #ep-all { opacity:0; }
-.expl-layer.exploded .ep-piece { opacity:1; transform:translateY(0)!important; }
-.expl-layer.exploded #ep-cover{transition-delay:0s;} .expl-layer.exploded #ep-basket{transition-delay:.05s;} .expl-layer.exploded #ep-seal{transition-delay:.1s;} .expl-layer.exploded #ep-ring{transition-delay:.15s;} .expl-layer.exploded #ep-body{transition-delay:.2s;}
-.sc-pgbar { position:absolute; left:0; right:0; bottom:calc(var(--sc-safe-b) + var(--btn-h) + 10px + 12px); height:2px; background:rgba(255,255,255,.07); }
-.sc-pgfill { height:100%; background:var(--gold); transition:width .3s ease; }
-.sc-dots { position:absolute; left:0; right:0; bottom:calc(var(--sc-safe-b) + var(--btn-h) + 10px); display:flex; gap:7px; justify-content:center; align-items:center; }
-.scdot { width:5px; height:5px; border-radius:50%; background:rgba(255,255,255,.18); transition:all .3s; }
-.scdot.active { background:var(--gold); transform:scale(1.5); }
-.sc-btnrow { position:absolute; left:0; right:0; bottom:var(--sc-safe-b); display:flex; gap:10px; padding:12px 5% 0; background:linear-gradient(180deg,rgba(20,20,18,0) 0%,rgba(20,20,18,.9) 40%,var(--black) 100%); }
-.sc-btn-back { flex:0 0 auto; height:var(--btn-h); padding:0 20px; background:rgba(255,255,255,.1); color:rgba(255,255,255,.7); border:none; font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
-.sc-btn-next { flex:1; height:var(--btn-h); padding:0 24px; background:var(--gold); color:#fff; border:none; font-size:12px; font-weight:500; letter-spacing:2px; text-align:center; font-family:var(--f-zh); cursor:pointer; display:flex; align-items:center; justify-content:center; }
-.sc-btn-back:active, .sc-btn-next:active { opacity:.76; }
-.sc-skip { position:absolute; top:5dvh; right:5%; font-size:12px; color:rgba(255,255,255,.4); letter-spacing:1px; cursor:pointer; padding:4px 8px; }
-.sc-hint { position:absolute; bottom:calc(50% + 10px); left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:9px; opacity:0; transition:opacity .5s; pointer-events:none; white-space:nowrap; }
-.sc-hint.show { opacity:1; }
-.sh-icon { font-size:20px; animation:swingX 2s ease-in-out infinite; }
-.sh-txt { font-size:11px; letter-spacing:2px; color:rgba(255,255,255,.42); }
-@keyframes swingX { 0%,100%{transform:translateX(5px);opacity:.5;} 50%{transform:translateX(-5px);opacity:1;} }
-/* Q01/Q03 往下滑提示 */
-.scroll-hint { position:absolute; bottom:8px; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:4px; opacity:0; transition:opacity .5s; pointer-events:none; white-space:nowrap; }
-.scroll-hint.show { opacity:1; }
-.scroll-hint .sh-arrow { font-size:21px; color:var(--gold); animation:bounceY 1.4s ease-in-out infinite; }
-.scroll-hint .sh-label { font-size:16px; font-weight:700; letter-spacing:2px; color:#fff; background:var(--gold); padding:7px 20px; border-radius:20px; }
-.q-dark .scroll-hint .sh-label { background:var(--gold); }
-@media (min-width:480px) { .scroll-hint { display:none !important; } }
-@keyframes bounceY { 0%,100%{transform:translateY(0);opacity:.5;} 50%{transform:translateY(5px);opacity:1;} }
-/* ═══════════════════════════════════════════════════════════
-   Q pages 共用（Q01/02/03/05 checklist/radio/feat, Q06 contact）
-   page-q：L2 top=5dvh，L3 fixed bottom=12px
-   ═══════════════════════════════════════════════════════════ */
-.q-stage .layer-text {
-  position:absolute; top:var(--q-top); left:0; right:0; bottom:var(--q-bottom);
-  z-index:2; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:0 10%;
+.settings-overlay.open { opacity:1; pointer-events:all; }
+.settings-panel {
+  position:fixed; top:0; right:0; bottom:0; width:min(340px, 88vw); z-index:201;
+  background:var(--panel-bg);
+  border-left:1px solid var(--card-border);
+  transform:translateX(100%); transition:transform .35s cubic-bezier(.22,1,.36,1);
+  overflow-y:auto; padding:24px;
 }
-.q-num { font-size:clamp(40px,11vw,52px); font-weight:700; line-height:1; margin-bottom:6px; }
-.q-title { font-size:clamp(21px,5.8vw,27px); font-weight:700; line-height:1.45; margin-bottom:4px; }
-.q-hint { font-size:clamp(12px,3.6vw,14px); color:var(--txt3); margin-bottom:18px; }
-.q-light .q-num, .q-light .q-title { color:var(--txt); }
-.q-dark  .q-num, .q-dark  .q-title { color:#fff; }
-.q-dark  .q-hint { color:rgba(255,255,255,.5); }
-.c-card { display:flex; align-items:center; gap:11px; padding:11px 14px; border-radius:2px; margin-bottom:2px; cursor:pointer; transition:border-color .18s, background .18s; border:2px solid transparent; }
-.q-light .c-card { background:#fff; }
-.q-dark  .c-card { background:rgba(255,255,255,.06); }
-.c-card.sel { border-color:var(--gold); background:#e8f4fa; }
-.q-dark .c-card.sel { background:rgba(80,168,204,.1); }
-.c-chk { width:42px; height:42px; min-width:42px; border-radius:50%; border:2px solid rgba(0,0,0,.28); flex:0 0 auto; display:flex; align-items:center; justify-content:center; font-size:16px; color:transparent; transition:all .18s; }
-.c-card.sel .c-chk { background:var(--gold); border-color:var(--gold); color:#fff; font-weight:800; }
-.c-emoji { font-size:26px; min-width:34px; flex-shrink:0; }
-.c-main { font-size:clamp(16px,4.3vw,18px); line-height:1.35; }
-.q-light .c-main { color:var(--txt); }
-.q-dark  .c-main { color:#fff; }
-.c-sub { font-size:clamp(14px,3.9vw,16px); color:var(--txt3); margin-top:3px; display:block; }
-.q-dark .c-sub { color:rgba(255,255,255,.55); }
-/* Q02 radio + 縮圖(L4) */
-.r-card { display:flex; align-items:center; gap:12px; padding:13px 14px; border-radius:2px; margin-bottom:2px; cursor:pointer; background:#fff; border:2px solid transparent; transition:border-color .18s; }
-.r-card.sel { border-color:var(--black); }
-.r-dot { width:42px; height:42px; min-width:42px; border-radius:50%; border:2px solid var(--mgray); flex:0 0 auto; position:relative; transition:all .18s; }
-.r-card.sel .r-dot { border-color:var(--black); }
-.r-card.sel .r-dot::after { content:''; position:absolute; inset:6px; border-radius:50%; background:var(--black); }
-.r-main { font-size:clamp(16px,4.3vw,18px); color:var(--txt); line-height:1.35; }
-.r-sub { font-size:clamp(12px,3.6vw,14px); color:var(--txt2); margin-top:3px; display:block; }
-.r-thumb { margin-left:auto; max-width:96px; max-height:calc(100% - 20px); object-fit:contain; pointer-events:none; }
-/* Q03 feat-list */
-.f-card { display:flex; align-items:center; gap:14px; padding:10px 14px; border-top:1px solid rgba(255,255,255,.08); cursor:pointer; transition:opacity .2s; }
-.f-card:active { opacity:.72; }
-.fchk { width:46px; height:46px; min-width:46px; border-radius:50%; border:2px solid rgba(80,168,204,.5); display:flex; align-items:center; justify-content:center; font-size:10px; color:transparent; transition:all .2s; margin-top:2px; flex-shrink:0; }
-.f-card.sel .fchk { background:var(--gold); border-color:var(--gold); color:#fff; font-weight:800; }
-.fnum { font-size:28px; font-weight:400; color:rgba(255,255,255,.65); flex:0 0 auto; line-height:1; min-width:30px; }
-.f-card.sel .fnum { color:var(--gold); }
-.fbody { flex:1; }
-.fname { font-size:clamp(16px,4.5vw,19px); font-weight:700; color:#fff; margin-bottom:5px; line-height:1.3; }
-.fdesc { font-size:clamp(12px,3.6vw,14px); color:rgba(255,255,255,.74); line-height:1.7; }
-.q-stage .layer-buttons { position:absolute; left:0; right:0; bottom:var(--L3-q-bottom); z-index:3; display:flex; gap:10px; padding:12px 5% 0; }
-.q-light .layer-buttons { background:linear-gradient(180deg,rgba(245,245,243,0) 0%,rgba(245,245,243,.92) 40%,var(--off) 100%); }
-.q-dark  .layer-buttons { background:linear-gradient(180deg,rgba(20,20,18,0) 0%,rgba(20,20,18,.9) 40%,var(--black) 100%); }
-.btn-fwd[disabled] { background:var(--mgray); pointer-events:none; opacity:.7; }
-.cbadge { display:inline-flex; align-items:center; justify-content:center; min-width:20px; height:20px; padding:0 6px; border-radius:10px; background:var(--gold); color:#fff; font-size:12px; font-weight:700; margin-left:8px; }
-.q-select-hint { font-size:12px; text-align:center; padding:6px 0 2px; color:#d65b5b; transform:translateY(-8px); opacity:0; transition:transform .25s ease, opacity .25s ease; pointer-events:none; }
-.q-select-hint.show { transform:translateY(0); opacity:1; }
-/* Q04 price slider */
-.q-num-d { color:rgba(255,255,255,.82); }
-.q-title-w { color:#fff; }
-.q4-block { flex:1; display:flex; flex-direction:column; align-items:center; text-align:center; margin-top:18px; }
-.slider-section { width:100%; }
-.price-badge { display:block; text-align:center; font-size:clamp(72px,20vw,100px); font-weight:700; color:var(--gold); line-height:1; margin-bottom:6px; letter-spacing:-2px; -webkit-text-stroke:10px #fff; paint-order:stroke fill; }
-.price-badge sup { font-size:.38em; vertical-align:super; letter-spacing:0; color:var(--gold); }
-.price-orig { font-size:14px; color:rgba(255,255,255,.45); text-decoration:line-through; letter-spacing:1px; text-align:center; margin-bottom:30px; }
-.slider-q { font-size:clamp(21px,5.8vw,27px); font-weight:700; color:#fff; margin-bottom:24px; }
-.slider-end-labels { display:flex; justify-content:space-between; width:100%; font-size:clamp(14px,3.9vw,16px); font-weight:500; color:rgba(255,255,255,.85); margin-bottom:8px; }
-.slider-must { font-size:20px; font-weight:700; color:var(--gold); background:rgba(80,168,204,.15); padding:6px 16px; border-radius:20px; margin-bottom:8px; transition:opacity .3s; }
-.slider-must.hide { opacity:0; pointer-events:none; }
-.q4-range { width:100%; accent-color:var(--gold); height:6px; margin-bottom:8px; }
-.slider-val { font-size:52px; font-weight:700; color:#fff; }
-/* Q06 contact form */
-.fgroup { margin-bottom:16px; }
-.flabel { display:block; font-size:14px; color:var(--txt2); text-transform:uppercase; margin-bottom:6px; }
-.tag-o { color:var(--txt3); font-weight:400; text-transform:none; }
-.tag-r { color:#d65b5b; font-weight:400; text-transform:none; }
-.finput { width:100%; padding:12px; font-size:15px; color:var(--txt); border:1.5px solid var(--lgray); border-radius:8px; background:#fff; font-family:var(--f-zh); }
-.finput::placeholder { font-size:clamp(14px,3.9vw,16px); color:var(--txt3); }
-textarea.finput { min-height:80px; resize:vertical; }
-.privacy { font-size:clamp(12px,3.6vw,14px); color:var(--txt3); text-align:center; margin-bottom:10px; }
-.gender-grid { display:flex; gap:8px; }
-.gbtn { flex:1; height:var(--btn-h); padding:0 8px; background:#fff; border:2px solid var(--lgray); font-size:14px; font-family:var(--f-zh); color:var(--txt); text-align:center; transition:all .18s; display:flex; align-items:center; justify-content:center; cursor:pointer; border-radius:8px; }
-.gender-grid .gbtn:nth-child(3) { flex:1.4; }
-.gbtn:active { opacity:.8; }
-.gbtn.sel { border-color:var(--black); background:var(--black); color:#fff; }
-.ferr { display:none; font-size:12px; color:#d65b5b; margin-top:4px; }
-.ferr.show { display:block; }
-/* ═══════════════════════════════════════════════════════════
-   W11 感謝頁 — flow-scrolling 終端頁（非固定框）
-   ═══════════════════════════════════════════════════════════ */
-.ty-icon { font-size:48px; margin-bottom:18px; }
-.ty-title { font-size:clamp(23px,6.5vw,31px); font-weight:700; color:#fff; line-height:1.4; margin-bottom:14px; }
-.ty-title-line { color:#06C755; }
-.ty-sub { font-size:14px; color:rgba(255,255,255,.75); line-height:1.7; max-width:320px; }
-.ty-page { position:fixed; inset:0; overflow-y:auto; -webkit-overflow-scrolling:touch; z-index:2; }
-.ty-content { min-height:100%; display:flex; flex-direction:column; align-items:center; text-align:center; padding:48px 8% 40px; }
-.ty-earlybird { font-size:18px; font-weight:700; color:var(--gold); margin:14px 0; }
-.ty-social-label { font-size:13px; color:rgba(255,255,255,.6); line-height:1.7; margin-top:24px; }
-.ty-finger { font-size:28px; text-align:center; margin-bottom:8px; animation:fingerBounce 1s ease-in-out infinite; display:block; }
-@keyframes fingerBounce { 0%,100% { transform:translateY(0); } 50% { transform:translateY(8px); } }
-.ty-line-wrap { width:100%; max-width:340px; border-radius:99px; }
-.ty-line-wrap .btn-line-full { margin-top:0; animation:linePulse 1.8s ease-out infinite; }
-@keyframes linePulse {
-  0%   { box-shadow:0 0 0 0 rgba(0,185,0,.55); }
-  70%  { box-shadow:0 0 0 14px rgba(0,185,0,0); }
-  100% { box-shadow:0 0 0 0 rgba(0,185,0,0); }
+.settings-panel.open { transform:translateX(0); }
+.sp-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:26px; }
+.sp-title { font-size:16px; font-weight:700; color:var(--txt); }
+.sp-close { background:none; border:none; font-size:20px; color:var(--txt2); cursor:pointer; padding:4px 8px; }
+.sp-group { margin-bottom:26px; }
+.sp-group-title { font-size:11px; letter-spacing:2px; color:var(--txt3); text-transform:uppercase; font-family:var(--f-en); margin-bottom:12px; }
+.sp-row {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:11px 0; border-bottom:1px solid var(--card-border);
 }
-.btn-line-full, .btn-ig { display:flex; align-items:center; justify-content:center; height:50px; width:100%; max-width:340px; border-radius:25px; font-size:14px; font-weight:500; color:#fff; margin-top:14px; text-decoration:none; }
-.btn-line-full { background:#06C755; }
-.btn-ig { background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); }
-.ty-footer { margin-top:32px; font-size:12px; color:rgba(255,255,255,.35); letter-spacing:1px; }
+.sp-label { font-size:14px; color:var(--txt); }
+/* toggle switch */
+.tgl { position:relative; width:44px; height:24px; flex-shrink:0; }
+.tgl input { opacity:0; width:0; height:0; }
+.tgl-slider {
+  position:absolute; inset:0; border-radius:99px; cursor:pointer;
+  background:var(--track); border:1px solid var(--card-border);
+  transition:background .25s ease;
+}
+.tgl-slider::before {
+  content:''; position:absolute; width:18px; height:18px; border-radius:50%;
+  left:2px; top:2px; background:var(--txt2); transition:transform .25s cubic-bezier(.22,1,.36,1), background .25s;
+}
+.tgl input:checked + .tgl-slider { background:var(--gold); border-color:var(--gold); }
+.tgl input:checked + .tgl-slider::before { transform:translateX(20px); background:#fff; }
+/* segmented control（主題/圖型切換） */
+.seg { display:flex; background:var(--track); border-radius:10px; padding:3px; gap:2px; }
+.seg button {
+  flex:1; font-size:12px; padding:7px 12px; border:none; border-radius:8px;
+  background:transparent; color:var(--txt2); cursor:pointer;
+  font-family:var(--f-zh); transition:all .2s ease; white-space:nowrap;
+}
+.seg button.on { background:var(--gold); color:#fff; font-weight:500; }
+
+/* ═══════════ 主容器 ═══════════ */
+.container { max-width:1120px; margin:0 auto; padding:0 max(20px,3vw); position:relative; z-index:1; }
+
+.hero { text-align:center; padding:76px 0 60px; }
+.hero-eyebrow { font-size:13px; letter-spacing:4px; color:var(--gold); text-transform:uppercase; font-family:var(--f-en); font-weight:500; margin-bottom:18px; }
+.hero-number {
+  font-size:clamp(72px,13vw,128px); font-weight:700; font-family:var(--f-en);
+  line-height:1; letter-spacing:-3px;
+  background:var(--hero-grad);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  filter:drop-shadow(0 0 40px rgba(126,200,255,.2));
+}
+.hero-label { font-size:16px; color:var(--txt2); margin-top:14px; font-weight:300; letter-spacing:2px; }
+
+.kpi-row { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; max-width:760px; margin:44px auto 0; }
+@media (max-width:640px){ .kpi-row { grid-template-columns:1fr; } }
+.kpi {
+  background:var(--card); border:1px solid var(--card-border);
+  border-radius:var(--r); padding:26px 20px; text-align:center;
+  backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+  transition:transform .3s ease, border-color .3s ease;
+}
+.kpi:hover { transform:translateY(-3px); border-color:var(--card-hover); }
+.kpi-v { font-size:clamp(26px,4vw,34px); font-weight:700; font-family:var(--f-en); color:var(--ice); line-height:1.1; }
+.kpi-v .u { font-size:14px; font-weight:400; color:var(--txt2); margin-left:3px; }
+.kpi-l { font-size:12px; color:var(--txt3); margin-top:8px; letter-spacing:1.5px; }
+
+.pearl-divider {
+  position:relative; height:1px; margin:70px auto 60px; max-width:520px;
+  background:linear-gradient(90deg, transparent, rgba(126,200,255,.4) 50%, transparent);
+}
+.pearl-divider::after {
+  content:''; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+  width:6px; height:6px; border-radius:50%;
+  background:var(--ice); box-shadow:0 0 12px 3px rgba(126,200,255,.5);
+}
+
+.section { margin-bottom:56px; }
+.sec-head { text-align:center; margin-bottom:34px; }
+.sec-kicker { font-size:11px; letter-spacing:4px; color:var(--gold); text-transform:uppercase; font-family:var(--f-en); font-weight:500; margin-bottom:10px; }
+.sec-title {
+  font-size:clamp(24px,4.6vw,34px); font-weight:700; letter-spacing:.5px;
+  background:var(--hero-grad);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+
+.card {
+  background:var(--card); border:1px solid var(--card-border);
+  border-radius:var(--r); padding:32px 30px;
+  backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+}
+.card + .card { margin-top:16px; }
+.card-title { font-size:15px; font-weight:500; color:var(--txt); margin-bottom:6px; }
+.card-sub { font-size:12px; color:var(--txt3); margin-bottom:26px; }
+
+canvas { display:block; width:100%; }
+
+.bars { display:flex; flex-direction:column; gap:18px; }
+.bar-row { display:grid; grid-template-columns:110px 1fr 84px; align-items:center; gap:16px; }
+@media (max-width:560px){ .bar-row { grid-template-columns:88px 1fr 76px; gap:10px; } }
+.bar-name { font-size:13px; color:var(--txt2); text-align:right; }
+.bar-track { height:10px; background:var(--track); border-radius:99px; overflow:hidden; }
+.bar-fill {
+  height:100%; border-radius:99px; width:0;
+  transition:width 1s cubic-bezier(.22,1,.36,1), background .3s ease, box-shadow .3s ease;
+}
+.bar-meta { font-family:var(--f-en); font-size:13px; color:var(--ice); white-space:nowrap; }
+.bar-meta .pc { color:var(--txt3); font-size:11px; margin-left:6px; }
+
+.two-col { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+@media (max-width:720px){ .two-col { grid-template-columns:1fr; } }
+
+.intent-wrap { display:flex; align-items:flex-end; gap:8px; height:120px; margin-bottom:8px; }
+.ic { flex:1; display:flex; flex-direction:column; align-items:center; gap:6px; height:100%; }
+.ic-bar-zone { flex:1; width:100%; display:flex; align-items:flex-end; justify-content:center; }
+.ic-bar {
+  width:70%; max-width:34px; border-radius:6px 6px 2px 2px; min-height:3px; height:0;
+  background:linear-gradient(180deg, #7ec8ff, #1E5BAE);
+  box-shadow:0 0 12px rgba(80,168,204,.3);
+  transition:height .9s cubic-bezier(.22,1,.36,1);
+}
+.ic-n { font-size:11px; color:var(--txt2); font-family:var(--f-en); }
+.ic-s { font-size:12px; color:var(--txt3); font-family:var(--f-en); }
+.intent-summary { text-align:center; margin-top:22px; }
+.intent-avg {
+  font-size:clamp(44px,7vw,60px); font-weight:700; font-family:var(--f-en); line-height:1;
+  background:var(--hero-grad);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.intent-avg-l { font-size:12px; color:var(--txt3); margin-top:8px; letter-spacing:1.5px; }
+
+.dists { display:flex; flex-direction:column; gap:16px; }
+.dist-row { display:grid; grid-template-columns:96px 1fr 40px; align-items:center; gap:14px; }
+.dist-name { font-size:13px; color:var(--txt2); }
+.dist-track { height:26px; background:var(--track); border-radius:9px; overflow:hidden; }
+.dist-fill {
+  height:100%; border-radius:9px; width:0;
+  transition:width 1s cubic-bezier(.22,1,.36,1), background .3s ease;
+}
+.dist-n { font-family:var(--f-en); font-size:13px; color:var(--ice); text-align:right; }
+
+/* ── 圓餅圖 ── */
+.pie-flex { display:flex; align-items:center; gap:28px; flex-wrap:wrap; justify-content:center; }
+.pie-canvas-wrap { position:relative; width:190px; height:190px; flex-shrink:0; }
+.pie-center {
+  position:absolute; inset:0; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; pointer-events:none;
+}
+.pie-center-n { font-size:26px; font-weight:700; font-family:var(--f-en); color:var(--txt); line-height:1; }
+.pie-center-l { font-size:10px; color:var(--txt3); margin-top:4px; letter-spacing:1px; }
+.pie-legend { display:flex; flex-direction:column; gap:10px; min-width:160px; }
+.pl-row { display:flex; align-items:center; gap:10px; font-size:13px; }
+.pl-chip { width:12px; height:12px; border-radius:4px; flex-shrink:0; }
+.pl-name { color:var(--txt2); flex:1; }
+.pl-val { font-family:var(--f-en); color:var(--ice); font-weight:500; }
+.pl-pct { font-family:var(--f-en); color:var(--txt3); font-size:11px; min-width:38px; text-align:right; }
+
+.reveal { opacity:0; transform:translateY(28px); transition:opacity .8s ease, transform .8s cubic-bezier(.22,1,.36,1); }
+.reveal.in { opacity:1; transform:translateY(0); }
+
+.loading { text-align:center; padding:120px 20px; color:var(--txt3); font-size:14px; letter-spacing:2px; }
+.loading::after { content:'…'; animation:dots 1.4s steps(4) infinite; }
+@keyframes dots { 0%{content:''} 25%{content:'.'} 50%{content:'..'} 75%{content:'...'} }
+.error-msg {
+  background:rgba(220,80,80,.08); border:1px solid rgba(220,80,80,.2);
+  border-radius:14px; padding:20px 24px; color:#e89090; font-size:13px;
+  max-width:560px; margin:60px auto; text-align:center; line-height:1.8;
+}
+/* ── 留言卡片 ── */
+.cmt-toolbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
+.cmt-count { font-size:12px; color:var(--txt3); }
+.cmt-show-hidden {
+  font-size:11px; color:var(--txt2); cursor:pointer; user-select:none;
+  display:flex; align-items:center; gap:6px;
+}
+.cmt-list { display:flex; flex-direction:column; gap:12px; }
+.cmt-item {
+  border:1px solid var(--card-border); border-radius:14px; padding:16px 18px;
+  background:rgba(255,255,255,.02); transition:opacity .2s ease, border-color .2s ease;
+}
+.cmt-item.mark-good { border-color:rgba(80,255,160,.4); background:rgba(80,255,160,.05); }
+.cmt-item.mark-bad  { border-color:rgba(255,90,170,.3); background:rgba(255,90,170,.04); opacity:.6; }
+.cmt-item.mark-hidden { display:none; }
+.cmt-item.mark-hidden.force-show { display:block; opacity:.45; }
+.cmt-meta { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+.cmt-who { font-size:12px; color:var(--txt2); font-weight:500; }
+.cmt-time { font-size:11px; color:var(--txt3); font-family:var(--f-en); }
+.cmt-text { font-size:14px; color:var(--txt); line-height:1.7; margin-bottom:12px; white-space:pre-wrap; }
+.cmt-actions { display:flex; gap:8px; }
+.cmt-btn {
+  font-size:11px; padding:5px 12px; border-radius:99px; border:1px solid var(--card-border);
+  background:transparent; color:var(--txt3); cursor:pointer; transition:all .2s ease;
+  font-family:var(--f-zh); display:flex; align-items:center; gap:4px;
+}
+.cmt-btn:hover { border-color:var(--card-hover); }
+.cmt-btn.active-good { background:rgba(80,255,160,.15); border-color:rgba(80,255,160,.4); color:#5cffa0; }
+.cmt-btn.active-bad  { background:rgba(255,90,170,.15); border-color:rgba(255,90,170,.4); color:#ff5aaa; }
+.cmt-btn.active-hide { background:rgba(255,255,255,.08); color:var(--txt2); }
+.cmt-empty { text-align:center; color:var(--txt3); font-size:13px; padding:30px 0; }
+
+/* ── 分頁列 ── */
+.tabbar {
+  display:flex; gap:6px; justify-content:center; margin:28px 0 0;
+  position:relative; z-index:2;
+}
+.tab-btn {
+  font-size:13px; font-weight:500; padding:9px 26px; border-radius:99px;
+  background:transparent; color:var(--txt2); cursor:pointer;
+  border:1px solid transparent; font-family:var(--f-zh); letter-spacing:1px;
+  transition:all .25s ease;
+}
+.tab-btn:hover { color:var(--txt); }
+.tab-btn.on {
+  background:rgba(80,168,204,.14); color:var(--ice);
+  border-color:rgba(126,200,255,.25);
+}
+
+/* ── 交叉分析 ── */
+.x-bars { display:flex; flex-direction:column; gap:18px; }
+.x-row { display:grid; grid-template-columns:130px 1fr 110px; align-items:center; gap:16px; }
+@media (max-width:560px){ .x-row { grid-template-columns:96px 1fr 96px; gap:10px; } }
+.x-name { font-size:13px; color:var(--txt2); text-align:right; }
+.x-track { height:12px; background:var(--track); border-radius:99px; overflow:hidden; }
+.x-fill { height:100%; border-radius:99px; width:0; transition:width 1s cubic-bezier(.22,1,.36,1), background .3s ease; }
+.x-meta { font-family:var(--f-en); font-size:14px; font-weight:700; color:var(--ice); white-space:nowrap; }
+.x-meta .xn { color:var(--txt3); font-size:11px; font-weight:400; margin-left:6px; }
+.x-ref { font-size:11px; color:var(--txt3); margin-top:14px; text-align:right; }
+
+/* 熱力圖矩陣 */
+.heat-wrap { overflow-x:auto; }
+.heat-grid { display:grid; gap:4px; min-width:520px; }
+.heat-cell {
+  border-radius:8px; padding:12px 6px; text-align:center;
+  font-family:var(--f-en); font-size:13px; font-weight:700; color:#fff;
+  transition:transform .15s ease;
+}
+.heat-cell:hover { transform:scale(1.05); }
+.heat-head {
+  background:transparent !important; color:var(--txt2) !important;
+  font-family:var(--f-zh); font-size:11px; font-weight:400; padding:8px 4px;
+  display:flex; align-items:center; justify-content:center; text-align:center;
+}
+.heat-rowlabel { justify-content:flex-end; text-align:right; padding-right:10px; }
+.heat-sub { display:block; font-size:9px; font-weight:400; opacity:.75; margin-top:2px; }
+.heat-note { font-size:11px; color:var(--txt3); margin-top:14px; line-height:1.7; }
+
+/* ── LINE 成效表格 ── */
+.ltable-wrap { max-height:440px; overflow:auto; border-radius:12px; }
+.ltable { width:100%; border-collapse:collapse; font-size:13px; }
+.ltable th {
+  text-align:right; color:var(--txt3); font-weight:400; font-size:11px; letter-spacing:1px;
+  padding:8px 12px; border-bottom:1px solid var(--card-border);
+  position:sticky; top:0; background:var(--panel-bg); z-index:1;
+}
+.ltable td { text-align:right; padding:9px 12px; border-bottom:1px solid var(--card-border); color:var(--txt); font-family:var(--f-en); }
+.ltable td.zh { font-family:var(--f-zh); color:var(--txt2); font-size:12px; text-align:left; }
+
+.foot { text-align:center; margin-top:80px; font-size:11px; color:var(--txt3); letter-spacing:2px; font-family:var(--f-en); }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { transition:none; opacity:1; transform:none; }
+  .bar-fill, .ic-bar, .dist-fill { transition:none; }
+}
 </style>
 </head>
 <body>
-<!-- 訪客紀錄：頁面載入時觸發 GAS doGet，寫入「訪客紀錄」工作表（v4：src 改由 JS 帶 vid 設定） -->
-<img id="visitPing" width="1" height="1" style="display:none" alt="">
-<!-- ══ FIXED PROGRESS BAR（Q01–Q05，x/5；Q06 與其他頁不顯示） ══ -->
-<div id="prog">
-  <div class="prog-track"><div class="prog-fill" id="pfill"></div></div>
-  <span class="prog-label" id="plabel">1 / 5</span>
-</div>
-<!-- ═══════════════════════════════════════════════════════════
-     PAGE 0 — W0 Hero
-     ═══════════════════════════════════════════════════════════ -->
-<div class="page active" data-page="0" data-bg="dark">
-  <div class="layer-bg-color bg-dark">
-</div>
-  <div class="layer-bg-image" style="--img-y:var(--w0-img-y);--img-h:var(--w0-img-h)">
-    <div class="bg-img-area" style="background-image:url('https://pic.mieloo-corp.com/uploads/medium/4b/ef/bfe657322d1d8d0551450c97d199.png')"></div>
-    <div class="bg-overlay"></div>
+
+<div class="header">
+  <div class="h-logo">
+    <img src="https://pic.mieloo-corp.com/uploads/medium/ec/8c/0498cef723b64fe276e18da9eb1a.png" alt="浴山">
+    <div class="h-divider"></div>
+    <span class="h-title">問卷數據儀表板</span>
   </div>
-  <div class="stage w0-stage">
-    <div class="layer-text">
-      <div class="hero-logo-wrap">
-        <img class="hero-logo hero-logo-w0" src="https://pic.mieloo-corp.com/uploads/medium/ec/8c/0498cef723b64fe276e18da9eb1a.png" alt="浴山 LOGO">
-      </div>
-      <div class="hero-text-wrap">
-        <h1 class="hero-title">廚房水槽<br><span class="hero-title-blue">快排濾網</span><br>即將登場</h1>
-        <p class="hero-sub">解決廚房裡最噁心的三件事——<br>菜渣看不到、臭味聞不到、廚餘摸不到。<br>上市前，先聽聽你的聲音。</p>
-      </div>
-    </div>
-    <div class="layer-buttons">
-      <button class="btn btn-gold" onclick="goto(1)">開始，搶先知道早鳥優惠 →</button>
-    </div>
+  <div class="h-right">
+    <span class="h-updated" id="lastUpdated"></span>
+    <button class="hbtn" onclick="loadData()">重新整理</button>
+    <button class="hbtn" onclick="openSettings()">⚙ 設定</button>
   </div>
 </div>
-<!-- ═══════════════════════════════════════════════════════════
-     PAGE 1 — W1 痛點 The Problem
-     ═══════════════════════════════════════════════════════════ -->
-<div class="page" data-page="1" data-bg="dark">
-  <div class="layer-bg-color bg-dark">
-</div>
-  <div class="layer-bg-image" style="--img-y:var(--w12-img-y);--img-h:var(--w12-img-h)">
-    <div class="bg-img-area" style="background-image:url('https://pic.mieloo-corp.com/uploads/medium/89/9f/13c9939bba16ddf99f411d4f22f8.jpg')"></div>
-    <div class="bg-overlay"></div>
+
+<!-- 設定面板 -->
+<div class="settings-overlay" id="settingsOverlay" onclick="closeSettings()"></div>
+<div class="settings-panel" id="settingsPanel">
+  <div class="sp-head">
+    <div class="sp-title">顯示設定</div>
+    <button class="sp-close" onclick="closeSettings()">✕</button>
   </div>
-  <div class="stage narr-stage">
-    <div class="layer-text">
-      <div class="ip-line"></div>
-      <span class="ip-kicker">The Problem · 你的廚房痛點</span>
-      <h2 class="ip-title">每次洗完碗<br>你是不是也這樣？</h2>
-      <p class="ip-desc">菜渣、積水、臭味、黏膩感……明明洗完了，<br>廚房感覺還是很髒。</p>
-    </div>
-    <div class="layer-buttons">
-      <button class="btn-back" onclick="goto(0)">←</button>
-      <button class="btn-fwd" onclick="goto(2)">告訴我你的痛點 →</button>
+
+  <div class="sp-group">
+    <div class="sp-group-title">介面主題</div>
+    <div class="seg" id="themeSeg">
+      <button data-v="dark" onclick="setTheme('dark')">深色</button>
+      <button data-v="light" onclick="setTheme('light')">淺色</button>
     </div>
   </div>
-</div>
-<!-- ═══════════════════════════════════════════════════════════
-     PAGE 2 — W2 解方 The Solution
-     ═══════════════════════════════════════════════════════════ -->
-<div class="page" data-page="2" data-bg="dark">
-  <div class="layer-bg-color bg-dark">
-</div>
-  <div class="layer-bg-image" style="--img-y:var(--w12-img-y);--img-h:var(--w12-img-h)">
-    <div class="bg-img-area" style="background-image:url('https://pic.mieloo-corp.com/uploads/medium/1c/ab/4dbfb9b62ad03377c966006998e9.png')"></div>
-    <div class="bg-overlay"></div>
-  </div>
-  <div class="stage narr-stage">
-    <div class="layer-text">
-      <div class="ip-line"></div>
-      <span class="ip-kicker">The Solution · 解決方案</span>
-      <h2 class="ip-title">菜渣．看不到<br>臭味．聞不到<br>廚餘．摸不到</h2>
-      <p class="ip-desc">浴山快排濾網：密封・快排・易洗・美型。<br>為廚房而生。</p>
+
+  <div class="sp-group">
+    <div class="sp-group-title">圖表顯示</div>
+    <div class="sp-row">
+      <span class="sp-label">回覆趨勢折線圖</span>
+      <label class="tgl"><input type="checkbox" id="cfg-trend" onchange="applySettings()"><span class="tgl-slider"></span></label>
     </div>
-    <div class="layer-buttons">
-      <button class="btn-back" onclick="goto(1)">←</button>
-      <button class="btn-fwd" onclick="goto(3)">看看產品設計 →</button>
+    <div class="sp-row">
+      <span class="sp-label">Q1 痛點長條圖</span>
+      <label class="tgl"><input type="checkbox" id="cfg-q1" onchange="applySettings()"><span class="tgl-slider"></span></label>
     </div>
-  </div>
-</div>
-<!-- ═══════════════════════════════════════════════════════════
-     PAGE 3 — W3 Showcase
-     ═══════════════════════════════════════════════════════════ -->
-<div class="page" data-page="3" data-bg="dark">
-  <div class="layer-bg-color bg-dark">
-</div>
-  <div class="layer-bg-image">
-    <div class="sc-img-area bg-img-area" id="scImgArea">
-      <div class="expl-layer" id="explLayer">
-        <img class="ep-img" id="ep-all"    src="https://pic.mieloo-corp.com/uploads/medium2x/15/84/eb4bfc67b3a546a5ea54c2e9a881.png" alt="完整產品">
-        <img class="ep-img ep-piece" id="ep-body"   src="https://pic.mieloo-corp.com/uploads/medium2x/37/e2/8fe31499ed10fa4cb4e14d90c49c.png" alt="杯體">
-        <img class="ep-img ep-piece" id="ep-ring"   src="https://pic.mieloo-corp.com/uploads/medium2x/14/3a/9e58a7ff2240ddc1651d89d8e30f.png" alt="矽膠環">
-        <img class="ep-img ep-piece" id="ep-seal"   src="https://pic.mieloo-corp.com/uploads/medium2x/8f/b1/cb24c438ff34f273b94c182b6563.png" alt="密封止水">
-        <img class="ep-img ep-piece" id="ep-basket" src="https://pic.mieloo-corp.com/uploads/medium2x/17/66/5f0dad57c395622aff763a8ea831.png" alt="渣籃">
-        <img class="ep-img ep-piece" id="ep-cover"  src="https://pic.mieloo-corp.com/uploads/medium2x/e3/99/3c25951fd112d7dde1a2308313a0.png" alt="導流外蓋">
-      </div>
-      <div class="sc-img-overlay" id="scImgOverlay"></div>
+    <div class="sp-row">
+      <span class="sp-label">Q3 功能長條圖</span>
+      <label class="tgl"><input type="checkbox" id="cfg-q3" onchange="applySettings()"><span class="tgl-slider"></span></label>
+    </div>
+    <div class="sp-row">
+      <span class="sp-label">Q4 意願分數分布</span>
+      <label class="tgl"><input type="checkbox" id="cfg-q4" onchange="applySettings()"><span class="tgl-slider"></span></label>
+    </div>
+    <div class="sp-row">
+      <span class="sp-label">Q5 加購長條圖</span>
+      <label class="tgl"><input type="checkbox" id="cfg-q5" onchange="applySettings()"><span class="tgl-slider"></span></label>
+    </div>
+    <div class="sp-row">
+      <span class="sp-label">留言精選</span>
+      <label class="tgl"><input type="checkbox" id="cfg-comments" onchange="applySettings()"><span class="tgl-slider"></span></label>
     </div>
   </div>
-  <div class="stage" id="showcase">
-    <div class="layer-text sc-text">
-      <div class="sc-slide active" id="st-0">
-        <span class="sc-tag">痛點分析</span>
-        <h3 class="sc-ttl">傳統型<br>鐵製水槽提籠</h3>
-        <p class="sc-desc">清理時會直接接觸廚餘，使用過程無法避免異味<br>與視覺上的不適，讓水槽維護變心理負擔。</p>
-      </div>
-      <div class="sc-slide" id="st-1">
-        <span class="sc-tag">產品一覽</span>
-        <h3 class="sc-ttl">浴山｜廚房水槽<br>快排濾網</h3>
-        <p class="sc-desc">看不到菜渣，聞不到臭味，摸不到廚餘<br>流理台水槽清潔不再是負擔。</p>
-      </div>
-      <div class="sc-slide" id="st-2">
-        <div><span class="sc-tag">產品結構</span></div>
-        <div><h3 class="sc-ttl">由五個零件組合<br>一套優雅的排水系統</h3></div>
-        <div><p class="sc-desc">金屬導流蓋・金屬渣籃・密封止水結構・矽膠環・<br>杯體架構，每一個零件，都是關鍵的存在。</p></div>
-      </div>
-      <div class="sc-slide" id="st-3">
-        <span class="sc-tag">火山錐體快排設計</span>
-        <h3 class="sc-ttl">當菜渣滿載時，<br>排水仍然高效迅速。</h3>
-        <p class="sc-desc">渣籃中央隆起的錐體結構，讓廚餘沉降於周緣，<br>外緣水道始終保持暢通。菜渣再多，排水也不卡頓。</p>
-      </div>
-      <div class="sc-slide" id="st-4">
-        <div><span class="sc-tag">隱蔽美型</span></div>
-        <div><h3 class="sc-ttl">菜渣看不到，<br>質感看得到。</h3></div>
-        <div><p class="sc-desc">中央橫樑・翼狀開口・恰巧遮蔽底部廚餘視線。與家中水槽融為一體，如同原廠般一體成型。</p></div>
-      </div>
-      <div class="sc-slide" id="st-5">
-        <span class="sc-tag">密封止臭</span>
-        <h3 class="sc-ttl">按壓，手不碰髒水。<br>密封，臭味聞不到。</h3>
-        <p class="sc-desc">密封墊圈形成物理屏障，阻斷沼氣從下水道倒灌。<br>浮動柱・頂出彈簧・密封環，三重結構，<br>按壓 50,000 次不損壞。</p>
-      </div>
-      <div class="sc-slide" id="st-6">
-        <span class="sc-tag">倒廚餘不沾手</span>
-        <h3 class="sc-ttl">像倒咖啡渣一樣，<br>廚餘優雅入桶。</h3>
-        <p class="sc-desc">專屬廚餘夾，廚餘俐落倒入廚餘桶。雙手不沾污物，廚房家事，也可以很優雅。</p>
-      </div>
-    </div>
-    <div class="layer-buttons">
-      <div class="sc-pgbar"><div class="sc-pgfill" id="scPgFill"></div></div>
-      <div class="sc-dots">
-        <div class="scdot active" id="sd-0"></div><div class="scdot" id="sd-1"></div>
-        <div class="scdot" id="sd-2"></div><div class="scdot" id="sd-3"></div>
-        <div class="scdot" id="sd-4"></div><div class="scdot" id="sd-5"></div>
-        <div class="scdot" id="sd-6"></div>
-      </div>
-      <div class="sc-btnrow">
-        <button class="sc-btn-back" id="scBack" onclick="scBackAction()">←</button>
-        <button class="sc-btn-next" id="scNextBtn" onclick="scNextAction()">下一張 →</button>
-      </div>
-    </div>
-    <div class="layer-top-image">
-</div>
-    <div class="chrome">
-      <span class="sc-skip" onclick="goto(4)">跳過 →</span>
-      <div class="sc-hint" id="scHint">
-        <span class="sh-icon">👆</span>
-        <span class="sh-txt">左右滑動查看產品</span>
-      </div>
+
+  <div class="sp-group">
+    <div class="sp-group-title">Q2 水槽尺寸 — 圖型</div>
+    <div class="seg" id="q2Seg">
+      <button data-v="pie" onclick="setChartType('q2','pie')">圓餅圖</button>
+      <button data-v="bars" onclick="setChartType('q2','bars')">長條圖</button>
+      <button data-v="off" onclick="setChartType('q2','off')">隱藏</button>
     </div>
   </div>
-</div>
-<!-- ═══════════════════════════════════════════════════════════
-     PAGE 4 — Q01 痛點確認（淺色，複選 p1–p5）
-     ═══════════════════════════════════════════════════════════ -->
-<div class="page" data-page="4" data-bg="light">
-  <div class="layer-bg-color bg-light">
-</div>
-  <div class="layer-bg-image">
-</div>
-  <div class="stage q-stage">
-    <div class="layer-text q-light">
-      <div class="q-num">Q01</div>
-      <div class="q-title">你家水槽<br>是否也有這些 困擾？</div>
-      <div class="q-hint">可複選</div>
-      <div class="c-card" data-val="p1" onclick="toggleMulti(this,'pains')">
-        <div class="c-chk">✓</div>
-        <span class="c-emoji">🗑️</span>
-        <div><div class="c-main">菜渣籃滿了得用手提起倒掉，又很難倒乾淨</div><span class="c-sub">每次清理時都是一場心理煎熬。</span></div>
-      </div>
-      <div class="c-card" data-val="p2" onclick="toggleMulti(this,'pains')">
-        <div class="c-chk">✓</div>
-        <span class="c-emoji">💧</span>
-        <div><div class="c-main">渣籃堆滿菜渣，造成排水不順與積水</div><span class="c-sub">洗個碗，水就淹一半。</span></div>
-      </div>
-      <div class="c-card" data-val="p3" onclick="toggleMulti(this,'pains')">
-        <div class="c-chk">✓</div>
-        <span class="c-emoji">😤</span>
-        <div><div class="c-main">排水口有臭味從下水道倒灌</div><span class="c-sub">煮飯時旁邊常飄來奇怪臭味。</span></div>
-      </div>
-      <div class="c-card" data-val="p4" onclick="toggleMulti(this,'pains')">
-        <div class="c-chk">✓</div>
-        <span class="c-emoji">🧽</span>
-        <div><div class="c-main">濾網油膩黏滑，清洗時造成的心理負擔</div><span class="c-sub">刷了半天還是有滑膩感。</span></div>
-      </div>
-      <div class="c-card" data-val="p5" onclick="toggleMulti(this,'pains')">
-        <div class="c-chk">✓</div>
-        <span class="c-emoji">👀</span>
-        <div><div class="c-main">廚餘殘渣裸露在外，視覺很噁心</div><span class="c-sub">客人來家裡超尷尬。</span></div>
-      </div>
-      <div class="scroll-hint" id="scroll-hint-4">
-        <span class="sh-arrow">↓</span>
-        <span class="sh-label">往下滑查看更多</span>
-      </div>
-    </div>
-    <div class="layer-buttons q-light">
-      <button class="btn-back" onclick="goto(3)">←</button>
-      <button class="btn-fwd" id="fwd-4" disabled onclick="goto(5)">下一題<span class="cbadge" id="badge-4" style="display:none">0</span> →</button>
+
+  <div class="sp-group">
+    <div class="sp-group-title">Q6 性別 — 圖型</div>
+    <div class="seg" id="q6Seg">
+      <button data-v="pie" onclick="setChartType('q6','pie')">圓餅圖</button>
+      <button data-v="bars" onclick="setChartType('q6','bars')">長條圖</button>
+      <button data-v="off" onclick="setChartType('q6','off')">隱藏</button>
     </div>
   </div>
+
+  <button class="hbtn" style="width:100%; justify-content:center; margin-top:8px" onclick="resetSettings()">還原預設設定</button>
 </div>
-<!-- ═══════════════════════════════════════════════════════════
-     PAGE 5 — Q02 水槽尺寸（淺色，單選 sink + 縮圖 L4）
-     ═══════════════════════════════════════════════════════════ -->
-<div class="page" data-page="5" data-bg="light">
-  <div class="layer-bg-color bg-light">
+
+<div class="container" id="app">
+  <div class="loading">載入資料中</div>
 </div>
-  <div class="layer-bg-image">
-</div>
-  <div class="stage q-stage">
-    <div class="layer-text q-light">
-      <div class="q-num">Q02</div>
-      <div class="q-title">你家水槽的<br>排水孔尺寸？</div>
-      <div class="q-hint">單選</div>
-      <div class="r-card" data-val="s_14" onclick="selectSingle(this,'sink')">
-        <div class="r-dot"></div>
-        <div><div class="r-main">傳統水槽 14cm</div><div class="r-sub">蓋子是一塊黑色橡膠皮</div></div>
-        <img class="r-thumb" src="https://pic.mieloo-corp.com/uploads/original/6b/60/1404f5185b0b3b386d349ef08e36.jpg" alt="14cm 排水孔示意">
-      </div>
-      <div class="r-card" data-val="s_18" onclick="selectSingle(this,'sink')">
-        <div class="r-dot"></div>
-        <div><div class="r-main">新式水槽 18cm</div><div class="r-sub">排水口寬且淺，渣籃如右圖</div></div>
-        <img class="r-thumb" src="https://pic.mieloo-corp.com/uploads/original/7a/ae/e914a800193b9c3aac4718929762.jpeg" alt="18cm 排水孔示意">
-      </div>
-      <div class="r-card" data-val="s_185" onclick="selectSingle(this,'sink')">
-        <div class="r-dot"></div>
-        <div><div class="r-main">韓系水槽 18.5cm</div><div class="r-sub">排水口寬且深，渣籃如右圖</div></div>
-        <img class="r-thumb" src="https://pic.mieloo-corp.com/uploads/original/97/9a/6ee03b6e8a350f1a2537cfd855f4.jpeg" alt="18.5cm 排水孔示意">
-      </div>
-      <div class="r-card" data-val="s_unknown" onclick="selectSingle(this,'sink')">
-        <div class="r-dot"></div>
-        <div><div class="r-main">不清楚、不確定</div><div class="r-sub">沒有特別注意過</div></div>
-      </div>
-    </div>
-    <div class="layer-buttons q-light">
-      <button class="btn-back" onclick="goto(4)">←</button>
-      <button class="btn-fwd" id="fwd-5" disabled onclick="goto(6)">下一題 →</button>
-    </div>
-    <div class="layer-top-image">
-</div>
-  </div>
-</div>
-<!-- ═══════════════════════════════════════════════════════════
-     PAGE 6 — Q03 功能偏好（深色，複選 f1–f4）
-     ═══════════════════════════════════════════════════════════ -->
-<div class="page" data-page="6" data-bg="dark">
-  <div class="layer-bg-color bg-dark">
-</div>
-  <div class="layer-bg-image">
-</div>
-  <div class="stage q-stage">
-    <div class="layer-text q-dark">
-      <div class="q-num q-num-d">Q03</div>
-      <div class="q-title">以下哪個特色<br>最打動你？</div>
-      <div class="q-hint">可複選</div>
-      <div class="f-card" data-val="f1" onclick="toggleMulti(this,'feats')">
-        <div class="fchk">✓</div><span class="fnum">01</span>
-        <div class="fbody"><h3 class="fname">按壓快排，一按就通</h3><p class="fdesc">切換排水與止水，不碰濾網、不伸手進積水，一個動作完成一切。</p></div>
-      </div>
-      <div class="f-card" data-val="f2" onclick="toggleMulti(this,'feats')">
-        <div class="fchk">✓</div><span class="fnum">02</span>
-        <div class="fbody"><h3 class="fname">密封防臭，阻斷下水道氣體</h3><p class="fdesc">食品級矽膠密封環，物理阻隔硫化氫異味倒灌。廚房不再有莫名臭味。</p></div>
-      </div>
-      <div class="f-card" data-val="f3" onclick="toggleMulti(this,'feats')">
-        <div class="fchk">✓</div><span class="fnum">03</span>
-        <div class="fbody"><h3 class="fname">隱蔽美型，菜渣眼不見為淨</h3><p class="fdesc">翼型導水蓋遮蔽濾籃，304 不鏽鋼拉絲質感與精品水槽完美融合。</p></div>
-      </div>
-      <div class="f-card" data-val="f4" onclick="toggleMulti(this,'feats')">
-        <div class="fchk">✓</div><span class="fnum">04</span>
-        <div class="fbody"><h3 class="fname">秒取渣籃，清理不沾手</h3><p class="fdesc">渣籃板手設計，像倒咖啡渣般優雅處理廚餘。可放洗碗機，真正省力。</p></div>
-      </div>
-      <div class="scroll-hint" id="scroll-hint-6">
-        <span class="sh-arrow">↓</span>
-        <span class="sh-label">往下滑查看更多</span>
-      </div>
-    </div>
-    <div class="layer-buttons q-dark">
-      <button class="btn-back" onclick="goto(5)">←</button>
-      <button class="btn-fwd" id="fwd-6" disabled onclick="goto(7)">下一題<span class="cbadge" id="badge-6" style="display:none">0</span> →</button>
-    </div>
-  </div>
-</div>
-<!-- ═══════════════════════════════════════════════════════════
-     PAGE 7 — Q04 價格心動度（背景圖·深，滑桿 1–7）
-     ═══════════════════════════════════════════════════════════ -->
-<div class="page" data-page="7" data-bg="dark">
-  <div class="layer-bg-color bg-dark">
-</div>
-  <div class="layer-bg-image" style="--img-h:var(--q4-img-h)">
-    <div class="bg-img-area" style="background-image:url('https://pic.mieloo-corp.com/uploads/medium/bc/60/92a9b4ccd0edd46792e6ec1e4c6d.jpg');opacity:.5"></div>
-  </div>
-  <div class="stage q-stage q4-stage">
-    <div class="layer-text q-dark">
-      <div class="q-num q-num-d">Q04</div>
-      <h2 class="q-title q-title-w">早鳥預計價格</h2>
-      <div class="q4-block">
-        <div class="price-badge"><span style="position:relative; display:inline-block;"><sup>$</sup>699<span style="position:absolute; right:-7px; bottom:6px; font-size:13px; -webkit-text-stroke:0; text-stroke:0;">起</span></span></div>
-        <p class="price-orig">正式售價 $899</p>
-        <div class="slider-section">
-          <p class="slider-q">請告訴我們您的<br>心動指數有幾分？</p>
-          <div class="slider-end-labels"><span>非常不心動</span><span>非常心動</span></div>
-          <div class="slider-must" id="sliderMust">拖曳滑桿開始評分</div>
-          <input type="range" class="q4-range" id="priceRange" min="1" max="7" value="4" oninput="onSlide(this.value)">
-          <div class="slider-val" id="sliderVal">–</div>
-        </div>
-      </div>
-    </div>
-    <div class="layer-buttons q-dark">
-      <button class="btn-back" onclick="goto(6)">←</button>
-      <button class="btn-fwd" id="fwd-7" disabled onclick="goto(8)">下一題 →</button>
-    </div>
-  </div>
-</div>
-<!-- ═══════════════════════════════════════════════════════════
-     PAGE 8 — Q05 加購偏好（淺色，複選 addon）
-     ═══════════════════════════════════════════════════════════ -->
-<div class="page" data-page="8" data-bg="light">
-  <div class="layer-bg-color bg-light">
-</div>
-  <div class="layer-bg-image">
-</div>
-  <div class="stage q-stage">
-    <div class="layer-text q-light">
-      <div class="q-num">Q05</div>
-      <div class="q-title">未來如果推出這些<br>廚房好夥伴，你會想要哪個？</div>
-      <div class="q-hint">可複選・本題只測偏好、不測價格</div>
-      <div class="c-card" data-val="a1" onclick="toggleAddon(this,'a1')">
-        <div class="c-chk">✓</div>
-        <span class="c-emoji">🪣</span>
-        <div><div class="c-main">廚餘桶</div><span class="c-sub">搭配濾網使用，廚餘倒進去更順手</span></div>
-      </div>
-      <div class="c-card" data-val="a2" onclick="toggleAddon(this,'a2')">
-        <div class="c-chk">✓</div>
-        <span class="c-emoji">🧼</span>
-        <div><div class="c-main">清潔三寶</div><span class="c-sub">過碳酸鈉＋小蘇打＋檸檬酸，分裝瓶與使用教學</span></div>
-      </div>
-      <div class="c-card" data-val="a3" onclick="toggleAddon(this,'a3')">
-        <div class="c-chk">✓</div>
-        <span class="c-emoji">🔁</span>
-        <div><div class="c-main">備用耗材組</div><span class="c-sub">矽膠密封環等補充包</span></div>
-      </div>
-      <div class="c-card" data-val="a0" onclick="toggleAddon(this,'a0')">
-        <div class="c-chk">✓</div>
-        <span class="c-emoji">🙅</span>
-        <div><div class="c-main">暫時都沒興趣</div></div>
-      </div>
-    </div>
-    <div class="layer-buttons q-light">
-      <button class="btn-back" onclick="goto(7)">←</button>
-      <button class="btn-fwd" id="fwd-8" disabled onclick="goto(9)">下一題 →</button>
-    </div>
-  </div>
-</div>
-<!-- ═══════════════════════════════════════════════════════════
-     PAGE 9 — Q06 聯絡資料（淺色，性別按鈕＋表單，
-     性別併入聯絡頁、選填、按鈕組非卡片；無獨立過場頁；抽獎以
-     LINE 加好友帶過，無勾選框）
-     ═══════════════════════════════════════════════════════════ -->
-<div class="page" data-page="9" data-bg="light">
-  <div class="layer-bg-color bg-light">
-</div>
-  <div class="layer-bg-image">
-</div>
-  <div class="stage q-stage">
-    <div class="layer-text q-light">
-      <div class="q-num">Q06</div>
-      <div class="q-title" style="margin-bottom:4px">留下聯絡方式<br>填完就搶先入列</div>
-      <div class="q-hint">早鳥通知 + 加 LINE 好友送購物優惠券 🎁</div>
-      <div class="fgroup">
-        <label class="flabel">您的性別 <span class="tag-o">選填</span></label>
-        <div class="gender-grid">
-          <button class="gbtn" data-val="female" onclick="selGender(this)">女性</button>
-          <button class="gbtn" data-val="male" onclick="selGender(this)">男性</button>
-          <button class="gbtn" data-val="other" onclick="selGender(this)">其他 / 不透露</button>
-        </div>
-        <div class="ferr" id="gErr">請選擇性別</div>
-      </div>
-      <div class="fgroup">
-        <label class="flabel">姓名或暱稱 <span class="tag-o">選填</span></label>
-        <input type="text" class="finput" id="nIn" placeholder="你想讓我們怎麼稱呼你？" autocomplete="nickname">
-        <div class="ferr" id="nErr">請填寫姓名或暱稱</div>
-      </div>
-      <div class="fgroup">
-        <label class="flabel">電子信箱 <span class="tag-r">必填</span></label>
-        <input type="email" class="finput" id="eIn" placeholder="your@email.com" inputmode="email" autocomplete="email">
-        <div class="ferr" id="eErr">請輸入有效的電子信箱</div>
-      </div>
-      <div class="fgroup">
-        <label class="flabel">手機號碼 <span class="tag-o">選填</span></label>
-        <input type="tel" class="finput" id="pIn" placeholder="09xx-xxx-xxx" inputmode="tel" autocomplete="tel">
-      </div>
-      <div class="fgroup">
-        <label class="flabel">有什麼話想說？ <span class="tag-o">選填</span></label>
-        <textarea class="finput" id="cIn" placeholder="任何想法或建議都歡迎…"></textarea>
-      </div>
-      <p class="privacy">您的資料僅用於產品上市通知，不會提供給第三方</p>
-    </div>
-    <div class="layer-buttons q-light">
-      <button class="btn-back" onclick="goto(8)">←</button>
-      <button class="btn-fwd" id="subBtn" onclick="doSubmit()" style="flex:1">提交，搶先知道早鳥優惠 →</button>
-    </div>
-  </div>
-</div>
-<!-- ═══════════════════════════════════════════════════════════
-     PAGE 10 — W11 感謝頁（深色，flow-scrolling 終端頁）
-     抽獎以「加 LINE 好友」直接帶過，無勾選/條件卡
-     ═══════════════════════════════════════════════════════════ -->
-<div class="page" data-page="10" data-bg="dark">
-  <div class="layer-bg-color bg-dark">
-</div>
-  <div class="layer-bg-image">
-</div>
-  <div class="ty-page">
-    <div class="ty-content">
-      <div class="ty-icon">🎉</div>
-      <img class="hero-logo hero-logo-ty" src="https://pic.mieloo-corp.com/uploads/medium/ec/8c/0498cef723b64fe276e18da9eb1a.png" alt="浴山 LOGO" style="margin-bottom:18px">
-      <h2 class="ty-title">謝謝你的填寫！<br><span class="ty-title-line">點擊加入 LINE 好友</span><br>輸入關鍵字 [濾網] <br>即刻領購物優惠碼</h2>
-      <p class="ty-sub">浴山廚房水槽濾網，預計 9 月上嘖嘖上線。</p>
-      <p class="ty-earlybird">✓ 限量 200 組・已為你鎖定</p>
-      <p class="ty-social-label">產品上線通知不漏接<br>追蹤我們，掌握早鳥優惠訊息 🎉</p>
-      <div class="ty-finger">👇</div>
-      <div class="ty-line-wrap">
-        <a class="btn-line-full" href="https://lin.ee/qyNMRN0" target="_blank" onclick="if(typeof fbq==='function')fbq('trackCustom','AddLineClick');(new Image()).src=GAS_URL+'?action=line_click&vid='+encodeURIComponent(huroyamaVid());">加入 LINE 好友</a>
-      </div>
-      <a class="btn-ig" href="https://www.instagram.com/mieloo_design/" target="_blank">追蹤 Instagram</a>
-      <div class="ty-footer">米鹿設計 MIELOO DESIGN<br>HUROYAMA — 浴山系列</div>
-    </div>
-  </div>
-</div>
+
 <script>
-/* ════ 全站狀態 ════ */
-const S = { pains:[], feats:[], addons:[], sink:null, gender:null, price_score:null, lottery:false };
-let curPage = 0;
-const TOTAL_PAGES = 11;
-/* 選項代碼 → 人讀文字（送出 payload 用） */
-const painLabels = {
-  p1:'菜渣籃滿了得用手提起倒掉，又很難倒乾淨',
-  p2:'渣籃堆滿菜渣，造成排水不順與積水',
-  p3:'排水口有臭味從下水道倒灌',
-  p4:'濾網油膩黏滑，清洗時造成的心理負擔',
-  p5:'廚餘殘渣裸露在外，視覺很噁心'
-};
-const featLabels = {
-  f1:'按壓快排，一按就通',
-  f2:'密封防臭，阻斷下水道氣體',
-  f3:'隱蔽美型，菜渣眼不見為淨',
-  f4:'秒取渣籃，清理不沾手'
-};
-const sinkLabels = {
-  s_14:'傳統水槽 14cm', s_18:'新式水槽 18cm', s_185:'韓系水槽 18.5cm', s_unknown:'不清楚、不確定'
-};
-const addonLabels = {
-  a1:'廚餘桶', a2:'清潔三寶', a3:'備用耗材組', a0:'暫時都沒興趣'
-};
 const GAS_URL = 'https://script.google.com/macros/s/AKfycby8loHM_Th6iMYyERRPy_O1KQrWD21ZshQiMATU7C9gZSa1621Q2w-S38N4NIFjGVrs/exec';
-/* ════ v4：訪客ID（每瀏覽器產生一次，存 localStorage，供瀏覽/回覆去重） ════ */
-function huroyamaVid() {
-  try {
-    var k = 'huroyama_vid';
-    var v = localStorage.getItem(k);
-    if (!v) {
-      v = Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
-      localStorage.setItem(k, v);
-    }
-    return v;
-  } catch (e) { return ''; }   // 無痕/擋 localStorage 時退回空字串，不影響運作
+/* 專案管理表 GAS（每日追蹤/募資期追蹤/廣告受眾等，v1.2）：LINE 好友數即時比對用 */
+const MGMT_GAS_URL = 'https://script.google.com/macros/s/AKfycbw1rRTFPKW_DDF44vyKakXjrkTc6PTxAhhn14TuygSZ8ZxXrBQ5nQjVKKnzpp69-W6q/exec';
+
+/* ═══ 設定（localStorage 持久化，失敗時退回記憶體） ═══ */
+const DEFAULTS = { theme:'dark', trend:true, q1:true, q3:true, q4:true, q5:true, q2:'pie', q6:'pie', comments:true };
+let CFG = { ...DEFAULTS };
+try {
+  const saved = localStorage.getItem('huroyama_dash_cfg');
+  if (saved) {
+    const parsed = JSON.parse(saved);
+    /* 只合併已知欄位，避免舊版資料結構污染新欄位 */
+    Object.keys(DEFAULTS).forEach(k => { if (parsed[k] !== undefined) CFG[k] = parsed[k]; });
+  }
+} catch(e) {}
+
+function saveCfg() {
+  try { localStorage.setItem('huroyama_dash_cfg', JSON.stringify(CFG)); } catch(e) {}
 }
-/* 瀏覽紀錄 ping：頁面載入時帶著 vid 打 GAS doGet（寫入「訪客紀錄」） */
-(function () {
-  var img = document.getElementById('visitPing');
-  var pageRef = (new URLSearchParams(location.search).get('ref') || 'direct').slice(0,40);
-  if (img) img.src = GAS_URL + '?ref=' + encodeURIComponent(pageRef) + '&vid=' + encodeURIComponent(huroyamaVid());
-})();
-/* Q page index → progress (1–5)，Q06/page9 不顯示進度條 */
-const QPROG = { 4:1, 5:2, 6:3, 7:4, 8:5 };
-function updateProg(n) {
-  const prog  = document.getElementById('prog');
-  const pfill = document.getElementById('pfill');
-  const plbl  = document.getElementById('plabel');
-  prog.classList.remove('prog-dark','prog-clear');
-  if (QPROG[n]) {
-    const q = QPROG[n];
-    prog.classList.add('on');
-    pfill.style.width = (q / 5 * 100) + '%';
-    plbl.textContent  = q + ' / 5';
-    if (n === 6) prog.classList.add('prog-dark');   // Q03 黑底
-    if (n === 7) prog.classList.add('prog-clear');  // Q04 透明
-  } else {
-    prog.classList.remove('on');
+
+function setTheme(t) {
+  CFG.theme = t;
+  document.documentElement.setAttribute('data-theme', t);
+  saveCfg(); syncSettingsUI();
+  if (lastData) drawLineChart(lastData.daily); /* 重繪以套用主題色 */
+  if (lastData) redrawPies();
+}
+
+function setChartType(q, v) {
+  CFG[q] = v;
+  saveCfg(); syncSettingsUI();
+  if (lastData) render(lastData);
+}
+
+function applySettings() {
+  if (!initDone) return;
+  CFG.trend = document.getElementById('cfg-trend').checked;
+  CFG.q1 = document.getElementById('cfg-q1').checked;
+  CFG.q3 = document.getElementById('cfg-q3').checked;
+  CFG.q4 = document.getElementById('cfg-q4').checked;
+  CFG.q5 = document.getElementById('cfg-q5').checked;
+  CFG.comments = document.getElementById('cfg-comments').checked;
+  saveCfg();
+  if (lastData) render(lastData);
+}
+
+function syncSettingsUI() {
+  document.getElementById('cfg-trend').checked = CFG.trend;
+  document.getElementById('cfg-q1').checked = CFG.q1;
+  document.getElementById('cfg-q3').checked = CFG.q3;
+  document.getElementById('cfg-q4').checked = CFG.q4;
+  document.getElementById('cfg-q5').checked = CFG.q5;
+  document.getElementById('cfg-comments').checked = CFG.comments;
+  document.querySelectorAll('#themeSeg button').forEach(b => b.classList.toggle('on', b.dataset.v === CFG.theme));
+  document.querySelectorAll('#q2Seg button').forEach(b => b.classList.toggle('on', b.dataset.v === CFG.q2));
+  document.querySelectorAll('#q6Seg button').forEach(b => b.classList.toggle('on', b.dataset.v === CFG.q6));
+}
+
+function openSettings() {
+  document.getElementById('settingsOverlay').classList.add('open');
+  document.getElementById('settingsPanel').classList.add('open');
+}
+function closeSettings() {
+  document.getElementById('settingsOverlay').classList.remove('open');
+  document.getElementById('settingsPanel').classList.remove('open');
+}
+function resetSettings() {
+  CFG = { ...DEFAULTS };
+  saveCfg();
+  document.documentElement.setAttribute('data-theme', CFG.theme);
+  syncSettingsUI();
+  if (lastData) render(lastData);
+}
+
+/* ═══ 資料載入 ═══ */
+let lastData = null;
+let mgmtData = null;   /* 專案管理表資料（可能為 null：未部署/權限不足時不影響其他功能） */
+let activeTab = 'overview';
+
+/* 日期正規化：管理表日期可能是 "07/10" 文字或 "2026-07-10"，統一成 yyyy-mm-dd */
+function normDate(s) {
+  s = String(s || '').trim();
+  if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+  let m = s.match(/^(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})$/);
+  if (m) return `${m[1]}-${m[2].padStart(2,'0')}-${m[3].padStart(2,'0')}`;
+  m = s.match(/^(\d{1,2})\/(\d{1,2})$/);
+  if (m) {
+    const yr = new Date().getFullYear();
+    return `${yr}-${m[1].padStart(2,'0')}-${m[2].padStart(2,'0')}`;
+  }
+  return s;
+}
+
+function switchTab(t) {
+  activeTab = t;
+  ['overview','cross','line'].forEach(id => {
+    const el = document.getElementById('tab-' + id);
+    if (el) el.style.display = (t === id) ? '' : 'none';
+  });
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    b.classList.toggle('on', b.dataset.tab === t);
+  });
+  /* 切分頁時觸發該分頁的入場與條形動畫 */
+  if (t !== 'overview') {
+    requestAnimationFrame(() => {
+      document.querySelectorAll('#tab-' + t + ' .reveal').forEach(el => el.classList.add('in'));
+      setTimeout(triggerBars, 150);
+    });
   }
 }
-function goto(n) {
-  if (n<0||n>=TOTAL_PAGES) return;
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  const target = document.querySelector(`.page[data-page="${n}"]`);
-  if (target) target.classList.add('active');
-  curPage = n;
-  updateProg(n);
-  /* Q01/Q03 滑動提示：進入時短暫顯示，3秒後消失 */
-  ['4','6'].forEach(pg => {
-    const h = document.getElementById('scroll-hint-'+pg);
-    if (!h) return;
-    h.classList.remove('show');
-    clearTimeout(h._t);
-    if (String(n) === pg) {
-      setTimeout(() => {
-        h.classList.add('show');
-        h._t = setTimeout(() => h.classList.remove('show'), 5000);
-      }, 600);
+
+async function loadData() {
+  const app = document.getElementById('app');
+  document.getElementById('lastUpdated').textContent = '更新中…';
+  try {
+    const [statsR, mgmtR] = await Promise.allSettled([
+      fetch(GAS_URL + '?action=stats').then(r => r.json()),
+      fetch(MGMT_GAS_URL + '?action=list').then(r => r.json())
+    ]);
+    if (statsR.status === 'rejected') throw new Error('問卷 GAS 連線失敗');
+    const data = statsR.value;
+    if (data.error) throw new Error(data.error);
+    lastData = data;
+    mgmtData = (mgmtR.status === 'fulfilled' && mgmtR.value && mgmtR.value.ok) ? mgmtR.value : null;
+    render(data);
+    document.getElementById('lastUpdated').textContent =
+      new Date().toLocaleTimeString('zh-TW', {hour:'2-digit',minute:'2-digit'}) + ' 已更新';
+  } catch (e) {
+    app.innerHTML = `<div class="error-msg">讀取資料失敗：${e.message}<br>請確認 GAS 已部署 v8 並啟用 action=stats 端點。</div>`;
+    document.getElementById('lastUpdated').textContent = '';
+  }
+}
+
+const pct = (n,t) => t ? (n/t*100).toFixed(0)+'%' : '0%';
+
+/* ═══ 比例色階：0%=螢光綠 → 50%=藍 → 100%=Apple粉紅（連續插值）═══ */
+const RATIO_STOPS = [
+  { p:0,   c:[80, 255, 160] },   /* 螢光綠 */
+  { p:50,  c:[80, 168, 204] },   /* 品牌藍 */
+  { p:100, c:[255, 90, 170] }    /* Apple 亮粉 */
+];
+function ratioColor(p) {
+  p = Math.max(0, Math.min(100, p));
+  let a = RATIO_STOPS[0], b = RATIO_STOPS[RATIO_STOPS.length-1];
+  for (let i=0;i<RATIO_STOPS.length-1;i++) {
+    if (p >= RATIO_STOPS[i].p && p <= RATIO_STOPS[i+1].p) { a = RATIO_STOPS[i]; b = RATIO_STOPS[i+1]; break; }
+  }
+  const t = (b.p===a.p) ? 0 : (p-a.p)/(b.p-a.p);
+  const rgb = a.c.map((v,i) => Math.round(v + (b.c[i]-v)*t));
+  return `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
+}
+
+/* ═══ 主渲染 ═══ */
+function render(d) {
+  const app = document.getElementById('app');
+  const s = d.summary;
+  const n = +s.totalResponses;
+  /* v4：不重複訪客 / 每人轉換率（舊版 GAS 未回傳時退回原欄位） */
+  const uVis  = (s.uniqueVisitors     != null) ? +s.uniqueVisitors     : +s.totalVisits;
+  const uRate = (s.uniqueResponseRate != null) ?  s.uniqueResponseRate :  s.responseRate;
+
+  const gMap = {female:'女性', male:'男性', other:'其他/不透露'};
+  const gender = {};
+  Object.entries(d.q6_gender).forEach(([k,v]) => { gender[gMap[k]||k] = v; });
+
+  let html = `
+    <div class="hero reveal">
+      <div class="hero-eyebrow">HUROYAMA Survey Analytics</div>
+      <div class="hero-number" id="heroNum">0</div>
+      <div class="hero-label">份問卷回覆，持續累積中</div>
+      <div class="kpi-row">
+        <div class="kpi reveal">
+          <div class="kpi-v">${uVis.toLocaleString()}<span class="u">人</span></div>
+          <div class="kpi-l">不重複訪客</div>
+          <div style="font-size:11px;color:var(--txt3);margin-top:6px;font-family:var(--f-en)">總瀏覽 ${(+s.totalVisits).toLocaleString()} 次</div>
+        </div>
+        <div class="kpi reveal">
+          <div class="kpi-v">${uRate}<span class="u">%</span></div>
+          <div class="kpi-l">每人轉換率</div>
+          <div style="font-size:11px;color:var(--txt3);margin-top:6px;font-family:var(--f-en)">次數轉換率 ${s.responseRate}%</div>
+        </div>
+        <div class="kpi reveal">
+          <div class="kpi-v" style="font-size:17px;padding-top:8px">${s.latestTime || '—'}</div>
+          <div class="kpi-l">最新回覆</div>
+        </div>
+      </div>
+    </div>`;
+
+  if (CFG.trend) {
+    html += `
+    <div class="pearl-divider"></div>
+    <div class="section reveal">
+      <div class="sec-head">
+        <div class="sec-kicker">Trend</div>
+        <div class="sec-title">回覆趨勢</div>
+      </div>
+      <div class="card">
+        <div class="card-title">每日回覆人數</div>
+        <div class="card-sub">依台北時區統計，滑鼠移入資料點可查看明細</div>
+        <canvas id="lineChart" height="220"></canvas>
+      </div>
+    </div>`;
+  }
+
+  const anyResults = CFG.q1 || CFG.q3 || CFG.q4 || CFG.q5 || CFG.q2!=='off' || CFG.q6!=='off';
+  if (anyResults) {
+    html += `<div class="pearl-divider"></div>
+    <div class="section">
+      <div class="sec-head reveal">
+        <div class="sec-kicker">Results</div>
+        <div class="sec-title">問卷結果分析</div>
+      </div>`;
+
+    if (CFG.q1) html += `
+      <div class="card reveal">
+        <div class="card-title">Q1 — 你家水槽是否有這些困擾？</div>
+        <div class="card-sub">可複選・百分比為勾選人數佔總回覆比例</div>
+        <div class="bars" id="q1bars"></div>
+      </div>`;
+
+    if (CFG.q3) html += `
+      <div class="card reveal">
+        <div class="card-title">Q3 — 哪個特色最打動你？</div>
+        <div class="card-sub">可複選</div>
+        <div class="bars" id="q3bars"></div>
+      </div>`;
+
+    /* Q4 + Q6 一組 */
+    if (CFG.q4 || CFG.q6 !== 'off') {
+      html += `<div class="two-col" style="margin-top:16px">`;
+      if (CFG.q4) html += `
+        <div class="card reveal">
+          <div class="card-title">Q4 — 購買意願分數</div>
+          <div class="card-sub">1–7 分，分數越高代表越心動</div>
+          <div class="intent-wrap" id="intentGrid"></div>
+          <div class="intent-summary">
+            <div class="intent-avg" id="intentAvg">—</div>
+            <div class="intent-avg-l">平均分數（滿分 7）</div>
+          </div>
+        </div>`;
+      if (CFG.q6 !== 'off') html += `
+        <div class="card reveal">
+          <div class="card-title">Q6 — 性別分布</div>
+          <div class="card-sub">${CFG.q6==='pie'?'圓餅圖':'長條圖'}</div>
+          ${CFG.q6==='pie'
+            ? `<div class="pie-flex">
+                 <div class="pie-canvas-wrap"><canvas id="pie-q6" width="190" height="190"></canvas>
+                   <div class="pie-center"><div class="pie-center-n" id="pie-q6-n"></div><div class="pie-center-l">總數</div></div>
+                 </div>
+                 <div class="pie-legend" id="pie-q6-legend"></div>
+               </div>`
+            : `<div class="dists" id="genderDist"></div>`}
+        </div>`;
+      html += `</div>`;
     }
+
+    /* Q2 + Q5 一組 */
+    if (CFG.q2 !== 'off' || CFG.q5) {
+      html += `<div class="two-col" style="margin-top:16px">`;
+      if (CFG.q2 !== 'off') html += `
+        <div class="card reveal">
+          <div class="card-title">Q2 — 水槽尺寸</div>
+          <div class="card-sub">${CFG.q2==='pie'?'圓餅圖':'長條圖'}・單選</div>
+          ${CFG.q2==='pie'
+            ? `<div class="pie-flex">
+                 <div class="pie-canvas-wrap"><canvas id="pie-q2" width="190" height="190"></canvas>
+                   <div class="pie-center"><div class="pie-center-n" id="pie-q2-n"></div><div class="pie-center-l">總數</div></div>
+                 </div>
+                 <div class="pie-legend" id="pie-q2-legend"></div>
+               </div>`
+            : `<div class="dists" id="sinkDist"></div>`}
+        </div>`;
+      if (CFG.q5) html += `
+        <div class="card reveal">
+          <div class="card-title">Q5 — 有興趣的加購品</div>
+          <div class="card-sub">可複選</div>
+          <div class="bars" id="q5bars"></div>
+        </div>`;
+      html += `</div>`;
+    }
+    html += `</div>`;
+  }
+
+  if (CFG.comments && d.comments && d.comments.length > 0) {
+    html += `<div class="pearl-divider"></div>
+    <div class="section reveal">
+      <div class="sec-head">
+        <div class="sec-kicker">Feedback</div>
+        <div class="sec-title">留言精選</div>
+      </div>
+      <div class="card">
+        <div class="cmt-toolbar">
+          <div class="cmt-count" id="cmtCount"></div>
+          <div class="cmt-show-hidden" onclick="toggleShowHidden()" id="cmtShowHiddenToggle">👁 顯示已隱藏</div>
+        </div>
+        <div class="cmt-list" id="cmtList"></div>
+      </div>
+    </div>`;
+  }
+
+  /* ── 交叉分析分頁內容（需 GAS v7 的 cross 欄位）── */
+  let crossHtml = '';
+  if (d.cross) {
+    const X = d.cross;
+    const overallAvg = X.q4_overall_avg ? (+X.q4_overall_avg).toFixed(2) : '—';
+
+    /* Q4 × Q2 */
+    const q4q2rows = Object.entries(X.q4_by_q2)
+      .sort((a,b) => b[1].avg - a[1].avg)
+      .map(([k,v]) => {
+        const pctW = (v.avg/7*100).toFixed(0);
+        const color = ratioColor(v.avg/7*100);
+        return `
+        <div class="x-row">
+          <div class="x-name">${k}</div>
+          <div class="x-track"><div class="x-fill" data-w="${pctW}" data-color="${color}"></div></div>
+          <div class="x-meta">${v.avg.toFixed(2)}<span class="xn">n=${v.count}</span></div>
+        </div>`;
+      }).join('');
+
+    /* Q4 × Q1 */
+    const q4q1rows = [...X.q4_by_q1]
+      .sort((a,b) => (b.avg||0) - (a.avg||0))
+      .map(item => {
+        if (item.avg === null) return '';
+        const pctW = (item.avg/7*100).toFixed(0);
+        const color = ratioColor(item.avg/7*100);
+        return `
+        <div class="x-row">
+          <div class="x-name">${item.label}</div>
+          <div class="x-track"><div class="x-fill" data-w="${pctW}" data-color="${color}"></div></div>
+          <div class="x-meta">${item.avg.toFixed(2)}<span class="xn">n=${item.count}</span></div>
+        </div>`;
+      }).join('');
+
+    /* Q1 × Q3 熱力圖 */
+    const M = X.q1_x_q3;
+    let heatCells = `<div class="heat-cell heat-head"></div>` +
+      M.featLabels.map(f => `<div class="heat-cell heat-head">${f}</div>`).join('');
+    M.matrix.forEach(row => {
+      heatCells += `<div class="heat-cell heat-head heat-rowlabel">${row.pain}<span class="heat-sub">n=${row.total}</span></div>`;
+      row.feats.forEach(cnt => {
+        const p = row.total > 0 ? (cnt/row.total*100) : 0;
+        const color = ratioColor(p);
+        heatCells += `<div class="heat-cell" style="background:${color}">${p.toFixed(0)}%<span class="heat-sub">${cnt}人</span></div>`;
+      });
+    });
+
+    crossHtml = `
+    <div class="section reveal" style="margin-top:48px">
+      <div class="sec-head">
+        <div class="sec-kicker">Cross Analysis</div>
+        <div class="sec-title">交叉分析</div>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-title">購買意願 × 水槽尺寸</div>
+        <div class="card-sub">各尺寸受訪者的平均心動分數（滿分 7）・依分數高至低排列</div>
+        <div class="x-bars">${q4q2rows}</div>
+        <div class="x-ref">全體平均：${overallAvg}</div>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-title">購買意願 × 痛點</div>
+        <div class="card-sub">勾選各痛點的受訪者，平均心動分數是多少・同一人可能勾選多個痛點</div>
+        <div class="x-bars">${q4q1rows}</div>
+        <div class="x-ref">全體平均：${overallAvg}</div>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-title">痛點 × 功能偏好 熱力圖</div>
+        <div class="card-sub">有某痛點的人當中，被各功能打動的比例（顏色越粉紅 = 比例越高）</div>
+        <div class="heat-wrap">
+          <div class="heat-grid" style="grid-template-columns:130px repeat(4,1fr)">${heatCells}</div>
+        </div>
+        <div class="heat-note">讀法範例：左上第一格 = 勾選「${M.painLabels[0]}」的人裡，有多少比例同時被「${M.featLabels[0]}」打動。<br>此為複選交叉，橫列比例加總可能超過 100%。</div>
+      </div>
+    </div>`;
+  } else {
+    crossHtml = `<div class="error-msg" style="margin-top:60px">交叉分析需要 GAS v7 以上版本。請將 huroyama_GAS_v7.js 貼入 Apps Script 並重新部署。</div>`;
+  }
+
+  /* ── LINE 成效分頁（問卷點擊 × 管理表好友數即時比對）── */
+  let lineHtml = '';
+  {
+    const clkTotal  = (s.lineClickTotal  != null) ? +s.lineClickTotal  : null;
+    const clkUnique = (s.lineClickUnique != null) ? +s.lineClickUnique : null;
+
+    /* 管理表每日追蹤：date/budget/spend/land/comp/cpl/ctr/line/note */
+    const mgmtRows = (mgmtData && Array.isArray(mgmtData.survey)) ? mgmtData.survey : null;
+    let friendSum = null;
+    const mgmtByDate = {};
+    if (mgmtRows) {
+      friendSum = 0;
+      mgmtRows.forEach(r => {
+        const key = normDate(r.date);
+        mgmtByDate[key] = r;
+        const lv = parseFloat(r.line);
+        if (!isNaN(lv)) friendSum += lv;
+      });
+    }
+
+    const conv = (friendSum != null && clkUnique > 0)
+      ? (friendSum / clkUnique * 100).toFixed(0) + '%'
+      : '—';
+
+    /* 每日對照表：問卷回覆(stats.daily) × 管理表(line/spend) 依日期合併 */
+    const respByDate = {};
+    (d.daily || []).forEach(x => { respByDate[x.date] = x.count; });
+    const allDates = [...new Set([...Object.keys(respByDate), ...Object.keys(mgmtByDate)])].sort().reverse();
+
+    const tableRows = allDates.map(dt => {
+      const m = mgmtByDate[dt] || {};
+      const lineV  = (m.line  !== undefined && m.line  !== '') ? m.line  : '—';
+      const spendV = (m.spend !== undefined && m.spend !== '') ? m.spend : '—';
+      const noteV  = m.note || '';
+      return `<tr>
+        <td>${dt.slice(5)}</td>
+        <td>${respByDate[dt] ?? '—'}</td>
+        <td>${spendV}</td>
+        <td>${lineV}</td>
+        <td class="zh">${escapeHtml(String(noteV)).slice(0,30)}</td>
+      </tr>`;
+    }).join('');
+
+    /* 點過 LINE 按鈕的填答者名單（GAS v8）*/
+    let clickersHtml = '';
+    if (Array.isArray(d.lineClickers) && d.lineClickers.length > 0) {
+      clickersHtml = `
+      <div class="card reveal">
+        <div class="card-title">點過 LINE 按鈕的填答者</div>
+        <div class="card-sub">用訪客ID 對回問卷回覆・共 ${d.lineClickers.length} 位（僅證明點了按鈕，不代表完成加好友）</div>
+        <div class="ltable-wrap">
+          <table class="ltable">
+            <thead><tr><th style="text-align:left">姓名</th><th style="text-align:left">Email</th></tr></thead>
+            <tbody>${d.lineClickers.map(p => `<tr><td class="zh">${escapeHtml(p.name)}</td><td style="text-align:left">${escapeHtml(p.email)}</td></tr>`).join('')}</tbody>
+          </table>
+        </div>
+      </div>`;
+    }
+
+    lineHtml = `
+    <div class="section reveal" style="margin-top:48px">
+      <div class="sec-head">
+        <div class="sec-kicker">LINE Performance</div>
+        <div class="sec-title">LINE 成效</div>
+      </div>
+
+      <div class="kpi-row" style="max-width:100%; margin-bottom:16px">
+        <div class="kpi reveal">
+          <div class="kpi-v">${clkTotal != null ? clkTotal.toLocaleString() : '—'}<span class="u">次</span></div>
+          <div class="kpi-l">LINE 按鈕點擊</div>
+          <div style="font-size:11px;color:var(--txt3);margin-top:6px">${clkUnique != null ? '不重複 ' + clkUnique + ' 人' : '需 GAS v8'}</div>
+        </div>
+        <div class="kpi reveal">
+          <div class="kpi-v">${friendSum != null ? friendSum.toLocaleString() : '—'}<span class="u">人</span></div>
+          <div class="kpi-l">LINE 好友累計（管理表）</div>
+          <div style="font-size:11px;color:var(--txt3);margin-top:6px">${mgmtRows ? '每日追蹤 line 欄加總' : '管理表連線失敗'}</div>
+        </div>
+        <div class="kpi reveal">
+          <div class="kpi-v">${conv}</div>
+          <div class="kpi-l">點擊 → 加好友 估計轉換</div>
+          <div style="font-size:11px;color:var(--txt3);margin-top:6px">好友累計 ÷ 不重複點擊</div>
+        </div>
+      </div>
+
+      ${!mgmtRows ? `<div class="error-msg">無法讀取專案管理表 GAS。請確認該部署「誰可以存取」設為「所有人」，並已用新版本重新部署。</div>` : ''}
+
+      <div class="card reveal">
+        <div class="card-title">每日對照</div>
+        <div class="card-sub">問卷回覆（自動統計）× 廣告花費 / LINE 好友（管理表「每日追蹤」手動記錄）</div>
+        <div class="ltable-wrap">
+          <table class="ltable">
+            <thead><tr><th style="text-align:left">日期</th><th>問卷回覆</th><th>廣告花費</th><th>LINE 好友</th><th style="text-align:left">備註</th></tr></thead>
+            <tbody>${tableRows || '<tr><td colspan="5" class="zh">尚無資料</td></tr>'}</tbody>
+          </table>
+        </div>
+        <div class="heat-note">「LINE 好友」為管理表手動記錄的每日數字；「LINE 按鈕點擊」自 GAS v8 部署後才開始累計，兩者統計期間可能不同，轉換率僅供參考。</div>
+      </div>
+
+      ${clickersHtml}
+    </div>`;
+  }
+
+  html = `
+    <div class="tabbar">
+      <button class="tab-btn ${activeTab==='overview'?'on':''}" data-tab="overview" onclick="switchTab('overview')">總覽</button>
+      <button class="tab-btn ${activeTab==='cross'?'on':''}" data-tab="cross" onclick="switchTab('cross')">交叉分析</button>
+      <button class="tab-btn ${activeTab==='line'?'on':''}" data-tab="line" onclick="switchTab('line')">LINE 成效</button>
+    </div>
+    <div id="tab-overview" style="${activeTab!=='overview'?'display:none':''}">${html}</div>
+    <div id="tab-cross" style="${activeTab!=='cross'?'display:none':''}">${crossHtml}</div>
+    <div id="tab-line" style="${activeTab!=='line'?'display:none':''}">${lineHtml}</div>
+    <div class="foot">MIELOO DESIGN · HUROYAMA — 浴山系列</div>`;
+  app.innerHTML = html;
+
+  animateNumber(document.getElementById('heroNum'), n, 1200);
+
+  if (CFG.trend) drawLineChart(d.daily);
+  if (CFG.q1) renderBars('q1bars', d.q1_pains.labels, d.q1_pains.counts, n);
+  if (CFG.q3) renderBars('q3bars', d.q3_feats.labels, d.q3_feats.counts, n);
+  if (CFG.q5) renderBars('q5bars', d.q5_addons.labels, d.q5_addons.counts, n);
+
+  if (CFG.q4) {
+    const b = d.q4_intent.buckets;
+    const maxB = Math.max(...Object.values(b), 1);
+    document.getElementById('intentGrid').innerHTML = [1,2,3,4,5,6,7].map(k => `
+      <div class="ic">
+        <div class="ic-bar-zone"><div class="ic-bar" data-h="${Math.round((b[k]||0)/maxB*86)}"></div></div>
+        <div class="ic-n">${b[k]||0}</div>
+        <div class="ic-s">${k}</div>
+      </div>`).join('');
+    document.getElementById('intentAvg').textContent = d.q4_intent.avg || '—';
+  }
+
+  if (CFG.q2 === 'pie') drawPie('q2', d.q2_sink);
+  else if (CFG.q2 === 'bars') renderDist('sinkDist', d.q2_sink);
+
+  if (CFG.q6 === 'pie') drawPie('q6', gender);
+  else if (CFG.q6 === 'bars') renderDist('genderDist', gender);
+
+  if (CFG.comments && d.comments) renderComments(d.comments);
+
+  requestAnimationFrame(() => {
+    setupReveal();
+    setTimeout(triggerBars, 300);
   });
 }
-/* ── Q01/Q03 複選 ── */
-function toggleMulti(el, key) {
-  const val = el.dataset.val;
-  const arr = S[key];
-  const idx = arr.indexOf(val);
-  if (idx>-1) { arr.splice(idx,1); el.classList.remove('sel'); }
-  else { arr.push(val); el.classList.add('sel'); }
-  const pageNum = el.closest('.page').dataset.page;
-  const fwd = document.getElementById('fwd-'+pageNum);
-  const badge = document.getElementById('badge-'+pageNum);
-  if (fwd) fwd.disabled = arr.length===0;
-  if (badge) { badge.textContent = arr.length; badge.style.display = arr.length>0?'inline-flex':'none'; }
+
+/* ═══ 元件渲染 ═══ */
+function renderBars(elId, labels, counts, total) {
+  const max = Math.max(...counts, 1);
+  const el = document.getElementById(elId);
+  if (!el) return;
+  el.innerHTML = labels.map((lbl,i) => {
+    const ratioPct = total ? (counts[i]/total*100) : 0;
+    const color = ratioColor(ratioPct);
+    const widthPct = (counts[i]/max*100).toFixed(0);
+    return `
+    <div class="bar-row">
+      <div class="bar-name">${lbl}</div>
+      <div class="bar-track"><div class="bar-fill" data-w="${widthPct}" data-color="${color}"></div></div>
+      <div class="bar-meta">${counts[i]}<span class="pc">${pct(counts[i], total)}</span></div>
+    </div>`;
+  }).join('');
 }
-/* ── Q05 加購（含互斥 a0） ── */
-function toggleAddon(el, val) {
-  if (val==='a0') {
-    S.addons = S.addons.includes('a0') ? [] : ['a0'];
-    document.querySelectorAll('.page[data-page="8"] .c-card').forEach(c=>c.classList.remove('sel'));
-    if (S.addons.includes('a0')) el.classList.add('sel');
-  } else {
-    const idx = S.addons.indexOf('a0');
-    if (idx>-1) { S.addons.splice(idx,1); document.querySelector('.page[data-page="8"] [data-val="a0"]').classList.remove('sel'); }
-    const i2 = S.addons.indexOf(val);
-    if (i2>-1) { S.addons.splice(i2,1); el.classList.remove('sel'); }
-    else { S.addons.push(val); el.classList.add('sel'); }
+
+function renderDist(elId, map) {
+  const el = document.getElementById(elId);
+  if (!el) return;
+  const total = Object.values(map).reduce((a,b)=>a+b,0) || 1;
+  el.innerHTML =
+    Object.entries(map).sort((a,b)=>b[1]-a[1]).map(([k,v]) => {
+      const ratioPct = (v/total*100);
+      const color = ratioColor(ratioPct);
+      return `
+      <div class="dist-row">
+        <div class="dist-name">${k}</div>
+        <div class="dist-track"><div class="dist-fill" data-w="${ratioPct.toFixed(0)}" data-color="${color}"></div></div>
+        <div class="dist-n">${v}</div>
+      </div>`;
+    }).join('');
+}
+
+/* ═══ 留言標記（好/壞/隱藏）— v6：共用狀態，存在 GAS 後端「留言標記」工作表
+   每則留言的 mark 直接來自 stats API 回傳的 c.mark 欄位，所有人看到同一套 ═══ */
+let cmtShowHidden = false;
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+/* 過濾「廢話留言」：整則留言拿掉標點/空白後，本質上只是「貴」「便宜」
+   （可加「太/好/有點/偏/再」等修飾字），沒有其他實質內容才會被濾掉。
+   若留言裡還有其他文字（例如「希望便宜一點，但設計真的不錯」），不會被誤殺。 */
+const THROWAWAY_RE = /^(有點|有点|太|好|偏|更|再)?(貴|贵|便宜)(一點|一点|一些|些|點|点)?(了|喔|哦|啊|呀|呢)*[!！。.]*$/;
+function isThrowawayComment(text) {
+  const stripped = String(text).replace(/[\s，,、。.!！?？~～]/g, '');
+  return THROWAWAY_RE.test(stripped);
+}
+
+const CMT_PAGE_SIZE = 20;
+let cmtVisibleCount = CMT_PAGE_SIZE;
+
+function renderComments(comments) {
+  comments = comments.filter(c => !isThrowawayComment(c.text));
+  const list = document.getElementById('cmtList');
+  const countEl = document.getElementById('cmtCount');
+  if (!list) return;
+
+  const hiddenCount = comments.filter(c => c.mark === 'hidden').length;
+  countEl.textContent = `共 ${comments.length} 則留言` + (hiddenCount ? `（${hiddenCount} 則已隱藏）` : '');
+
+  if (comments.length === 0) {
+    list.innerHTML = `<div class="cmt-empty">目前還沒有留言</div>`;
+    return;
   }
-  document.getElementById('fwd-8').disabled = S.addons.length===0;
+
+  /* 分頁：一次只渲染 cmtVisibleCount 則，避免幾百則留言一次塞爆頁面 */
+  const visible = comments.slice(0, cmtVisibleCount);
+  const remaining = comments.length - visible.length;
+
+  list.innerHTML = visible.map(c => {
+    const mark = c.mark || '';
+    const classes = ['cmt-item'];
+    if (mark === 'good') classes.push('mark-good');
+    if (mark === 'bad') classes.push('mark-bad');
+    if (mark === 'hidden') classes.push('mark-hidden', cmtShowHidden ? 'force-show' : '');
+    return `
+    <div class="${classes.join(' ')}" id="cmt-${c.id}">
+      <div class="cmt-meta">
+        <span class="cmt-who">${escapeHtml(c.name)}</span>
+        <span class="cmt-time">${c.time}</span>
+      </div>
+      <div class="cmt-text">${escapeHtml(c.text)}</div>
+      <div class="cmt-actions">
+        <button class="cmt-btn ${mark==='good'?'active-good':''}" onclick="markComment(${c.id},'good')">👍 有幫助</button>
+        <button class="cmt-btn ${mark==='bad'?'active-bad':''}" onclick="markComment(${c.id},'bad')">👎 普通</button>
+        <button class="cmt-btn ${mark==='hidden'?'active-hide':''}" onclick="markComment(${c.id},'hidden')">🙈 隱藏</button>
+      </div>
+    </div>`;
+  }).join('')
+  + (remaining > 0
+      ? `<button class="cmt-btn" style="align-self:center; padding:9px 26px; font-size:12px" onclick="showMoreComments()">顯示更多（還有 ${remaining} 則）</button>`
+      : '');
 }
-/* ── Q02/Q06 單選 ── */
-function selectSingle(el, key) {
-  const val = el.dataset.val;
-  el.closest('.layer-text').querySelectorAll('.r-card').forEach(c=>c.classList.remove('sel'));
-  el.classList.add('sel');
-  S[key] = val;
-  const pageNum = el.closest('.page').dataset.page;
-  const fwd = document.getElementById('fwd-'+pageNum);
-  if (fwd) fwd.disabled = false;
+
+function showMoreComments() {
+  cmtVisibleCount += CMT_PAGE_SIZE;
+  if (lastData && lastData.comments) renderComments(lastData.comments);
 }
-/* ── Q04 滑桿 ── */
-function onSlide(v) {
-  S.price_score = +v;
-  document.getElementById('sliderVal').textContent = v;
-  document.getElementById('sliderMust').classList.add('hide');
-  document.getElementById('fwd-7').disabled = false;
+
+/* 標記留言：先在本地畫面立即更新（樂觀更新，手感即時），
+   同時把標記送到 GAS 共用工作表，失敗則還原並提示 */
+function markComment(id, type) {
+  if (!lastData || !lastData.comments) return;
+  const c = lastData.comments.find(x => x.id === id);
+  if (!c) return;
+  const prevMark = c.mark || '';
+  const newMark = (prevMark === type) ? '' : type; // 再點一次同個按鈕 = 取消標記
+
+  c.mark = newMark; // 樂觀更新
+  renderComments(lastData.comments);
+
+  fetch(GAS_URL, {
+    method: 'POST', mode: 'no-cors',
+    body: JSON.stringify({ action: 'mark_comment', id, mark: newMark })
+  }).catch(err => {
+    console.error('留言標記同步失敗:', err);
+    c.mark = prevMark; // 送出失敗，還原畫面
+    renderComments(lastData.comments);
+    alert('標記可能未成功同步，請檢查網路後再試一次');
+  });
 }
-/* ── 性別（按鈕組，選填，併入聯絡頁） ── */
-function selGender(el) {
-  el.parentElement.querySelectorAll('.gbtn').forEach(b=>b.classList.remove('sel'));
-  el.classList.add('sel');
-  S.gender = el.dataset.val;
+
+function toggleShowHidden() {
+  cmtShowHidden = !cmtShowHidden;
+  document.getElementById('cmtShowHiddenToggle').style.color = cmtShowHidden ? 'var(--gold)' : '';
+  if (lastData && lastData.comments) renderComments(lastData.comments);
 }
-/* ── 提交 ── */
-function doSubmit() {
-  const email = document.getElementById('eIn').value.trim();
-  const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  document.getElementById('eErr').classList.toggle('show', !validEmail);
-  if (!validEmail) return;   // 只有 Email 必填，性別／姓名選填不擋
-  const btn = document.getElementById('subBtn');
-  btn.disabled = true;
-  btn.textContent = '送出中…';
-  const score = S.price_score;
-  const payload = {
-    name:    document.getElementById('nIn').value.trim(),
-    email,
-    phone:   document.getElementById('pIn').value.trim(),
-    comment: document.getElementById('cIn').value.trim(),
-    /* Q1 痛點 — 拆欄 */
-    p1: +S.pains.includes('p1'), p2: +S.pains.includes('p2'),
-    p3: +S.pains.includes('p3'), p4: +S.pains.includes('p4'),
-    p5: +S.pains.includes('p5'),
-    pains_text: S.pains.map(p=>painLabels[p]||p).join('、'),
-    /* Q2 水槽尺寸 */
-    sink: S.sink, sink_text: sinkLabels[S.sink] || '',
-    /* Q3 功能 — 拆欄 */
-    f1: +S.feats.includes('f1'), f2: +S.feats.includes('f2'),
-    f3: +S.feats.includes('f3'), f4: +S.feats.includes('f4'),
-    feats_text: S.feats.map(f=>featLabels[f]||f).join('、'),
-    /* Q4 購買意願：直接送原始分數 1–7 */
-    intent: score,
-    /* Q5 加購 — 拆欄 */
-    a1: +S.addons.includes('a1'), a2: +S.addons.includes('a2'),
-    a3: +S.addons.includes('a3'), a0: +S.addons.includes('a0'),
-    addons_text: S.addons.map(a=>addonLabels[a]||a).join('、'),
-    /* Q6 性別 */
-    gender: S.gender || '',
-    lottery: '未參加',
-    /* v4：訪客ID（與瀏覽紀錄同一組，供去重 / 每人轉換率） */
-    vid: huroyamaVid()
-  };
-  fetch(GAS_URL, { method:'POST', mode:'no-cors', body:JSON.stringify(payload) })
-    .then(() => {
-      if (typeof fbq === 'function') fbq('track', 'Lead');
-      goto(10);
-    })
-    .catch(err => {
-      console.error('提交失敗:', err);
-      alert('提交可能失敗，請檢查網路狀態後再試一次');
-      btn.disabled = false;
-      btn.textContent = '提交，搶先知道早鳥優惠 →';
+
+/* ═══ 圓餅圖（donut）═══ */
+const PIE_COLORS = ['#50A8CC', '#1E5BAE', '#7ec8ff', '#a8d4ff', '#0d3a6b', '#6ba3e0'];
+const pieStore = {};
+
+function drawPie(qid, map) {
+  const canvas = document.getElementById('pie-'+qid);
+  if (!canvas) return;
+  const entries = Object.entries(map).sort((a,b)=>b[1]-a[1]);
+  const total = entries.reduce((a,[,v])=>a+v,0) || 1;
+  pieStore[qid] = { entries, total };
+
+  paintPie(canvas, entries, total);
+
+  document.getElementById('pie-'+qid+'-n').textContent = total;
+  document.getElementById('pie-'+qid+'-legend').innerHTML = entries.map(([k,v],i) => `
+    <div class="pl-row">
+      <div class="pl-chip" style="background:${PIE_COLORS[i%PIE_COLORS.length]}"></div>
+      <div class="pl-name">${k}</div>
+      <div class="pl-val">${v}</div>
+      <div class="pl-pct">${(v/total*100).toFixed(0)}%</div>
+    </div>`).join('');
+}
+
+function paintPie(canvas, entries, total) {
+  const dpr = window.devicePixelRatio || 1;
+  const SIZE = 190;
+  canvas.width = SIZE*dpr; canvas.height = SIZE*dpr;
+  canvas.style.width = SIZE+'px'; canvas.style.height = SIZE+'px';
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr,dpr);
+  const cx = SIZE/2, cy = SIZE/2, R = SIZE/2-6, r = R*0.62;
+
+  let a0 = -Math.PI/2;
+  entries.forEach(([k,v],i) => {
+    const a1 = a0 + (v/total)*Math.PI*2;
+    ctx.beginPath();
+    ctx.arc(cx,cy,R,a0,a1);
+    ctx.arc(cx,cy,r,a1,a0,true);
+    ctx.closePath();
+    ctx.fillStyle = PIE_COLORS[i%PIE_COLORS.length];
+    ctx.fill();
+    /* 分隔細縫 */
+    ctx.strokeStyle = getComputedStyle(document.body).backgroundColor || '#0a2540';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    a0 = a1;
+  });
+}
+
+function redrawPies() {
+  Object.entries(pieStore).forEach(([qid, s]) => {
+    const canvas = document.getElementById('pie-'+qid);
+    if (canvas) paintPie(canvas, s.entries, s.total);
+  });
+}
+
+function triggerBars() {
+  document.querySelectorAll('.bar-fill[data-w], .x-fill[data-w]').forEach(el => {
+    el.style.width = el.dataset.w + '%';
+    if (el.dataset.color) {
+      el.style.background = el.dataset.color;
+      el.style.boxShadow = `0 0 14px ${el.dataset.color.replace('rgb','rgba').replace(')', ',.4)')}`;
+    }
+  });
+  document.querySelectorAll('.dist-fill[data-w]').forEach(el => {
+    el.style.width = el.dataset.w + '%';
+    if (el.dataset.color) el.style.background = el.dataset.color;
+  });
+  document.querySelectorAll('.ic-bar[data-h]').forEach(el => el.style.height = el.dataset.h + 'px');
+}
+
+function setupReveal() {
+  const els = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach((e,i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('in'), (i%4)*90);
+        io.unobserve(e.target);
+      }
     });
+  }, { threshold:.01 });
+  els.forEach(el => io.observe(el));
 }
-/* ════ Showcase slide engine ════ */
-let scPhase = 0, scHasSwiped = false, epTimer = null;
-const scImgArea = document.getElementById('scImgArea');
-const scImgOverlay = document.getElementById('scImgOverlay');
-const explEl    = document.getElementById('explLayer');
-const scPgFil   = document.getElementById('scPgFill');
-const scNextBtn = document.getElementById('scNextBtn');
-const txtEls = [0,1,2,3,4,5,6].map(i => document.getElementById('st-'+i));
-const dotEls = [0,1,2,3,4,5,6].map(i => document.getElementById('sd-'+i));
-const SC_IMGS = [
-  'https://pic.mieloo-corp.com/uploads/medium/09/ee/48ba9999b428324ad3b0f7f6e454.png',
-  'https://pic.mieloo-corp.com/uploads/medium/f5/55/edb297c32d1a40bac9d303c77210.png',
-  null,
-  'https://pic.mieloo-corp.com/uploads/medium/f7/47/69c6093ea0b01f280088d2c7bd18.png',
-  'https://pic.mieloo-corp.com/uploads/medium/d6/99/d7909c7e0c1bbe860e3cb91ab657.png',
-  'https://pic.mieloo-corp.com/uploads/original/9a/ee/bd9f1d8e3c9389a66fbb6f80435a.gif',
-  'https://pic.mieloo-corp.com/uploads/original/7b/f0/173e08a0d86e13a54d3155193a69.gif',
-];
-function scSet(n) {
-  scPhase = Math.max(0, Math.min(6, n));
-  if (scPhase === 2) {
-    scImgArea.style.backgroundImage = 'none';
-    explEl.classList.add('visible');
-    clearTimeout(epTimer);
-    epTimer = setTimeout(() => explEl.classList.add('exploded'), 200);
-  } else {
-    clearTimeout(epTimer);
-    explEl.classList.remove('visible','exploded');
-    scImgArea.style.backgroundImage = SC_IMGS[scPhase] ? `url('${SC_IMGS[scPhase]}')` : 'none';
+
+function animateNumber(el, target, dur) {
+  const t0 = performance.now();
+  const step = now => {
+    const p = Math.min((now-t0)/dur, 1);
+    const eased = 1 - Math.pow(1-p, 3);
+    el.textContent = Math.round(target*eased).toLocaleString();
+    if (p < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+
+/* ═══ 折線圖 ═══ */
+function chartColors() {
+  const light = document.documentElement.getAttribute('data-theme') === 'light';
+  return {
+    grid: light ? 'rgba(30,91,174,.08)' : 'rgba(168,212,255,.06)',
+    axis: light ? 'rgba(30,91,174,.4)'  : 'rgba(168,212,255,.3)',
+    line: light ? '#1E5BAE' : '#7ec8ff',
+    dot:  '#50A8CC',
+    dotHover: light ? '#1E5BAE' : '#c8e8ff',
+    fillTop: light ? 'rgba(30,91,174,.18)' : 'rgba(126,200,255,.28)',
+    tooltipBg: light ? 'rgba(240,247,255,.95)' : 'rgba(10,25,45,.92)',
+    tooltipBorder: light ? 'rgba(30,91,174,.3)' : 'rgba(126,200,255,.35)',
+    tooltipTxt: light ? '#0A2540' : '#c8e8ff',
+  };
+}
+
+function drawLineChart(daily) {
+  const canvas = document.getElementById('lineChart');
+  if (!canvas || !daily || daily.length === 0) return;
+  paintChart(canvas, daily);
+  canvas.onmousemove = e => hoverChart(canvas, daily, e);
+  canvas.onmouseleave = () => paintChart(canvas, daily);
+}
+
+function chartGeom(canvas, daily) {
+  const W = canvas.parentElement.offsetWidth;
+  const H = 220;
+  const PAD = { top:24, right:24, bottom:36, left:40 };
+  return { W, H, PAD, w:W-PAD.left-PAD.right, h:H-PAD.top-PAD.bottom,
+           maxV: Math.max(...daily.map(d=>d.count), 1) };
+}
+
+function paintChart(canvas, daily, hoverIdx=-1) {
+  const g = chartGeom(canvas, daily);
+  const C = chartColors();
+  canvas.width = g.W; canvas.height = g.H;
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0,0,g.W,g.H);
+
+  ctx.strokeStyle = C.grid;
+  ctx.lineWidth = 1;
+  for (let i=0;i<=4;i++) {
+    const y = g.PAD.top + g.h - (i/4)*g.h;
+    ctx.beginPath(); ctx.moveTo(g.PAD.left,y); ctx.lineTo(g.PAD.left+g.w,y); ctx.stroke();
+    ctx.fillStyle = C.axis;
+    ctx.font = '10px DM Sans';
+    ctx.textAlign = 'right';
+    ctx.fillText(Math.round(g.maxV*i/4), g.PAD.left-8, y+3);
   }
-  scImgOverlay.classList.toggle('show', scPhase === 5);
-  txtEls.forEach((el,i) => el.classList.toggle('active', i === scPhase));
-  dotEls.forEach((el,i) => el.classList.toggle('active', i === scPhase));
-  scPgFil.style.width = (scPhase / 6 * 100) + '%';
-  scNextBtn.textContent = (scPhase === 6) ? '繼續填問卷 →' : '下一張 (' + (scPhase + 2) + '/7) →';
-}
-function scGo(dir) {
-  if (!scHasSwiped) { scHasSwiped = true; document.getElementById('scHint').classList.remove('show'); }
-  scSet(scPhase + dir);
-}
-function scBackAction() { if (scPhase === 0) goto(2); else scGo(-1); }
-function scNextAction() { if (scPhase === 6) goto(4); else scGo(1); }
-const sc = document.getElementById('showcase');
-let scTX = 0;
-sc.addEventListener('touchstart', e => { scTX = e.touches[0].clientX; }, { passive:true });
-sc.addEventListener('touchend', e => {
-  const dx = e.changedTouches[0].clientX - scTX;
-  if (Math.abs(dx) > 40) { scHasSwiped = true; document.getElementById('scHint').classList.remove('show'); scGo(dx < 0 ? 1 : -1); }
-}, { passive:true });
-let scMX = 0, scDrag = false;
-sc.addEventListener('mousedown', e => { scMX = e.clientX; scDrag = true; });
-sc.addEventListener('mouseup',   e => { if (!scDrag) return; const dx = e.clientX - scMX; if (Math.abs(dx) > 55) scGo(dx < 0 ? 1 : -1); scDrag = false; });
-sc.addEventListener('mouseleave', () => { scDrag = false; });
-/* ── 初始化 ── */
-goto(0);
-scSet(0);
-/* 使用者一滑動 Q01/Q03 就收起提示 */
-['4','6'].forEach(pg => {
-  const page = document.querySelector(`.page[data-page="${pg}"]`);
-  if (!page) return;
-  const textLayer = page.querySelector('.layer-text');
-  if (!textLayer) return;
-  textLayer.addEventListener('scroll', () => {
-    const h = document.getElementById('scroll-hint-'+pg);
-    if (h) { clearTimeout(h._t); h.classList.remove('show'); }
-  }, { passive:true });
-});
-setTimeout(() => {
-  if (!scHasSwiped) {
-    const hint = document.getElementById('scHint');
-    hint.classList.add('show');
-    setTimeout(() => hint.classList.remove('show'), 3500);
+
+  const pts = daily.map((d,i) => ({
+    x: g.PAD.left + (i/(daily.length-1||1))*g.w,
+    y: g.PAD.top + g.h - (d.count/g.maxV)*g.h
+  }));
+
+  const grad = ctx.createLinearGradient(0,g.PAD.top,0,g.PAD.top+g.h);
+  grad.addColorStop(0,C.fillTop);
+  grad.addColorStop(1,'rgba(126,200,255,0)');
+  ctx.beginPath();
+  ctx.moveTo(pts[0].x, g.PAD.top+g.h);
+  pts.forEach(p=>ctx.lineTo(p.x,p.y));
+  ctx.lineTo(pts[pts.length-1].x, g.PAD.top+g.h);
+  ctx.closePath(); ctx.fillStyle = grad; ctx.fill();
+
+  ctx.beginPath();
+  ctx.strokeStyle = C.line;
+  ctx.lineWidth = 2;
+  ctx.lineJoin = 'round';
+  pts.forEach((p,i)=> i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y));
+  ctx.stroke();
+
+  pts.forEach((p,i) => {
+    ctx.beginPath();
+    ctx.arc(p.x,p.y, i===hoverIdx?5.5:3, 0, Math.PI*2);
+    ctx.fillStyle = i===hoverIdx ? C.dotHover : C.dot;
+    ctx.fill();
+  });
+
+  ctx.fillStyle = C.axis;
+  ctx.font = '10px DM Sans';
+  ctx.textAlign = 'center';
+  const step = Math.ceil(daily.length/9);
+  daily.forEach((d,i) => {
+    if (i%step!==0 && i!==daily.length-1) return;
+    ctx.fillText(d.date.slice(5), g.PAD.left+(i/(daily.length-1||1))*g.w, g.PAD.top+g.h+22);
+  });
+
+  if (hoverIdx >= 0) {
+    const p = pts[hoverIdx], d = daily[hoverIdx];
+    const label = `${d.date}  ${d.count} 份`;
+    ctx.font = '12px DM Sans';
+    const tw = ctx.measureText(label).width + 20;
+    let tx = p.x - tw/2;
+    tx = Math.max(g.PAD.left, Math.min(tx, g.W-g.PAD.right-tw));
+    const ty = Math.max(6, p.y - 40);
+    ctx.fillStyle = C.tooltipBg;
+    ctx.strokeStyle = C.tooltipBorder;
+    ctx.beginPath();
+    if (ctx.roundRect) ctx.roundRect(tx, ty, tw, 26, 8);
+    else ctx.rect(tx, ty, tw, 26);
+    ctx.fill(); ctx.stroke();
+    ctx.fillStyle = C.tooltipTxt;
+    ctx.textAlign = 'center';
+    ctx.fillText(label, tx+tw/2, ty+17);
   }
-}, 900);
+}
+
+function hoverChart(canvas, daily, e) {
+  const rect = canvas.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const g = chartGeom(canvas, daily);
+  let best = -1, bd = 1e9;
+  daily.forEach((d,i) => {
+    const px = g.PAD.left + (i/(daily.length-1||1))*g.w;
+    const dist = Math.abs(px-x);
+    if (dist < bd) { bd = dist; best = i; }
+  });
+  if (bd < 30) paintChart(canvas, daily, best);
+  else paintChart(canvas, daily);
+}
+
+window.addEventListener('resize', () => { if (lastData && CFG.trend) drawLineChart(lastData.daily); });
+
+/* ═══ 初始化 ═══ */
+let initDone = false;
+document.documentElement.setAttribute('data-theme', CFG.theme);
+syncSettingsUI();
+initDone = true;
+loadData();
 </script>
 </body>
 </html>
