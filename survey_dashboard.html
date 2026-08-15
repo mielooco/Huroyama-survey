@@ -27,7 +27,6 @@
   --header-border: rgba(168,212,255,.08);
   --grid-line: rgba(168,212,255,.06);
   --axis-txt:  rgba(168,212,255,.3);
-  --tooltip-bg:'rgba(10,25,45,.92)';
   --hero-grad: linear-gradient(128deg, #c8e8ff 0%, #7ec8ff 28%, #6ba3e0 55%, #a8d4ff 100%);
   --panel-bg:  #0e2038;
   --f-zh: 'Noto Sans TC', sans-serif;
@@ -144,6 +143,23 @@ body::before {
 
 /* ═══════════ 主容器 ═══════════ */
 .container { max-width:1120px; margin:0 auto; padding:0 max(20px,3vw); position:relative; z-index:1; }
+
+/* ═══════════ 分頁列 ═══════════ */
+.tabbar {
+  display:flex; gap:6px; justify-content:center; margin:28px 0 0;
+  position:relative; z-index:2;
+}
+.tab-btn {
+  font-size:13px; font-weight:500; padding:9px 26px; border-radius:99px;
+  background:transparent; color:var(--txt2); cursor:pointer;
+  border:1px solid transparent; font-family:var(--f-zh); letter-spacing:1px;
+  transition:all .25s ease;
+}
+.tab-btn:hover { color:var(--txt); }
+.tab-btn.on {
+  background:rgba(80,168,204,.14); color:var(--ice);
+  border-color:rgba(126,200,255,.25);
+}
 
 .hero { text-align:center; padding:76px 0 60px; }
 .hero-eyebrow { font-size:13px; letter-spacing:4px; color:var(--gold); text-transform:uppercase; font-family:var(--f-en); font-weight:500; margin-bottom:18px; }
@@ -270,6 +286,7 @@ canvas { display:block; width:100%; }
   border-radius:14px; padding:20px 24px; color:#e89090; font-size:13px;
   max-width:560px; margin:60px auto; text-align:center; line-height:1.8;
 }
+
 /* ── 留言卡片 ── */
 .cmt-toolbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
 .cmt-count { font-size:12px; color:var(--txt3); }
@@ -301,23 +318,6 @@ canvas { display:block; width:100%; }
 .cmt-btn.active-bad  { background:rgba(255,90,170,.15); border-color:rgba(255,90,170,.4); color:#ff5aaa; }
 .cmt-btn.active-hide { background:rgba(255,255,255,.08); color:var(--txt2); }
 .cmt-empty { text-align:center; color:var(--txt3); font-size:13px; padding:30px 0; }
-
-/* ── 分頁列 ── */
-.tabbar {
-  display:flex; gap:6px; justify-content:center; margin:28px 0 0;
-  position:relative; z-index:2;
-}
-.tab-btn {
-  font-size:13px; font-weight:500; padding:9px 26px; border-radius:99px;
-  background:transparent; color:var(--txt2); cursor:pointer;
-  border:1px solid transparent; font-family:var(--f-zh); letter-spacing:1px;
-  transition:all .25s ease;
-}
-.tab-btn:hover { color:var(--txt); }
-.tab-btn.on {
-  background:rgba(80,168,204,.14); color:var(--ice);
-  border-color:rgba(126,200,255,.25);
-}
 
 /* ── 交叉分析 ── */
 .x-bars { display:flex; flex-direction:column; gap:18px; }
@@ -363,7 +363,7 @@ canvas { display:block; width:100%; }
 
 @media (prefers-reduced-motion: reduce) {
   .reveal { transition:none; opacity:1; transform:none; }
-  .bar-fill, .ic-bar, .dist-fill { transition:none; }
+  .bar-fill, .ic-bar, .dist-fill, .x-fill { transition:none; }
 }
 </style>
 </head>
@@ -531,9 +531,15 @@ let lastData = null;
 let mgmtData = null;   /* 專案管理表資料（可能為 null：未部署/權限不足時不影響其他功能） */
 let activeTab = 'overview';
 
-/* 日期正規化：管理表日期可能是 "07/10" 文字或 "2026-07-10"，統一成 yyyy-mm-dd */
+/* 日期正規化：管理表日期可能是 "07/10" 文字、"2026-07-10"、
+   或 ISO 字串 "2026-07-27T07:00:00.000Z"（管理表 GAS 的 instanceof Date 在 V8 失效時，
+   Date 物件會被 JSON 直接序列化成 ISO），統一轉成本地 yyyy-mm-dd */
 function normDate(s) {
   s = String(s || '').trim();
+  if (/^\d{4}-\d{2}-\d{2}T/.test(s)) {
+    const dt = new Date(s);
+    if (!isNaN(dt)) return `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;
+  }
   if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
   let m = s.match(/^(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})$/);
   if (m) return `${m[1]}-${m[2].padStart(2,'0')}-${m[3].padStart(2,'0')}`;
@@ -854,9 +860,15 @@ function render(d) {
       });
     }
 
-    const conv = (friendSum != null && clkUnique > 0)
-      ? (friendSum / clkUnique * 100).toFixed(0) + '%'
-      : '—';
+    /* 感謝頁按鈕點擊率：點過按鈕的不重複人數 ÷ 問卷總回覆數
+       （「點擊→加好友」轉換無法誠實計算：好友來源含廣告等多通路，僅問卷按鈕可追蹤） */
+    let ctr = '—';
+    let ctrNote = '點過按鈕人數 ÷ 問卷總回覆';
+    if (clkUnique != null && n > 0) {
+      ctr = (clkUnique / n * 100).toFixed(1) + '%';
+    } else if (clkUnique == null) {
+      ctrNote = '需 GAS v8 以上版本';
+    }
 
     /* 每日對照表：問卷回覆(stats.daily) × 管理表(line/spend) 依日期合併 */
     const respByDate = {};
@@ -912,9 +924,9 @@ function render(d) {
           <div style="font-size:11px;color:var(--txt3);margin-top:6px">${mgmtRows ? '每日追蹤 line 欄加總' : '管理表連線失敗'}</div>
         </div>
         <div class="kpi reveal">
-          <div class="kpi-v">${conv}</div>
-          <div class="kpi-l">點擊 → 加好友 估計轉換</div>
-          <div style="font-size:11px;color:var(--txt3);margin-top:6px">好友累計 ÷ 不重複點擊</div>
+          <div class="kpi-v">${ctr}</div>
+          <div class="kpi-l">感謝頁 LINE 點擊率</div>
+          <div style="font-size:11px;color:var(--txt3);margin-top:6px">${ctrNote}</div>
         </div>
       </div>
 
@@ -929,7 +941,7 @@ function render(d) {
             <tbody>${tableRows || '<tr><td colspan="5" class="zh">尚無資料</td></tr>'}</tbody>
           </table>
         </div>
-        <div class="heat-note">「LINE 好友」為管理表手動記錄的每日數字；「LINE 按鈕點擊」自 GAS v8 部署後才開始累計，兩者統計期間可能不同，轉換率僅供參考。</div>
+        <div class="heat-note">「LINE 好友」為管理表手動記錄的每日數字，來源含廣告等多通路；「LINE 按鈕點擊」僅追蹤問卷感謝頁按鈕（自 GAS v8 起累計）。兩者來源不同，無法直接換算成加好友轉換率。</div>
       </div>
 
       ${clickersHtml}
@@ -1233,7 +1245,8 @@ function drawLineChart(daily) {
 }
 
 function chartGeom(canvas, daily) {
-  const W = canvas.parentElement.offsetWidth;
+  /* 用 canvas 自身的顯示寬度（不含卡片 padding），確保繪圖座標＝滑鼠座標 */
+  const W = canvas.clientWidth || canvas.parentElement.clientWidth;
   const H = 220;
   const PAD = { top:24, right:24, bottom:36, left:40 };
   return { W, H, PAD, w:W-PAD.left-PAD.right, h:H-PAD.top-PAD.bottom,
@@ -1292,6 +1305,8 @@ function paintChart(canvas, daily, hoverIdx=-1) {
   const step = Math.ceil(daily.length/9);
   daily.forEach((d,i) => {
     if (i%step!==0 && i!==daily.length-1) return;
+    /* 倒數第二個間隔標籤太靠近最後一個時跳過，避免重疊 */
+    if (i !== daily.length-1 && (daily.length-1-i) < step*0.6) return;
     ctx.fillText(d.date.slice(5), g.PAD.left+(i/(daily.length-1||1))*g.w, g.PAD.top+g.h+22);
   });
 
@@ -1317,7 +1332,9 @@ function paintChart(canvas, daily, hoverIdx=-1) {
 
 function hoverChart(canvas, daily, e) {
   const rect = canvas.getBoundingClientRect();
-  const x = e.clientX - rect.left;
+  /* 顯示尺寸→繪圖座標換算（雙保險：即使兩者不一致也能對準） */
+  const scale = rect.width > 0 ? canvas.width / rect.width : 1;
+  const x = (e.clientX - rect.left) * scale;
   const g = chartGeom(canvas, daily);
   let best = -1, bd = 1e9;
   daily.forEach((d,i) => {
