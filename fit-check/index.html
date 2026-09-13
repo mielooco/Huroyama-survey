@@ -250,11 +250,11 @@ function result(kind, why, cm){
   } else {
     let reason='';
     if(why==='日式') reason='你的是<b>日式</b>濾籃（直徑約 13.5–14 cm），跟快排濾網的 11–11.5 cm 規格不同。';
-    else if(why==='韓式') reason='你的是<b>韓式</b>濾籃（直徑約 13.5–14 cm），跟快排濾網的 11–11.5 cm 規格不同。';
-    else if(why==='small') reason=`你量到 <b>${cm} cm</b>，比適用的 11–11.5 cm 小，通常是洗手台或小水槽用的小提籠。`;
-    else if(why==='large') reason=`你量到 <b>${cm} cm</b>，比適用的 11–11.5 cm 大，屬於 14／18 cm 的大口徑系統。`;
+    else if(why==='韓式') reason='你的是<b>韓式</b>濾籃（直徑約 13.5–14 cm）</p>跟快排濾網的 11–11.5 cm 規格不同。';
+    else if(why==='small') reason=`你量到 <b>${cm} cm</b>，比適用的 11–11.5 cm 小</p>通常是洗手台或小水槽用的小提籠。`;
+    else if(why==='large') reason=`你量到 <b>${cm} cm</b>，比適用的 11–11.5 cm 大</p>屬於 14／18 cm 的大口徑系統。`;
     else reason='這款規格跟快排濾網的 11–11.5 cm 不同。';
-    html=`<div class="res no"><img class="mascot" src="img/result-no.png" alt=""><div class="mark">✕</div><h2>很抱歉，目前這一款不適用</h2><p>${reason}<br>未來我們會持續推出不同的尺寸，敬請期待。若您有意願，歡迎留下聯絡資訊，新增尺寸時我們會主動通知您。</p></div>
+    html=`<div class="res no"><img class="mascot" src="img/result-no.png" alt=""><div class="mark">✕</div><h2>很抱歉，目前這一款不適用</h2><p>${reason}<br>未來我們會持續推出不同的尺寸，敬請期待。</p>若您有意願，歡迎留下聯絡資訊，新增尺寸時我們會主動通知您。</p></div>
     <div class="form"><label>留下 Email，新增尺寸時通知我</label><div class="row"><input id="em" type="email" placeholder="you@example.com"><button id="emgo">送出</button></div><div class="done" id="emdone" hidden>已收到，謝謝您。</div></div>
     <a class="btn s" href="${LINE_URL}" target="_blank" rel="noopener">或加入 LINE 官方帳號接收通知</a>`;
     $('#cta').textContent='回到嘖嘖';
