@@ -553,7 +553,7 @@ function normDate(s) {
 
 function switchTab(t) {
   activeTab = t;
-  ['overview','cross','line'].forEach(id => {
+  ['overview','cross','line','fit'].forEach(id => {
     const el = document.getElementById('tab-' + id);
     if (el) el.style.display = (t === id) ? '' : 'none';
   });
@@ -948,17 +948,149 @@ function render(d) {
     </div>`;
   }
 
+  /* ── 尺寸檢測分頁（快排濾網_使用紀錄，需 GAS v9）── */
+  let fitHtml = '';
+  if (d.fitcheck && d.fitcheck.total > 0) {
+    const F = d.fitcheck;
+    const okN  = (F.byResult['ok'] || 0);
+    const okRate = (okN / F.total * 100).toFixed(1);
+    const days = F.daily.length || 1;
+    const perDay = (F.total / days).toFixed(1);
+
+    /* 值 → 顯示名稱 */
+    const mType   = { tw:'台式', jp:'日式', kr:'韓式', '未填':'未選' };
+    const mPath   = { type:'直接選型態', measure:'動手量尺寸' };
+    const mResult = { ok:'合用', no:'不合', mid:'臨界' };
+    const mReason = { small:'尺寸過小', large:'尺寸過大', '日式':'日式濾籃', '韓式':'韓式濾籃', '未填':'未填' };
+    const mapKeys = (obj, m) => {
+      const out = {};
+      Object.entries(obj).forEach(([k,v]) => { out[(m && m[k]) || k] = v; });
+      return out;
+    };
+
+    /* 量測 cm 分桶 */
+    const cmBuckets = { '< 9 cm':0, '9–10.9 cm':0, '11–11.9 cm':0, '12–13.9 cm':0, '≥ 14 cm':0 };
+    (F.cmList || []).forEach(v => {
+      if (v < 9) cmBuckets['< 9 cm']++;
+      else if (v < 11) cmBuckets['9–10.9 cm']++;
+      else if (v < 12) cmBuckets['11–11.9 cm']++;
+      else if (v < 14) cmBuckets['12–13.9 cm']++;
+      else cmBuckets['≥ 14 cm']++;
+    });
+    const hasCm = (F.cmList || []).length > 0;
+
+    /* 近 14 天使用趨勢（dist 條） */
+    const recentDaily = F.daily.slice(-14);
+    const dMax = Math.max(...recentDaily.map(x=>x.count), 1);
+    const dailyRows = recentDaily.map(x => {
+      const w = (x.count/dMax*100).toFixed(0);
+      return `
+      <div class="dist-row">
+        <div class="dist-name" style="font-family:var(--f-en)">${x.date.slice(5)}</div>
+        <div class="dist-track"><div class="dist-fill" data-w="${w}" data-color="${ratioColor(x.count/dMax*100)}"></div></div>
+        <div class="dist-n">${x.count}</div>
+      </div>`;
+    }).join('');
+
+    fitHtml = `
+    <div class="section reveal" style="margin-top:48px">
+      <div class="sec-head">
+        <div class="sec-kicker">Fit Check</div>
+        <div class="sec-title">尺寸檢測</div>
+      </div>
+
+      <div class="kpi-row" style="max-width:100%; margin-bottom:16px">
+        <div class="kpi reveal">
+          <div class="kpi-v">${F.total.toLocaleString()}<span class="u">次</span></div>
+          <div class="kpi-l">檢測總次數</div>
+          <div style="font-size:11px;color:var(--txt3);margin-top:6px">日均 ${perDay} 次・${F.daily[0]?.date.slice(5) || ''} 起</div>
+        </div>
+        <div class="kpi reveal">
+          <div class="kpi-v">${okRate}<span class="u">%</span></div>
+          <div class="kpi-l">合用率</div>
+          <div style="font-size:11px;color:var(--txt3);margin-top:6px">合用 ${okN} / 總數 ${F.total}</div>
+        </div>
+        <div class="kpi reveal">
+          <div class="kpi-v">${((F.byPath['measure']||0)/F.total*100).toFixed(0)}<span class="u">%</span></div>
+          <div class="kpi-l">動手量尺寸比例</div>
+          <div style="font-size:11px;color:var(--txt3);margin-top:6px">其餘為直接選擇濾籃型態</div>
+        </div>
+      </div>
+
+      ${F.notifyCount ? `<div style="text-align:center;font-size:12px;color:var(--txt2);margin:0 0 16px">📮 已有 <b style="color:var(--ice)">${F.notifyCount}</b> 人留下 Email，等候新尺寸上市通知</div>` : ''}
+
+      <div class="two-col">
+        <div class="card reveal">
+          <div class="card-title">檢測結果</div>
+          <div class="card-sub">合用 = 適合安裝快排濾網</div>
+          <div class="dists" id="fitResult"></div>
+        </div>
+        <div class="card reveal">
+          <div class="card-title">不合原因</div>
+          <div class="card-sub">結果為「不合」者的原因分布</div>
+          <div class="dists" id="fitReason"></div>
+        </div>
+      </div>
+
+      <div class="two-col" style="margin-top:16px">
+        <div class="card reveal">
+          <div class="card-title">濾籃型態</div>
+          <div class="card-sub">使用者家中現有的濾籃類型</div>
+          <div class="dists" id="fitType"></div>
+        </div>
+        <div class="card reveal">
+          <div class="card-title">量測尺寸分布</div>
+          <div class="card-sub">${hasCm ? '走「量尺寸」路徑者實際量到的排水孔直徑' : '尚無量測資料'}</div>
+          <div class="dists" id="fitCm"></div>
+        </div>
+      </div>
+
+      <div class="card reveal" style="margin-top:16px">
+        <div class="card-title">每日使用趨勢</div>
+        <div class="card-sub">近 14 天檢測次數</div>
+        <div class="dists">${dailyRows}</div>
+      </div>
+    </div>`;
+  } else {
+    fitHtml = `<div class="error-msg" style="margin-top:60px">尺寸檢測資料需要 GAS v9 以上版本（讀取「快排濾網_使用紀錄」工作表）。請將 huroyama_GAS_v9.js 貼入 Apps Script 並重新部署。</div>`;
+  }
+
   html = `
     <div class="tabbar">
       <button class="tab-btn ${activeTab==='overview'?'on':''}" data-tab="overview" onclick="switchTab('overview')">總覽</button>
       <button class="tab-btn ${activeTab==='cross'?'on':''}" data-tab="cross" onclick="switchTab('cross')">交叉分析</button>
       <button class="tab-btn ${activeTab==='line'?'on':''}" data-tab="line" onclick="switchTab('line')">LINE 成效</button>
+      <button class="tab-btn ${activeTab==='fit'?'on':''}" data-tab="fit" onclick="switchTab('fit')">尺寸檢測</button>
     </div>
     <div id="tab-overview" style="${activeTab!=='overview'?'display:none':''}">${html}</div>
     <div id="tab-cross" style="${activeTab!=='cross'?'display:none':''}">${crossHtml}</div>
     <div id="tab-line" style="${activeTab!=='line'?'display:none':''}">${lineHtml}</div>
+    <div id="tab-fit" style="${activeTab!=='fit'?'display:none':''}">${fitHtml}</div>
     <div class="foot">MIELOO DESIGN · HUROYAMA — 浴山系列</div>`;
   app.innerHTML = html;
+
+  /* 尺寸檢測分布條（renderDist 需在 DOM 就緒後呼叫） */
+  if (d.fitcheck && d.fitcheck.total > 0) {
+    const F = d.fitcheck;
+    const mType   = { tw:'台式', jp:'日式', kr:'韓式', '未填':'未選' };
+    const mResult = { ok:'合用', no:'不合', mid:'臨界' };
+    const mReason = { small:'尺寸過小', large:'尺寸過大', '日式':'日式濾籃', '韓式':'韓式濾籃', '未填':'未填' };
+    const mapK = (obj, m) => {
+      const out = {};
+      Object.entries(obj).forEach(([k,v]) => { out[(m && m[k]) || k] = v; });
+      return out;
+    };
+    renderDist('fitResult', mapK(F.byResult, mResult));
+    const reasonOnly = { ...F.byReason }; delete reasonOnly['未填'];
+    renderDist('fitReason', Object.keys(reasonOnly).length ? mapK(reasonOnly, mReason) : mapK(F.byReason, mReason));
+    renderDist('fitType', mapK(F.byType, mType));
+    const cmB = {};
+    (F.cmList || []).forEach(v => {
+      const k = v < 9 ? '< 9 cm' : v < 11 ? '9–10.9 cm' : v < 12 ? '11–11.9 cm' : v < 14 ? '12–13.9 cm' : '≥ 14 cm';
+      cmB[k] = (cmB[k]||0) + 1;
+    });
+    if (Object.keys(cmB).length) renderDist('fitCm', cmB);
+  }
 
   animateNumber(document.getElementById('heroNum'), n, 1200);
 
