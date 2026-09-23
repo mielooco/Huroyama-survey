@@ -992,12 +992,42 @@ function render(d) {
       </div>`;
     }).join('');
 
+    /* 嘖嘖 → 檢測漏斗（v9.2）：只用「有瀏覽記錄的日期」的同期檢測數計算，避免期間錯配 */
+    let funnelHtml = '';
+    if (d.zeczec && Array.isArray(d.zeczec.daily) && d.zeczec.daily.length > 0) {
+      const zDates = new Set(d.zeczec.daily.map(z => z.date));
+      const zViews = d.zeczec.daily.reduce((a,z) => a + z.views, 0);
+      const fitSameDates = F.daily.filter(x => zDates.has(x.date)).reduce((a,x) => a + x.count, 0);
+      const enterRate = zViews > 0 ? (fitSameDates / zViews * 100).toFixed(1) : '—';
+      const zFrom = d.zeczec.daily[0].date.slice(5);
+      funnelHtml = `
+      <div class="kpi-row" style="max-width:100%; margin-bottom:16px">
+        <div class="kpi reveal">
+          <div class="kpi-v">${zViews.toLocaleString()}<span class="u">次</span></div>
+          <div class="kpi-l">嘖嘖頁瀏覽（手動記錄）</div>
+          <div style="font-size:11px;color:var(--txt3);margin-top:6px">${zFrom} 起・共 ${d.zeczec.daily.length} 天</div>
+        </div>
+        <div class="kpi reveal">
+          <div class="kpi-v">${fitSameDates.toLocaleString()}<span class="u">次</span></div>
+          <div class="kpi-l">同期進入檢測</div>
+          <div style="font-size:11px;color:var(--txt3);margin-top:6px">僅計有瀏覽記錄的日期</div>
+        </div>
+        <div class="kpi reveal">
+          <div class="kpi-v">${enterRate}<span class="u">%</span></div>
+          <div class="kpi-l">瀏覽 → 檢測比例</div>
+          <div style="font-size:11px;color:var(--txt3);margin-top:6px">合用率請看下排（不確定族群的自選樣本）</div>
+        </div>
+      </div>`;
+    }
+
     fitHtml = `
     <div class="section reveal" style="margin-top:48px">
       <div class="sec-head">
         <div class="sec-kicker">Fit Check</div>
         <div class="sec-title">尺寸檢測</div>
       </div>
+
+      ${funnelHtml}
 
       <div class="kpi-row" style="max-width:100%; margin-bottom:16px">
         <div class="kpi reveal">
@@ -1045,6 +1075,13 @@ function render(d) {
         </div>
       </div>
 
+      ${F.bySource ? `
+      <div class="card reveal" style="margin-top:16px">
+        <div class="card-title">檢測來源</div>
+        <div class="card-sub">使用者從哪裡進入尺寸檢測工具（?ref= 參數或來站網域）</div>
+        <div class="dists" id="fitSource"></div>
+      </div>` : ''}
+
       <div class="card reveal" style="margin-top:16px">
         <div class="card-title">每日使用趨勢</div>
         <div class="card-sub">近 14 天檢測次數</div>
@@ -1084,6 +1121,10 @@ function render(d) {
     const reasonOnly = { ...F.byReason }; delete reasonOnly['未填'];
     renderDist('fitReason', Object.keys(reasonOnly).length ? mapK(reasonOnly, mReason) : mapK(F.byReason, mReason));
     renderDist('fitType', mapK(F.byType, mType));
+    if (F.bySource) {
+      const mSource = { zeczec:'嘖嘖募資頁', line:'LINE', direct:'直接進入', '未填':'未標記（舊資料）', 'www.zeczec.com':'嘖嘖募資頁（referrer）' };
+      renderDist('fitSource', mapK(F.bySource, mSource));
+    }
     const cmB = {};
     (F.cmList || []).forEach(v => {
       const k = v < 9 ? '< 9 cm' : v < 11 ? '9–10.9 cm' : v < 12 ? '11–11.9 cm' : v < 14 ? '12–13.9 cm' : '≥ 14 cm';
