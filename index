@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>浴山｜問卷已結束 — 募資進行中</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1043810354313464');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1043810354313464&ev=PageView&noscript=1"
+/></noscript>
+
+<style>
+/* ═══ 沿用問卷（index.html）感謝頁的視覺語言：黑底・反白logo・湖水藍強調・藥丸按鈕 ═══ */
+:root {
+  --black:#141412;
+  --gold:#50A8CC;
+  --line-green:#06C755;
+  --f-zh:'Noto Sans TC','Microsoft JhengHei',sans-serif;
+  --f-en:'DM Sans',sans-serif;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { min-height:100%; }
+body {
+  font-family:var(--f-zh); background:var(--black); color:#fff;
+  min-height:100vh; min-height:100dvh;
+}
+.ty-page { min-height:100vh; min-height:100dvh; display:flex; }
+.ty-content {
+  flex:1; max-width:460px; margin:0 auto;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; padding:48px 8% max(40px, env(safe-area-inset-bottom, 0px));
+}
+
+.ty-icon { font-size:48px; margin-bottom:18px; }
+.hero-logo { height:51px; filter:brightness(0) invert(1); opacity:.92; margin-bottom:18px; }
+
+.ty-title { font-size:clamp(23px,6.5vw,31px); font-weight:700; color:#fff; line-height:1.5; margin-bottom:14px; }
+.ty-gold { color:var(--gold); }
+.ty-n { font-family:var(--f-en); }
+.ty-sub { font-size:14px; font-weight:300; color:rgba(255,255,255,.75); line-height:1.8; max-width:320px; }
+.ty-earlybird { font-size:18px; font-weight:700; color:var(--gold); margin:14px 0 0; }
+
+.ty-social-label { font-size:13px; color:rgba(255,255,255,.6); line-height:1.7; margin-top:26px; }
+.ty-finger { font-size:28px; margin:8px 0 0; animation:fingerBounce 1s ease-in-out infinite; display:block; }
+@keyframes fingerBounce { 0%,100%{transform:translateY(0);} 50%{transform:translateY(8px);} }
+
+.btn-pill {
+  display:flex; align-items:center; justify-content:center;
+  height:50px; width:100%; max-width:340px; border-radius:25px;
+  font-size:14px; font-weight:500; color:#fff; margin-top:14px;
+  text-decoration:none; font-family:var(--f-zh); letter-spacing:.5px;
+  transition:opacity .2s;
+}
+.btn-pill:active { opacity:.8; }
+.btn-zeczec { background:var(--gold); animation:goldPulse 1.8s ease-out infinite; }
+@keyframes goldPulse {
+  0%   { box-shadow:0 0 0 0 rgba(80,168,204,.55); }
+  70%  { box-shadow:0 0 0 14px rgba(80,168,204,0); }
+  100% { box-shadow:0 0 0 0 rgba(80,168,204,0); }
+}
+.btn-line-full { background:var(--line-green); }
+.btn-ig { background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); }
+
+.ty-footer { margin-top:32px; font-size:12px; color:rgba(255,255,255,.35); letter-spacing:1px; line-height:1.8; }
+</style>
+</head>
+<body>
+<div class="ty-page">
+  <div class="ty-content">
+    <div class="ty-icon">🙏</div>
+    <img class="hero-logo" src="https://pic.mieloo-corp.com/uploads/medium/ec/8c/0498cef723b64fe276e18da9eb1a.png" alt="浴山 LOGO">
+    <h2 class="ty-title">感謝 <span class="ty-gold ty-n">1,000+</span> 位朋友<br>的參與與回饋<br><span class="ty-gold">募資已正式上線！</span></h2>
+    <p class="ty-sub">上市前意見募集已圓滿結束，<br>你們的每一個意見，都成為了產品的一部分。</p>
+    <p class="ty-earlybird">✓ 超早鳥 66 折・限量優惠中（至 11/10）</p>
+    <p class="ty-social-label">前往募資頁支持我們<br>或加 LINE 好友，輸入關鍵字 [濾網] 領優惠碼 🎁</p>
+    <span class="ty-finger">👇</span>
+    <a class="btn-pill btn-zeczec" id="zeczecBtn" href="#" target="_blank"
+       onclick="if(typeof fbq==='function')fbq('trackCustom','ZeczecClick');">前往嘖嘖募資頁 →</a>
+    <a class="btn-pill btn-line-full" href="https://lin.ee/qyNMRN0" target="_blank"
+       onclick="if(typeof fbq==='function')fbq('trackCustom','AddLineClick');">加入 LINE 好友</a>
+    <a class="btn-pill btn-ig" href="https://www.instagram.com/mieloo_design/" target="_blank">追蹤 Instagram</a>
+    <div class="ty-footer">米鹿設計 MIELOO DESIGN<br>HUROYAMA — 浴山系列</div>
+  </div>
+</div>
+
+<script>
+/* 募資頁網址 */
+const ZECZEC_URL = 'https://www.zeczec.com/projects/huro_strainer';
+document.getElementById('zeczecBtn').href = ZECZEC_URL;
+</script>
+</body>
+</html>
