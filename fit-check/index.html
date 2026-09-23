@@ -134,6 +134,10 @@ footer{padding:0 18px 14px;text-align:center;font-family:var(--fn);font-weight:6
           <div class="pic"><img src="img/kr.jpg" alt="韓式濾籃"></div>
           <div><h3>韓式<small>直徑約 13.5~14cm</small></h3><p>深籃、寬邊，孔洞像蜂巢一樣密，常搭三腳塑膠防臭蓋。</p></div>
         </button>
+        <button class="card" data-type="us">
+          <div class="pic"><div class="ph">歐美規格<br>參考圖補拍中</div></div>
+          <div><h3>歐美規格<small>直徑約 8.9cm（3.5英吋）</small></h3><p>常見於歐美進口水槽，排水孔較小，濾籃口徑明顯比台式窄。</p></div>
+        </button>
       </div>
       <button class="card slim" data-go="measure">
         <div><h3>沒有可以拿起來的籃子？<br>或三個都不像？</h3><p>直接量尺寸，30 秒就知道 →</p></div>
@@ -215,7 +219,7 @@ $$('.card[data-type]').forEach(c=>c.onclick=()=>{
   $$('.card[data-type]').forEach(x=>x.classList.remove('sel')); c.classList.add('sel');
   S.type=c.dataset.type; S.path='type';
   if(S.type==='tw'){ setTimeout(()=>show('size'),180); }
-  else { setTimeout(()=>result('no', S.type==='jp'?'日式':'韓式'),180); }
+  else { const wy={jp:'日式',kr:'韓式',us:'歐美'}[S.type]; setTimeout(()=>result('no', wy),180); }
 });
 
 /* Step 2 */
@@ -254,6 +258,7 @@ function result(kind, why, cm){
     let reason='';
     if(why==='日式') reason='你的是<b>日式</b>濾籃（直徑約 13.5–14 cm）<br>跟快排濾網的 11–11.5 cm 規格不同。';
     else if(why==='韓式') reason='你的是<b>韓式</b>濾籃（直徑約 13.5–14 cm）<br>跟快排濾網的 11–11.5 cm 規格不同。';
+    else if(why==='歐美') reason='你的是<b>歐美規格</b>濾籃（直徑約 8.9 cm／3.5 英吋）<br>跟快排濾網的 11–11.5 cm 規格不同。';
     else if(why==='small') reason=`你量到 <b>${cm} cm</b><br>比適用的 11–11.5 cm 小，通常是洗手台或小水槽用的小提籠。`;
     else if(why==='large') reason=`你量到 <b>${cm} cm</b><br>比適用的 11–11.5 cm 大，屬於 14／18 cm 的大口徑系統。`;
     else reason='這款規格跟快排濾網的 11–11.5 cm 不同。';
