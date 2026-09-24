@@ -1004,7 +1004,7 @@ function render(d) {
       <div class="kpi-row" style="max-width:100%; margin-bottom:16px">
         <div class="kpi reveal">
           <div class="kpi-v">${zViews.toLocaleString()}<span class="u">次</span></div>
-          <div class="kpi-l">嘖嘖頁瀏覽（手動記錄）</div>
+          <div class="kpi-l">嘖嘖頁瀏覽（${d.zeczec.source === 'ga' ? 'GA 自動' : '手動記錄'}）</div>
           <div style="font-size:11px;color:var(--txt3);margin-top:6px">${zFrom} 起・共 ${d.zeczec.daily.length} 天</div>
         </div>
         <div class="kpi reveal">
