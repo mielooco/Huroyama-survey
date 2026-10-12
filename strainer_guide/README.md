@@ -8,6 +8,10 @@
 - `vendor/`：Three.js 及相關授權檔案。
 - 不需要 npm 安裝或編譯；請透過 HTTP 網站開啟，直接雙擊 HTML 無法完整載入 3D 模型。
 
+## 修改內容
+
+日常修改請從 **[content.js](./content.js)** 開始；操作方式與例子見 **[CONTENT-EDITING.md](./CONTENT-EDITING.md)**。首頁、章節、常用連結、影片步驟和清潔 Q&A 已集中管理。3D 與影片播放程式仍分開保留。
+
 ## 累計參與與使用人次
 
 GitHub Pages 不提供原網站的 Cloudflare D1 計數 API。此版暫保留原頁面基準值 4739，不呼叫未設定的 API，也不以瀏覽器假造增量。

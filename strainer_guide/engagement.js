@@ -1,3 +1,4 @@
+import {content} from './content.js';
 const label = document.querySelector('#engagement-count');
 // GitHub Pages serves static files. Set a counter endpoint only after a
 // compatible service is configured; never generate browser-only counts.
@@ -17,7 +18,7 @@ async function countEntry() {
       });
       if (!response.ok) throw new Error('Counter unavailable');
       const {count} = await response.json();
-      if (entryId === id && Number.isSafeInteger(count) && count >= 4739) {
+      if (entryId === id && Number.isSafeInteger(count) && count >= content.home.counterBaseline) {
         label.textContent = String(count);
       }
       return;
