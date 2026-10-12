@@ -49,9 +49,10 @@ export const content = {
     }
   },
   "socialLinks": [
-    {"id": "zeczec", "label": "嘖嘖募資", "url": "https://www.zeczec.com/projects/huro_strainer"},
+    {"id": "website", "label": "官網", "url": "https://www.mieloo-corp.com/"},
     {"id": "line", "label": "LINE 好友", "url": "https://lin.ee/qyNMRN0"},
-    {"id": "instagram", "label": "Instagram", "url": "https://www.instagram.com/mieloo_design/"}
+    {"id": "instagram", "label": "Instagram", "url": "https://www.instagram.com/mieloo_design/"},
+    {"id": "facebook", "label": "Facebook", "url": "https://www.facebook.com/mieloo.design/"}
   ],
   // 五個章節；只修改文字，保留 id、number 與順序。
   "chapters": [

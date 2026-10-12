@@ -1,3 +1,4 @@
+import {modelProgress} from './loading-progress.js?v=media-start1';
 import {guardViewerWheel} from './mobile-viewer.js?v=clean-ui2';
 import * as THREE from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
@@ -65,7 +66,7 @@ function loadModel(name){
   wrap.updateMatrixWorld(true);const center=new THREE.Box3().setFromObject(wrap).getCenter(new THREE.Vector3());gltf.scene.position.sub(center);wrap.name=name;wrap.visible=false;
   wrap.traverse(o=>{if(o.isMesh){o.material=o.material.clone();o.material.envMapIntensity=1.1;}});
   scene.add(wrap);models[name]=wrap;resolve(wrap);
- },evt=>{if(state.model===name&&evt.total)$('#loading-progress').textContent=`${Math.round(evt.loaded/evt.total*100)}%`;},err=>{delete loadPromises[name];reject(err);});});return loadPromises[name];
+ },evt=>{if(state.model===name)$('#loading-progress').textContent=modelProgress(name,evt.loaded);},err=>{delete loadPromises[name];reject(err);});});return loadPromises[name];
 }
 async function changeModel(name,view){
  state.model=name;state.part=null;state.focus=false;

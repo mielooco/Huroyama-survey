@@ -7,15 +7,15 @@ class Element extends EventTarget {
 }
 class Video extends Element {
  paused=true;currentTime=0;duration=30;ended=false;
- load(){queueMicrotask(()=>this.dispatchEvent(new Event('loadeddata')));}
+ load(){queueMicrotask(()=>this.dispatchEvent(new Event('loadedmetadata')));}
  async play(){this.paused=false;this.ended=false;this.dispatchEvent(new Event('play'));}
  pause(){this.paused=true;this.dispatchEvent(new Event('pause'));}
 }
 const observers=[],videos=[];
 globalThis.document=new Element();document.hidden=false;document.querySelectorAll=()=>videos;
 globalThis.matchMedia=()=>({matches:false});globalThis.innerHeight=600;
-globalThis.fetch=async()=>({ok:true,blob:async()=>new Blob(['video'])});
-globalThis.IntersectionObserver=class {constructor(fn){this.fn=fn;observers.push(this);}observe(){} };
+globalThis.fetch=async()=>{throw Error('Video must use native media loading, not fetch/blob');};
+globalThis.IntersectionObserver=class {constructor(fn){this.fn=fn;observers.push(this);}observe(){} disconnect(){} };
 const settle=()=>new Promise(r=>setImmediate(r));
 function setup(kind){
  const video=new Video();video.dataset.src=videoGuides[kind].file;videos.push(video);
@@ -31,7 +31,12 @@ function setup(kind){
  return {video,host,elements,buttons,click,step,visibility};
 }
 for(const kind of ['install','empty','care']){
- const c=setup(kind);c.visibility(true);await settle();
+ const c=setup(kind);
+ observers.at(-2).fn([{isIntersecting:true}]);await settle();
+ assert.equal(c.video.paused,true,'prewarm must not start playback');
+ assert.equal(c.video.src,videoGuides[kind].file,'native URL allows progressive playback');
+ c.visibility(true);await settle();
+ assert.equal(c.video.preload,'auto','visible playback allows buffering');
  for(let i=0;i<3;i++){
   c.step(i);await settle();assert.equal(c.video.paused,false,`${kind}/${i}: step should play`);
   assert.equal(c.video.currentTime,videoGuides[kind].steps[i].start);

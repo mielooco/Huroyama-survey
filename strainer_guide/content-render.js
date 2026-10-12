@@ -1,4 +1,4 @@
-import {content} from './content.js?v=fit-social1';
+import {content} from './content.js?v=media-start1';
 
 // Treat editable copy as text so quotes, ampersands and angle brackets stay visible.
 export function escapeHTML(value){return String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
@@ -11,7 +11,8 @@ export function renderFAQ(item){
 }
 const clickHand=`<svg class="fit-hand" viewBox="0 0 100 100" aria-hidden="true"><g class="fit-rays" fill="none" stroke="#ffe296" stroke-width="4" stroke-linecap="round"><path d="M35 20V9M19 28l-8-8M53 27l9-9M13 44H3"/></g><path d="M35 62V37c0-11 14-11 14 0v17c2-9 13-8 13 2v3c3-8 13-6 13 3v3c3-7 13-5 13 4v9c0 12-10 19-24 19-10 0-17-4-23-12L23 64c-6-8 4-17 11-10l1 2z" fill="#fffdf6" stroke="#ffe296" stroke-width="4" stroke-linejoin="round"/></svg>`;
 const socialIcons={
- zeczec:'<svg viewBox="0 0 32 32" aria-hidden="true"><text x="16" y="23" text-anchor="middle" fill="currentColor" font-size="24" font-weight="700">嘖</text></svg>',
+ website:'<svg viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><circle cx="16" cy="16" r="11"/><ellipse cx="16" cy="16" rx="5" ry="11"/><path d="M5 16h22M8 9h16M8 23h16"/></svg>',
+ facebook:'<svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M19 29V18h4l1-5h-5v-3c0-2 1-3 3-3h2V3h-4c-5 0-7 3-7 7v3H9v5h4v11z"/></svg>',
  line:'<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M27 14c0 6-6 10-12 11l-4 3 1-5C7 22 4 19 4 14 4 8 9 5 16 5s11 3 11 9z" fill="currentColor"/><text x="16" y="17" text-anchor="middle" fill="#008b49" font-size="8" font-weight="800">LINE</text></svg>',
  instagram:'<svg viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="5" y="5" width="22" height="22" rx="7"/><circle cx="16" cy="16" r="5"/><circle cx="23" cy="9" r="1.3" fill="currentColor" stroke="none"/></svg>'
 };

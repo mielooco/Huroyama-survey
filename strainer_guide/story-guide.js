@@ -1,8 +1,8 @@
-import {content} from './content.js?v=fit-social1';
-import {escapeHTML as esc,renderFAQ,renderPageContent} from './content-render.js?v=fit-social1';
-import {videoSequence,initVideoGuides,selectVideoStep} from './video-steps.js?v=fit-social1';
-import {careDetails,syncCare} from './care-content.js?v=fit-social1';
-import {chapters,routeFromHash} from './guide-logic.js?v=fit-social1';
+import {content} from './content.js?v=media-start1';
+import {escapeHTML as esc,renderFAQ,renderPageContent} from './content-render.js?v=media-start1';
+import {videoSequence,initVideoGuides,selectVideoStep} from './video-steps.js?v=media-start1';
+import {careDetails,syncCare} from './care-content.js?v=media-start1';
+import {chapters,routeFromHash} from './guide-logic.js?v=media-start1';
 renderPageContent();
 let waterModule;
 const root=document.querySelector('#guide-content'),nav=document.querySelector('#guide-nav');
