@@ -4,7 +4,6 @@
 
 - 網址： https://survey.mieloo-corp.com/strainer_guide/
 - 現行 B 版： `index.html`
-- 保留 A 版： `version-a.html`
 - `assets/`：影片、模型、字型及品牌素材，請連同子目錄一起保留。
 - `vendor/`：Three.js 及相關授權檔案。
 - 不需要 npm 安裝或編譯；請透過 HTTP 網站開啟，直接雙擊 HTML 無法完整載入 3D 模型。
@@ -13,7 +12,7 @@
 
 GitHub Pages 不提供原網站的 Cloudflare D1 計數 API。此版暫保留原頁面基準值 4739，不呼叫未設定的 API，也不以瀏覽器假造增量。
 
-未來啟用時，在 `index.html` 與 `version-a.html` 的 head 加入 `engagement-endpoint` meta，content 指向已配置的計數服務。服務須接受 POST JSON `{id}`，同一 id 不重複計數，回傳 JSON `{count}`；跨網域服務須允許本站來源。後端需處理資料保存、去重與防濫用，並先確認歷史計數的搬移方式。
+未來啟用時，在 `index.html` 的 head 加入 `engagement-endpoint` meta，content 指向已配置的計數服務。服務須接受 POST JSON `{id}`，同一 id 不重複計數，回傳 JSON `{count}`；跨網域服務須允許本站來源。後端需處理資料保存、去重與防濫用，並先確認歷史計數的搬移方式。
 
 ## 版本來源
 
