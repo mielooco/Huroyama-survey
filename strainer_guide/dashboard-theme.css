@@ -174,3 +174,6 @@
  .footer-social{gap:clamp(14px,5vw,28px)}.footer-meta{flex-direction:column;gap:5px}
 }
 @media(prefers-reduced-motion:reduce){.fit-cta::before,.fit-rays{animation:none}.social-circle{transition:none}}
+
+/* Align the sticky navigation with the surrounding guide cards. */
+.story-view .guide-nav{width:100%;max-width:960px;margin-inline:auto;box-sizing:border-box}
