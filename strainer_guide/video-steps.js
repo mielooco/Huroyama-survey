@@ -5,7 +5,7 @@ const soundIcon=(muted)=>`<svg viewBox="0 0 24 24" fill="none" aria-hidden="true
 export function videoSequence(kind){const c=videoGuides[kind];return `<section class="video-guide" data-video-guide="${kind}" aria-label="${esc(c.title)}分步影片"><div class="video-frame"><video playsinline muted preload="none" poster="${esc(c.poster)}" data-src="${esc(c.file)}" role="button" tabindex="0" aria-label="播放${esc(c.title)}影片" title="點影片播放或暫停"></video><button class="video-replay" data-video-replay aria-label="重播${esc(c.title)}影片" title="重播" hidden><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 10a8 8 0 1 1 1.6 7M4 4v6h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="video-sound" data-video-sound aria-label="開啟影片聲音" aria-pressed="false">${soundIcon(true)}</button><span class="video-loading" role="status" hidden>正在載入影片…</span><div class="video-steps" role="group" aria-label="${esc(c.title)}影片步驟">${c.steps.map((s,i)=>`<button data-video-step="${i}" aria-pressed="${i===0}"><span>0${i+1}</span><strong>${esc(s.title)}</strong></button>`).join('')}</div></div><p class="video-step-copy" aria-live="polite">${esc(c.steps[0].text)}</p><p class="video-error" role="status" hidden>影片暫時無法播放，請重試；你仍可點選步驟閱讀說明。<button data-video-retry>重新載入</button></p></section>`;}
 function showStep(host,index){const changed=host.dataset.activeStep!==String(index);host.dataset.activeStep=String(index);const c=videoGuides[host.dataset.videoGuide];host.querySelectorAll('[data-video-step]').forEach((b,i)=>b.setAttribute('aria-pressed',i===index));host.querySelector('.video-step-copy').textContent=c.steps[index].text;if(changed)host.dispatchEvent(new CustomEvent('video-step-change',{bubbles:true,detail:{kind:host.dataset.videoGuide,index}}));}
 const mediaFiles=new Map(),prepared=new WeakMap(),stepControllers=new WeakMap();
-export function selectVideoStep(host,index){return stepControllers.get(host)?.(index);}
+export function selectVideoStep(host,index,{play=false}={}){return stepControllers.get(host)?.(index,play);}
 async function prepareVideo(video){
  if(prepared.has(video))return prepared.get(video);
  const pending=(async()=>{const src=video.dataset.src;let file=mediaFiles.get(src);if(!file){file=fetch(src).then(r=>{if(!r.ok)throw Error('video download');return r.blob();}).then(blob=>URL.createObjectURL(new Blob([blob],{type:'video/mp4'}))).catch(e=>{mediaFiles.delete(src);throw e;});mediaFiles.set(src,file);}
@@ -25,8 +25,8 @@ export function initVideoGuides(root=document){root.querySelectorAll('[data-vide
  finally{if(token===request){loading.hidden=true;label();}}
  }
  function toggle(){held=!video.paused;if(held){++request;loading.hidden=true;video.pause();}else operate(video.ended?0:null,true);label();}
- stepControllers.set(host,index=>{if(!config.steps[index])return;held=true;showStep(host,index);return operate(config.steps[index].at,false);});
- host.addEventListener('click',e=>{const step=e.target.closest('[data-video-step]');if(step){selectVideoStep(host,Number(step.dataset.videoStep));return;}
+ stepControllers.set(host,(index,play)=>{if(!config.steps[index])return;held=!play;showStep(host,index);return operate(play?config.steps[index].start:config.steps[index].at,play);});
+ host.addEventListener('click',e=>{const step=e.target.closest('[data-video-step]');if(step){selectVideoStep(host,Number(step.dataset.videoStep),{play:true});return;}
  if(e.target.closest('[data-video-sound]')){video.muted=!video.muted;sound.innerHTML=soundIcon(video.muted);sound.setAttribute('aria-label',video.muted?'開啟影片聲音':'關閉影片聲音');sound.setAttribute('aria-pressed',!video.muted);return;}
  if(e.target.closest('[data-video-replay]')){held=false;showStep(host,0);operate(0,true);return;}
  if(e.target.closest('[data-video-retry]')){held=false;operate(0,true);return;}if(e.target===video)toggle();

@@ -96,7 +96,7 @@ export const content = {
   "dailyUse": {
     "placeholder": "滑到這裡，探索蓄水、排水與止臭。"
   },
-  // 三段影片：file 是影片路徑，poster 是封面。at 是點步驟停格秒數；start 是播放時切換該步驟的秒數。保留 install/empty/care 與每段三個步驟。
+  // 三段影片：file 是影片路徑，poster 是封面。start 是點步驟開始播放與播放時切換該步驟的秒數；at 是清潔分類切換時的靜態預覽秒數。保留 install/empty/care 與每段三個步驟。
   "videos": {
     "care": {
       "title": "浸泡洗淨",

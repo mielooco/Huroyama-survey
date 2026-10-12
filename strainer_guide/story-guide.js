@@ -1,6 +1,6 @@
 import {content} from './content.js';
 import {escapeHTML as esc,renderFAQ,renderPageContent} from './content-render.js';
-import {videoSequence,initVideoGuides,selectVideoStep} from './video-steps.js?v=content1';
+import {videoSequence,initVideoGuides,selectVideoStep} from './video-steps.js?v=step-play1';
 import {careDetails,syncCare} from './care-content.js?v=content1';
 import {chapters,routeFromHash} from './guide-logic.js?v=content1';
 renderPageContent();
