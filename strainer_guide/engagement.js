@@ -1,4 +1,4 @@
-import {content} from './content.js?v=home-layout1';
+import {content} from './content.js?v=fit-social1';
 const label = document.querySelector('#engagement-count');
 // GitHub Pages serves static files. Set a counter endpoint only after a
 // compatible service is configured; never generate browser-only counts.

@@ -24,6 +24,9 @@ export const content = {
     "topics": "商品規格 / 操作 / 清潔維護",
     "counterLabel": "累計參與與使用人次：",
     "counterBaseline": 4739,
+    "fitPrompt": "不確定自家的廚房水槽是否適用嗎？",
+    "fitAction": "點擊前往確認尺寸",
+    "fitNote": "先確認尺寸，再安心選購",
     "linkOrder": [
       "fit",
       "product",
@@ -45,6 +48,11 @@ export const content = {
       "url": "https://www.youtube.com/watch?v=KUTuMWCO0BQ"
     }
   },
+  "socialLinks": [
+    {"id": "zeczec", "label": "嘖嘖募資", "url": "https://www.zeczec.com/projects/huro_strainer"},
+    {"id": "line", "label": "LINE 好友", "url": "https://lin.ee/qyNMRN0"},
+    {"id": "instagram", "label": "Instagram", "url": "https://www.instagram.com/mieloo_design/"}
+  ],
   // 五個章節；只修改文字，保留 id、number 與順序。
   "chapters": [
     {
