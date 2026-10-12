@@ -6,7 +6,7 @@ export const content = {
     "title": "HUROYAMA 浴山｜廚房快排濾網使用指南",
     "description": "浴山廚房快排濾網使用指南：商品規格、安裝、日常排水止水、清倒與清潔維護。",
     "brand": "HUROYAMA",
-    "brandSubtitle": "浴山 · 產品使用指南",
+    "brandSubtitle": "浴山｜廚房快排濾網・使用指南",
     "footerBrand": "HUROYAMA 浴山",
     "footerText": "廚房快排濾網 · 功能指南",
     "aboutLabel": "關於此版本",
