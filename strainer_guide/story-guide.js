@@ -1,18 +1,16 @@
-import {content} from './content.js';
-import {escapeHTML as esc,renderFAQ,renderPageContent} from './content-render.js';
-import {videoSequence,initVideoGuides,selectVideoStep} from './video-steps.js?v=step-play1';
-import {careDetails,syncCare} from './care-content.js?v=content1';
-import {chapters,routeFromHash} from './guide-logic.js?v=content1';
+import {content} from './content.js?v=home-layout1';
+import {escapeHTML as esc,renderFAQ,renderPageContent} from './content-render.js?v=home-layout1';
+import {videoSequence,initVideoGuides,selectVideoStep} from './video-steps.js?v=home-layout1';
+import {careDetails,syncCare} from './care-content.js?v=home-layout1';
+import {chapters,routeFromHash} from './guide-logic.js?v=home-layout1';
 renderPageContent();
 let waterModule;
 const root=document.querySelector('#guide-content'),nav=document.querySelector('#guide-nav');
 const state={chapter:routeFromHash(location.hash),use:'drain',care:'daily'};
-const model=(tab,label)=>`<button class="text-button" data-reference="${tab}">${esc(label)} ↗</button>`;
-const source=(link)=>`<a class="source-link" href="${esc(link.url)}" target="_blank" rel="noopener">${esc(link.label)} ↗</a>`;
 function chapterHTML(chapter){
  const c=content.chapters.find(c=>c.id===chapter);
  let html=`<p class="panel-kicker">${esc(c.number)} / EVERYDAY GUIDE</p><h2 class="chapter-title" tabindex="-1">${esc(c.title)}</h2><p class="guide-lead">${esc(c.description)}</p>`;
- if(chapter==='install')html+=videoSequence('install')+`<div class="guide-bottom installation-links">${model('installation',content.installation.modelButton)}${source(content.links.fit)}</div>`;
+ if(chapter==='install')html+=videoSequence('install');
  if(chapter==='use')html+=`<div id="water-demo-slot"><div class="demo-placeholder">${esc(content.dailyUse.placeholder)}</div></div>`;
  if(chapter==='empty')html+=videoSequence('empty');
  if(chapter==='care')html+=videoSequence('care')+`<div class="mode-switch" role="group" aria-label="清潔維護類型">${Object.entries(content.care.modes).map(([id,c])=>`<button data-care="${id}" aria-pressed="${state.care===id}">${esc(c.label)}</button>`).join('')}</div><div class="feature-copy care-copy" aria-live="polite">${careDetails(state.care)}</div><div class="faq"><h3>${esc(content.care.faqTitle)}</h3>${content.care.faq.map(renderFAQ).join('')}</div>`;

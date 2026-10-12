@@ -134,3 +134,16 @@
  .story-view .intro-links{gap:7px}
  .story-view .intro .intro-links .fit-questionnaire{font-size:11px;padding:9px 10px}
 }
+
+/* Keep the homepage actions aligned with the 960px guide cards. */
+.story-view .intro{max-width:960px;width:100%;margin-inline:auto;box-sizing:border-box}
+.story-view .intro>div{display:block;width:100%;min-width:0}
+.story-view .intro-copy{max-width:none}
+.story-view .intro-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;width:100%}
+.story-view .intro .intro-links .fit-questionnaire{grid-column:auto;grid-row:auto;justify-self:stretch;width:100%;min-width:0;min-height:48px;margin:0;padding:12px 20px;font-size:14px}
+.story-view .intro .intro-links [data-intro-link="fit"]{grid-column:1/-1;min-height:54px;font-size:16px}
+@media(max-width:740px){
+ .story-view .intro-links{gap:10px}
+ .story-view .intro .intro-links .fit-questionnaire{font-size:13px;padding:10px 12px}
+ .story-view .intro .intro-links [data-intro-link="fit"]{font-size:14px;min-height:50px}
+}

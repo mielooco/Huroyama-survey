@@ -30,7 +30,7 @@ export const content = {
       "operation"
     ]
   },
-  // 常用外部連結；首頁和安裝區的尺寸連結共用這裡。
+  // 常用外部連結；首頁尺寸問卷、產品介紹與完整影片。
   "links": {
     "fit": {
       "label": "確認適用尺寸",
@@ -41,7 +41,7 @@ export const content = {
       "url": "https://www.zeczec.com/projects/huro_strainer"
     },
     "operation": {
-      "label": "操作影片",
+      "label": "完整影片",
       "url": "https://www.youtube.com/watch?v=KUTuMWCO0BQ"
     }
   },
@@ -88,10 +88,6 @@ export const content = {
       "description": "日常沖洗渣籃，需要時再進行深度浸泡清潔。"
     }
   ],
-  // 安裝章節按鈕
-  "installation": {
-    "modelButton": "對照水槽安裝模型"
-  },
   // 3D 示意載入前的文字；模型與特效設定仍在互動程式。
   "dailyUse": {
     "placeholder": "滑到這裡，探索蓄水、排水與止臭。"

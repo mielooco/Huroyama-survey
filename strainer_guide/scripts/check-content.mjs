@@ -20,7 +20,7 @@ export async function validateContent(c){
  c.home.linkOrder.forEach(key=>assert.ok(c.links[key],`找不到首頁連結 ${key}`));
  assert.deepEqual(c.chapters.map(v=>v.id),['fit','install','use','empty','care'],'請保留五章的 id 與顺序');
  c.chapters.forEach((v,i)=>{assert.equal(v.number,String(i+1).padStart(2,'0'),'章節編號不正確');for(const key of ['title','navTitle','navDescription','description'])nonempty(v[key],`chapters.${v.id}.${key}`);});
- nonempty(c.installation.modelButton,'installation.modelButton');nonempty(c.dailyUse.placeholder,'dailyUse.placeholder');
+ nonempty(c.dailyUse.placeholder,'dailyUse.placeholder');
  assert.deepEqual(Object.keys(c.videos).sort(),['care','empty','install'],'請保留三段影片');
  for(const [id,v] of Object.entries(c.videos)){
   nonempty(v.title,`videos.${id}.title`);
