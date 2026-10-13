@@ -4,6 +4,15 @@ const steelParts = new Set(['sink','drain_housing','filter_cup','top_cover','bas
 
 export function surfaceMaterial(source, name, {section = false} = {}) {
  const material = source.clone();
+ // The dedicated handle is grey-white polypropylene, not stainless steel.
+ if (name === 'handle') {
+  material.name = '灰白色 PP 塑膠';
+  material.color.set('#d6d8d5');
+  material.metalness = 0;
+  material.roughness = .78;
+  material.envMapIntensity = .55;
+  return material;
+ }
  if (!steelParts.has(name)) return material;
  const basin = name === 'sink';
  material.color.set(section ? '#bcc3c7' : '#b5bcc1');

@@ -1,4 +1,4 @@
-import {surfaceMaterial} from './surface-materials.js?v=brushed1';
+import {surfaceMaterial} from './surface-materials.js?v=pp-handle1';
 import {modelProgress} from './loading-progress.js?v=media-start1';
 import {guardViewerWheel} from './mobile-viewer.js?v=clean-ui2';
 import * as THREE from 'three';
