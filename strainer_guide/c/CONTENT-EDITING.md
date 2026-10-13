@@ -4,7 +4,7 @@
 
 - `content.js`：首頁文字、兩個入口、五章標題、影片步驟、Q&A 與補充連結。
 - `home.actions`：開始安裝、遇到問題。
-- `chapters`：保留 id，順序為 install、empty、use、fit、care，編號 01–05。
+- `chapters`：保留 id，順序為 install、empty、use、care、fit，編號 01–05。
 - `care.resourceLinks`：Q&A 下方的 fit、product、operation。
 - `links.fit.url`：尺寸確認網址。
 - `links.product.url`：目前為嘖嘖，日後在此換成官網。

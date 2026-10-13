@@ -1,8 +1,8 @@
-import {content} from './content.js?v=c1';
-import {escapeHTML as esc,renderFAQ,renderPageContent,fullFilmMarkup} from './content-render.js?v=c1';
+import {content} from './content.js?v=c2';
+import {escapeHTML as esc,renderFAQ,renderPageContent,fullFilmMarkup} from './content-render.js?v=c2';
 import {videoSequence,initVideoGuides,selectVideoStep} from './video-steps.js?v=c1';
 import {careDetails,syncCare} from './care-content.js?v=c1';
-import {chapters,routeFromHash} from './guide-logic.js?v=c1';
+import {chapters,routeFromHash} from './guide-logic.js?v=c2';
 renderPageContent();
 let waterModule;
 const root=document.querySelector('#guide-content'),nav=document.querySelector('#guide-nav');
@@ -29,7 +29,18 @@ for(const [id,title] of chapters){
 initVideoGuides(root);
 sections.get('fit').append(document.querySelector('#model-reference'));
 document.querySelector('#model-reference').hidden=false;
-function setActive(id){state.chapter=id;for(const a of nav.querySelectorAll('[data-go]')){if(a.dataset.go===id)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current');}}
+function keepActiveVisible(){
+ if(!matchMedia('(max-width:740px)').matches)return;
+ const active=nav.querySelector('[aria-current]');if(!active)return;
+ const item=active.getBoundingClientRect(),frame=nav.getBoundingClientRect();
+ if(item.left<frame.left+8||item.right>frame.right-8)nav.scrollTo({left:nav.scrollLeft+item.left-frame.left-(nav.clientWidth-item.width)/2,behavior:reduced()?'instant':'smooth'});
+}
+function setActive(id){
+ const changed=nav.querySelector('[aria-current]')?.dataset.go!==id;
+ state.chapter=id;for(const a of nav.querySelectorAll('[data-go]')){if(a.dataset.go===id)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current');}
+ if(changed)keepActiveVisible();
+}
+new ResizeObserver(keepActiveVisible).observe(nav);
 function go(id,push=true){
  const section=sections.get(id);if(!section)return;
  if(push&&location.hash!==`#guide-${id}`)history.pushState(null,'',`#guide-${id}`);

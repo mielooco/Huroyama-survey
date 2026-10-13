@@ -18,7 +18,7 @@ export async function validateContent(c){
  assert.deepEqual(c.home.actions.map(a=>a.href),['#guide-install','#guide-faq']);
  assert.deepEqual(c.care.resourceLinks,['fit','product','operation']);
  for(const key of c.care.resourceLinks)assert.ok(c.links[key]);
- assert.deepEqual(c.chapters.map(v=>v.id),['install','empty','use','fit','care'],'請保留五章的 id 與顺序');
+ assert.deepEqual(c.chapters.map(v=>v.id),['install','empty','use','care','fit'],'請保留五章的 id 與顺序');
  c.chapters.forEach((v,i)=>{assert.equal(v.number,String(i+1).padStart(2,'0'),'章節編號不正確');for(const key of ['title','navTitle','navDescription','description'])nonempty(v[key],`chapters.${v.id}.${key}`);});
  nonempty(c.dailyUse.placeholder,'dailyUse.placeholder');
  assert.deepEqual(Object.keys(c.videos).sort(),['care','empty','install'],'請保留三段影片');

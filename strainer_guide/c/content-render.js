@@ -1,4 +1,4 @@
-import {content} from './content.js?v=c1';
+import {content} from './content.js?v=c2';
 
 // Treat editable copy as text so quotes, ampersands and angle brackets stay visible.
 export function escapeHTML(value){return String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}

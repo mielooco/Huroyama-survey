@@ -224,3 +224,21 @@
 .full-film-dialog .hero-film{margin:0;width:100%}
 .full-film-dialog .hero-film-stage{border:0;border-radius:0}
 @media(max-width:740px){.version-c .intro{padding:28px 0 26px}.version-c .intro h1{font-size:30px;max-width:320px}.version-c .intro-copy{font-size:14px;max-width:320px}.start-actions{gap:10px;margin-top:22px}.start-actions a{gap:20px;padding:12px 20px;font-size:14px}.version-c .chapter-fit .chapter-title{font-size:29px}.version-c .chapter-fit .guide-lead{font-size:14px}.version-c .faq-resources{gap:8px 18px}.version-c .faq-resources a,.version-c .faq-resources button{font-size:13px}.full-film-dialog{border-radius:14px}.film-dialog-heading{padding:8px 12px}}
+
+/* C mobile controls: readable labels and evenly distributed touch targets. */
+.version-c .start-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%}
+.version-c .start-actions a{width:100%;min-width:0;justify-content:space-between;min-height:52px}
+.version-c .demo-views,.version-c .demo-topics{display:grid;gap:8px;justify-content:stretch;padding-inline:16px}
+.version-c .demo-views{grid-template-columns:repeat(2,minmax(0,1fr))}
+.version-c .demo-topics{grid-template-columns:repeat(4,minmax(0,1fr))}
+.version-c .demo-views button,.version-c .demo-topics button{width:100%;min-width:0;min-height:48px;padding:10px 8px;font-size:15px;line-height:1.4}
+@media(max-width:740px){
+ .version-c .guide-nav{justify-content:flex-start;gap:8px;padding:8px;min-height:64px;overflow-x:auto;overscroll-behavior-x:contain;scroll-padding-inline:8px}
+ .version-c .guide-nav a{flex:0 0 auto;min-height:48px;padding:10px 16px;box-sizing:border-box}
+ .version-c .guide-nav a strong{font-size:16px;font-weight:600;line-height:1.5}
+ .version-c .start-actions a{font-size:16px;gap:10px;padding:12px 18px}
+ .version-c .demo-views,.version-c .demo-topics{grid-template-columns:repeat(2,minmax(0,1fr));padding-inline:12px}
+ .version-c #model-reference .model-switch{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;width:100%;padding:4px;border-radius:20px}
+ .version-c #model-reference .model-switch button{width:100%;min-width:0;min-height:48px;padding:10px 8px;font-size:15px;line-height:1.4}
+ .version-c .story-chapter{scroll-margin-top:80px}
+}

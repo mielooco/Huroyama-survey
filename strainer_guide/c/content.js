@@ -93,20 +93,20 @@ export const content = {
       "description": "洗滌時排水集渣，需要蓄水時，按壓中央切換止水。"
     },
     {
-      "id": "fit",
-      "navTitle": "規格說明",
-      "navDescription": "模型、部件與尺寸",
-      "number": "04",
-      "title": "規格說明",
-      "description": "需要了解尺寸與零件時，在這裡查看。"
-    },
-    {
       "id": "care",
       "navTitle": "清潔維護",
       "navDescription": "怎麼洗、怎麼照顧？",
-      "number": "05",
+      "number": "04",
       "title": "每次洗淨，為下次準備。",
       "description": "日常沖洗渣籃，需要時再進行深度浸泡清潔。"
+    },
+    {
+      "id": "fit",
+      "navTitle": "規格說明",
+      "navDescription": "模型、部件與尺寸",
+      "number": "05",
+      "title": "規格說明",
+      "description": "需要了解尺寸與零件時，在這裡查看。"
     }
   ],
   "dailyUse": {
