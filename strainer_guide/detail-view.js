@@ -1,3 +1,4 @@
+import {surfaceMaterial} from './surface-materials.js?v=brushed1';
 import {CollectionEffect} from './collection-effect.js?v=basket-collection3';
 import {guardViewerWheel} from './mobile-viewer.js?v=clean-ui2';
 import * as THREE from 'three';
@@ -13,9 +14,9 @@ export class DetailView{
  constructor(host,source,basketBase){
   this.host=host;this.ready=false;this.time=0;this.odorFade=1;
   host.innerHTML=`<div class="detail-top"><strong>產品內部 · 剖面示意</strong></div><button class="collection-cover" data-detail="cover" hidden>看上蓋遮蔽</button><div class="detail-canvas"></div><div class="detail-loading" role="status">正在準備內部構造…</div><div class="detail-tools" role="group" aria-label="細節視角"><button data-detail="in" aria-label="放大內部細節">＋</button><button data-detail="out" aria-label="縮小內部細節">－</button><button data-detail="reset">重設</button></div><div class="detail-hint">上下拖曳看厚度 · 雙指縮放</div>`;
-  this.viewport=host.querySelector('.detail-canvas');this.renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});this.renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));this.renderer.localClippingEnabled=true;this.renderer.outputColorSpace=THREE.SRGBColorSpace;this.renderer.toneMapping=THREE.ACESFilmicToneMapping;this.renderer.toneMappingExposure=1.1;this.viewport.append(this.renderer.domElement);this.renderer.domElement.setAttribute('aria-label','浴山濾網內部剖面，可上下拖曳並縮放');
+  this.viewport=host.querySelector('.detail-canvas');this.renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});this.renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));this.renderer.localClippingEnabled=true;this.renderer.outputColorSpace=THREE.SRGBColorSpace;this.renderer.toneMapping=THREE.ACESFilmicToneMapping;this.renderer.toneMappingExposure=1.0;this.viewport.append(this.renderer.domElement);this.renderer.domElement.setAttribute('aria-label','浴山濾網內部剖面，可上下拖曳並縮放');
   this.scene=new THREE.Scene();this.camera=new THREE.PerspectiveCamera(32,1,.005,5);guardViewerWheel(this.renderer.domElement);this.controls=new OrbitControls(this.camera,this.renderer.domElement);this.controls.enablePan=false;this.controls.minAzimuthAngle=0;this.controls.maxAzimuthAngle=0;this.controls.minPolarAngle=1.15;this.controls.maxPolarAngle=1.65;this.controls.minDistance=.17;this.controls.maxDistance=.9;this.controls.touches.TWO=THREE.TOUCH.DOLLY_ROTATE;this.controls.rotateSpeed=.35;
-  const pm=new THREE.PMREMGenerator(this.renderer),room=new RoomEnvironment();this.environment=pm.fromScene(room,.04);this.scene.environment=this.environment.texture;room.dispose();pm.dispose();this.scene.add(new THREE.HemisphereLight(0xffffff,0x8e9da7,2.5));const light=new THREE.DirectionalLight(0xffffff,2);light.position.set(.3,.5,1);this.scene.add(light);
+  const pm=new THREE.PMREMGenerator(this.renderer),room=new RoomEnvironment();this.environment=pm.fromScene(room,.04);this.scene.environment=this.environment.texture;room.dispose();pm.dispose();this.scene.add(new THREE.HemisphereLight(0xffffff,0x8e9da7,1.2));const light=new THREE.DirectionalLight(0xffffff,1.6);light.position.set(.3,.5,1);this.scene.add(light);
   this.model=source.clone(true);this.model.getObjectByName('basket').position.copy(basketBase);this.model.updateMatrixWorld(true);this.scene.add(this.model);this.motion=new BasketMotion(this.model);
   this.moving=['pop_up_column','stopper_seal','core_head'].map(name=>{const mesh=this.model.getObjectByName(name),base=mesh.position.clone(),world=mesh.getWorldPosition(new THREE.Vector3()),delta=mesh.parent.worldToLocal(world.clone().add(new THREE.Vector3(0,-.015,0))).sub(mesh.parent.worldToLocal(world));return {mesh,base,delta};});
   host.addEventListener('click',e=>{const a=e.target.closest('[data-detail]')?.dataset.detail;if(a==='cover')this.setCover(!this.coverView);if(a==='reset')this.frame();if(a==='in'||a==='out'){const v=this.camera.position.clone().sub(this.controls.target);v.setLength(THREE.MathUtils.clamp(v.length()*(a==='in'?.8:1.25),.17,.9));this.camera.position.copy(this.controls.target).add(v);this.controls.update();}});
@@ -23,10 +24,10 @@ export class DetailView{
  }
  async load(){try{
   const response=await fetch('./assets/detail-caps.json');if(!response.ok)throw Error('detail caps');const caps=await response.json(),plane=new THREE.Plane(new THREE.Vector3(0,0,-1),caps.planeZ);this.plane=plane;
-  const keep=new Set(caps.parts.map(p=>p.name));this.model.traverse(o=>{if(!o.isMesh)return;o.visible=keep.has(o.name);if(!o.visible)return;o.material=o.material.clone();o.material.clippingPlanes=[plane];o.material.side=THREE.DoubleSide;o.material.roughness=.42;o.material.metalness=.65;
-   if(o.name==='drain_housing'){o.material.color.set('#909b9f');o.material.roughness=.6;}
-   if(o.name==='filter_cup')o.material.color.set('#d5dbd8');
-   if(o.name==='basket_body')o.material.color.set('#e4ebeb');
+  const keep=new Set(caps.parts.map(p=>p.name));this.model.traverse(o=>{if(!o.isMesh)return;o.visible=keep.has(o.name);if(!o.visible)return;o.material=surfaceMaterial(o.material,o.name,{section:true});o.material.clippingPlanes=[plane];o.material.side=THREE.DoubleSide;
+   if(o.name==='drain_housing'){o.material.color.set('#939fa6');o.material.roughness=.5;}
+   if(o.name==='filter_cup')o.material.color.set('#b6c0c5');
+   if(o.name==='basket_body')o.material.color.set('#c5cbce');
    if(o.name==='stopper_seal'||o.name==='adapter_ring_body'){o.material.color.set('#6ca9a0');o.material.metalness=0;o.material.roughness=.7;}
   });
   for(const part of caps.parts){const mesh=this.model.getObjectByName(part.name),inverse=mesh.matrixWorld.clone().invert(),geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(part.positions,3));geometry.setIndex(part.indices);geometry.applyMatrix4(inverse);geometry.computeVertexNormals();const color=part.name==='stopper_seal'||part.name==='adapter_ring_body'?'#387b71':part.name==='drain_housing'?'#596871':'#849497';const cap=new THREE.Mesh(geometry,new THREE.MeshBasicMaterial({color,side:THREE.DoubleSide,polygonOffset:true,polygonOffsetFactor:-1,polygonOffsetUnits:-1}));cap.name='section_cap';mesh.add(cap);

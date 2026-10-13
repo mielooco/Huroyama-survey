@@ -1,3 +1,4 @@
+import {surfaceMaterial} from './surface-materials.js?v=brushed1';
 import {modelProgress} from './loading-progress.js?v=media-start1';
 import {guardViewerWheel} from './mobile-viewer.js?v=clean-ui2';
 import * as THREE from 'three';
@@ -64,7 +65,7 @@ function loadModel(name){
   if(name==='filter')widenAdapterRing(wrap);
   if(name==='sink')setExplosion(wrap,0);
   wrap.updateMatrixWorld(true);const center=new THREE.Box3().setFromObject(wrap).getCenter(new THREE.Vector3());gltf.scene.position.sub(center);wrap.name=name;wrap.visible=false;
-  wrap.traverse(o=>{if(o.isMesh){o.material=o.material.clone();o.material.envMapIntensity=1.1;}});
+  wrap.traverse(o=>{if(o.isMesh){o.material=surfaceMaterial(o.material,o.name);}});
   scene.add(wrap);models[name]=wrap;resolve(wrap);
  },evt=>{if(state.model===name)$('#loading-progress').textContent=modelProgress(name,evt.loaded);},err=>{delete loadPromises[name];reject(err);});});return loadPromises[name];
 }
@@ -84,9 +85,9 @@ async function tab(name){
 async function selectPart(id){if(state.tab!=='parts')return;state.part=id;highlight();panel();}
 function dimensionPosition(){if(state.tab==='dimensions'&&models[state.model])renderDimensions($('#dimensions-overlay'),bounds(),camera,viewport.clientWidth,viewport.clientHeight,state.model==='filter'?{X:.112,Z:.112}:{});}
 function setup(){
- renderer=new THREE.WebGLRenderer({antialias:true,alpha:true,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.75));renderer.setClearColor(brandColor('--viewer-bg'),0);renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.1;viewport.prepend(renderer.domElement);renderer.domElement.setAttribute('aria-label','拖曳旋轉模型，雙指縮放');
+ renderer=new THREE.WebGLRenderer({antialias:true,alpha:true,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.75));renderer.setClearColor(brandColor('--viewer-bg'),0);renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.0;viewport.prepend(renderer.domElement);renderer.domElement.setAttribute('aria-label','拖曳旋轉模型，雙指縮放');
  scene=new THREE.Scene();camera=new THREE.PerspectiveCamera(35,1,.001,20);guardViewerWheel(renderer.domElement);controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.dampingFactor=.075;controls.enablePan=false;controls.autoRotateSpeed=.6;controls.addEventListener('change',invalidate);
- const pmrem=new THREE.PMREMGenerator(renderer),room=new RoomEnvironment();scene.environment=pmrem.fromScene(room,.04).texture;room.dispose();pmrem.dispose();scene.add(new THREE.HemisphereLight('#ffffff','#a0b3c2',2));const light=new THREE.DirectionalLight('#ffffff',2.5);light.position.set(.4,.7,.5);scene.add(light);
+ const pmrem=new THREE.PMREMGenerator(renderer),room=new RoomEnvironment();scene.environment=pmrem.fromScene(room,.04).texture;room.dispose();pmrem.dispose();scene.add(new THREE.HemisphereLight('#ffffff','#a0b3c2',.85));const light=new THREE.DirectionalLight('#ffffff',1.7);light.position.set(.4,.7,.5);scene.add(light);
  raycaster=new THREE.Raycaster();new ResizeObserver(()=>{const w=viewport.clientWidth,h=viewport.clientHeight;if(!w||!h)return;renderer.setSize(w,h);camera.aspect=w/h;camera.updateProjectionMatrix();fit(state.tab==='dimensions');invalidate();}).observe(viewport);
  let down=null;renderer.domElement.addEventListener('pointerdown',e=>{down=[e.clientX,e.clientY];});renderer.domElement.addEventListener('pointerup',e=>{
   if(state.tab!=='parts'||!down||Math.hypot(e.clientX-down[0],e.clientY-down[1])>5||state.model==='handle'||!models[state.model])return;

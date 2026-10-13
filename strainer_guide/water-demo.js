@@ -1,3 +1,4 @@
+import {surfaceMaterial} from './surface-materials.js?v=brushed1';
 import {CleanSparkle} from './clean-sparkle.js';
 import {guardViewerWheel} from './mobile-viewer.js?v=basket-collection3';
 import * as THREE from 'three';
@@ -47,7 +48,7 @@ class WaterDemo{
   if(this.detail)return this.detail;
   // Share the same in-flight import/creation across repeated entry clicks.
   this.detailPending??=(async()=>{
-   const {DetailView}=await import('./detail-view.js?v=basket-collection3');
+   const {DetailView}=await import('./detail-view.js?v=brushed1');
    const host=document.createElement('div');host.className='detail-host';host.hidden=true;
    this.el.querySelector('.water-stage').append(host);
    try{const view=new DetailView(host,this.model,this.basketMotion.base);this.detailHost=host;this.detail=view;return view;}
@@ -67,16 +68,16 @@ class WaterDemo{
 
  async load(){
   try{
-   this.renderer=new THREE.WebGLRenderer({antialias:true,alpha:true,powerPreference:'default'});this.renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));this.renderer.outputColorSpace=THREE.SRGBColorSpace;this.renderer.toneMapping=THREE.ACESFilmicToneMapping;this.renderer.toneMappingExposure=1.05;this.viewport.append(this.renderer.domElement);this.renderer.domElement.setAttribute('aria-label','水槽與浴山濾網。上下拖曳調整角度，雙指縮放；鍵盤上下鍵調整角度，加減鍵縮放。');
+   this.renderer=new THREE.WebGLRenderer({antialias:true,alpha:true,powerPreference:'default'});this.renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));this.renderer.outputColorSpace=THREE.SRGBColorSpace;this.renderer.toneMapping=THREE.ACESFilmicToneMapping;this.renderer.toneMappingExposure=1.0;this.viewport.append(this.renderer.domElement);this.renderer.domElement.setAttribute('aria-label','水槽與浴山濾網。上下拖曳調整角度，雙指縮放；鍵盤上下鍵調整角度，加減鍵縮放。');
    this.scene=new THREE.Scene();this.camera=new THREE.PerspectiveCamera(36,1,.01,10);
    const canvas=this.renderer.domElement;canvas.tabIndex=0;
    guardViewerWheel(canvas);this.controls=new OrbitControls(this.camera,canvas);this.controls.enablePan=false;this.controls.enableDamping=false;this.controls.minAzimuthAngle=0;this.controls.maxAzimuthAngle=0;this.controls.minPolarAngle=.25;this.controls.maxPolarAngle=1.85;this.controls.minDistance=.4;this.controls.maxDistance=4;this.controls.rotateSpeed=.55;this.controls.zoomSpeed=.75;this.controls.touches.TWO=THREE.TOUCH.DOLLY_ROTATE;
    this.controls.addEventListener('start',()=>this.markCustomView());
    canvas.addEventListener('keydown',e=>{if(['ArrowUp','ArrowDown'].includes(e.key)){e.preventDefault();const offset=this.camera.position.clone().sub(this.controls.target),spherical=new THREE.Spherical().setFromVector3(offset);spherical.phi=THREE.MathUtils.clamp(spherical.phi+(e.key==='ArrowUp'?-.08:.08),this.controls.minPolarAngle,this.controls.maxPolarAngle);this.camera.position.copy(this.controls.target).add(new THREE.Vector3().setFromSpherical(spherical));this.controls.update();this.markCustomView();}else if(['+','=','-'].includes(e.key)){e.preventDefault();this.zoomCamera(e.key==='-'?1.25:.8);}});
-   const pm=new THREE.PMREMGenerator(this.renderer),room=new RoomEnvironment();this.env=pm.fromScene(room,.04);this.scene.environment=this.env.texture;room.dispose();pm.dispose();this.scene.add(new THREE.HemisphereLight(0xffffff,0x92a6b7,2));const light=new THREE.DirectionalLight(0xffffff,2);light.position.set(.3,1,.5);this.scene.add(light);
+   const pm=new THREE.PMREMGenerator(this.renderer),room=new RoomEnvironment();this.env=pm.fromScene(room,.04);this.scene.environment=this.env.texture;room.dispose();pm.dispose();this.scene.add(new THREE.HemisphereLight(0xffffff,0x92a6b7,.85));const light=new THREE.DirectionalLight(0xffffff,1.7);light.position.set(.3,1,.5);this.scene.add(light);
    this.resizeObserver=new ResizeObserver(()=>this.resize());this.resizeObserver.observe(this.viewport);
    const [gltf,profile]=await Promise.all([new GLTFLoader().loadAsync('./assets/sink.glb?v=installed9mm'),fetch('./assets/water-profile.json').then(r=>{if(!r.ok)throw Error('water profile');return r.json();})]);
-   this.model=gltf.scene;this.profile=profile;this.scene.add(this.model);this.model.traverse(o=>{if(o.isMesh){o.material=o.material.clone();o.material.envMapIntensity=1.1;}});this.model.updateMatrixWorld(true);const outletBox=new THREE.Box3().setFromObject(this.model.getObjectByName('drain_housing'));this.outlet=outletBox.getCenter(new THREE.Vector3());this.outlet.y=outletBox.min.y;
+   this.model=gltf.scene;this.profile=profile;this.scene.add(this.model);this.model.traverse(o=>{if(o.isMesh){o.material=surfaceMaterial(o.material,o.name);}});this.model.updateMatrixWorld(true);const outletBox=new THREE.Box3().setFromObject(this.model.getObjectByName('drain_housing'));this.outlet=outletBox.getCenter(new THREE.Vector3());this.outlet.y=outletBox.min.y;
    this.cleaning=new CleaningDemo(this.model);this.cleanSparkle=new CleanSparkle(this.scene,this.model);this.basketMotion=new BasketMotion(this.model);this.makeWater();this.makeFlow();this.soakBubbles=new SoakBubbles(this.scene,this.profile);this.odor=new OdorEffect(this.scene,this.outlet);this.odor.reset(this.mode==='seal');this.frameCamera();this.ready=true;this.el.querySelector('.water-loading').hidden=true;this.resize();this.wake();
    const pointers=new Set();let down=null,moved=false;
    canvas.addEventListener('pointerdown',e=>{pointers.add(e.pointerId);if(pointers.size===1){down=[e.clientX,e.clientY];moved=false;}else moved=true;});

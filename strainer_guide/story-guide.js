@@ -42,7 +42,7 @@ async function ensureWater(){
  if(waterPending)return waterPending;
  const slot=document.querySelector('#water-demo-slot');
  waterPending=(async()=>{try{
-  const m=await(waterModule??=import('./water-demo.js?v=care-time15'));slot.replaceChildren();m.mountWaterDemo(slot,state.use);waterReady=true;
+  const m=await(waterModule??=import('./water-demo.js?v=brushed1'));slot.replaceChildren();m.mountWaterDemo(slot,state.use);waterReady=true;
  }catch(error){console.error(error);slot.innerHTML='<button class="primary-button" data-retry-water>重新載入互動示意</button>';}finally{waterPending=null;}})();
  return waterPending;
 }
