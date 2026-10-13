@@ -18,8 +18,8 @@
 | content.js 區塊 | 內容 |
 | --- | --- |
 | `site` | 瀏覽器標題、網站簡介、品牌名稱、頁尾 |
-| `home` | 首頁大標、介紹、標語與連結；尺寸按鈕為滿寬，其餘兩顆左右等寬 |
-| `links` | 首頁尺寸問卷、產品介紹、完整影片的名稱與網址 |
+| `home` | 首頁大標、介紹、標語與尺寸按鈕；完整影片固定在首頁最上方 |
+| `links` | 首頁尺寸問卷、影片右上角產品介紹、完整影片的名稱與網址 |
 | `home.fitPrompt / fitAction / fitNote` | 尺寸確認提示卡的提問、按鈕文字與小字 |
 | `socialLinks` | 頁尾官網、LINE、Instagram、Facebook 的名稱與網址 |
 | `chapters` | 五個導覽名稱、章節標題與介紹 |
@@ -94,3 +94,10 @@ node strainer_guide/scripts/check-content.mjs
 ```
 
 會检查內容格式、章節識別、連結、影片檔案與時間排序。發布後，仍要實際點選三支影片的步驟並查看手機排版。
+
+## 首頁完整影片與產品介紹
+
+- `links.operation.url`：首頁完整影片的 YouTube 網址（支援 youtube.com/watch 與 youtu.be）。
+- `links.product.url`：影片右上角「產品介紹」的目的地。目前連到嘖嘖；未來只需將這個網址替換成官網產品頁，不必再改版面。
+- `home.linkOrder`：影片下方目前只保留 `fit` 尺寸按鈕。
+- 完整影片進入畫面時靜音播放，離開畫面暫停；省流量或減少動態模式需點擊播放。

@@ -28,12 +28,11 @@ export const content = {
     "fitAction": "點擊前往確認尺寸",
     "fitNote": "先確認尺寸，再安心選購",
     "linkOrder": [
-      "fit",
-      "product",
-      "operation"
+      "fit"
     ]
   },
-  // 常用外部連結；首頁尺寸問卷、產品介紹與完整影片。
+  // 常用外部連結。product.url 控制首頁影片右上角；未來改官網只需替換此網址。
+  // operation.url 控制首頁完整影片，目前支援 YouTube 網址。
   "links": {
     "fit": {
       "label": "確認適用尺寸",

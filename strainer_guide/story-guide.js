@@ -1,7 +1,7 @@
-import {content} from './content.js?v=media-start1';
-import {escapeHTML as esc,renderFAQ,renderPageContent} from './content-render.js?v=media-start1';
+import {content} from './content.js?v=hero-film1';
+import {escapeHTML as esc,renderFAQ,renderPageContent} from './content-render.js?v=hero-film1';
 import {videoSequence,initVideoGuides,selectVideoStep} from './video-steps.js?v=media-start1';
-import {careDetails,syncCare} from './care-content.js?v=media-start1';
+import {careDetails,syncCare} from './care-content.js?v=hero-film1';
 import {chapters,routeFromHash} from './guide-logic.js?v=media-start1';
 renderPageContent();
 let waterModule;
