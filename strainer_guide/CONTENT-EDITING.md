@@ -97,7 +97,9 @@ node strainer_guide/scripts/check-content.mjs
 
 ## 首頁完整影片與產品介紹
 
-- `links.operation.url`：首頁完整影片的 YouTube 網址（支援 youtube.com/watch 與 youtu.be）。
+- `links.operation.file`：首頁完整影片檔案路徑，目前是 `./assets/video/full.mp4`。
+- `links.operation.poster`：首頁影片封面；`links.operation.url` 保留外部影片連結備用，播放器不使用 YouTube。
+- 首頁影片使用原生播放器與自訂音量、播放／暫停及重播按鈕，不顯示進度條或平台標誌。
 - `links.product.url`：影片右上角「產品介紹」的目的地。目前連到嘖嘖；未來只需將這個網址替換成官網產品頁，不必再改版面。
 - `home.linkOrder`：影片下方目前只保留 `fit` 尺寸按鈕。
 - 完整影片進入畫面時靜音播放，離開畫面暫停；省流量或減少動態模式需點擊播放。

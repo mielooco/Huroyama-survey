@@ -32,7 +32,7 @@ export const content = {
     ]
   },
   // 常用外部連結。product.url 控制首頁影片右上角；未來改官網只需替換此網址。
-  // operation.url 控制首頁完整影片，目前支援 YouTube 網址。
+  // operation.file 與 poster 控制首頁影片；url 保留外部完整影片備用連結。
   "links": {
     "fit": {
       "label": "確認適用尺寸",
@@ -44,6 +44,8 @@ export const content = {
     },
     "operation": {
       "label": "完整影片",
+      "file": "./assets/video/full.mp4",
+      "poster": "./assets/video/full-poster.jpg",
       "url": "https://www.youtube.com/watch?v=KUTuMWCO0BQ"
     }
   },

@@ -1,64 +1,43 @@
-import {content} from './content.js?v=hero-film1';
-
-export function youtubeId(value) {
- try {
-  const url = new URL(value), host = url.hostname.toLowerCase();
-  const id = host === 'youtu.be' ? url.pathname.slice(1) : ['youtube.com','www.youtube.com','m.youtube.com'].includes(host) ? url.searchParams.get('v') : '';
-  return /^[\w-]{11}$/.test(id || '') ? id : null;
- } catch { return null; }
-}
-let apiPromise;
-function youtubeAPI() {
- if (window.YT?.Player) return Promise.resolve(window.YT);
- return apiPromise ??= new Promise((resolve,reject) => {
-  const timeout = setTimeout(() => reject(Error('YouTube API timeout')),15000);
-  const previous = window.onYouTubeIframeAPIReady;
-  window.onYouTubeIframeAPIReady = () => { clearTimeout(timeout);previous?.();resolve(window.YT); };
-  const script = document.createElement('script');script.src='https://www.youtube.com/iframe_api';script.async=true;
-  script.onerror=()=>{clearTimeout(timeout);reject(Error('YouTube API unavailable'));};document.head.append(script);
- });
-}
+const soundIcon=muted=>`<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M11 4 6 8H3v8h3l5 4V4Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>${muted?'<path d="m16 9 5 6m0-6-5 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>':'<path d="M15 8c2 2 2 6 0 8m3-11c4 4 4 10 0 14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>'}</svg>`;
 export function initHeroFilm() {
- const host=document.querySelector('.hero-film'),button=host?.querySelector('.hero-film-start');
- if(!host||!button)return;
- const error=host.querySelector('.hero-film-error'),id=youtubeId(content.links.operation.url);
+ const host=document.querySelector('.hero-film'),video=host?.querySelector('video');
+ if(!video)return;
+ const button=host.querySelector('.hero-film-start'),sound=host.querySelector('.hero-film-sound'),loading=host.querySelector('.hero-film-loading'),error=host.querySelector('.hero-film-error');
  const allowAuto=!matchMedia('(prefers-reduced-motion: reduce)').matches&&!navigator.connection?.saveData;
- let player,starting=false,ready=false,inView=false,held=false,resume=false,manual=false,offscreenPause=false,ended=false,readyTimeout;
- const fail=()=>{clearTimeout(readyTimeout);button.removeAttribute('aria-busy');error.hidden=false;button.hidden=true;};
- if(!id){fail();return;}
- // Match the actual full film's cover, retaining the local poster if unavailable.
- const poster=button.querySelector('img');poster.onerror=()=>{poster.onerror=null;poster.src=content.videos.install.poster;};poster.src=`https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
- const play=()=>{if(!ready)return;button.hidden=true;if(ended){player.seekTo(0,true);ended=false;}player.playVideo();};
- async function start(user=false) {
-  manual ||= user;
-  if(ready){play();return;}
-  if(starting)return;starting=true;button.setAttribute('aria-busy','true');
-  try {
-   const YT=await youtubeAPI();
-   const iframe=document.createElement('iframe');iframe.id='hero-film-player';iframe.title='浴山廚房快排濾網完整影片';
-   const params=new URLSearchParams({enablejsapi:'1',playsinline:'1',rel:'0',mute:'1',origin:location.origin});
-   iframe.src=`https://www.youtube-nocookie.com/embed/${id}?${params}`;
-   iframe.allow='autoplay; encrypted-media; picture-in-picture; fullscreen';iframe.allowFullscreen=true;iframe.referrerPolicy='strict-origin-when-cross-origin';
-   host.querySelector('#hero-film-player').replaceWith(iframe);
-   readyTimeout=setTimeout(fail,20000);
-   player=new YT.Player(iframe,{events:{
-    onReady:()=>{clearTimeout(readyTimeout);ready=true;error.hidden=true;button.hidden=false;button.removeAttribute('aria-busy');player.mute();resume=manual||allowAuto;if(inView&&!document.hidden&&resume){resume=false;play();}},
-    onAutoplayBlocked:()=>{button.hidden=false;},
-    onError:fail,
-    onStateChange:({data})=>{
-     if(data===YT.PlayerState.PLAYING){button.hidden=true;ended=false;offscreenPause=false;if(!inView||document.hidden){resume=true;offscreenPause=true;player.pauseVideo();}}
-     if(data===YT.PlayerState.PAUSED){if(!offscreenPause)held=true;offscreenPause=false;}
-     if(data===YT.PlayerState.ENDED){ended=true;held=true;resume=false;button.hidden=false;button.setAttribute('aria-label','重播完整影片');button.querySelector('.hero-film-play').textContent='↻';}
-    }
-   }});
-  } catch {fail();}
+ let inView=false,held=false,request=0,timer;
+ video.muted=true;
+ const label=()=>video.setAttribute('aria-label',`${video.paused?'播放':'暫停'}完整影片`);
+ const updateSound=()=>{sound.innerHTML=soundIcon(video.muted);sound.setAttribute('aria-label',`${video.muted?'開啟':'關閉'}完整影片聲音`);sound.setAttribute('aria-pressed',String(!video.muted));};
+ const done=()=>{clearTimeout(timer);loading.hidden=true;button.removeAttribute('aria-busy');};
+ const fail=()=>{done();error.hidden=false;button.hidden=true;};
+ async function play() {
+  const token=++request;error.hidden=true;button.hidden=true;loading.hidden=false;button.setAttribute('aria-busy','true');
+  clearTimeout(timer);timer=setTimeout(()=>{if(token===request)fail();},30000);
+  if(!video.getAttribute('src')||video.error){video.src=video.dataset.src;video.load();}
+  if(video.ended)video.currentTime=0;
+  try{await video.play();if(token===request)done();}
+  catch(e){if(token!==request)return;done();if(e.name==='NotAllowedError'||e.name==='AbortError')button.hidden=false;else fail();}
  }
- const pause=()=>{if(ready&&player.getPlayerState()===1){resume=true;offscreenPause=true;player.pauseVideo();}};
- button.addEventListener('click',()=>{held=false;start(true);});
- new IntersectionObserver(entries=>{
-  const r=entries[0].boundingClientRect;inView=entries[0].intersectionRect.height>=Math.min(r.height,innerHeight)*.5;
-  if(!inView){pause();return;}
-  if(!document.hidden&&!held){if(resume&&ready){resume=false;play();}else if(allowAuto&&!starting)start();}
- },{threshold:[0,.25,.5,.75,1]}).observe(host);
- document.addEventListener('visibilitychange',()=>{if(document.hidden)pause();else if(inView&&resume&&!held){resume=false;play();}});
+ const leave=()=>{++request;done();video.pause();};
+ const enter=()=>{if(inView&&!held&&!document.hidden&&allowAuto)play();};
+ const toggle=()=>{if(!video.paused){held=true;leave();button.hidden=false;}else{held=false;play();}};
+ video.addEventListener('click',toggle);
+ video.addEventListener('keydown',e=>{if(e.key===' '||e.key==='Enter'){e.preventDefault();toggle();}});
+ button.addEventListener('click',()=>{held=false;play();});
+ sound.addEventListener('click',()=>{video.muted=!video.muted;updateSound();});
+ host.querySelector('.hero-film-retry').addEventListener('click',()=>{held=false;video.load();play();});
+ video.addEventListener('play',()=>{button.hidden=true;button.setAttribute('aria-label','播放完整影片');button.querySelector('.hero-film-play').textContent='▶';label();document.querySelectorAll('.video-guide video').forEach(v=>v.pause());if(!inView||document.hidden)leave();});
+ video.addEventListener('pause',label);
+ video.addEventListener('playing',done);
+ video.addEventListener('waiting',()=>{if(inView&&!held)loading.hidden=false;});
+ video.addEventListener('error',fail);
+ video.addEventListener('ended',()=>{done();held=true;button.hidden=false;button.setAttribute('aria-label','重播完整影片');button.querySelector('.hero-film-play').textContent='↻';label();});
+ const observer=new IntersectionObserver(entries=>{
+  const entry=entries.at(-1),height=entry.boundingClientRect.height,available=entry.rootBounds?.height||innerHeight;
+  const visible=entry.isIntersecting&&entry.intersectionRect.height>=Math.min(height*.5,available*.5)&&entry.intersectionRect.width>0;
+  if(visible===inView)return;inView=visible;if(inView)enter();else leave();
+ },{rootMargin:'-56px 0px 0px',threshold:Array.from({length:21},(_,i)=>i/20)});
+ observer.observe(video);
+ document.addEventListener('visibilitychange',()=>{if(document.hidden)leave();else enter();});
+ updateSound();
 }
