@@ -1,0 +1,115 @@
+/* Locally hosted font subsets. Rebuild with scripts/subset-fonts.py after copy edits. OFL licenses in assets/fonts. */
+/* Locally hosted font subsets. Rebuild with scripts/subset-fonts.py after copy edits. OFL licenses in assets/fonts. */
+/* Locally hosted font subsets. Rebuild with scripts/subset-fonts.py after copy edits. OFL licenses in assets/fonts. */
+/* Locally hosted font subsets. Rebuild with scripts/subset-fonts.py after copy edits. OFL licenses in assets/fonts. */
+/* Locally hosted font subsets. Rebuild with scripts/subset-fonts.py after copy edits. OFL licenses in assets/fonts. */
+/* Locally hosted font subsets. Rebuild with scripts/subset-fonts.py after copy edits. OFL licenses in assets/fonts. */
+/* Locally hosted font subsets. Rebuild with scripts/subset-fonts.py after copy edits. OFL licenses in assets/fonts. */
+/* Locally hosted font subsets. Rebuild with scripts/subset-fonts.py after copy edits. OFL licenses in assets/fonts. */
+/* Locally hosted font subsets. Rebuild with scripts/subset-fonts.py after copy edits. OFL licenses in assets/fonts. */
+/* Locally hosted font subsets. Rebuild with scripts/subset-fonts.py after copy edits. OFL licenses in assets/fonts. */
+/* Locally hosted font subsets. Rebuild with scripts/subset-fonts.py after copy edits. OFL licenses in assets/fonts. */
+/* Locally hosted font subsets. Rebuild with scripts/subset-fonts.py after copy edits. OFL licenses in assets/fonts. */
+/* Locally hosted font subsets. Rebuild with scripts/subset-fonts.py after copy edits. OFL licenses in assets/fonts. */
+/* Locally hosted font subsets. Rebuild with scripts/subset-fonts.py after copy edits. OFL licenses in assets/fonts. */
+
+
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(./assets/fonts/nunito-1.woff2) format('woff2');
+  unicode-range: U+20-21, U+25, U+28-29, U+2c-3b, U+3f, U+41-5a, U+61-7a, U+b7, U+d7, U+2192, U+2197, U+21bb, U+2316;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(./assets/fonts/nunito-1.woff2) format('woff2');
+  unicode-range: U+20-21, U+25, U+28-29, U+2c-3b, U+3f, U+41-5a, U+61-7a, U+b7, U+d7, U+2192, U+2197, U+21bb, U+2316;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(./assets/fonts/nunito-1.woff2) format('woff2');
+  unicode-range: U+20-21, U+25, U+28-29, U+2c-3b, U+3f, U+41-5a, U+61-7a, U+b7, U+d7, U+2192, U+2197, U+21bb, U+2316;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(./assets/fonts/nunito-1.woff2) format('woff2');
+  unicode-range: U+20-21, U+25, U+28-29, U+2c-3b, U+3f, U+41-5a, U+61-7a, U+b7, U+d7, U+2192, U+2197, U+21bb, U+2316;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url(./assets/fonts/nunito-1.woff2) format('woff2');
+  unicode-range: U+20-21, U+25, U+28-29, U+2c-3b, U+3f, U+41-5a, U+61-7a, U+b7, U+d7, U+2192, U+2197, U+21bb, U+2316;
+}
+@font-face{font-family:'Noto Sans TC';font-style:normal;font-weight:100 900;font-display:swap;src:url('./assets/fonts/noto-guide.woff2') format('woff2');}
+
+@font-face{font-family:'Huninn';font-style:normal;font-weight:400;font-display:swap;src:url('./assets/fonts/huninn-guide.woff2') format('woff2');}
