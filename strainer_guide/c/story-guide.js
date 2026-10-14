@@ -13,7 +13,7 @@ function chapterHTML(chapter){
  if(chapter==='install')html+=videoSequence('install');
  if(chapter==='use')html+=`<div id="water-demo-slot"><div class="demo-placeholder">${esc(content.dailyUse.placeholder)}</div></div>`;
  if(chapter==='empty')html+=videoSequence('empty');
- if(chapter==='care')html+=videoSequence('care')+`<div class="mode-switch" role="group" aria-label="清潔維護類型">${Object.entries(content.care.modes).map(([id,c])=>`<button data-care="${id}" aria-pressed="${state.care===id}">${esc(c.label)}</button>`).join('')}</div><div class="feature-copy care-copy" aria-live="polite">${careDetails(state.care)}</div><div class="faq" id="guide-faq" tabindex="-1"><h3>${esc(content.care.faqTitle)}</h3>${content.care.faq.map(renderFAQ).join('')}<nav class="faq-resources" aria-label="${esc(content.care.resourceTitle)}">${content.care.resourceLinks.map(key=>key==='operation'?`<button type="button" data-full-film>${esc(content.links[key].label)} <span aria-hidden="true">▷</span></button>`:`<a href="${esc(content.links[key].url)}" target="_blank" rel="noopener">${esc(content.links[key].label)} <span aria-hidden="true">↗</span></a>`).join('')}</nav></div>`;
+ if(chapter==='care')html+=videoSequence('care')+`<div class="mode-switch" role="group" aria-label="清潔維護類型">${Object.entries(content.care.modes).map(([id,c])=>`<button data-care="${id}" aria-pressed="${state.care===id}">${esc(c.label)}</button>`).join('')}</div><div class="feature-copy care-copy" aria-live="polite">${careDetails(state.care)}</div>`;
  return html;
 }
 
@@ -26,6 +26,10 @@ for(const [id,title] of chapters){
  const heading=content.querySelector('.chapter-title');heading.id=`heading-${id}`;
  section.append(content);root.append(section);sections.set(id,section);
 }
+const faqSection=document.createElement('section');
+faqSection.className='story-chapter chapter-faq';faqSection.setAttribute('aria-labelledby','faq-heading');
+faqSection.innerHTML=`<div class="faq" id="guide-faq" tabindex="-1"><h2 id="faq-heading">${esc(content.care.faqTitle)}</h2>${content.care.faq.map(renderFAQ).join('')}<nav class="faq-resources" aria-label="${esc(content.care.resourceTitle)}">${content.care.resourceLinks.map(key=>key==='operation'?`<button type="button" data-full-film>${esc(content.links[key].label)} <span aria-hidden="true">▷</span></button>`:`<a href="${esc(content.links[key].url)}" target="_blank" rel="noopener">${esc(content.links[key].label)} <span aria-hidden="true">↗</span></a>`).join('')}</nav></div>`;
+root.append(faqSection);
 initVideoGuides(root);
 sections.get('fit').append(document.querySelector('#model-reference'));
 document.querySelector('#model-reference').hidden=false;
@@ -79,7 +83,7 @@ document.addEventListener('video-step-change',e=>{if(e.detail.kind==='care'){sta
 function goFAQ(push=true){
  const faq=document.querySelector('#guide-faq');
  if(push&&location.hash!=='#guide-faq')history.pushState(null,'','#guide-faq');
- setActive('care');faq.scrollIntoView({behavior:'instant',block:'start'});faq.focus({preventScroll:true});
+ setActive('fit');faq.scrollIntoView({behavior:'instant',block:'start'});faq.focus({preventScroll:true});
 }
 const filmDialog=document.createElement('dialog');filmDialog.className='full-film-dialog';filmDialog.setAttribute('aria-label','完整影片');
 filmDialog.innerHTML='<div class="film-dialog-heading"><strong>完整影片</strong><button type="button" data-close-film aria-label="關閉完整影片">關閉 ×</button></div><div class="hero-film"></div>';

@@ -242,3 +242,7 @@
  .version-c #model-reference .model-switch button{width:100%;min-width:0;min-height:48px;padding:10px 8px;font-size:15px;line-height:1.4}
  .version-c .story-chapter{scroll-margin-top:80px}
 }
+
+/* Keep the standalone FAQ after the specifications chapter. */
+.version-c .chapter-faq .faq{margin-top:0;max-width:none}
+.version-c .faq>h2{font-size:23px;line-height:1.5;margin:0 0 22px;color:#d5ebff}
